@@ -7,6 +7,6 @@ https://better.notion.site/RecycleGoWhere-1322027374844592ad12db971a234408
 # better.sg
 This is a nonprofit volunteer-run project by better.sg
 
-Edit 1
-Edit 2
-Edit 3 (Bowen testing)
+# How to run the code
+On your console, type in:
+python manage.py runserver
