@@ -11,5 +11,5 @@ Edit 1
 <<<<<<< HEAD
 Edit 2
 =======
-Edit Two
+Edit 2
 >>>>>>> style
