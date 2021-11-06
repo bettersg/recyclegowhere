@@ -10,3 +10,5 @@ This is a nonprofit volunteer-run project by better.sg
 # How to run the code
 On your console, type in:
 python manage.py runserver
+
+# Test push permission (Bowen)
