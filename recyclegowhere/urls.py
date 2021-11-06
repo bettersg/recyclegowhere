@@ -19,5 +19,5 @@ from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('recycleapp/', include("recycleapp.urls"))
+    path('', include("recycleapp.urls"))
 ]
