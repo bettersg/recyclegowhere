@@ -1,1 +1,0 @@
-# Frontend with Next.js
