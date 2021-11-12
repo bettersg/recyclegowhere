@@ -30,7 +30,7 @@ export default function Home() {
         </Box>
       </Flex>
       <Box textAlign="center" p={4}>
-        <Heading as="h1">What's the Issue?</Heading>
+        <Heading as="h1">What&apos;s the Issue?</Heading>
         <Text>
           By 2035, Pulau Semakau will be filled. In 20 years, plastic waste will triple from the current amount.
           Yet, Singapore’s domestic recycling rate has fallen from 17% in 2019 to 13% in 2020.
