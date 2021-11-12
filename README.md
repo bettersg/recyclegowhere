@@ -12,7 +12,33 @@ Project Page: https://better.notion.site/RecycleGoWhere-1322027374844592ad12db97
 
 ## How to Run this Code
 
-### Server
+### Frontend Server (client folder)
+
+Go to `client` folder via the following command:
+
+```sh
+cd client
+```
+
+Following this, install necessary node packages:
+
+```sh
+npm install
+```
+
+Next, run a production build:
+
+```sh
+npm run build
+```
+
+Start the application:
+
+```sh
+npm start
+```
+
+### Backend Server (server folder)
 
 Go to `server` folder via the following command:
 
