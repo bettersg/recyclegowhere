@@ -15,8 +15,8 @@ export default function Home() {
       <Flex flexDirection="row" justifyContent="center" alignItems="center" marginBottom={10}>
         <Box>
           <Heading as="h1">Pulau Semakau will be completely filled by 2035.</Heading>
-          <Heading as="h2">Let’s do what we can to stop this!</Heading>
-          <Link href="/recyclegowhere" passHref>
+          <Heading as="h2" fontSize="lg">Let’s do what we can to stop this!</Heading>
+          <Link href="/recycle-and-reuse" passHref>
             <Button as="a" rightIcon={<ArrowForwardIcon />}>I want to help!</Button>
           </Link>
         </Box>
@@ -37,9 +37,9 @@ export default function Home() {
           Although 6 in 10 households recycle regularly, the lack of proper practice in handling rubbish has resulted in ineffective recycling processes.
         </Text>
       </Box>
-      <Box backgroundColor="teal.400">
+      {/* <Box backgroundColor="teal.400">
         <Heading as="h1">Reduce Reuse Recycle</Heading>
-      </Box>
+      </Box> */}
       <Box>
         <Heading as="h1">About RecycleGoWhere</Heading>
         <Text>

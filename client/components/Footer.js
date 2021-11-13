@@ -35,9 +35,10 @@ const Footer = () => {
                     </ChakraLink>
                 </Flex>
             </Flex>
-            <Box>
-                <Text>A non-profit volunteer-run project by better.sg. Terms | Privacy</Text>
-            </Box>
+            <Flex flexDirection="row" justifyContent="space-between" alignItems="center" paddingBottom={2}>
+                <Text>A non-profit volunteer-run project by better.sg. </Text>
+                <Text>Terms | Privacy</Text>
+            </Flex>
         </Box>
     );
 }
