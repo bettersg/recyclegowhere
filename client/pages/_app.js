@@ -7,7 +7,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
       <Header />
-      <Container maxW="container.xl" minH="100vh" paddingTop={10} paddingBottom={10}>
+      <Container overflow="hidden" maxW="container.xl" minH="100vh" paddingTop={10} paddingBottom={10}>
         <Component {...pageProps} />
       </Container>
       <Footer />

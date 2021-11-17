@@ -23,8 +23,8 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 
 const Header = (props) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const colorChange = useColorModeValue("black", "gray.50");
-    const bgColorChange = useColorModeValue("gray.50", "gray.900");
+    // const colorChange = useColorModeValue("black", "gray.50");
+    // const bgColorChange = useColorModeValue("gray.50", "gray.900");
 
     return (
         <>
@@ -39,13 +39,14 @@ const Header = (props) => {
                 <meta name="theme-color" content="#ffffff" /> */}
             </Head>
             <Flex
+                overflow="hidden"
                 as="nav"
                 align="center"
                 justify="space-between"
                 wrap="wrap"
                 padding={5}
-                bg={bgColorChange}
-                color={colorChange}
+                // bg={bgColorChange}
+                // color={colorChange}
                 {...props}
             >
                 <Flex align="center" mr={5}>

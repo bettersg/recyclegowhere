@@ -2,6 +2,7 @@ import React from 'react';
 import { Input, Flex, Text, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import Image from 'next/image';
 import { Search2Icon } from '@chakra-ui/icons';
+import MultiSelect from './MultiSelect';
 
 const Additem = () => {
     return (
@@ -14,13 +15,14 @@ const Additem = () => {
                 height={223}
             />
             <Text fontWeight="bold" textAlign="center">I want to reuse or recycle:</Text>
-            <InputGroup>
+            {/* <InputGroup>
                 <InputLeftElement
                     pointerEvents="none"
                     children={<Search2Icon color="gray.300" />}
                 />
                 <Input backgroundColor="white" placeholder="e.g. newspaper" />
-            </InputGroup>
+            </InputGroup> */}
+            {/* <MultiSelect /> */}
 
         </Flex>
     );

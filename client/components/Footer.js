@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Container, Flex, Text, Box, Button, Heading, useColorModeValue, Icon } from '@chakra-ui/react';
+import { Container, Flex, Text, Box, Button, Heading, Icon, Divider } from '@chakra-ui/react';
 import { Link as ChakraLink } from '@chakra-ui/react';
 import { ArrowForwardIcon, EmailIcon } from '@chakra-ui/icons';
 import { FaInstagram } from 'react-icons/fa';
@@ -8,7 +8,8 @@ import { FaInstagram } from 'react-icons/fa';
 const Footer = () => {
 
     return (
-        <Box w="100vw" h="25vh" p={5}>
+        <Box overflow="hidden" w="100vw" h="25vh" p={5}>
+            <Divider marginBottom={5} />
             <Flex flexDir="row" justifyContent="space-around" marginBottom={10}>
                 <Flex flexDir="column" alignItems="start">
                     <Heading as="h3" paddingBottom={2} fontSize="2xl">RecycleGoWhere</Heading>
