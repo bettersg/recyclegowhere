@@ -8,7 +8,7 @@ import { FaInstagram } from 'react-icons/fa';
 const Footer = () => {
 
     return (
-        <Box overflow="hidden" w="100vw" h="25vh" p={5}>
+        <Box overflow="hidden" w="100vw" h="30vh" p={5}>
             <Divider marginBottom={5} />
             <Flex flexDir="row" justifyContent="space-around" marginBottom={10}>
                 <Flex flexDir="column" alignItems="start">
@@ -18,12 +18,6 @@ const Footer = () => {
                     </Link>
                     <Link href="/" passHref>
                         <Button as="a" leftIcon={<ArrowForwardIcon />} colorScheme="teal" variant="link" m={1}>Reuse/Recycle Items</Button>
-                    </Link>
-                    <Link href="/" passHref>
-                        <Button as="a" leftIcon={<ArrowForwardIcon />} colorScheme="teal" variant="link" m={1}>Start My Own Recycling Corner</Button>
-                    </Link>
-                    <Link href="/" passHref>
-                        <Button as="a" leftIcon={<ArrowForwardIcon />} colorScheme="teal" variant="link" m={1}>Find Sustainable Alternatives</Button>
                     </Link>
                 </Flex>
                 <Flex flexDir="column" alignItems="start">
@@ -36,7 +30,7 @@ const Footer = () => {
                     </ChakraLink>
                 </Flex>
             </Flex>
-            <Flex flexDirection="row" justifyContent="space-between" alignItems="center" paddingBottom={2}>
+            <Flex flexDirection="row" justifyContent="space-between" alignItems="center" paddingMargin={1}>
                 <Text>A non-profit volunteer-run project by better.sg. </Text>
                 <Text>Terms | Privacy</Text>
             </Flex>

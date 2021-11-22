@@ -72,8 +72,6 @@ const Header = (props) => {
                         <DrawerBody>
                             <Link href="/"><a><Text fontWeight="bold">Home</Text></a></Link>
                             <Link href="/recycle-and-reuse"><a><Text fontWeight="bold">Reuse/ Recycle Items</Text></a></Link>
-                            <Link href="/"><a><Text fontWeight="bold">Start My Own Recycling Corner</Text></a></Link>
-                            <Link href="/"><a><Text fontWeight="bold">Find Sustainable Alternatives</Text></a></Link>
                         </DrawerBody>
                     </DrawerContent>
                 </Drawer>
