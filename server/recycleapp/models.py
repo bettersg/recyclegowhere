@@ -23,7 +23,7 @@ class Items(models.Model):
         int bluebinrecyclable
     """
     description = models.CharField(blank=True, null=True, max_length=1000)
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     bluebinrecyclable = models.IntegerField(blank=True, null=True)
 
 
@@ -36,7 +36,7 @@ class b(models.Model):
         str category
         str question
     """
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     question = models.CharField(blank=True, null=True, max_length=1000)
 
 
@@ -63,7 +63,7 @@ class n(models.Model):
         str in_need_of_repair
         str spoilt_beyond_repair
     """
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     call_for_collection = models.ManyToManyField(CallForCollection)
     in_good_condition = models.CharField(blank=True, null=True, max_length=1000)
     in_need_of_repair = models.CharField(blank=True, null=True, max_length=1000)
@@ -79,7 +79,7 @@ class g(models.Model):
         str reason
         str suggestion
     """
-    category = models.ForeignKey(Category)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     reason = models.CharField(blank=True, null=True, max_length=1000)
     suggestion = models.CharField(blank=True, null=True, max_length=1000)
 
@@ -129,6 +129,7 @@ class PhysicalChannels(models.Model):
     operating_hours = models.CharField(blank=True, null=True, max_length=1000)
     contact = models.IntegerField(blank=True, null=True)
     website = models.SlugField(blank=True, null=True)
-    category = models.ForeignKey(Category)
-    channel_of_reuse = models.ForeignKey(ReuseChannel)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    channel_of_reuse = models.ForeignKey(
+        ReuseChannel, on_delete=models.CASCADE)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
