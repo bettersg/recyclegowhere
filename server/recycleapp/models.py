@@ -133,3 +133,4 @@ class PhysicalChannels(models.Model):
     channel_of_reuse = models.ForeignKey(
         ReuseChannel, on_delete=models.CASCADE)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
+
