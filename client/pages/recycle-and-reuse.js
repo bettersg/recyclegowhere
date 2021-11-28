@@ -1,19 +1,21 @@
 import { AddIcon, DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Center,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-} from "@chakra-ui/react";
-
+    Box, Heading, Center,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
+} from '@chakra-ui/react';
+import Additem from '../components/recycleAndReuseComponents/AddItem';
+import { AddIcon, InfoOutlineIcon, DeleteIcon } from '@chakra-ui/icons';
+import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
+import Geolocation from '../components/recycleAndReuseComponents/Geolocation';
+// import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
+// import Router from 'next//router';
 import axios from "axios";
 import { useState } from "react";
 import urlcat from "urlcat";
-import Additem from "../components/recycleAndReuseComponents/AddItem";
-import MultiSelect from "../components/recycleAndReuseComponents/MultiSelect";
 import { options } from "../../mockData/data";
 
 const hasNoItems = (items) => items.length == 0;
@@ -36,7 +38,6 @@ export async function getStaticProps() {
       },
     };
   }
-}
 
 const RecycleAndReuse = ({ options }) => {
   const [items, setItems] = useState([]);
@@ -75,7 +76,7 @@ const RecycleAndReuse = ({ options }) => {
               <p>Item List goes here!</p>
             </TabPanel>
             <TabPanel>
-              <p>Disposed Items go here!</p>
+              <Geolocation />
             </TabPanel>
           </TabPanels>
         </Tabs>
