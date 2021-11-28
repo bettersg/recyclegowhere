@@ -132,3 +132,4 @@ class PhysicalChannels(models.Model):
     category = models.ForeignKey(Category)
     channel_of_reuse = models.ForeignKey(ReuseChannel)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
+
