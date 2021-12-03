@@ -1,8 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import React from "react";
 import Select from "react-select";
+import { options }  from '../../../mockData/data';
 
-const MultiSelect = ({ options = data, setInput }) => {
+const MultiSelect = ({ optionss = options, setInput }) => {
   const handleChange = (event) => {
     setInput({ input: event });
   };
@@ -17,7 +18,7 @@ const MultiSelect = ({ options = data, setInput }) => {
         <Select
           isMulti
           name="items"
-          options={options}
+          options={optionss}
           className="basic-multi-select"
           classNamePrefix="select"
           instanceId="postType"

@@ -8,7 +8,6 @@ import {
     TabPanel,
 } from '@chakra-ui/react';
 import Additem from '../components/recycleAndReuseComponents/AddItem';
-import { AddIcon, InfoOutlineIcon, DeleteIcon } from '@chakra-ui/icons';
 import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
 import Geolocation from '../components/recycleAndReuseComponents/Geolocation';
 // import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
@@ -20,26 +19,27 @@ import { options } from "../../mockData/data";
 
 const hasNoItems = (items) => items.length == 0;
 
-// TODO: Need to actually fetch the data from the real server
-export async function getStaticProps() {
-  //   const url = urlcat(process.env.SERVER_URL, "/api/items");
-  const url = urlcat("https://api.npoint.io", "a8416aa207861acb363d");
-  try {
-    const data = await axios.get(url);
-    return {
-      props: {
-        options: data.data,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {
-        options,
-      },
-    };
-  }
+// // TODO: Need to actually fetch the data from the real server
 
-const RecycleAndReuse = ({ options }) => {
+// export async function getStaticProps() {
+//   //   const url = urlcat(process.env.SERVER_URL, "/api/items");
+//   const url = urlcat("https://api.npoint.io", "a8416aa207861acb363d");
+//   try {
+//     const data = await axios.get(url);
+//     return {
+//       props: {
+//         options: data.data,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       props: {
+//         options,
+//       },
+//     };
+//   }
+
+  function RecycleAndReuse({ options }) {
   const [items, setItems] = useState([]);
 
   return (
@@ -83,6 +83,6 @@ const RecycleAndReuse = ({ options }) => {
       </Box>
     </Center>
   );
-};
+}
 
 export default RecycleAndReuse;

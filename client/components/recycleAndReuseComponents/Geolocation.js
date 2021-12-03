@@ -3,7 +3,6 @@ import { useState } from "react";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
 import { locations } from "../../../mockData/data";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import {
   Input,
