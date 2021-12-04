@@ -1,15 +1,17 @@
 import { AddIcon, DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import {
-    Box, Heading, Center,
-    Tabs,
-    TabList,
-    TabPanels,
-    Tab,
-    TabPanel,
-} from '@chakra-ui/react';
-import Additem from '../components/recycleAndReuseComponents/AddItem';
-import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
-import Geolocation from '../components/recycleAndReuseComponents/Geolocation';
+  Box,
+  Heading,
+  Center,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+} from "@chakra-ui/react";
+import Additem from "../components/recycleAndReuseComponents/AddItem";
+import MultiSelect from "../components/recycleAndReuseComponents/MultiSelect";
+import Geolocation from "../components/recycleAndReuseComponents/Geolocation";
 // import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
 // import Router from 'next//router';
 import axios from "axios";
@@ -17,30 +19,30 @@ import { useState } from "react";
 import urlcat from "urlcat";
 import { options } from "../../mockData/data";
 
-const hasNoItems = (items) => items.length == 0;
-
 // // TODO: Need to actually fetch the data from the real server
+const hasNoItems = (items) => items?.input?.length === 0;
 
-// export async function getStaticProps() {
-//   //   const url = urlcat(process.env.SERVER_URL, "/api/items");
-//   const url = urlcat("https://api.npoint.io", "a8416aa207861acb363d");
-//   try {
-//     const data = await axios.get(url);
-//     return {
-//       props: {
-//         options: data.data,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       props: {
-//         options,
-//       },
-//     };
-//   }
+export async function getStaticProps() {
+  //   const url = urlcat(process.env.SERVER_URL, "/api/items");
+  const url = urlcat("https://api.npoint.io", "a8416aa207861acb363d");
+  try {
+    const data = await axios.get(url);
+    return {
+      props: {
+        options: data.data,
+      },
+    };
+  } catch (error) {
+    return {
+      props: {
+        options,
+      },
+    };
+  }
+}
 
-  function RecycleAndReuse({ options }) {
-  const [items, setItems] = useState([]);
+function RecycleAndReuse({ options }) {
+  const [items, setItems] = useState({ input: [] });
 
   return (
     <Center>
