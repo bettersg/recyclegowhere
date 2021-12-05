@@ -1,5 +1,15 @@
 from django.db import models
-import urllib, json
+
+__all__ = [
+    "Category",
+    "Item",
+    "b",
+    "CallForCollection",
+    "n",
+    "g",
+    "ReuseChannel",
+    "PhysicalChannel"
+]
 
 # Create your models here.
 
@@ -12,8 +22,10 @@ class Category(models.Model):
     """
     category = models.CharField(blank=True, null=True, max_length=100)
 
+    def __str__(self): return self.category
 
-class Items(models.Model):
+
+class Item(models.Model):
     """
     Data Model for Items in General
 
@@ -27,19 +39,6 @@ class Items(models.Model):
     bluebinrecyclable = models.IntegerField(blank=True, null=True)
 
 
-class b(models.Model):
-    """
-    Data Model for Blue Bin Recyclables
-
-    Data Structure:
-        int pk (predefined)
-        str category
-        str question
-    """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    question = models.CharField(blank=True, null=True, max_length=1000)
-
-
 class CallForCollection(models.Model):
     """
     Data Model for Call For Collection
@@ -51,6 +50,21 @@ class CallForCollection(models.Model):
     """
     name = models.CharField(blank=True, null=True, max_length=100)
     items_collected = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self): return self.name
+
+
+class b(models.Model):
+    """
+    Data Model for Blue Bin Recyclables
+
+    Data Structure:
+        int pk (predefined)
+        str category
+        str question
+    """
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    question = models.CharField(blank=True, null=True, max_length=1000)
 
 class n(models.Model):
     """
@@ -102,7 +116,7 @@ class ReuseChannel(models.Model):
     channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=CHANNEL_CHOICES)
 
 
-class PhysicalChannels(models.Model):
+class PhysicalChannel(models.Model):
     """
     Data Model for Physical Channels
 
@@ -133,4 +147,6 @@ class PhysicalChannels(models.Model):
     channel_of_reuse = models.ForeignKey(
         ReuseChannel, on_delete=models.CASCADE)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self): return self.name_of_organisation
 
