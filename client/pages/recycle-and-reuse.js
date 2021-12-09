@@ -8,16 +8,18 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Flex,
+  Button,
 } from "@chakra-ui/react";
 import Additem from "../components/recycleAndReuseComponents/AddItem";
 import MultiSelect from "../components/recycleAndReuseComponents/MultiSelect";
 import Geolocation from "../components/recycleAndReuseComponents/Geolocation";
-// import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
-// import Router from 'next//router';
 import axios from "axios";
 import { useState } from "react";
 import urlcat from "urlcat";
 import { options } from "../../mockData/data";
+// STEPPER IMPORTS
+import { Step, Steps, useSteps } from 'chakra-ui-steps';
 
 // // TODO: Need to actually fetch the data from the real server
 const hasNoItems = (items) => items?.input?.length === 0;
@@ -41,8 +43,20 @@ export async function getStaticProps() {
   }
 }
 
+// const content = (
+//   <Flex py={4}>
+//     <Box p={1} />
+//   </Flex>
+// );
+
+const steps = [{ label: "Step 1" }, { label: "Step 2" }, { label: "Step 3" }]
+
 function RecycleAndReuse({ options }) {
   const [items, setItems] = useState({ input: [] });
+
+  const { nextStep, prevStep, reset, activeStep } = useSteps({
+    initialStep: 0,
+  })
 
   return (
     <Center>
@@ -82,6 +96,42 @@ function RecycleAndReuse({ options }) {
             </TabPanel>
           </TabPanels>
         </Tabs>
+        <Box>
+          <Flex flexDir="column" width="100%">
+            <Steps activeStep={activeStep}>
+              {steps.map(({ label }, index) => (
+                <Step label={label} key={label}>
+                  <Box index={index}>
+                    This is box {index}
+                  </Box>
+                </Step>
+              ))}
+            </Steps>
+            {activeStep === 3 ? (
+              <Center p={4} flexDir="column">
+                <Heading fontSize="xl">Woohoo! All steps completed!</Heading>
+                <Button mt={6} size="sm" onClick={reset}>
+                  Reset
+                </Button>
+              </Center>
+            ) : (
+              <Flex width="100%" justify="flex-end">
+                <Button
+                  mr={4}
+                  size="sm"
+                  variant="ghost"
+                  onClick={prevStep}
+                  isDisabled={activeStep === 0}
+                >
+                  Prev
+                </Button>
+                <Button size="sm" onClick={nextStep}>
+                  {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                </Button>
+              </Flex>
+            )}
+          </Flex>
+        </Box>
       </Box>
     </Center>
   );
