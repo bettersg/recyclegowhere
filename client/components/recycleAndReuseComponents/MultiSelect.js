@@ -5,7 +5,7 @@ import { options }  from '../../../mockData/data';
 import { useState } from "react";
 
 
-const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, selectedItems }) => {
+const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, updateTabIndex }) => {
 
     const [listItems, updateListItems] = useState();
 
@@ -16,7 +16,7 @@ const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, select
     const handleSubmit = (event) => {
         event.preventDefault();
         updateSelectedItems(listItems);
-        console.log(selectedItems);
+        updateTabIndex(1);
     };
 
     return (

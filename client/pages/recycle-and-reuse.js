@@ -42,6 +42,7 @@ export async function getStaticProps() {
 
 function RecycleAndReuse({ options }) {
     const [selectedItems, updateSelectedItems] = useState();
+    const [tabIndex, updateTabIndex] = useState(0);
 
     return (
         <Center>
@@ -53,18 +54,19 @@ function RecycleAndReuse({ options }) {
                 // variant="enclosed-colored"
                 id="tabs-3--tab--1"
                 isLazy
+                index={tabIndex}
                 >
                     <TabList>
-                        <Tab>
+                        <Tab isDisabled={tabIndex != 0}>
                             <AddIcon />
                             Add Item
                         </Tab>
                         {/* <Tab isDisabled={hasNoItems(items)}> */}
-                        <Tab>
+                        <Tab isDisabled={selectedItems && tabIndex == 1 ? selectedItems.count > 0 ? true : false : true}>
                             <InfoOutlineIcon />
                             Item List
                         </Tab>
-                        <Tab isDisabled={selectedItems ? selectedItems.count > 0 ? true : false : true}>
+                        <Tab isDisabled={selectedItems && tabIndex == 2 ? selectedItems.count > 0 ? true : false : true}>
                             <DeleteIcon />
                             Dispose Items
                         </Tab>
@@ -72,7 +74,7 @@ function RecycleAndReuse({ options }) {
                     <TabPanels>
                         <TabPanel>
                             <Additem />
-                            <MultiSelect options={options} selectedItems={selectedItems} updateSelectedItems={updateSelectedItems} />
+                            <MultiSelect options={options} updateTabIndex={updateTabIndex} updateSelectedItems={updateSelectedItems} />
                         </TabPanel>
                         <TabPanel>
                             <ItemList selectedItems={selectedItems} />
