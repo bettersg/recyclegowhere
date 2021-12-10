@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import React from "react";
 import Select from "react-select";
 import { options }  from '../../../mockData/data';
@@ -21,18 +21,20 @@ const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, update
 
     return (
         <form onSubmit={handleSubmit}>
-            <Select
-                isMulti
-                name="items"
-                options={optionss}
-                className="basic-multi-select"
-                classNamePrefix="select"
-                instanceId="postType"
-                onChange={handleChange}
-            />
-            <Button backgroundColor="teal.300" m={2} type="submit">
+        <Select
+            isMulti
+            name="items"
+            options={optionss}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            instanceId="postType"
+            onChange={handleChange}
+        />
+        <Flex flexDirection="column" justifyContent="center" alignItems="center">
+            <Button backgroundColor="#319795" color="white" my="5" type="submit">
                 Submit
             </Button>
+        </Flex>
         </form>
     );
 };
