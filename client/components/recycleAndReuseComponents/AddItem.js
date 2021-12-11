@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Search2Icon } from '@chakra-ui/icons';
 import MultiSelect from './MultiSelect';
 
-const Additem = () => {
+const AddItems = () => {
     return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
             <Text fontWeight="bold">1. Type the name of the item you wish to reuse/recycle.</Text>
@@ -23,9 +23,8 @@ const Additem = () => {
                 <Input backgroundColor="white" placeholder="e.g. newspaper" />
             </InputGroup> */}
             {/* <MultiSelect /> */}
-
         </Flex>
     );
 }
 
-export default Additem;
+export default AddItems;
