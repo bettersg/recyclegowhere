@@ -1,7 +1,6 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
-const FormContext = createContext({});
+const FormContext = createContext();
+
 
 export default FormContext;
-
-export const { Provider } = FormContext;
