@@ -1,11 +1,8 @@
 import React from 'react'
 import { Alert, AlertIcon, Box, Button, Checkbox, CloseButton, Flex, HStack, ListItem, Select, Spacer, Text, UnorderedList, VStack } from '@chakra-ui/react'
 import Image from 'next/image'
-import { useRouter } from 'next/dist/client/router'
 
 const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
-    const router = useRouter()
-
     // TODO: figure out how this is populated
     const getInvalidItems = (items) => {
         return ["Cheese", "Cheeseburger"]
