@@ -12,8 +12,10 @@ import {
 import Additem from "../components/recycleAndReuseComponents/AddItem";
 import MultiSelect from "../components/recycleAndReuseComponents/MultiSelect";
 import Geolocation from "../components/recycleAndReuseComponents/Geolocation";
+import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
 // import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
 // import Router from 'next//router';
+import Link from 'next/link'
 import axios from "axios";
 import { useState } from "react";
 import urlcat from "urlcat";
@@ -24,25 +26,23 @@ const hasNoItems = (items) => items?.input?.length === 0;
 
 export async function getStaticProps() {
   //   const url = urlcat(process.env.SERVER_URL, "/api/items");
-  const url = urlcat("https://api.npoint.io", "a8416aa207861acb363d");
+  const url = urlcat("https://api.npoint.io", "324727202a8ce24af12f");
   try {
     const data = await axios.get(url);
     return {
       props: {
-        options: data.data,
+        data: data.data,
       },
     };
   } catch (error) {
-    return {
-      props: {
-        options,
-      },
-    };
+    // TODO: handle error in a better way
+    console.error(error)
   }
 }
 
-function RecycleAndReuse({ options }) {
-  const [items, setItems] = useState({ input: [] });
+function RecycleAndReuse({ data }) {
+  const [items, setItems] = useState({ input: [] })
+  const [tabIndex, setTabIndex] = useState(0)
 
   return (
     <Center>
@@ -54,28 +54,30 @@ function RecycleAndReuse({ options }) {
           // variant="enclosed-colored"
           id="tabs-3--tab--1"
           isLazy
+          index={tabIndex}
+          onChange={(index) => setTabIndex(index)}
         >
           <TabList>
-            <Tab>
+            <Tab isDisabled={tabIndex !== 0}>
               <AddIcon />
               Add Item
             </Tab>
-            <Tab isDisabled={hasNoItems(items)}>
+            <Tab isDisabled={tabIndex !== 1}>
               <InfoOutlineIcon />
               Item List
             </Tab>
-            <Tab isDisabled={hasNoItems(items)}>
+            <Tab isDisabled={tabIndex !== 2}>
               <DeleteIcon />
               Dispose Items
             </Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Additem />
-              <MultiSelect options={options} setInput={setItems} />
+              <Additem navigateToVerifyItem={() => setTabIndex(1)} />
+              <MultiSelect data={data} setItems={setItems} navigateToVerifyItem={() => setTabIndex(1)} />
             </TabPanel>
             <TabPanel>
-              <p>Item List goes here!</p>
+              <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setTabIndex(2)} />
             </TabPanel>
             <TabPanel>
               <Geolocation />
