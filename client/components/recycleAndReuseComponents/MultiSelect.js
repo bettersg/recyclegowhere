@@ -5,7 +5,7 @@ import { options }  from '../../../mockData/data';
 import { useState } from "react";
 
 
-const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, updateTabIndex }) => {
+const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, updateTabIndex, willTriggerNotification }) => {
 
     const [listItems, updateListItems] = useState();
 
@@ -15,8 +15,13 @@ const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, update
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        updateSelectedItems(listItems);
-        updateTabIndex(1);
+
+        // Safer logic
+        if (listItems !== undefined) {
+            updateSelectedItems(listItems);
+            willTriggerNotification(true);
+        }
+        
     };
 
     return (
@@ -31,7 +36,7 @@ const MultiSelect = ({ optionss = options, setInput, updateSelectedItems, update
             onChange={handleChange}
         />
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
-            <Button backgroundColor="#319795" color="white" my="5" type="submit">
+            <Button backgroundColor="#319795" color="white" my="5" type="submit" isDisabled={listItems === undefined ? true : false}>
                 Submit
             </Button>
         </Flex>

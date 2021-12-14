@@ -5,7 +5,6 @@ import { Search2Icon } from '@chakra-ui/icons';
 
 const ItemList = ({selectedItems}) => {
 
-
     return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
             <Image
