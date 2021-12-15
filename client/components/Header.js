@@ -17,8 +17,7 @@ import {
     DrawerCloseButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-
-
+import DarkModeSwitch from '../components/DarkModeSwitch';
 
 
 const Header = (props) => {
@@ -72,7 +71,9 @@ const Header = (props) => {
                         <DrawerBody>
                             <Link href="/"><a><Text fontWeight="bold">Home</Text></a></Link>
                             <Link href="/recycle-and-reuse"><a><Text fontWeight="bold">Reuse/ Recycle Items</Text></a></Link>
+                            <Link href="/blog"><a><Text fontWeight="bold">Uncle Sem's Blog</Text></a></Link>
                         </DrawerBody>
+                        <DarkModeSwitch />
                     </DrawerContent>
                 </Drawer>
             </Flex>
