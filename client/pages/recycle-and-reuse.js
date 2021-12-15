@@ -9,8 +9,8 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 import Additem from "../components/recycleAndReuseComponents/AddItem";
-import Geolocation from "../components/recycleAndReuseComponents/Geolocation";
 import ItemList from '../components/recycleAndReuseComponents/ItemList';
+import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
 import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
 // import Router from 'next//router';
 import Link from 'next/link'
@@ -38,7 +38,7 @@ export async function getStaticProps() {
 }
 
 function RecycleAndReuse({ data }) {
-  const [items, setItems] = useState({ input: [] })
+  const [items, setItems] = useState([])
   const [tabIndex, setTabIndex] = useState(0)
 
   return (
@@ -65,7 +65,7 @@ function RecycleAndReuse({ data }) {
             </Tab>
             <Tab isDisabled={tabIndex !== 2}>
               <DeleteIcon />
-              Dispose Items
+              Take Action
             </Tab>
           </TabList>
           <TabPanels>
@@ -76,7 +76,7 @@ function RecycleAndReuse({ data }) {
               <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setTabIndex(2)} />
             </TabPanel>
             <TabPanel>
-              <Geolocation />
+              <TakeAction items={items} />
             </TabPanel>
           </TabPanels>
         </Tabs>

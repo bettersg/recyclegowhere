@@ -1,5 +1,20 @@
 import React from 'react'
-import { Alert, AlertIcon, Box, Button, Checkbox, CloseButton, Flex, HStack, ListItem, Select, Spacer, Text, UnorderedList, VStack } from '@chakra-ui/react'
+import { 
+    Alert, 
+    AlertIcon, 
+    Box, 
+    Button, 
+    Checkbox, 
+    CloseButton, 
+    Flex, 
+    HStack, 
+    ListItem, 
+    Select, 
+    Spacer, 
+    Text, 
+    UnorderedList, 
+    VStack 
+} from '@chakra-ui/react'
 import Image from 'next/image'
 
 const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
@@ -37,24 +52,26 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-
         const checkedItems = event.target.elements
         const updatedItems = []
+
+        const addToUpdatedItemsList = (element, value, field) => {
+            const item = items.filter(item => item.id === parseInt(element.name))[0]
+            const clonedItem = {...item}
+            clonedItem[field] = value
+            updatedItems.push(clonedItem)
+        }
+
         for (let i = 0; i < checkedItems.length; i++) {
             if (checkedItems[i].nodeName === 'INPUT' && checkedItems[i].type === 'checkbox') {
-                const isItemCleaned = checkedItems[i].checked
-                const item = items.filter(item => item.id === parseInt(checkedItems[i].name))[0]
-                const clonedItem = {...item}
-                clonedItem['isCleaned'] = isItemCleaned
-                updatedItems.push(clonedItem)
+                const isChecked = checkedItems[i].checked
+                addToUpdatedItemsList(checkedItems[i], isChecked, 'isCleaned')
             } else if (checkedItems[i].nodeName === 'SELECT') {
                 const condition = checkedItems[i].selectedOptions[0].value
-                const item = items.filter(item => item.id === parseInt(checkedItems[i].name))[0]
-                const clonedItem = {...item}
-                clonedItem['condition'] = condition
-                updatedItems.push(clonedItem)
+                addToUpdatedItemsList(checkedItems[i], condition, 'condition')
             }
         }
+
         setItems(updatedItems)
         navigateToTakeAction()
     }
@@ -98,6 +115,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                                             placeholder={selectPlaceholder} 
                                             onChange={(e) => toggleSelect(e.target.selectedOptions[0].value, index)}
                                             isRequired={true}
+                                            name={itemToCheckCondition.id}
                                             value={checkedConditionItems[index]}
                                         > 
                                             {itemConditions.map(itemCondition => 

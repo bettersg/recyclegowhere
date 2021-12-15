@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, Text } from "@chakra-ui/react"
+import { Flex, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import AddItemDialog from './AddItemDialog'
 import AddItemMultiSelect from './AddItemMultiSelect'
