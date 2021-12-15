@@ -39,7 +39,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
     const initialCheckedConditionItems = Array(itemsToCheckCondition.length).fill(false)
     const [checkedConditionItems, setCheckedConditionItems] = React.useState(initialCheckedConditionItems)
 
-    const itemConditions = ['Good', 'Needs Repair', 'Spoilt']
+    const itemConditions = ['In good condition', 'In need of repair', 'Spoilt beyond repair']
     const selectPlaceholder = 'Select condition'
     const enableConfirmButton = checkedConditionItems.every((itemCondition) => itemConditions.includes(itemCondition))
 
