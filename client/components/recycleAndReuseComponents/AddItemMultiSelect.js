@@ -1,9 +1,8 @@
 import { Button, Flex } from '@chakra-ui/react'
 import React from 'react'
 import Select from 'react-select'
-import { options }  from '../../../mockData/data'
 
-const MultiSelect = ({ data, setItems, willTriggerNotification }) => {
+const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
   const [selectedOptions, setSelectedOptions] = React.useState([])
 
   const parseItemsIntoOptions = (categories, items) => {
@@ -50,11 +49,11 @@ const MultiSelect = ({ data, setItems, willTriggerNotification }) => {
     event.preventDefault()
     const selectedItems = getSelectedItems(event.target.elements)
     setItems(selectedItems)
-    willTriggerNotification(true)
+    willTriggerDialog(true)
   }
 
   return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ width: '40vw' }}>
         <Select
           isMulti
           name="items"
@@ -70,7 +69,7 @@ const MultiSelect = ({ data, setItems, willTriggerNotification }) => {
             </Button>
         </Flex>
       </form>
-    );
-};
+    )
+}
 
-export default MultiSelect
+export default AddItemMultiSelect

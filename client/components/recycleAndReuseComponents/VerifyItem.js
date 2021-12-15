@@ -71,7 +71,8 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
             <form onSubmit={handleSubmit}>
                 <VStack spacing={4} width='100%'>
                     <Text fontWeight='bold' textAlign='center'>Your Item List</Text>
-                    <Box width='40vw' borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px'>
+                    <Text fontWeight='lighter' textAlign='left' width='100%'>* represents a required field</Text>
+                    <Box width='40vw' borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
                         {itemsToCheckCleaned && itemsToCheckCleaned.length > 0 && <VStack width='100%' p='12px'>
                             <Text fontWeight='bold' textAlign='left' width='100%'>ITEM IS EMPTY, RINSED AND/OR DRIED</Text>
                             {itemsToCheckCleaned.map(itemToCheckCleaned => {
@@ -91,7 +92,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                             {itemsToCheckCondition.map((itemToCheckCondition, index) => {
                                 return (
                                     <HStack width='100%' key={`${itemToCheckCondition.id}`}>
-                                        <Text width='70%'>{itemToCheckCondition.description}</Text>
+                                        <Text width='70%'>{itemToCheckCondition.description}*</Text>
                                         <Spacer />
                                         <Select 
                                             placeholder={selectPlaceholder} 

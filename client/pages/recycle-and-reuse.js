@@ -1,23 +1,14 @@
 import { AddIcon, DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Heading,
   Center,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
-  Button,
-  AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogBody,
-  AlertDialogFooter
 } from "@chakra-ui/react";
 import Additem from "../components/recycleAndReuseComponents/AddItem";
-import MultiSelect from "../components/recycleAndReuseComponents/MultiSelect";
 import Geolocation from "../components/recycleAndReuseComponents/Geolocation";
 import ItemList from '../components/recycleAndReuseComponents/ItemList';
 import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
@@ -49,40 +40,9 @@ export async function getStaticProps() {
 function RecycleAndReuse({ data }) {
   const [items, setItems] = useState({ input: [] })
   const [tabIndex, setTabIndex] = useState(0)
-  const [didSelectItems, willTriggerNotification] = useState(false);
-
-  // Dialog box for Confirmation
-  const cancelRef = useRef();
-  const onClose = () => willTriggerNotification(false);
-  const navigateToVerifyItem = () => {
-      setTabIndex(1);
-      onClose();
-  }
 
   return (
     <Center>
-      <AlertDialog isOpen={didSelectItems} leastDestructiveRef={cancelRef} onClose={onClose}>
-          <AlertDialogOverlay>
-              <AlertDialogContent>
-                  <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                      Confirmation
-                  </AlertDialogHeader>
-
-                  <AlertDialogBody>
-                      Is every item listed? You cannot return to this page to add more items for this round!
-                  </AlertDialogBody>
-
-                  <AlertDialogFooter>
-                  <Button ref={cancelRef} onClick={onClose}>
-                      Cancel
-                  </Button>
-                  <Button colorScheme='green' onClick={navigateToVerifyItem} ml={3}>
-                      Confirm
-                  </Button>
-                  </AlertDialogFooter>
-              </AlertDialogContent>
-          </AlertDialogOverlay>
-      </AlertDialog>
       <Box w="40vw">
         {/* isLazy prop used to defer rendering each tab until that tab is selected */}
         <Tabs
@@ -110,8 +70,7 @@ function RecycleAndReuse({ data }) {
           </TabList>
           <TabPanels>
             <TabPanel>
-              <Additem />
-              <MultiSelect data={data} setItems={setItems} willTriggerNotification={willTriggerNotification} />
+              <Additem setTabIndex={setTabIndex} data={data} setItems={setItems} />
             </TabPanel>
             <TabPanel>
               <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setTabIndex(2)} />
