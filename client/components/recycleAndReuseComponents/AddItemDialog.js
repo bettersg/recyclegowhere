@@ -9,12 +9,12 @@ import {
     Button
 } from '@chakra-ui/react'
 
-const AddItemDialog = ({ setTabIndex, didSelectItems, willTriggerDialog }) => {
+const AddItemDialog = ({ setNextStep, didSelectItems, willTriggerDialog }) => {
     const cancelRef = useRef();
     const onClose = () => willTriggerDialog(false);
     const navigateToVerifyItem = () => {
-        setTabIndex(1);
-        onClose();
+        setNextStep()
+        onClose()
     }
 
     return (

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import AddItemDialog from './AddItemDialog'
 import AddItemMultiSelect from './AddItemMultiSelect'
 
-const Additem = ({ setTabIndex, data, setItems }) => {
+const Additem = ({ setNextStep, data, setItems }) => {
     const [didSelectItems, willTriggerDialog] = React.useState(false);
 
     return (
@@ -18,7 +18,7 @@ const Additem = ({ setTabIndex, data, setItems }) => {
             />
             <Text fontWeight="bold" textAlign="center">I want to reuse or recycle:</Text>
             <AddItemMultiSelect data={data} setItems={setItems} willTriggerDialog={willTriggerDialog} /> 
-            <AddItemDialog setTabIndex={setTabIndex} didSelectItems={didSelectItems} willTriggerDialog={willTriggerDialog} />
+            <AddItemDialog setNextStep={setNextStep} didSelectItems={didSelectItems} willTriggerDialog={willTriggerDialog} />
         </Flex>
     );
 }
