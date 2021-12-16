@@ -77,7 +77,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
     }
 
     return (
-        <Flex flexDirection='column' justifyContent='center' alignItems='center'>
+        <Flex flexDirection='column' justifyContent='center' alignItems='center' width='100%'>
             <Text fontWeight='bold'>2. Please check against the statements below.</Text>
             <Image
                 src='/unclesemakau.png'

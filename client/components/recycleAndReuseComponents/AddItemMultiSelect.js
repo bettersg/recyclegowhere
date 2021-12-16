@@ -53,7 +53,7 @@ const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
   }
 
   return (
-      <form onSubmit={handleSubmit} style={{ width: '40vw' }}>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
         <Select
           isMulti
           name="items"

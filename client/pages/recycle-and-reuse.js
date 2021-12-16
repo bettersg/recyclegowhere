@@ -44,9 +44,9 @@ function RecycleAndReuse({ data }) {
 
   return (
     <Center>
-      <Box w='40vw'>
+      <Box w='50vw'>
         <Flex flexDir='column' width='100%'>
-          <Steps activeStep={step} responsive={false} colorScheme='teal' mb='1rem'>
+          <Steps activeStep={step} responsive={false} colorScheme='teal' padding='1rem'>
             <Step label='Add Items' icon={AddIcon} key='0'>
               <Additem setNextStep={() => setStep(1)} data={data} setItems={setItems} />
             </Step>
