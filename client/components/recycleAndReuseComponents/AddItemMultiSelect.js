@@ -6,26 +6,22 @@ const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
   const [selectedOptions, setSelectedOptions] = React.useState([])
 
   const parseItemsIntoOptions = (categories, items) => {
-    const allOptions = []
-    categories.forEach(category => {
+    return categories.map(category => {
       const itemsInCategory = items.filter(item => item.category === category)
-      const itemOptions = []
-      itemsInCategory.forEach(itemInCategory => {
+      const itemOptions = itemsInCategory.map(itemInCategory => {
         const option = {
           "label": itemInCategory.description,
           "value": itemInCategory.id
         }
-        itemOptions.push(option)
+        return option
       })
 
       const categoryOptions = {
         "label": category,
         "options": itemOptions
       }
-      allOptions.push(categoryOptions)
-    })
-    
-    return allOptions
+      return categoryOptions
+    })    
   }
 
   const options = parseItemsIntoOptions(data.categories, data.items)
