@@ -1,5 +1,5 @@
 from django.db import models
-
+from model_utils import Choices
 __all__ = [
     "Category",
     "Item",
@@ -108,11 +108,11 @@ class ReuseChannel(models.Model):
     Choices:
         channel_of_reuse: Donate, Resell, Repair
     """
-    CHANNEL_CHOICES = [
+    CHANNEL_CHOICES = Choices(
         ("DONATE", "Donate"),
         ("RESELL", "Resell"),
         ("REPAIR", "Repair")
-    ]
+    )
     channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=CHANNEL_CHOICES)
 
 
