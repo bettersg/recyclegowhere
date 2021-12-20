@@ -31,7 +31,7 @@ class NonBlueBinRecyclableSerializer(serializers.ModelSerializer):
         fields = ('id', 'category', 'call_for_collection', 'in_good_condition', 'in_need_of_repair', 'spoilt_beyond_repair', )
 
 
-class GeneralWaste(serializers.ModelSerializer):
+class GeneralWasteSerializer(serializers.ModelSerializer):
     class Meta:
         model = g
         fields = ('id', 'category', 'reason', 'suggestion', )
@@ -49,14 +49,14 @@ class ChoicesField(serializers.Field):
         return getattr(self._choices, data)
 
 
-class ReuseChannel(serializers.ModelSerializer):
+class ReuseChannelSerializer(serializers.ModelSerializer):
     channel_of_reuse = ChoicesField(choices=ReuseChannel.CHANNEL_CHOICES)
 
     class Meta:
         model = ReuseChannel
 
 
-class PhysicalChannel(serializers.ModelSerializer):
+class PhysicalChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhysicalChannel
         fields = ('id', 's/n', 'name_of_organisation', 'address', 'blocknumber', 'building_name', 'postcode', 'operating_hours', 'contact', 'website', 'category', 'channel_of_reuse', 'remarks', )
