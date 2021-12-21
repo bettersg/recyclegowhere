@@ -48,15 +48,15 @@ class ChoicesField(serializers.Field):
     def to_internal_value(self, data):
         return getattr(self._choices, data)
 
-
 class ReuseChannelSerializer(serializers.ModelSerializer):
-    channel_of_reuse = ChoicesField(choices=ReuseChannel.CHANNEL_CHOICES)
+    channel_of_reuse = ChoicesField(choices = ReuseChannel.CHANNEL_CHOICES)
 
     class Meta:
         model = ReuseChannel
+        fields = '__all__'
 
 
 class PhysicalChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhysicalChannel
-        fields = ('id', 's/n', 'name_of_organisation', 'address', 'blocknumber', 'building_name', 'postcode', 'operating_hours', 'contact', 'website', 'category', 'channel_of_reuse', 'remarks', )
+        fields = ('id', 'name_of_organisation', 'address', 'blocknumber', 'building_name', 'postcode', 'operating_hours', 'contact', 'website', 'category', 'channel_of_reuse', 'remarks', )

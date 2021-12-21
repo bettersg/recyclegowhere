@@ -108,6 +108,9 @@ class ReuseChannel(models.Model):
     Choices:
         channel_of_reuse: Donate, Resell, Repair
     """
+
+
+
     CHANNEL_CHOICES = Choices(
         ("DONATE", "Donate"),
         ("RESELL", "Resell"),
@@ -115,6 +118,7 @@ class ReuseChannel(models.Model):
     )
     channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=CHANNEL_CHOICES)
 
+    def __str__(self): return self.channel_of_reuse
 
 class PhysicalChannel(models.Model):
     """
