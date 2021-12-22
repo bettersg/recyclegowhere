@@ -58,7 +58,7 @@ const Geolocation = () => {
         onChange={onChangeHandler}
         components={{ NoOptionsMessage }}
       />
-      
+
       <p>{Address}</p>
     </div>
   );
