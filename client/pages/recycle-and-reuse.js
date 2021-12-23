@@ -1,90 +1,69 @@
-import { AddIcon, DeleteIcon, InfoOutlineIcon } from "@chakra-ui/icons";
+import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from '@chakra-ui/icons'
 import {
   Box,
-  Heading,
   Center,
   Tabs,
   TabList,
   TabPanels,
   Tab,
   TabPanel,
-} from "@chakra-ui/react";
-import Additem from "../components/recycleAndReuseComponents/AddItem";
-import MultiSelect from "../components/recycleAndReuseComponents/MultiSelect";
-import Geolocation from "../components/recycleAndReuseComponents/Geolocation";
-// import MultiSelect from '../components/recycleAndReuseComponents/MultiSelect';
-// import Router from 'next//router';
-import axios from "axios";
-import { useState } from "react";
-import urlcat from "urlcat";
-import { options } from "../../mockData/data";
+  Flex,
+  Button,
+} from '@chakra-ui/react'
+// STEPPER IMPORTS
+import { Step, Steps } from 'chakra-ui-steps'
 
-// // TODO: Need to actually fetch the data from the real server
-const hasNoItems = (items) => items?.input?.length === 0;
+import Additem from '../components/recycleAndReuseComponents/AddItem'
+import TakeAction from '../components/recycleAndReuseComponents/TakeAction'
+import VerifyItem from '../components/recycleAndReuseComponents/VerifyItem'
 
+import axios from 'axios'
+import { useState, useRef } from 'react'
+import urlcat from 'urlcat'
+
+// TODO: Need to actually fetch the data from the real server
 export async function getStaticProps() {
   //   const url = urlcat(process.env.SERVER_URL, "/api/items");
-  const url = urlcat("https://api.npoint.io", "a8416aa207861acb363d");
+  const url = urlcat("https://api.npoint.io", "324727202a8ce24af12f");
   try {
     const data = await axios.get(url);
     return {
       props: {
-        options: data.data,
+        data: data.data,
       },
     };
   } catch (error) {
-    return {
-      props: {
-        options,
-      },
-    };
+    // TODO: handle error in a better way
+    console.error(error)
   }
 }
 
-function RecycleAndReuse({ options }) {
-  const [items, setItems] = useState({ input: [] });
+function RecycleAndReuse({ data }) {
+  const [items, setItems] = useState([])
+  const [step, setStep] = useState(0)
 
   return (
     <Center>
-      <Box w="40vw">
-        {/* isLazy prop used to defer rendering each tab until that tab is selected */}
-        <Tabs
-          w="40vw"
-          colorScheme="teal"
-          // variant="enclosed-colored"
-          id="tabs-3--tab--1"
-          isLazy
-        >
-          <TabList>
-            <Tab>
-              <AddIcon />
-              Add Item
-            </Tab>
-            <Tab isDisabled={hasNoItems(items)}>
-              <InfoOutlineIcon />
-              Item List
-            </Tab>
-            <Tab isDisabled={hasNoItems(items)}>
-              <DeleteIcon />
-              Dispose Items
-            </Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Additem />
-              <MultiSelect options={options} setInput={setItems} />
-            </TabPanel>
-            <TabPanel>
-              <p>Item List goes here!</p>
-            </TabPanel>
-            <TabPanel>
-              <Geolocation />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+      <Box w='50vw'>
+        <Flex flexDir='column' width='100%'>
+          <Steps activeStep={step} responsive={false} colorScheme='teal' padding='1rem'>
+            <Step label='Add Items' icon={AddIcon} key='0'>
+              <Additem setNextStep={() => setStep(1)} data={data} setItems={setItems} />
+            </Step>
+            <Step label='Verify Items' icon={EditIcon} key='1'>
+              <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setStep(2)} />
+            </Step>
+            <Step label='Take Action' icon={DeleteIcon} key='2'>
+              <TakeAction items={items} />
+            </Step>
+            <Step label='Completed!' icon={CheckIcon} key='3'>
+              <div>Completed</div>
+            </Step>
+          </Steps> 
+        </Flex>     
       </Box>
     </Center>
   );
 }
 
-export default RecycleAndReuse;
+export default RecycleAndReuse
