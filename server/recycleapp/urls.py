@@ -15,8 +15,8 @@ router.register(r'PhysicalChannel', views.PhysicalChannelViewSet)
 
 
 urlpatterns = [
-    path("index/", views.index, name="index"),
+    path("", views.index, name="index"),
     path("about/", views.about, name="about"),
-    path('', include(router.urls)),
+    path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
