@@ -21,6 +21,16 @@ import axios from 'axios'
 import { useState, useRef } from 'react'
 import urlcat from 'urlcat'
 
+import dynamic from "next/dynamic"
+
+const GeolocationNoSSR = dynamic(
+  () => import("../components/recycleAndReuseComponents/Geolocation"),
+  {
+    loading: () => <p>Map is loading</p>,
+    ssr: false,
+  }
+);
+
 // TODO: Need to actually fetch the data from the real server
 export async function getStaticProps() {
   //   const url = urlcat(process.env.SERVER_URL, "/api/items");
@@ -38,9 +48,14 @@ export async function getStaticProps() {
   }
 }
 
+
+
+
+
 function RecycleAndReuse({ data }) {
   const [items, setItems] = useState([])
   const [step, setStep] = useState(0)
+  const [geolocation, setGeolocation] = useState(false)
 
   return (
     <Center>
@@ -54,13 +69,16 @@ function RecycleAndReuse({ data }) {
               <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setStep(2)} />
             </Step>
             <Step label='Take Action' icon={DeleteIcon} key='2'>
-              <TakeAction items={items} />
+              {
+                geolocation ? <GeolocationNoSSR />
+                  : <TakeAction items={items} setGeolocation={setGeolocation} />
+              }
             </Step>
             <Step label='Completed!' icon={CheckIcon} key='3'>
               <div>Completed</div>
             </Step>
-          </Steps> 
-        </Flex>     
+          </Steps>
+        </Flex>
       </Box>
     </Center>
   );
