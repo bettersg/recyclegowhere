@@ -54,7 +54,10 @@ const markerOthers = new L.Icon({
   iconSize: [45, 45],
 });
 
-export default function Geolocation() {
+///////////////////////////////////////////
+// Geolocation Function
+export default function Geolocation({items}) {
+  console.log(items);
   // Initial Position
   const [center, setCenter] = useState({
     lat: 1.36882713986152,
@@ -80,6 +83,9 @@ export default function Geolocation() {
 
   // Display address after search bar input
   const [Address, setAddress] = useState("");
+
+  // Encode JSON to Base64
+  const [encode, setEncode] = useState("");
 
   // Map style
   const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
@@ -361,8 +367,8 @@ export default function Geolocation() {
     setMarkers(markers);
     setAllLocations(allLocations);
     console.log(allLocations);
-    var encoded = btoa(JSON.stringify(allLocations))
-    console.log(encoded);
+    setEncode(btoa(JSON.stringify(allLocations)));
+    console.log(encode);
   };
 
   // BUTTON CLICK - THE SAME SEARCH ALGORITHM
@@ -498,6 +504,8 @@ export default function Geolocation() {
       setMarkers(markers);
       setAllLocations(allLocations);
       console.log(allLocations);
+      setEncode(btoa(JSON.stringify(allLocations)));
+      console.log(encode);
     };
 
     const errorCallback = (error) => {
@@ -528,8 +536,13 @@ export default function Geolocation() {
         <InfoIcon /> Locate with GPS{" "}
       </Button>
       <Link
-        href={{ pathname: "summary", query: { locations: markers } }}
-        passHref
+        href={{
+          pathname: "/summary/[code]",
+          query: {
+            code: encode,
+          },
+        }}
+        as={`/summary/${encode}`}
       >
         <Button rightIcon={<ArrowForwardIcon />}>I'm done!</Button>
       </Link>

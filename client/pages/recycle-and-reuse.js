@@ -22,6 +22,7 @@ import { useState, useRef } from 'react'
 import urlcat from 'urlcat'
 
 import dynamic from "next/dynamic"
+import Head from '../components/head'
 
 const GeolocationNoSSR = dynamic(
   () => import("../components/recycleAndReuseComponents/Geolocation"),
@@ -59,6 +60,7 @@ function RecycleAndReuse({ data }) {
 
   return (
     <Center>
+      <Head title="Home"/>
       <Box w='50vw'>
         <Flex flexDir='column' width='100%'>
           <Steps activeStep={step} responsive={false} colorScheme='teal' padding='1rem'>
@@ -70,7 +72,7 @@ function RecycleAndReuse({ data }) {
             </Step>
             <Step label='Take Action' icon={DeleteIcon} key='2'>
               {
-                geolocation ? <GeolocationNoSSR />
+                geolocation ? <GeolocationNoSSR items={items}/>
                   : <TakeAction items={items} setGeolocation={setGeolocation} />
               }
             </Step>
