@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Sheets import
+    'import_export',
+
     # 3rd party
     'rest_framework',
 ]
