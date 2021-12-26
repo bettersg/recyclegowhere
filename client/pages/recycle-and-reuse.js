@@ -9,6 +9,7 @@ import {
   TabPanel,
   Flex,
   Button,
+  Heading,
 } from '@chakra-ui/react'
 // STEPPER IMPORTS
 import { Step, Steps } from 'chakra-ui-steps'
@@ -60,29 +61,32 @@ function RecycleAndReuse({ data }) {
 
   return (
     <Center>
-      <Head title="Home"/>
-      <Box w='50vw'>
+      <Head title="Reuse and Recycle" />
+      <Box w={['70vw', '60vw', '40wv']}>
         <Flex flexDir='column' width='100%'>
-          <Steps activeStep={step} responsive={false} colorScheme='teal' padding='1rem'>
-            <Step label='Add Items' icon={AddIcon} key='0'>
+          <Steps activeStep={step} responsive={false} colorScheme='teal' p={3} size="md">
+            <Step label={false && 'Add Items'} icon={AddIcon} key='0'>
+              <Heading as="h2" fontSize="xl" textAlign="center">Add Items</Heading>
               <Additem setNextStep={() => setStep(1)} data={data} setItems={setItems} />
             </Step>
-            <Step label='Verify Items' icon={EditIcon} key='1'>
+            <Step label={false && 'Verify Items'} icon={EditIcon} key='1'>
+              <Heading as="h2" fontSize="xl" textAlign="center">Verify Items</Heading>
               <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setStep(2)} />
             </Step>
-            <Step label='Take Action' icon={DeleteIcon} key='2'>
+            <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
+              <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
               {
-                geolocation ? <GeolocationNoSSR items={items}/>
+                geolocation ? <GeolocationNoSSR items={items} />
                   : <TakeAction items={items} setGeolocation={setGeolocation} />
               }
             </Step>
-            <Step label='Completed!' icon={CheckIcon} key='3'>
-              <div>Completed</div>
+            <Step label={false && 'Completed!'} icon={CheckIcon} key='3'>
+              <Heading as="h2" fontSize="xl" textAlign="center">Complete!</Heading>
             </Step>
           </Steps>
         </Flex>
       </Box>
-    </Center>
+    </Center >
   );
 }
 

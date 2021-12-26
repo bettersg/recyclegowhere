@@ -37,7 +37,7 @@ const TakeAction = ({ items, setGeolocation }) => {
             />
             <VStack spacing={4} width='100%'>
                 <Text fontWeight='bold' textAlign='center'>Your Final Item List</Text>
-                <Box width='40vw' borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
+                <Box width={['85vw', '60vw', '40vw']} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
                     {blueBinRecyclableItems && blueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
                         <Text fontWeight='bold' textAlign='left' width='100%'>BLUE BIN RECYCLING</Text>
                         {blueBinRecyclableItems.map(blueBinRecyclableItem => {
