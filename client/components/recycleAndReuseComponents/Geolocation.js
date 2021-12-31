@@ -57,7 +57,6 @@ const markerOthers = new L.Icon({
 ///////////////////////////////////////////
 // Geolocation Function
 export default function Geolocation({items}) {
-  console.log(items);
   // Initial Position
   const [center, setCenter] = useState({
     lat: 1.36882713986152,
@@ -91,40 +90,42 @@ export default function Geolocation({items}) {
   const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
 
   // Mock list of objects passed in from previous screen
-  var mockitems = [
-    {
-      category: "Paper",
-      description: "Writing paper",
-      id: 1,
-      isBlueBinRecyclable: true,
-      name: "writing paper",
-      condition: null,
-    },
-    {
-      category: "ICT_Equipment",
-      description: "Printers",
-      id: 2,
-      isBlueBinRecyclable: false,
-      name: "Printers",
-      condition: "In_need_of_repair",
-    },
-    {
-      category: "ICT_Equipment",
-      description: "Tablets",
-      id: 3,
-      isBlueBinRecyclable: false,
-      name: "Tablets",
-      condition: "Spoilt_beyond_repair",
-    },
-    {
-      category: "Portable_batteries",
-      description: "Batteries",
-      id: 4,
-      isBlueBinRecyclable: false,
-      name: "Batteries",
-      condition: "Spoilt_beyond_repair",
-    },
-  ];
+  var mockitems = items;
+  console.log(mockitems);
+  // [
+  //   {
+  //     category: "Paper",
+  //     description: "Writing paper",
+  //     id: 1,
+  //     isBlueBinRecyclable: true,
+  //     name: "writing paper",
+  //     condition: null,
+  //   },
+  //   {
+  //     category: "ICT_Equipment",
+  //     description: "Printers",
+  //     id: 2,
+  //     isBlueBinRecyclable: false,
+  //     name: "Printers",
+  //     condition: "In_need_of_repair",
+  //   },
+  //   {
+  //     category: "ICT_Equipment",
+  //     description: "Tablets",
+  //     id: 3,
+  //     isBlueBinRecyclable: false,
+  //     name: "Tablets",
+  //     condition: "Spoilt_beyond_repair",
+  //   },
+  //   {
+  //     category: "Portable_batteries",
+  //     description: "Batteries",
+  //     id: 4,
+  //     isBlueBinRecyclable: false,
+  //     name: "Batteries",
+  //     condition: "Spoilt_beyond_repair",
+  //   },
+  // ];
 
   // Fetch data from API and save it in state hooks
   useEffect(() => {
@@ -232,21 +233,21 @@ export default function Geolocation({items}) {
 
     // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN
     var nonbluebinobjects = {
-      items: [],
+      items1: [],
     };
     var bluebinarray = [];
     for (let i = 0; i < mockitems.length; i++) {
       if (mockitems[i].isBlueBinRecyclable) {
         bluebinarray.push(mockitems[i].description);
       } else {
-        nonbluebinobjects.items.push(mockitems[i]);
+        nonbluebinobjects.items1.push(mockitems[i]);
       }
     }
 
     // BLUE BIN MARKERS
     allLocations = [];
     bluebinmarkers = [];
-    var items = [];
+    var items2 = [];
     var substring = event.value.toString().substring(0, 2);
     if (bluebinarray.length != 0) {
       if (event.value != "NIL") {
@@ -268,18 +269,18 @@ export default function Geolocation({items}) {
             longitude: filteredbluebindata[bb].longitude,
             address: filteredbluebindata[bb].address,
           };
-          items.push(item);
+          items2.push(item);
         }
-        items.sort(function (a, b) {
+        items2.sort(function (a, b) {
           return a.distance - b.distance;
         });
-        for (let i = 0; i < items.length; i++) {
-          console.log(items[i].distance);
+        for (let i = 0; i < items2.length; i++) {
+          console.log(items2[i].distance);
         }
         // get the blue bin with shortest distance from house
-        items[0].itemname = bluebinarray;
-        bluebinmarkers.push(items[0]);
-        allLocations.push(items[0]);
+        items2[0].itemname = bluebinarray;
+        bluebinmarkers.push(items2[0]);
+        allLocations.push(items2[0]);
         setBlueBinMarkers(bluebinmarkers);
       } else {
         for (let bb = 0; bb < bluebindata.bluebins.length; bb++) {
@@ -295,18 +296,18 @@ export default function Geolocation({items}) {
             longitude: bluebindata.bluebins[bb].longitude,
             address: bluebindata.bluebins[bb].address,
           };
-          items.push(item);
+          items2.push(item);
         }
-        items.sort(function (a, b) {
+        items2.sort(function (a, b) {
           return a.distance - b.distance;
         });
-        for (let i = 0; i < items.length; i++) {
-          console.log(items[i].distance);
+        for (let i = 0; i < items2.length; i++) {
+          console.log(items2[i].distance);
         }
         // get the blue bin with shortest distance from house
-        items[0].itemname = bluebinarray;
-        bluebinmarkers.push(items[0]);
-        allLocations.push(items[0]);
+        items2[0].itemname = bluebinarray;
+        bluebinmarkers.push(items2[0]);
+        allLocations.push(items2[0]);
         setBlueBinMarkers(bluebinmarkers);
       }
     }
@@ -315,26 +316,25 @@ export default function Geolocation({items}) {
     var data1 = {
       sections: [
         {
-          items: [],
+          items3: [],
         },
       ],
     };
-    var items = data1.sections[0].items;
+    var items3 = data1.sections[0].items3;
     console.log(
       "Length of unfiltered dataset:" + data.physical_channels.length
     );
-    console.log(nonbluebinobjects.items.length);
 
     markers = [];
-
-    for (let l = 0; l < nonbluebinobjects.items.length; l++) {
+  if (nonbluebinobjects.items3){
+    for (let l = 0; l < nonbluebinobjects.items3.length; l++) {
       for (let i = 0; i < data.physical_channels.length; i++) {
         if (
           data.physical_channels[i].Items_accepted.includes(
-            nonbluebinobjects.items[l].category
+            nonbluebinobjects.items3[l].category
           ) &&
           data.physical_channels[i].Type.includes(
-            nonbluebinobjects.items[l].condition
+            nonbluebinobjects.items3[l].condition
           )
         ) {
           var item = {
@@ -349,21 +349,23 @@ export default function Geolocation({items}) {
             longitude: data.physical_channels[i].longitude,
             address: data.physical_channels[i].address,
           };
-          items.push(item);
+          items3.push(item);
         }
       }
-      items.sort(function (a, b) {
+      items3.sort(function (a, b) {
         return a.distance - b.distance;
       });
-      for (let i = 0; i < items.length; i++) {
-        console.log(items[i].distance);
+      for (let i = 0; i < items3.length; i++) {
+        console.log(item3[i].distance);
       }
-      items[0].itemname = nonbluebinobjects.items[l].description;
-      console.log(items[0]);
-      markers.push(items[0]);
-      allLocations.push(items[0]);
-      items = [];
+      items3[0].itemname = nonbluebinobjects.items3[l].description;
+      console.log(items3[0]);
+      markers.push(items3[0]);
+      allLocations.push(items3[0]);
+      items3 = [];
     }
+  }
+    
     setMarkers(markers);
     setAllLocations(allLocations);
     console.log(allLocations);
