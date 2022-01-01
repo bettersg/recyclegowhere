@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Link from 'next/link'
 import {
     Box,
     Button,
@@ -21,7 +22,7 @@ const GeolocationNoSSR = dynamic(
     }
 );
 
-const TakeAction = ({ items, setGeolocation }) => {
+const TakeAction = ({ items, setGeolocation, setLocation }) => {
     const blueBinRecyclableItems = items.filter(item => item.isBlueBinRecyclable)
     const nonBlueBinRecyclableItems = items.filter(item => !item.isBlueBinRecyclable)
 
@@ -60,7 +61,9 @@ const TakeAction = ({ items, setGeolocation }) => {
                     </VStack>}
                 </Box>
                 <HStack>
-                    <Button disabled size='md'>House Pickup</Button>
+                    <Button size='md' colorScheme='teal' size='md' onClick={() => { setLocation(true); }}>
+                        House Pickup
+                        </Button>
                     <Button size='md' colorScheme='teal' onClick={() => { setGeolocation(true); }}>Self disposal</Button>
                 </HStack>
             </VStack>

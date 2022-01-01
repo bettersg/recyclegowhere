@@ -33,6 +33,14 @@ const GeolocationNoSSR = dynamic(
   }
 );
 
+const LocationNoSSR = dynamic(
+  () => import("../components/recycleAndReuseComponents/Location"),
+  {
+    loading: () => <p>Map is loading</p>,
+    ssr: false,
+  }
+);
+
 // TODO: Need to actually fetch the data from the real server
 export async function getStaticProps() {
   //   const url = urlcat(process.env.SERVER_URL, "/api/items");
@@ -58,6 +66,7 @@ function RecycleAndReuse({ data }) {
   const [items, setItems] = useState([])
   const [step, setStep] = useState(0)
   const [geolocation, setGeolocation] = useState(false)
+  const [location, setLocation] = useState(false)
 
   return (
     <Center>
@@ -76,9 +85,16 @@ function RecycleAndReuse({ data }) {
             <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
               <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
               {
-                geolocation ? <GeolocationNoSSR items={items} />
-                  : <TakeAction items={items} setGeolocation={setGeolocation} />
+                geolocation 
+                  ? <GeolocationNoSSR items={items} />
+                    : location
+                    ? <LocationNoSSR items={items} /> 
+                  : <TakeAction items={items} setGeolocation={setGeolocation} setLocation={setLocation}/>
               }
+              {/* {
+                location ? <LocationNoSSR items={items} />
+                  : <TakeAction items={items} setLocation={setLocation} />
+              } */}
             </Step>
             <Step label={false && 'Completed!'} icon={CheckIcon} key='3'>
               <Heading as="h2" fontSize="xl" textAlign="center">Complete!</Heading>
