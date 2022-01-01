@@ -1,9 +1,5 @@
-import React, { Component, useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
-  Map,
-  TileLayer,
-  Marker,
-  Popup,
   MapControl,
   withLeaflet,
 } from "react-leaflet";
@@ -12,25 +8,19 @@ import AsyncSelect from "react-select/async";
 import { components } from "react-select";
 import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 import { Button, Text } from "@chakra-ui/react";
-import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import "../../node_modules/react-datetime-picker/dist/DateTimePicker.css";
 import { FaRegCalendar } from "react-icons/fa";
-import styled from "styled-components";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import {
-    Accordion,
-    AccordionItem,
-    AccordionButton,
-    AccordionPanel,
-    AccordionIcon
-  } from "@chakra-ui/accordion"
-
-const Calendar = styled.div`
-    color: "black"
-`;
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+} from "@chakra-ui/accordion";
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -105,6 +95,8 @@ export default function Location({ items }) {
   // Encode JSON to Base64
   const [encode, setEncode] = useState("");
 
+  const [orgs, setOrgs] = useState([]);
+
   // Map style
   const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
 
@@ -164,6 +156,7 @@ export default function Location({ items }) {
         // console.log(data);
       });
   }, [data]);
+
 
   // Function to calculate distance between two points + radian conversion
   function calcCrow(lat1, lon1, lat2, lon2) {
@@ -535,6 +528,19 @@ export default function Location({ items }) {
     });
   };
 
+  const fetchOrgs = async () => {
+    const { data } = await axios.get(
+      "https://api.npoint.io/669bd0f24dae3a92e427"
+    );
+    const orgs = data;
+    setOrgs(orgs);
+  };
+  // edit api link: https://www.npoint.io/docs/669bd0f24dae3a92e427
+
+  useEffect(() => {
+    fetchOrgs();
+  }, []);
+
   return (
     <div>
       <div style={{ marginTop: 15, marginBottom: 5, color: "#19a3ad" }}>
@@ -576,8 +582,8 @@ export default function Location({ items }) {
           calendarClassName="Calendar"
         />
       </div>
-      <div style={{textAlign: "center"}}>
-      <Link
+      <div style={{ textAlign: "center" }}>
+        <Link
           href={{
             pathname: "/summary/[code]",
             query: {
@@ -588,66 +594,34 @@ export default function Location({ items }) {
         >
           <Button rightIcon={<ArrowForwardIcon />}>I'm done!</Button>
         </Link>
-        </div>
+      </div>
 
-        <div style={{ marginTop: 50, marginBottom: 10}}>
+      <div style={{ marginTop: 50, marginBottom: 10 }}>
         <Text fontWeight="bold" fontSize="20">
           Contact these organisations for more info
         </Text>
       </div>
 
       <div>
-      <Accordion defaultIndex={[0]} allowMultiple>
-  <AccordionItem>
-    <h2>
-      <AccordionButton>
-        <Box flex='1' textAlign='left' style={{fontWeight: "bold"}}>
-          Greensquare
-        </Box>
-        <AccordionIcon />
-      </AccordionButton>
-    </h2>
-    <AccordionPanel pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </AccordionPanel>
-  </AccordionItem>
-
-  <AccordionItem>
-    <h2>
-      <AccordionButton>
-        <Box flex='1' textAlign='left' style={{fontWeight: "bold"}}>
-          PassItOn.org.sg
-        </Box>
-        <AccordionIcon />
-      </AccordionButton>
-    </h2>
-    <AccordionPanel pb={4}>
-      hi
-    </AccordionPanel>
-  </AccordionItem>
-
-  <AccordionItem>
-    <h2>
-      <AccordionButton>
-        <Box flex='1' textAlign='left' style={{fontWeight: "bold"}}>
-          Salvation Army
-        </Box>
-        <AccordionIcon />
-      </AccordionButton>
-    </h2>
-    <AccordionPanel pb={4}>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-      commodo consequat.
-    </AccordionPanel>
-  </AccordionItem>
-</Accordion>
+        {orgs.map((org) => (
+          <Accordion defaultIndex={[0]} allowMultiple>
+            <AccordionItem key={org.id}>
+              <h2>
+                <AccordionButton>
+                  <Box flex="1" textAlign="left" style={{ fontWeight: "bold", fontSize: 18 }}>
+                    {org.name}
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={2}><b>Website: </b><a style={{color: "#14828A"}} href={org.url}>{org.url}</a></AccordionPanel>
+              <AccordionPanel pb={2}><b>Price: </b>{org.price}</AccordionPanel>
+              <AccordionPanel pb={4}><b>Minimum weight: </b>{org.minimum_weight}</AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        ))}
+        
       </div>
-
     </div>
   );
 }
