@@ -7,13 +7,12 @@ import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
 import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, Box } from "@chakra-ui/react";
 import axios from "axios";
 import Link from "next/link";
 import DateTimePicker from "react-datetime-picker/dist/entry.nostyle";
 import "../../node_modules/react-datetime-picker/dist/DateTimePicker.css";
 import { FaRegCalendar } from "react-icons/fa";
-import Box from "@mui/material/Box";
 import {
   Accordion,
   AccordionItem,

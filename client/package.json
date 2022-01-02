@@ -33,6 +33,7 @@
     "react-icons": "^4.3.1",
     "react-leaflet": "^2.2.1",
     "react-select": "^5.2.1",
+    "react-datetime-picker": "^3.4.3",
     "urlcat": "^2.0.4"
   },
   "devDependencies": {
