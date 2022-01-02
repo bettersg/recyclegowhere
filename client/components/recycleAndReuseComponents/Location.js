@@ -542,7 +542,7 @@ export default function Location({ items }) {
 
   return (
     <div>
-      <div style={{ marginTop: 15, marginBottom: 5, color: "#19a3ad" }}>
+      {/* <div style={{ marginTop: 15, marginBottom: 5, color: "#19a3ad" }}>
         <Text fontWeight="bold" fontSize="20">
           Collection Location
         </Text>
@@ -593,7 +593,7 @@ export default function Location({ items }) {
         >
           <Button rightIcon={<ArrowForwardIcon />}>I'm done!</Button>
         </Link>
-      </div>
+      </div> */}
 
       <div style={{ marginTop: 50, marginBottom: 10 }}>
         <Text fontWeight="bold" fontSize="20">
