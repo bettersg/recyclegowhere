@@ -9,7 +9,6 @@ import {
     Stack,
     Avatar
 } from '@chakra-ui/react'
-import { useRouter } from 'next/router'
 
 import Container from '../components/Container'
 
@@ -19,22 +18,22 @@ export default function BlogLayout({ children, frontMatter }) {
         light: 'gray.700',
         dark: 'gray.400'
     }
-    const router = useRouter()
-    const slug = router.asPath.replace('/blog', '')
+
     return (
         <Container>
             <Head>
-                <title>RGW Blog – {frontMatter.title} </title>
+                <title>{frontMatter.title} – RGW Blog</title>
             </Head>
             <Stack
                 as="article"
                 spacing={8}
                 justifyContent="center"
-                alignItems="flex-start"
+                alignItems="inherit"
                 m="0 auto 4rem auto"
                 maxWidth="700px"
                 w="100%"
                 px={2}
+                textAlign="justify"
             >
                 <Flex
                     flexDirection="column"
@@ -43,7 +42,7 @@ export default function BlogLayout({ children, frontMatter }) {
                     maxWidth="700px"
                     w="100%"
                 >
-                    <Heading letterSpacing="tight" mb={2} as="h1" size="2xl">
+                    <Heading letterSpacing="tight" mb={2} as="h1" size="2xl" textAlign="left">
                         {frontMatter.title}
                     </Heading>
                     <Flex
@@ -67,7 +66,7 @@ export default function BlogLayout({ children, frontMatter }) {
                                 {format(parseISO(frontMatter.publishedAt), 'MMMM dd, yyyy')}
                             </Text>
                         </Flex>
-                        <Text fontSize="sm" color="gray.500" minWidth="100px" mt={[2, 0]}>
+                        <Text fontSize="sm" color="gray.500" minWidth="100px" mt={[2, 0]} textAlign="right">
                             {frontMatter.readingTime.text}
                         </Text>
                     </Flex>

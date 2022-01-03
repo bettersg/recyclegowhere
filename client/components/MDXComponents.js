@@ -8,7 +8,10 @@ import {
     Link,
     Text,
     Divider,
-    useColorMode
+    useColorMode,
+    Container,
+    Center,
+    HStack
 } from '@chakra-ui/react';
 import { jsx } from '@emotion/react'
 import NextLink from 'next/link'
@@ -34,6 +37,22 @@ const CustomLink = (props) => {
     return <Link color={color[colorMode]} isExternal {...props} />
 }
 
+const Image = (props) => {
+    if (props.title !== undefined) {
+        return (
+            <figure>
+                <Center>
+                    <Image src={props.src} alt={props.alt}/>
+                </Center>
+                <figcaption><Center><Text as="i" fontSize="sm" color='gray.500' isTruncated>{props.title}</Text></Center></figcaption>
+            </figure>
+            
+        );
+    } else {
+        return <img src={props.src} alt={props.alt} />;
+    }
+}
+
 const Quote = (props) => {
     const { colorMode } = useColorMode()
     const bgColor = {
@@ -43,6 +62,7 @@ const Quote = (props) => {
 
     return (
         <Alert
+            textAlign="left"
             mt={4}
             w="98%"
             bg={bgColor[colorMode]}
@@ -121,6 +141,7 @@ const MDXComponents = {
     h4: (props) => <DocsHeading as="h4" size="sm" fontWeight="bold" {...props} />,
     h5: (props) => <DocsHeading as="h5" size="sm" fontWeight="bold" {...props} />,
     h6: (props) => <DocsHeading as="h6" size="xs" fontWeight="bold" {...props} />,
+    img: Image,
     inlineCode: (props) => (
         <Code colorScheme="yellow" fontSize="0.84em" {...props} />
     ),
