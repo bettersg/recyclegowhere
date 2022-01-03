@@ -49,7 +49,7 @@ const Image = (props) => {
             
         );
     } else {
-        return <img src={props.src} alt={props.alt} />;
+        return <Center><img src={props.src} alt={props.alt} /></Center>;
     }
 }
 

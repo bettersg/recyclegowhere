@@ -48,7 +48,7 @@ export default function Blog({ posts }) {
                         px={4}
                     >
                         <Heading mb={4} as="h1" size="4xl">
-                            Uncle Sem's Ramblings
+                            Kopi Stories
                         </Heading>
                         <Divider />
 
@@ -65,7 +65,7 @@ export default function Blog({ posts }) {
 
                         <Divider />
 
-                        <Text my={5} fontSize="lg">Uncle Sem posted {posts.length} article{posts.length == 1 ? '' : 's'} so far... See below:</Text>
+                        <Text my={5} fontSize="lg">Uncle Sem curated {posts.length} article{posts.length == 1 ? '' : 's'} for you:</Text>
                         {!filteredBlogPosts.length && 'No posts found :('}
                         {filteredBlogPosts.map((frontMatter) => <BlogPost key={frontMatter.title} {...frontMatter} />)}
                     </Flex>

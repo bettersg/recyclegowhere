@@ -71,8 +71,8 @@ const Header = (props) => {
                         <DrawerHeader borderBottomWidth="1px">Menu</DrawerHeader>
                         <DrawerBody>
                             <Link href="/"><a><Text fontWeight="bold">Home</Text></a></Link>
-                            <Link href="/recycle-and-reuse"><a><Text fontWeight="bold">Reuse/ Recycle Items</Text></a></Link>
-                            <Link href="/blog"><a><Text fontWeight="bold">Uncle Sem's Blog</Text></a></Link>
+                            <Link href="/recycle-and-reuse"><a><Text fontWeight="bold">Reuse / Recycle Items</Text></a></Link>
+                            <Link href="/blog"><a><Text fontWeight="bold">Blog &amp; Stories</Text></a></Link>
                         </DrawerBody>
                         <DarkModeSwitch />
                     </DrawerContent>
