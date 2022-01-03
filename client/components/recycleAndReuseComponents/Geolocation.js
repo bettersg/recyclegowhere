@@ -15,6 +15,7 @@ import { Button } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
+import { selectStylesForColorModes } from "../DarkModeSwitch"
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -88,7 +89,7 @@ export default function Geolocation({items}) {
   const [encode, setEncode] = useState("");
 
   // Map style
-  const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
+  const selectStyles = { ...selectStylesForColorModes, menu: (styles) => ({ ...styles, zIndex: 999 }) };
 
   // Mock list of objects passed in from previous screen
   var mockitems = [

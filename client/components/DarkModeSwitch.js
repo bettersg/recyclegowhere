@@ -17,4 +17,11 @@ const DarkModeSwitch = () => {
     )
 }
 
-export default DarkModeSwitch
+const selectStylesForColorModes = {
+    option: (provided, state) => ({
+      ...provided,
+      color: 'initial'
+    })
+}
+
+export { DarkModeSwitch, selectStylesForColorModes }

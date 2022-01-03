@@ -2,6 +2,8 @@ import { Button, Flex } from '@chakra-ui/react'
 import React from 'react'
 import Select from 'react-select'
 
+import { selectStylesForColorModes } from '../DarkModeSwitch'
+
 const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
   const [selectedOptions, setSelectedOptions] = React.useState([])
 
@@ -58,6 +60,7 @@ const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
           classNamePrefix="select"
           instanceId="postType"
           onChange={handleChange}
+          styles={selectStylesForColorModes}
         />
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
             <Button backgroundColor="#319795" color="white" my="5" type="submit" isDisabled={selectedOptions.length === 0}>

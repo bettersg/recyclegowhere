@@ -17,7 +17,7 @@ import {
     DrawerCloseButton,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import DarkModeSwitch from '../components/DarkModeSwitch';
+import { DarkModeSwitch } from '../components/DarkModeSwitch';
 
 
 const Header = (props) => {
