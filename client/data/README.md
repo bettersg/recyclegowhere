@@ -49,7 +49,7 @@ Then, click on the `<yet undecided branch name>` branch.
 
     In `author`, kinda _self-explanatory_ yeah? 🙃
 
-***Once that's out of the way, you can start crafting your content! You could also refer to our past blog posts for examples...***
+***Once that's out of the way, you can start crafting your content! You could also refer to our dummy blog post (in recyclegowhere/client/data/etc/dummy_post.mdx) for examples...***
 
 ## Formatting the content
 
@@ -85,6 +85,13 @@ We wanted to centralise all public assets, thus if you'd like to add images (whi
     If the image you're using is your own, **please use the format below and upload it to the `recyclegowhere/client/public/images/blog/` folder.**
 
     If the image you're using is from a web source (URL), please just paste the URL into the parentheses `()`.
+
+2. Adding a caption:
+
+    Just add the title behind the image URL–like so:
+
+    ```![Image with caption](https://res.cloudinary.com/jerrick/image/upload/f_jpg,q_auto,w_720/hzkblawdsnhfaf0e6fda.jpg "Lunch atop a skyscraper")```
+
 
 ## Committing post
 
