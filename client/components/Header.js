@@ -44,21 +44,22 @@ const Header = (props) => {
                 justify="space-between"
                 wrap="wrap"
                 padding={5}
-                // bg={bgColorChange}
+                bg="teal.700"
                 // color={colorChange}
                 {...props}
             >
                 <Flex align="center" mr={5}>
                     <Link href="/"><a>
-                        <Heading as="h1" size="lg" letterSpacing={"tighter"} >
-                            <Heading as="span" size="lg" bgGradient="linear(to-l, #26f596, #0499f2)"
-                                bgClip="text">Recycle</Heading>GoWhere
+                        <Heading as="h1" size="lg" letterSpacing={"tighter"} color="white">
+                            <Heading as="span" size="lg" fontWeight="300">RecycleGo</Heading>Where
                             <Heading as="sup" size="sm">beta</Heading>
                         </Heading>
                     </a></Link>
                 </Flex>
                 <IconButton
-                    colorScheme="gray"
+                    variant="solid"
+                    color="white"
+                    background="	rgb(0,0,0, 0.3)"
                     aria-label="Navigate website"
                     icon={<HamburgerIcon />}
                     onClick={onOpen}

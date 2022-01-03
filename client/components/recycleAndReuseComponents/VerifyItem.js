@@ -1,19 +1,19 @@
 import React from 'react'
-import { 
-    Alert, 
-    AlertIcon, 
-    Box, 
-    Button, 
-    Checkbox, 
-    CloseButton, 
-    Flex, 
-    HStack, 
-    ListItem, 
-    Select, 
-    Spacer, 
-    Text, 
-    UnorderedList, 
-    VStack 
+import {
+    Alert,
+    AlertIcon,
+    Box,
+    Button,
+    Checkbox,
+    CloseButton,
+    Flex,
+    HStack,
+    ListItem,
+    Select,
+    Spacer,
+    Text,
+    UnorderedList,
+    VStack
 } from '@chakra-ui/react'
 import Image from 'next/image'
 
@@ -57,7 +57,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
 
         const addToUpdatedItemsList = (element, value, field) => {
             const item = items.filter(item => item.id === parseInt(element.name))[0]
-            const clonedItem = {...item}
+            const clonedItem = { ...item }
             clonedItem[field] = value
             updatedItems.push(clonedItem)
         }
@@ -89,7 +89,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                 <VStack spacing={4} width='100%'>
                     <Text fontWeight='bold' textAlign='center'>Your Item List</Text>
                     <Text fontWeight='lighter' textAlign='left' width='100%'>* represents a required field</Text>
-                    <Box width='40vw' borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
+                    <Box width={['85vw', '60vw', '40vw']} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
                         {itemsToCheckCleaned && itemsToCheckCleaned.length > 0 && <VStack width='100%' p='12px'>
                             <Text fontWeight='bold' textAlign='left' width='100%'>ITEM IS EMPTY, RINSED AND/OR DRIED</Text>
                             {itemsToCheckCleaned.map(itemToCheckCleaned => {
@@ -97,8 +97,9 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                                     <HStack width='100%' key={itemToCheckCleaned.id}>
                                         <Text>{itemToCheckCleaned.description}</Text>
                                         <Spacer />
-                                        <Checkbox 
+                                        <Checkbox
                                             name={itemToCheckCleaned.id}
+                                            colorScheme="blue"
                                         />
                                     </HStack>
                                 )
@@ -111,20 +112,20 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                                     <HStack width='100%' key={`${itemToCheckCondition.id}`}>
                                         <Text width='70%'>{itemToCheckCondition.description}*</Text>
                                         <Spacer />
-                                        <Select 
-                                            placeholder={selectPlaceholder} 
+                                        <Select
+                                            placeholder={selectPlaceholder}
                                             onChange={(e) => toggleSelect(e.target.selectedOptions[0].value, index)}
                                             isRequired={true}
                                             name={itemToCheckCondition.id}
                                             value={checkedConditionItems[index]}
-                                        > 
-                                            {itemConditions.map(itemCondition => 
-                                                <option 
+                                        >
+                                            {itemConditions.map(itemCondition =>
+                                                <option
                                                     key={`${itemToCheckCondition.id}-${itemCondition}`}
                                                     name={itemToCheckCondition.id}
-                                                    value={itemCondition} 
+                                                    value={itemCondition}
                                                 >
-                                                        {itemCondition}
+                                                    {itemCondition}
                                                 </option>
                                             )}
                                         </Select>
@@ -144,7 +145,7 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                                 </HStack>
                                 <Box width='100%' pl={45}>
                                     <UnorderedList width='100%'>
-                                        {invalidItems.map((invalidItem) => 
+                                        {invalidItems.map((invalidItem) =>
                                             <ListItem key={invalidItem}>{invalidItem}</ListItem>
                                         )}
                                     </UnorderedList>
@@ -152,9 +153,9 @@ const VerifyItem = ({ items, setItems, navigateToTakeAction }) => {
                             </VStack>
                         </Alert>
                     )}
-                    <Button 
-                        size='md' 
-                        colorScheme='teal' 
+                    <Button
+                        size='md'
+                        colorScheme='teal'
                         isDisabled={!enableConfirmButton}
                         type='submit'
                     >

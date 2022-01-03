@@ -17,7 +17,7 @@ const Additem = ({ setNextStep, data, setItems }) => {
                 height={223}
             />
             <Text fontWeight="bold" textAlign="center">I want to reuse or recycle:</Text>
-            <AddItemMultiSelect data={data} setItems={setItems} willTriggerDialog={willTriggerDialog} /> 
+            <AddItemMultiSelect data={data} setItems={setItems} willTriggerDialog={willTriggerDialog} />
             <AddItemDialog setNextStep={setNextStep} didSelectItems={didSelectItems} willTriggerDialog={willTriggerDialog} />
         </Flex>
     );
