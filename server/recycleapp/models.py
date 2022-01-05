@@ -139,15 +139,20 @@ class PhysicalChannel(models.Model):
         str remarks
     """
     sn = models.IntegerField(blank=True, null=True)
-    name_of_organisation = models.CharField(blank=True, null=True, max_length=100)
+    organisation_name = models.CharField(blank=True, null=True, max_length=100)
+    channel_name = models.CharField(blank=True, null=True, max_length=300)
     address = models.CharField(blank=True, null=True, max_length=1000)
-    blocknumber = models.CharField(blank=True, null=True, max_length=10)
+    block_number = models.CharField(blank=True, null=True, max_length=10)
+    street_name = models.CharField(blank=True, null=True, max_length=200)
     building_name = models.CharField(blank=True, null=True, max_length=100)
     postcode = models.IntegerField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     operating_hours = models.CharField(blank=True, null=True, max_length=1000)
     contact = models.IntegerField(blank=True, null=True)
     website = models.SlugField(blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    categories_accepted = models.CharField(blank=True, null=True, max_length=1000)
+    type = models.CharField(blank=True, null=True, max_length=200)
     channel_of_reuse = models.ForeignKey(
         ReuseChannel, on_delete=models.CASCADE)
     remarks = models.CharField(blank=True, null=True, max_length=1000)

@@ -59,4 +59,4 @@ class ReuseChannelSerializer(serializers.ModelSerializer):
 class PhysicalChannelSerializer(serializers.ModelSerializer):
     class Meta:
         model = PhysicalChannel
-        fields = ('id', 'name_of_organisation', 'address', 'blocknumber', 'building_name', 'postcode', 'operating_hours', 'contact', 'website', 'category', 'channel_of_reuse', 'remarks', )
+        fields = ('id', 'organisation_name', 'channel_name', 'address', 'block_number', 'street_name', 'building_name', 'postcode', 'latitude', 'longitude', 'operating_hours', 'contact', 'website', 'categories_accepted', 'type', 'channel_of_reuse', 'remarks', )
