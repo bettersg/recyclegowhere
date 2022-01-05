@@ -89,10 +89,12 @@ class g(models.Model):
 
     Data Structure:
         int pk (predefined)
+        str description
         str category
         str reason
         str suggestion
     """
+    description = models.CharField(blank=True, null=True, max_length=1000)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     reason = models.CharField(blank=True, null=True, max_length=1000)
     suggestion = models.CharField(blank=True, null=True, max_length=1000)
@@ -108,8 +110,6 @@ class ReuseChannel(models.Model):
     Choices:
         channel_of_reuse: Donate, Resell, Repair
     """
-
-
 
     CHANNEL_CHOICES = Choices(
         ("DONATE", "Donate"),

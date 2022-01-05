@@ -34,7 +34,7 @@ class NonBlueBinRecyclableSerializer(serializers.ModelSerializer):
 class GeneralWasteSerializer(serializers.ModelSerializer):
     class Meta:
         model = g
-        fields = ('id', 'category', 'reason', 'suggestion', )
+        fields = ('id', 'description', 'category', 'reason', 'suggestion', )
 
 
 class ChoicesField(serializers.Field):
