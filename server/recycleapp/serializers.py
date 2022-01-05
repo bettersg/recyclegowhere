@@ -22,7 +22,7 @@ class CallForCollectionSerializer(serializers.ModelSerializer):
 class BlueBinRecyclableSerializer(serializers.ModelSerializer):
     class Meta:
         model = CallForCollection
-        fields = ('id', 'name', 'items_collected', )
+        fields = ('id', 'category', 'question', )
 
 
 class NonBlueBinRecyclableSerializer(serializers.ModelSerializer):
