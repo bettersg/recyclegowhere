@@ -46,6 +46,12 @@ Go to `server` folder via the following command:
 cd server
 ```
 
+If you're trying to run for the first time, enter the below command:
+
+```sh
+pip install -r requirements.txt
+```
+
 Following this, run the following command:
 
 ```sh
