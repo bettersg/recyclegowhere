@@ -37,6 +37,8 @@ class Item(models.Model):
     category = models.CharField(max_length=255)
     bluebinrecyclable = models.IntegerField(blank=True, null=True)
 
+    def __str__(self): return 'Item=[description: {}, category: {}, bluebinrecyclable: {}]'.format(self.description, self.category, self.bluebinrecyclable)
+
 
 class CallForCollection(models.Model):
     """
@@ -59,7 +61,7 @@ class CallForCollection(models.Model):
     minimum_weight = models.CharField(blank=True, null=True, max_length=1000)
     pricing_terms = models.CharField(blank=True, null=True, max_length=1000)
 
-    def __str__(self): return self.name
+    def __str__(self): return 'CallForCollection=[name: {}]'.format(self.name)
 
 
 class b(models.Model):
@@ -72,6 +74,8 @@ class b(models.Model):
     """
     category = models.CharField(max_length=255)
     question = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self): return 'b=[category: {}, question: {}]'.format(self.category, self.question)
 
 class n(models.Model):
     """
@@ -94,6 +98,8 @@ class n(models.Model):
     other_avenues = models.CharField(blank=True, null=True, max_length=1000)
     list_of_recycling_locations = models.CharField(blank=True, null=True, max_length=1000)
 
+    def __str__(self): return 'n=[category: {}]'.format(self.category)
+
 class g(models.Model):
     """
     Data Model for General Waste
@@ -109,6 +115,7 @@ class g(models.Model):
     reason = models.CharField(blank=True, null=True, max_length=1000)
     suggestion = models.CharField(blank=True, null=True, max_length=1000)
 
+    def __str__(self): return 'g=[description: {}, category: {}]'.format(self.description, self.category)
 
 class ReuseChannel(models.Model):
     """
@@ -128,7 +135,7 @@ class ReuseChannel(models.Model):
     )
     channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=CHANNEL_CHOICES)
 
-    def __str__(self): return self.channel_of_reuse
+    def __str__(self): return 'ReuseChannel=[channel_of_reuse: {}]'.format(self.channel_of_reuse)
 
 class PhysicalChannel(models.Model):
     """
@@ -161,8 +168,8 @@ class PhysicalChannel(models.Model):
     website = models.SlugField(blank=True, null=True)
     categories_accepted = models.CharField(blank=True, null=True, max_length=1000)
     type = models.CharField(blank=True, null=True, max_length=200)
-    channel_of_reuse = models.CharField(blank=True, null=True, max_length=255)
+    channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=ReuseChannel.CHANNEL_CHOICES)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
 
-    def __str__(self): return self.name_of_organisation
+    def __str__(self): return 'PhysicalChannel=[organisation_name: {}, channel_name: {}]'.format(self.organisation_name, self.channel_name)
 
