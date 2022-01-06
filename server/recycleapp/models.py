@@ -43,7 +43,6 @@ class CallForCollection(models.Model):
     Data Model for Call For Collection
 
     Data Structure:
-        int pk (predefined)
         str name
         str items_collected
     """
@@ -58,7 +57,6 @@ class b(models.Model):
     Data Model for Blue Bin Recyclables
 
     Data Structure:
-        int pk (predefined)
         str category
         str question
     """
@@ -75,19 +73,22 @@ class n(models.Model):
         str in_good_condition
         str in_need_of_repair
         str spoilt_beyond_repair
+        str other_avenues
+        str list_of_recycling_locations
     """
     category = models.CharField(max_length=255)
     call_for_collection = models.ManyToManyField(CallForCollection)
     in_good_condition = models.CharField(blank=True, null=True, max_length=1000)
     in_need_of_repair = models.CharField(blank=True, null=True, max_length=1000)
     spoilt_beyond_repair = models.CharField(blank=True, null=True, max_length=1000)
+    other_avenues = models.CharField(blank=True, null=True, max_length=1000)
+    list_of_recycling_locations = models.CharField(blank=True, null=True, max_length=1000)
 
 class g(models.Model):
     """
     Data Model for General Waste
 
     Data Structure:
-        int pk (predefined)
         str description
         str category
         str reason
