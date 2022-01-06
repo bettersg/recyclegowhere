@@ -10,7 +10,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class CallForCollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CallForCollection
-        fields = ('id', 'name', 'items_collected', )
+        fields = ('id', 'name', 'contact_method', 'contact_number', 'whatsapp', 'website', 'minimum_weight', 'pricing_terms', )
 
 
 class BlueBinRecyclableSerializer(serializers.ModelSerializer):
@@ -22,7 +22,7 @@ class BlueBinRecyclableSerializer(serializers.ModelSerializer):
 class NonBlueBinRecyclableSerializer(serializers.ModelSerializer):
     class Meta:
         model = n
-        fields = ('id', 'category', 'call_for_collection', 'in_good_condition', 'in_need_of_repair', 'spoilt_beyond_repair', )
+        fields = ('id', 'category', 'call_for_collection', 'in_good_condition', 'in_need_of_repair', 'spoilt_beyond_repair', 'other_avenues', 'list_of_recycling_locations', )
 
 
 class GeneralWasteSerializer(serializers.ModelSerializer):

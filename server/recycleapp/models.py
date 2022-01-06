@@ -29,7 +29,7 @@ class Item(models.Model):
     Data Model for Items in General
 
     Data Structure:
-        str examples/description
+        str description
         onetomany category
         int bluebinrecyclable
     """
@@ -44,10 +44,20 @@ class CallForCollection(models.Model):
 
     Data Structure:
         str name
-        str items_collected
+        str contact_method
+        str contact_number
+        str whatsapp
+        str website
+        str minimum_weight
+        str pricing_terms
     """
     name = models.CharField(blank=True, null=True, max_length=100)
-    items_collected = models.CharField(blank=True, null=True, max_length=1000)
+    contact_method = models.CharField(blank=True, null=True, max_length=1000)
+    contact_number = models.CharField(blank=True, null=True, max_length=1000)
+    whatsapp = models.CharField(blank=True, null=True, max_length=1000)
+    website = models.CharField(blank=True, null=True, max_length=1000)
+    minimum_weight = models.CharField(blank=True, null=True, max_length=1000)
+    pricing_terms = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self): return self.name
 
