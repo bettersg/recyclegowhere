@@ -135,7 +135,6 @@ class PhysicalChannel(models.Model):
     Data Model for Physical Channels
 
     Data Structure:
-        int s/n
         str name_of_organisation
         str address
         str blocknumber
@@ -148,7 +147,6 @@ class PhysicalChannel(models.Model):
         onetomany channel_of_reuse
         str remarks
     """
-    sn = models.IntegerField(blank=True, null=True)
     organisation_name = models.CharField(blank=True, null=True, max_length=100)
     channel_name = models.CharField(blank=True, null=True, max_length=300)
     address = models.CharField(blank=True, null=True, max_length=1000)
@@ -159,12 +157,11 @@ class PhysicalChannel(models.Model):
     latitude = models.FloatField(blank=True, null=True)
     longitude = models.FloatField(blank=True, null=True)
     operating_hours = models.CharField(blank=True, null=True, max_length=1000)
-    contact = models.IntegerField(blank=True, null=True)
+    contact = models.CharField(blank=True, null=True, max_length=255)
     website = models.SlugField(blank=True, null=True)
     categories_accepted = models.CharField(blank=True, null=True, max_length=1000)
     type = models.CharField(blank=True, null=True, max_length=200)
-    channel_of_reuse = models.ForeignKey(
-        ReuseChannel, on_delete=models.CASCADE)
+    channel_of_reuse = models.CharField(blank=True, null=True, max_length=255)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self): return self.name_of_organisation
