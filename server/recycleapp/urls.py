@@ -4,7 +4,6 @@ from . import views
 
 router = routers.DefaultRouter()
 
-router.register(r'Category', views.CategoryViewSet)
 router.register(r'Item', views.ItemViewSet)
 router.register(r'CallForCollection', views.CallForCollectionViewSet)
 router.register(r'BlueBinRecyclable', views.BlueBinRecyclableViewSet)

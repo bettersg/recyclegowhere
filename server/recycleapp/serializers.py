@@ -1,11 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Item, CallForCollection, b, n, g, ReuseChannel, PhysicalChannel
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = ('id', 'category',)
+from .models import Item, CallForCollection, b, n, g, ReuseChannel, PhysicalChannel
 
 
 class ItemSerializer(serializers.ModelSerializer):

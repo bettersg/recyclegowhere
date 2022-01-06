@@ -1,7 +1,6 @@
 from django.db import models
 from model_utils import Choices
 __all__ = [
-    "Category",
     "Item",
     "b",
     "CallForCollection",
@@ -13,16 +12,16 @@ __all__ = [
 
 # Create your models here.
 
-class Category(models.Model):
-    """
-    Data Model for Categorising Items.
+# class Category(models.Model):
+#     """
+#     Data Model for Categorising Items.
 
-    Data Structure:
-        str category
-    """
-    category = models.CharField(blank=True, null=True, max_length=100)
+#     Data Structure:
+#         str category
+#     """
+#     category = models.CharField(blank=True, null=True, max_length=100)
 
-    def __str__(self): return self.category
+#     def __str__(self): return self.category
 
 
 class Item(models.Model):
@@ -35,7 +34,7 @@ class Item(models.Model):
         int bluebinrecyclable
     """
     description = models.CharField(blank=True, null=True, max_length=1000)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255)
     bluebinrecyclable = models.IntegerField(blank=True, null=True)
 
 
@@ -63,7 +62,7 @@ class b(models.Model):
         str category
         str question
     """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255)
     question = models.CharField(blank=True, null=True, max_length=1000)
 
 class n(models.Model):
@@ -77,7 +76,7 @@ class n(models.Model):
         str in_need_of_repair
         str spoilt_beyond_repair
     """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255)
     call_for_collection = models.ManyToManyField(CallForCollection)
     in_good_condition = models.CharField(blank=True, null=True, max_length=1000)
     in_need_of_repair = models.CharField(blank=True, null=True, max_length=1000)
@@ -95,7 +94,7 @@ class g(models.Model):
         str suggestion
     """
     description = models.CharField(blank=True, null=True, max_length=1000)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255)
     reason = models.CharField(blank=True, null=True, max_length=1000)
     suggestion = models.CharField(blank=True, null=True, max_length=1000)
 

@@ -11,11 +11,6 @@ def index(request):
 def about(request):
     return render(request, "recycleapp/about.html")
 
-
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-
 class ItemViewSet(viewsets.ModelViewSet):
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
