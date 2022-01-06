@@ -311,7 +311,7 @@ export default function Geolocation({items}) {
         setBlueBinMarkers(bluebinmarkers);
       }
     }
-    console.log(nonbluebinobjects.items);
+    console.log(nonbluebinobjects.items1);
     // NON BLUE BIN MARKERS
     var data1 = {
       sections: [
@@ -326,15 +326,15 @@ export default function Geolocation({items}) {
     );
 
     markers = [];
-  if (nonbluebinobjects.items3){
-    for (let l = 0; l < nonbluebinobjects.items3.length; l++) {
+  if (nonbluebinobjects.items1){
+    for (let l = 0; l < nonbluebinobjects.items1.length; l++) {
       for (let i = 0; i < data.physical_channels.length; i++) {
         if (
           data.physical_channels[i].Items_accepted.includes(
-            nonbluebinobjects.items3[l].category
+            nonbluebinobjects.items1[l].category
           ) &&
           data.physical_channels[i].Type.includes(
-            nonbluebinobjects.items3[l].condition
+            nonbluebinobjects.items1[l].condition
           )
         ) {
           var item = {
@@ -356,9 +356,9 @@ export default function Geolocation({items}) {
         return a.distance - b.distance;
       });
       for (let i = 0; i < items3.length; i++) {
-        console.log(item3[i].distance);
+        console.log(items3[i].distance);
       }
-      items3[0].itemname = nonbluebinobjects.items3[l].description;
+      items3[0].itemname = nonbluebinobjects.items1[l].description;
       console.log(items3[0]);
       markers.push(items3[0]);
       allLocations.push(items3[0]);
