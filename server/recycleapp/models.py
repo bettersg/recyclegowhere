@@ -87,7 +87,7 @@ class n(models.Model):
         str list_of_recycling_locations
     """
     category = models.CharField(max_length=255)
-    call_for_collection = models.ManyToManyField(CallForCollection)
+    call_for_collection = models.CharField(blank=True, null=True, max_length=1000)
     in_good_condition = models.CharField(blank=True, null=True, max_length=1000)
     in_need_of_repair = models.CharField(blank=True, null=True, max_length=1000)
     spoilt_beyond_repair = models.CharField(blank=True, null=True, max_length=1000)

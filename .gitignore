@@ -35,3 +35,4 @@ yarn-error.log*
 
 # python
 __pycache__/
+server/sqlite3

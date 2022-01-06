@@ -1,0 +1,24 @@
+0,Cassette Tape,Normal Recyclable,Mixed-material item that isn't suitable for recycling.,"Search for collectors who may be interested in them. If not, dispose them as general waste."
+1,Drinking Straw,Normal Recyclable,"Not a plastic type that is suitable for recycling, and often contaminated anyway.","Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+2,Instant Noodle Bag,Normal Recyclable,Mixed with foil that isn't suitable for recycling.,"Use the bag to contain other rubbish before disposing of it, to reduce the volume of your waste."
+3,Medicine Blister Pack,Normal Recyclable,Mixed with foil that isn't suitable for recycling.,"Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+4,Melamine,Normal Recyclable,Not a plastic type that is suitable for recycling.,"If they are in good condition, donate them to places that may have use for them. If not, dispose them as general waste."
+5,Plastic Cutlery,Normal Recyclable,"Not a plastic type that is suitable for recycling, and often contaminated anyway.","Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+6,Potato Chip Bag,Food/drink Container,"Mixed with foil that isn't suitable for recycling, and often contaminated anyway.","Use the bag to contain other rubbish before disposing of it, to reduce the volume of your waste."
+7,Styrofoam,Food/drink Container,Not a plastic type that is suitable for recycling.,"If it's a box, pack it with other rubbish before disposing of it, to reduce the volume of your waste. If it's packaging material, use it to cushion glass items meant to be disposed."
+8,Video Tape,Food/drink Container,Mixed-material item that isn't suitable for recycling.,"Search for collectors who may be interested in them. If not, dispose them as general waste."
+9,Paper Cup,Non-recyclable,"Mixed with waterproof lining that isn't suitable for recycling, and often contaminated anyway.","Stuff the cup with other rubbish before disposing of it, to reduce the volume of your waste."
+10,Paper Plate,Non-recyclable,"Mixed with waterproof lining that isn't suitable for recycling, and often contaminated anyway.","Stack used paper plates before disposing of them, to reduce the volum of your waste."
+11,Paper Towel,Non-recyclable,"Quality of paper is not suitable for recycling, and often contaminated anyway.","Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+12,Tissue Paper,Non-recyclable,"Quality of paper is not suitable for recycling, and often contaminated anyway.","Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+13,Toilet Paper,Non-recyclable,"Quality of paper is not suitable for recycling, and often contaminated anyway.","Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+14,Wax Paper,Non-recyclable,"Mixture with wax makes the paper unsuitable for recycling, same with crayons.",Use it to cushion glass items meant to be disposed.
+15,Baking Glassware,Non-recyclable,"Specially treated to withstand high temperatures, making them unsuitable for recycling.","Consider using the glassware as storage containers. Otherwise, wrap them using unwanted paper before disposing of it, to prevent cause of injury."
+16,Ceramic,Non-recyclable,Ceramic is not glass and cannot be recycled as glass.,"Wrap the item using unwanted paper before disposing of it, to prevent cause of injury."
+17,Mirror,Non-recyclable,Reflective coating makes it unsuitable for recycling.,"Wrap the item using unwanted paper before disposing of it, to prevent cause of injury."
+18,Pyrex Glass,Non-recyclable,"Specially treated to withstand high temperatures, making them unsuitable for recycling.","Consider using the glassware as storage containers. If not, wrap them using unwanted paper before disposing of it, to prevent cause of injury."
+19,Windows,Non-recyclable,"Large panes are not suitable for the blue bins, and if windows are made of tempered glass, they are also unsuitable for recycling.",Contact your local town council to dispose of bulky items.
+20,Diaper,General Waste,"Mixed-material item that isn't suitable for recycling, and often contaminated anyway.",Consolidate a few used diapers in a bag before disposing of it.
+21,Disposable Wooden Chopstick,General Waste,"Wood is not paper and cannot be recycled as paper, and disposable chopsticks are often contaminated anyway.","Ensure that loose items are bagged up properly, to prevent them from becoming litter."
+22,Plant,General Waste,Plant is not paper and cannot be recycled as paper.,Only for landed estates: bag and place outside your unit on collection days.
+23,Sanitary Pad,General Waste,"Mixed-material item that isn't suitable for recycling, and often contaminated anyway.",Consolidate a few used sanitary pads in a bag before disposing of it.
