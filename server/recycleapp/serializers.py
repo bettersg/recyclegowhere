@@ -15,7 +15,7 @@ class CallForCollectionSerializer(serializers.ModelSerializer):
 
 class BlueBinRecyclableSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CallForCollection
+        model = b
         fields = ('id', 'category', 'question', )
 
 
