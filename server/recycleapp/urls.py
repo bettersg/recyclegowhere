@@ -11,7 +11,7 @@ router.register(r'NonBlueBinRecyclable', views.NonBlueBinRecyclableViewSet)
 router.register(r'GeneralWaste', views.GeneralWasteViewSet)
 router.register(r'ReuseChannel', views.ReuseChannelViewSet)
 router.register(r'PhysicalChannel', views.PhysicalChannelViewSet)
-
+router.register(r'OneMapRecyclingBin', views.OneMapRecyclingBinViewSet)
 
 urlpatterns = [
     path("", views.index, name="index"),

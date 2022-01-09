@@ -38,3 +38,7 @@ class ReuseChannelViewSet(viewsets.ModelViewSet):
 class PhysicalChannelViewSet(viewsets.ModelViewSet):
     queryset = PhysicalChannel.objects.all()
     serializer_class = PhysicalChannelSerializer
+
+class OneMapRecyclingBinViewSet(viewsets.ModelViewSet):
+    queryset = OneMapRecyclingBin.objects.all()
+    serializer_class = OneMapRecyclingBinSerializer

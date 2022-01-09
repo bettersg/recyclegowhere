@@ -147,6 +147,8 @@ class PhysicalChannel(models.Model):
         str blocknumber
         str building_name
         int postcode
+        float latitude
+        float longitude
         str operating_hours
         int contact
         slug website
@@ -173,3 +175,19 @@ class PhysicalChannel(models.Model):
 
     def __str__(self): return 'PhysicalChannel=[organisation_name: {}, channel_name: {}]'.format(self.organisation_name, self.channel_name)
 
+class OneMapRecyclingBin(models.Model):
+    """
+    Data Model for OneMapRecyclingBin
+
+    Data structure:
+        int postcode
+        str block_number
+        float latitude
+        float longitude
+    """
+    postcode = models.IntegerField(blank=True, null=True)
+    block_number = models.CharField(blank=True, null=True, max_length=10)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+
+    def __str__(self): return 'OneMapRecyclingBin=[postcode: {}, block_number: {}, latitude: {}, longitude: {}]'.format(self.postcode, self.block_number, self.latitude, self.longitude)
