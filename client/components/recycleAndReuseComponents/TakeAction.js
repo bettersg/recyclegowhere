@@ -1,19 +1,30 @@
-import React from 'react'
-import { 
-    Box, 
-    Button, 
-    Flex, 
-    HStack, 
-    Image, 
-    Spacer, 
-    Text, 
-    VStack 
+import React, { useState } from 'react'
+import {
+    Box,
+    Button,
+    Flex,
+    HStack,
+    Image,
+    Spacer,
+    Text,
+    VStack
 } from '@chakra-ui/react'
-import Geolocation from './Geolocation'
+// import Geolocation from './Geolocation'
 
-const TakeAction = ({ items }) => {
+import dynamic from "next/dynamic"
+
+const GeolocationNoSSR = dynamic(
+    () => import("./Geolocation"),
+    {
+        loading: () => <p>Map is loading...</p>,
+        ssr: false,
+    }
+);
+
+const TakeAction = ({ items, setGeolocation }) => {
     const blueBinRecyclableItems = items.filter(item => item.isBlueBinRecyclable)
     const nonBlueBinRecyclableItems = items.filter(item => !item.isBlueBinRecyclable)
+
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center'>
@@ -26,13 +37,13 @@ const TakeAction = ({ items }) => {
             />
             <VStack spacing={4} width='100%'>
                 <Text fontWeight='bold' textAlign='center'>Your Final Item List</Text>
-                <Box width='40vw' borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
+                <Box width={['85vw', '60vw', '40vw']} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
                     {blueBinRecyclableItems && blueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
                         <Text fontWeight='bold' textAlign='left' width='100%'>BLUE BIN RECYCLING</Text>
                         {blueBinRecyclableItems.map(blueBinRecyclableItem => {
-                            return blueBinRecyclableItem.isCleaned 
-                                ? <Text textAlign='left' width='100%' key={blueBinRecyclableItem.id}>{blueBinRecyclableItem.description}</Text> 
-                                : <Text textAlign='left' as='s' width='100%' key={blueBinRecyclableItem.id}>{blueBinRecyclableItem.description}</Text> 
+                            return blueBinRecyclableItem.isCleaned
+                                ? <Text textAlign='left' width='100%' key={blueBinRecyclableItem.id}>{blueBinRecyclableItem.description}</Text>
+                                : <Text textAlign='left' as='s' width='100%' key={blueBinRecyclableItem.id}>{blueBinRecyclableItem.description}</Text>
                         })}
                     </VStack>}
                     {nonBlueBinRecyclableItems && nonBlueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
@@ -49,11 +60,11 @@ const TakeAction = ({ items }) => {
                     </VStack>}
                 </Box>
                 <HStack>
-                    <Button size='md'>House Pickup</Button>
-                    <Button size='md' colorScheme='teal'>Self disposal</Button>
+                    <Button disabled size='md'>House Pickup</Button>
+                    <Button size='md' colorScheme='teal' onClick={() => { setGeolocation(true); }}>Self disposal</Button>
                 </HStack>
             </VStack>
-            {/* <Geolocation /> */}
+            {/* <GeolocationNoSSR /> */}
         </Flex>
     )
 }
