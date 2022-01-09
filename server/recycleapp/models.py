@@ -1,5 +1,6 @@
 from django.db import models
 from model_utils import Choices
+
 __all__ = [
     "Item",
     "b",
@@ -7,22 +8,9 @@ __all__ = [
     "n",
     "g",
     "ReuseChannel",
-    "PhysicalChannel"
+    "PhysicalChannel",
+    "OneMapRecyclingBin"
 ]
-
-# Create your models here.
-
-# class Category(models.Model):
-#     """
-#     Data Model for Categorising Items.
-
-#     Data Structure:
-#         str category
-#     """
-#     category = models.CharField(blank=True, null=True, max_length=100)
-
-#     def __str__(self): return self.category
-
 
 class Item(models.Model):
     """
@@ -38,7 +26,6 @@ class Item(models.Model):
     bluebinrecyclable = models.IntegerField(blank=True, null=True)
 
     def __str__(self): return 'Item=[description: {}, category: {}, bluebinrecyclable: {}]'.format(self.description, self.category, self.bluebinrecyclable)
-
 
 class CallForCollection(models.Model):
     """
@@ -62,7 +49,6 @@ class CallForCollection(models.Model):
     pricing_terms = models.CharField(blank=True, null=True, max_length=1000)
 
     def __str__(self): return 'CallForCollection=[name: {}]'.format(self.name)
-
 
 class b(models.Model):
     """

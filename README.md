@@ -52,13 +52,13 @@ If you're trying to run for the first time, enter the below command:
 pip install -r requirements.txt
 ```
 
-Following this, run the following command:
+Following this, run the following commands:
 
 ```sh
+python manage.py makemigrations
+python manage.py migrate --run-syncdb
 python manage.py runserver
 ```
-
-
 
 ## better.sg
 
@@ -67,9 +67,6 @@ This is a nonprofit volunteer-run project by better.sg.
 <a href="https://better.sg/join.html">
   <img width="192.35" height="50" src="https://better.sg/wp-content/uploads/2020/12/betterwordlogo@0.5x.png" /></a>
 
-
-
 ## License
 
 This project is licensed under the [MIT License.](LICENSE)
-
