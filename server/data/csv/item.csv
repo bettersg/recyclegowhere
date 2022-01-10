@@ -1,0 +1,152 @@
+0,Bodywash Bottle,Container for Contents,0
+1,Detergent Bottle,Container for Contents,0
+2,Facial Cleanser Bottle,Container for Contents,0
+3,Shampoo Bottle,Container for Contents,0
+4,Plastic Drink Bottle,Food/drink Container,0
+5,Plastic Food Bottle,Food/drink Container,0
+6,Plastic Takeaway Container,Food/drink Container,0
+7,Cassette Tape,Non-recyclable,2
+8,Drinking Straw,Non-recyclable,2
+9,Instant Noodle Bag,Non-recyclable,2
+10,Medicine Blister Pack,Non-recyclable,2
+11,Melamine,Non-recyclable,2
+12,Plastic Cutlery,Non-recyclable,2
+13,Potato Chip Bag,Non-recyclable,2
+14,Styrofoam,Non-recyclable,2
+15,Video Tape,Non-recyclable,2
+16,Bubble Wrap,Normal Recyclable,0
+17,CD,Normal Recyclable,0
+18,CD Case,Normal Recyclable,0
+19,Magazine Wrapper,Normal Recyclable,0
+20,Plastic Bag,Normal Recyclable,0
+21,Plastic Clothes Hanger,Normal Recyclable,0
+22,Plastic Egg Tray,Normal Recyclable,0
+23,Plastic Film Packaging,Normal Recyclable,0
+24,Juice Carton,Food/drink Container,0
+25,Milk Carton,Food/drink Container,0
+26,Packet Drink,Food/drink Container,0
+27,Paper Cup,Non-recyclable,2
+28,Paper Plate,Non-recyclable,2
+29,Paper Towel,Non-recyclable,2
+30,Tissue Paper,Non-recyclable,2
+31,Toilet Paper,Non-recyclable,2
+32,Wax Paper,Non-recyclable,2
+33,Book,Normal Recyclable,0
+34,Brochure,Normal Recyclable,0
+35,Calendar,Normal Recyclable,0
+36,Egg Tray,Normal Recyclable,0
+37,Flyer,Normal Recyclable,0
+38,Gift Wrapping Paper,Normal Recyclable,0
+39,Greeting Card,Normal Recyclable,0
+40,Magazine,Normal Recyclable,0
+41,Namecard,Normal Recyclable,0
+42,Newspaper,Normal Recyclable,0
+43,Paper Bag,Normal Recyclable,0
+44,Paper Envelope,Normal Recyclable,0
+45,Paper Envelope With Window,Normal Recyclable,0
+46,Paper Receipt,Normal Recyclable,0
+47,Paper Towel Roll,Normal Recyclable,0
+48,Printed Paper,Normal Recyclable,0
+49,Red Packet,Normal Recyclable,0
+50,Shredded Paper,Normal Recyclable,0
+51,Telephone Directory,Normal Recyclable,0
+52,Toilet Paper Roll,Normal Recyclable,0
+53,Writing Paper,Normal Recyclable,0
+54,Carton Box,Paper Box,0
+55,Paper Packaging,Paper Box,0
+56,Tissue Box,Paper Box,0
+57,Aerosol Can,Container for Contents,0
+58,Paint Container,Container for Contents,0
+59,Biscuit Tin,Food/drink Container,0
+60,Canned Food Can,Food/drink Container,0
+61,Metal Drink Can,Food/drink Container,0
+62,Metal Bottle Cap,Normal Recyclable,0
+63,Glass Cosmetic Bottle,Container for Contents,0
+64,Glass Medicine Bottle,Container for Contents,0
+65,Beer Bottle,Food/drink Container,0
+66,Condiment Bottle,Food/drink Container,0
+67,Food Jar,Food/drink Container,0
+68,Glass Drink Bottle,Food/drink Container,0
+69,Jam Bottle,Food/drink Container,0
+70,Sauce Bottle,Food/drink Container,0
+71,Wine Bottle,Food/drink Container,0
+72,Baking Glassware,Non-recyclable,2
+73,Ceramic,Non-recyclable,2
+74,Mirror,Non-recyclable,2
+75,Pyrex Glass,Non-recyclable,2
+76,Windows,Non-recyclable,2
+77,Glass Bowl,Normal Recyclable,0
+78,Glass Cup,Normal Recyclable,0
+79,Glass Plate,Normal Recyclable,0
+80,Diaper,General Waste,2
+81,Disposable Wooden Chopstick,General Waste,2
+82,Plant,General Waste,2
+83,Sanitary Pad,General Waste,2
+84,Prams,Baby and children's Items,1
+85,Toys,Baby and children's Items,1
+86,High Chairs,Baby and children's Items,1
+87,Car Seats,Baby and children's Items,1
+88,Walkers,Baby and children's Items,1
+89,Bedding,Baby and children's Items,1
+90,Carriers,Baby and children's Items,1
+91,Handbags,Bags and accessories,1
+92,Backpacks,Bags and accessories,1
+93,Sunglasses,Bags and accessories,1
+94,Watches,Bags and accessories,1
+95,Belts,Bags and accessories,1
+96,Reusable Bags,Bags and accessories,1
+97,Pens,Stationery,1
+98,Markers,Stationery,1
+99,Pencils,Stationery,1
+100,Shirts,Clothing,1
+101,Shorts,Clothing,1
+102,Skirts,Clothing,1
+103,Pants,Clothing,1
+104,Blouses,Clothing,1
+105,Canned Food/Drinks,Food,1
+106,Rice,Food,1
+107,Biscuits,Food,1
+108,Instant Noodles,Food,1
+109,Sofas,Furniture,1
+110,Beds,Furniture,1
+111,Tables,Furniture,1
+112,Chairs,Furniture,1
+113,Bedsheets,Household goods,1
+114,Towels,Household goods,1
+115,Crockery,Household goods,1
+116,Cutlery,Household goods,1
+117,Printers,ICT equipment,1
+118,Computers,ICT equipment,1
+119,Laptops,ICT equipment,1
+120,Tablets,ICT equipment,1
+121,Desktop Monitors,ICT equipment,1
+122,Servers,ICT equipment,1
+123,Routers,ICT equipment,1
+124,Modems,ICT equipment,1
+125,Wireless Access Points,ICT equipment,1
+126,Set-Top Boxes,ICT equipment,1
+127,Switches,ICT equipment,1
+128,Network Hubs,ICT equipment,1
+129,Mobile Telephones,ICT equipment,1
+130,Light Bulbs,Lamps,1
+131,Long Fluorescent Tubes,Lamps,1
+132,Refrigerators,Large home appliances,1
+133,Air-Conditioners,Large home appliances,1
+134,Washing Machines,Large home appliances,1
+135,Clothes Dryers,Large home appliances,1
+136,Televisions,Large home appliances,1
+137,Personal Mobility Devices,Large home appliances,1
+138,Power Assisted Bicycles,Large home appliances,1
+139,Electric Mobility Scooters,Large home appliances,1
+140,Ovens,Other electrical appliances,1
+141,Toasters,Other electrical appliances,1
+142,Rice Cookers,Other electrical appliances,1
+143,Irons,Other electrical appliances,1
+144,Slippers,Shoes,1
+145,Sandals,Shoes,1
+146,Sports Shoes,Shoes,1
+147,Dolls,Toys,1
+148,Board Games,Toys,1
+149,Soft Toys,Toys,1
+150,Toy Cars,Toys,1
+151,Printer Ink Cartridge,Ink and toner cartridges,1

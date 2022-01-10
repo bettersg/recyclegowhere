@@ -1,1 +1,5 @@
 Django==3.2
+djangorestframework
+django-model-utils
+django-import-export
+django-cors-headers

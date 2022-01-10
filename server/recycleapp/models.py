@@ -1,56 +1,67 @@
 from django.db import models
-import urllib, json
+from model_utils import Choices
 
-# Create your models here.
+__all__ = [
+    "Item",
+    "b",
+    "CallForCollection",
+    "n",
+    "g",
+    "ReuseChannel",
+    "PhysicalChannel",
+    "OneMapRecyclingBin"
+]
 
-class Category(models.Model):
-    """
-    Data Model for Categorising Items.
-
-    Data Structure:
-        str category
-    """
-    category = models.CharField(blank=True, null=True, max_length=100)
-
-
-class Items(models.Model):
+class Item(models.Model):
     """
     Data Model for Items in General
 
     Data Structure:
-        str examples/description
+        str description
         onetomany category
         int bluebinrecyclable
     """
     description = models.CharField(blank=True, null=True, max_length=1000)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.CharField(max_length=255)
     bluebinrecyclable = models.IntegerField(blank=True, null=True)
 
-
-class b(models.Model):
-    """
-    Data Model for Blue Bin Recyclables
-
-    Data Structure:
-        int pk (predefined)
-        str category
-        str question
-    """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    question = models.CharField(blank=True, null=True, max_length=1000)
-
+    def __str__(self): return 'Item=[description: {}, category: {}, bluebinrecyclable: {}]'.format(self.description, self.category, self.bluebinrecyclable)
 
 class CallForCollection(models.Model):
     """
     Data Model for Call For Collection
 
     Data Structure:
-        int pk (predefined)
         str name
-        str items_collected
+        str contact_method
+        str contact_number
+        str whatsapp
+        str website
+        str minimum_weight
+        str pricing_terms
     """
     name = models.CharField(blank=True, null=True, max_length=100)
-    items_collected = models.CharField(blank=True, null=True, max_length=1000)
+    contact_method = models.CharField(blank=True, null=True, max_length=1000)
+    contact_number = models.CharField(blank=True, null=True, max_length=1000)
+    whatsapp = models.CharField(blank=True, null=True, max_length=1000)
+    website = models.CharField(blank=True, null=True, max_length=1000)
+    minimum_weight = models.CharField(blank=True, null=True, max_length=1000)
+    pricing_terms = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self): return 'CallForCollection=[name: {}]'.format(self.name)
+
+class b(models.Model):
+    """
+    Data Model for Blue Bin Recyclables
+
+    Data Structure:
+        str category
+        str question
+    """
+    category = models.CharField(max_length=255)
+    question = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self): return 'b=[category: {}, question: {}]'.format(self.category, self.question)
 
 class n(models.Model):
     """
@@ -62,27 +73,35 @@ class n(models.Model):
         str in_good_condition
         str in_need_of_repair
         str spoilt_beyond_repair
+        str other_avenues
+        str list_of_recycling_locations
     """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    call_for_collection = models.ManyToManyField(CallForCollection)
+    category = models.CharField(max_length=255)
+    call_for_collection = models.CharField(blank=True, null=True, max_length=1000)
     in_good_condition = models.CharField(blank=True, null=True, max_length=1000)
     in_need_of_repair = models.CharField(blank=True, null=True, max_length=1000)
     spoilt_beyond_repair = models.CharField(blank=True, null=True, max_length=1000)
+    other_avenues = models.CharField(blank=True, null=True, max_length=1000)
+    list_of_recycling_locations = models.CharField(blank=True, null=True, max_length=1000)
+
+    def __str__(self): return 'n=[category: {}]'.format(self.category)
 
 class g(models.Model):
     """
     Data Model for General Waste
 
     Data Structure:
-        int pk (predefined)
+        str description
         str category
         str reason
         str suggestion
     """
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    description = models.CharField(blank=True, null=True, max_length=1000)
+    category = models.CharField(max_length=255)
     reason = models.CharField(blank=True, null=True, max_length=1000)
     suggestion = models.CharField(blank=True, null=True, max_length=1000)
 
+    def __str__(self): return 'g=[description: {}, category: {}]'.format(self.description, self.category)
 
 class ReuseChannel(models.Model):
     """
@@ -94,25 +113,28 @@ class ReuseChannel(models.Model):
     Choices:
         channel_of_reuse: Donate, Resell, Repair
     """
-    CHANNEL_CHOICES = [
+
+    CHANNEL_CHOICES = Choices(
         ("DONATE", "Donate"),
         ("RESELL", "Resell"),
         ("REPAIR", "Repair")
-    ]
+    )
     channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=CHANNEL_CHOICES)
 
+    def __str__(self): return 'ReuseChannel=[channel_of_reuse: {}]'.format(self.channel_of_reuse)
 
-class PhysicalChannels(models.Model):
+class PhysicalChannel(models.Model):
     """
     Data Model for Physical Channels
 
     Data Structure:
-        int s/n
         str name_of_organisation
         str address
         str blocknumber
         str building_name
         int postcode
+        float latitude
+        float longitude
         str operating_hours
         int contact
         slug website
@@ -120,17 +142,38 @@ class PhysicalChannels(models.Model):
         onetomany channel_of_reuse
         str remarks
     """
-    sn = models.IntegerField(blank=True, null=True)
-    name_of_organisation = models.CharField(blank=True, null=True, max_length=100)
+    organisation_name = models.CharField(blank=True, null=True, max_length=100)
+    channel_name = models.CharField(blank=True, null=True, max_length=300)
     address = models.CharField(blank=True, null=True, max_length=1000)
-    blocknumber = models.CharField(blank=True, null=True, max_length=10)
+    block_number = models.CharField(blank=True, null=True, max_length=10)
+    street_name = models.CharField(blank=True, null=True, max_length=200)
     building_name = models.CharField(blank=True, null=True, max_length=100)
     postcode = models.IntegerField(blank=True, null=True)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
     operating_hours = models.CharField(blank=True, null=True, max_length=1000)
-    contact = models.IntegerField(blank=True, null=True)
+    contact = models.CharField(blank=True, null=True, max_length=255)
     website = models.SlugField(blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    channel_of_reuse = models.ForeignKey(
-        ReuseChannel, on_delete=models.CASCADE)
+    categories_accepted = models.CharField(blank=True, null=True, max_length=1000)
+    type = models.CharField(blank=True, null=True, max_length=200)
+    channel_of_reuse = models.CharField(blank=True, null=True, max_length=100, choices=ReuseChannel.CHANNEL_CHOICES)
     remarks = models.CharField(blank=True, null=True, max_length=1000)
 
+    def __str__(self): return 'PhysicalChannel=[organisation_name: {}, channel_name: {}]'.format(self.organisation_name, self.channel_name)
+
+class OneMapRecyclingBin(models.Model):
+    """
+    Data Model for OneMapRecyclingBin
+
+    Data structure:
+        int postcode
+        str block_number
+        float latitude
+        float longitude
+    """
+    postcode = models.IntegerField(blank=True, null=True)
+    block_number = models.CharField(blank=True, null=True, max_length=10)
+    latitude = models.FloatField(blank=True, null=True)
+    longitude = models.FloatField(blank=True, null=True)
+
+    def __str__(self): return 'OneMapRecyclingBin=[postcode: {}, block_number: {}, latitude: {}, longitude: {}]'.format(self.postcode, self.block_number, self.latitude, self.longitude)

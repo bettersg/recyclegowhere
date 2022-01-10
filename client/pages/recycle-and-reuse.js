@@ -1,4 +1,4 @@
-import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from '@chakra-ui/icons'
+import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import {
   Box,
   Center,
@@ -12,15 +12,15 @@ import {
   Heading,
 } from '@chakra-ui/react'
 // STEPPER IMPORTS
-import { Step, Steps } from 'chakra-ui-steps'
+import { Step, Steps } from "chakra-ui-steps";
 
-import Additem from '../components/recycleAndReuseComponents/AddItem'
-import TakeAction from '../components/recycleAndReuseComponents/TakeAction'
-import VerifyItem from '../components/recycleAndReuseComponents/VerifyItem'
+import Additem from "../components/recycleAndReuseComponents/AddItem";
+import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
+import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
 
-import axios from 'axios'
-import { useState, useRef } from 'react'
-import urlcat from 'urlcat'
+import axios from "axios";
+import { useState, useRef, useEffect } from "react";
+import urlcat from "urlcat";
 
 import dynamic from "next/dynamic"
 import Head from '../components/head'
@@ -46,13 +46,9 @@ export async function getStaticProps() {
     };
   } catch (error) {
     // TODO: handle error in a better way
-    console.error(error)
+    console.error(error);
   }
 }
-
-
-
-
 
 function RecycleAndReuse({ data }) {
   const [items, setItems] = useState([])
@@ -90,4 +86,4 @@ function RecycleAndReuse({ data }) {
   );
 }
 
-export default RecycleAndReuse
+export default RecycleAndReuse;
