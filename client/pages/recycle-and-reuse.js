@@ -48,6 +48,7 @@ export async function getStaticProps() {
     // TODO: handle error in a better way
     console.error(error);
   }
+  
 }
 
 function RecycleAndReuse({ data }) {
@@ -72,7 +73,7 @@ function RecycleAndReuse({ data }) {
             <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
               <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
               {
-                geolocation ? <GeolocationNoSSR items={items} />
+                geolocation ? <GeolocationNoSSR items={items}/>
                   : <TakeAction items={items} setGeolocation={setGeolocation} />
               }
             </Step>

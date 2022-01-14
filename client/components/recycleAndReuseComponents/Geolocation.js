@@ -128,16 +128,17 @@ export default function Geolocation({items}) {
   // ];
 
   // Fetch data from API and save it in state hooks
+  // Blue Bins
   useEffect(() => {
-    fetch("https://api.npoint.io/cea2b5b4f3cfe386db9d")
+    fetch("http://127.0.0.1:8000/api/OneMapRecyclingBin/")
       .then((res) => res.json())
       .then((result) => {
-        // console.log(result);
         setBlueBinData(result);
         // console.log(data);
       });
-  }, [bluebindata]);
+  }, []);
 
+  // Physical Channels
   useEffect(() => {
     fetch("https://api.npoint.io/1c924ccf40788facdfee")
       .then((res) => res.json())
@@ -146,7 +147,7 @@ export default function Geolocation({items}) {
         setData(result);
         // console.log(data);
       });
-  }, [data]);
+  }, []);
 
   // Function to calculate distance between two points + radian conversion
   function calcCrow(lat1, lon1, lat2, lon2) {
@@ -221,6 +222,7 @@ export default function Geolocation({items}) {
     );
   };
 
+  ////////////////////////////////////////////////////////////////////////////////
   // SEARCH BAR INPUT - THE SEARCH ALGORITHM
   const onChangeHandler = (event) => {
     console.log(event.label);
@@ -253,8 +255,9 @@ export default function Geolocation({items}) {
       if (event.value != "NIL") {
         console.log("Blue bin items detected. Displaying recycling bins.");
         console.log("first two integers of postal:" + substring);
-        const filteredbluebindata = bluebindata.bluebins.filter((d) =>
-          d.postal.toString().includes(substring)
+        console.log(bluebindata.filter((d) => (d.postcode == 790407)));
+        const filteredbluebindata = bluebindata.filter((d) => 
+          (d.postcode.includes(substring))
         );
         for (let bb = 0; bb < filteredbluebindata.length; bb++) {
           var item = {
@@ -283,18 +286,18 @@ export default function Geolocation({items}) {
         allLocations.push(items2[0]);
         setBlueBinMarkers(bluebinmarkers);
       } else {
-        for (let bb = 0; bb < bluebindata.bluebins.length; bb++) {
+        for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
-            postal: bluebindata.bluebins[bb].postal,
+            postal: bluebindata[bb].postal,
             distance: calcCrow(
               event.lat,
               event.long,
-              bluebindata.bluebins[bb].latitude,
-              bluebindata.bluebins[bb].longitude
+              bluebindata[bb].latitude,
+              bluebindata[bb].longitude
             ),
-            latitude: bluebindata.bluebins[bb].latitude,
-            longitude: bluebindata.bluebins[bb].longitude,
-            address: bluebindata.bluebins[bb].address,
+            latitude: bluebindata[bb].latitude,
+            longitude: bluebindatas[bb].longitude,
+            address: bluebindata[bb].address,
           };
           items2.push(item);
         }
@@ -372,7 +375,7 @@ export default function Geolocation({items}) {
     setEncode(btoa(JSON.stringify(allLocations)));
     console.log(encode);
   };
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // BUTTON CLICK - THE SAME SEARCH ALGORITHM
   const navigatorControl = () => {
     const postalcode = "NIL";
