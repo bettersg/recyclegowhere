@@ -14,7 +14,7 @@ import {
 // STEPPER IMPORTS
 import { Step, Steps } from "chakra-ui-steps";
 
-import Additem from "../components/recycleAndReuseComponents/AddItem";
+import AddItem from "../components/recycleAndReuseComponents/AddItem";
 import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
 import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
 
@@ -33,20 +33,40 @@ const GeolocationNoSSR = dynamic(
   }
 );
 
-// TODO: Need to actually fetch the data from the real server
 export async function getStaticProps() {
-  //   const url = urlcat(process.env.SERVER_URL, "/api/items");
-  const url = urlcat("https://api.npoint.io", "324727202a8ce24af12f");
-  try {
-    const data = await axios.get(url);
-    return {
-      props: {
-        data: data.data,
-      },
-    };
-  } catch (error) {
-    // TODO: handle error in a better way
-    console.error(error);
+  async function fetchDataFromAPI(url) {
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      console.error(response)
+      return null
+    }
+
+    return await response.json()
+  }
+
+  let items = await fetchDataFromAPI("http://localhost:8000/api/Item/")
+  let generalWasteItemDetails = await fetchDataFromAPI("http://localhost:8000/api/GeneralWaste/")
+
+  if (items === null) {
+    items = []
+  }
+
+  if (generalWasteItemDetails === null) {
+    generalWasteItemDetails = []
+  }
+
+  if (items === null || generalWasteItemDetails === null) {
+    items = []
+  }
+
+  return {
+    props: {
+      data: {
+        items: items,
+        generalWasteItemDetails: generalWasteItemDetails
+      }
+    }
   }
 }
 
@@ -63,17 +83,17 @@ function RecycleAndReuse({ data }) {
           <Steps activeStep={step} responsive={false} colorScheme='teal' p={3} size="md">
             <Step label={false && 'Add Items'} icon={AddIcon} key='0'>
               <Heading as="h2" fontSize="xl" textAlign="center">Add Items</Heading>
-              <Additem setNextStep={() => setStep(1)} data={data} setItems={setItems} />
+              <AddItem setNextStep={() => setStep(1)} data={data} setItems={setItems} />
             </Step>
             <Step label={false && 'Verify Items'} icon={EditIcon} key='1'>
               <Heading as="h2" fontSize="xl" textAlign="center">Verify Items</Heading>
-              <VerifyItem items={items} setItems={setItems} navigateToTakeAction={() => setStep(2)} />
+              <VerifyItem items={items} setItems={setItems} generalWasteItemDetails={data.generalWasteItemDetails} navigateToTakeAction={() => setStep(2)} />
             </Step>
             <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
               <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
               {
                 geolocation ? <GeolocationNoSSR items={items} />
-                  : <TakeAction items={items} setGeolocation={setGeolocation} />
+                  : <TakeAction items={items} setGeolocation={setGeolocation} navigateBackToAddItem={() => setStep(0)} />
               }
             </Step>
             <Step label={false && 'Completed!'} icon={CheckIcon} key='3'>
@@ -86,4 +106,4 @@ function RecycleAndReuse({ data }) {
   );
 }
 
-export default RecycleAndReuse;
+export default RecycleAndReuse
