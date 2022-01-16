@@ -68,6 +68,7 @@ export async function getStaticProps() {
       }
     }
   }
+  
 }
 
 function RecycleAndReuse({ data }) {
