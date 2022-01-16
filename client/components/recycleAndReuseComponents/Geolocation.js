@@ -242,8 +242,12 @@ export default function Geolocation({ items }) {
     };
     var bluebinarray = [];
     for (let i = 0; i < mockitems.length; i++) {
-      if (mockitems[i].isBlueBinRecyclable) {
-        bluebinarray.push(mockitems[i].description);
+      if (mockitems[i].bluebinrecyclable == 0) {
+        if (bluebinarray.length == 0){
+          bluebinarray.push(mockitems[i].description);
+        }else{
+          bluebinarray.push(", " + mockitems[i].description);
+        }
       } else {
         nonbluebinobjects.items1.push(mockitems[i]);
       }
@@ -379,6 +383,8 @@ export default function Geolocation({ items }) {
               website: data[i].website,
               categories_accepted: data[i].categories_accepted,
               organisation_name: data[i].organisation_name,
+              type: data[i].type,
+              contact: data[i].contact,
             };
             items3.push(item);
           }else{
@@ -428,15 +434,19 @@ export default function Geolocation({ items }) {
       console.log("User's Latitude: " + position.coords.latitude);
       console.log("User's Longitude: " + position.coords.longitude);
 
-      //////////////////
+      ///////////////////////////////////
       // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN
       var nonbluebinobjects = {
         items: [],
       };
       var bluebinarray = [];
       for (let i = 0; i < mockitems.length; i++) {
-        if (mockitems[i].isBlueBinRecyclable) {
-          bluebinarray.push(mockitems[i].description);
+        if (mockitems[i].bluebinrecyclable == 0) {
+          if (bluebinarray.length == 0){
+            bluebinarray.push(mockitems[i].description);
+          }else{
+            bluebinarray.push(", " + mockitems[i].description);
+          }
         } else {
           nonbluebinobjects.items.push(mockitems[i]);
         }
@@ -505,6 +515,7 @@ export default function Geolocation({ items }) {
               nonbluebinobjects.items[l].condition
             )
           ) {
+            
             counter = counter + 1;
             var item = {
               postal: data[i].postcode,
@@ -523,6 +534,8 @@ export default function Geolocation({ items }) {
               website: data[i].website,
               categories_accepted: data[i].categories_accepted,
               organisation_name: data[i].organisation_name,
+              type: data[i].type,
+              contact: data[i].contact,
             };
             items.push(item);
           }
@@ -530,12 +543,13 @@ export default function Geolocation({ items }) {
         items.sort(function (a, b) {
           return a.distance - b.distance;
         });
+        console.log("There are " + counter + " facilities that recycle " + nonbluebinobjects.items[l].description + ", which has the condition of " + nonbluebinobjects.items[l].condition + ".")
         items[0].itemname = nonbluebinobjects.items[l].description;
         console.log(items[0]);
         markers.push(items[0]);
         allLocations.push(items[0]);
         items = [];
-        console.log("There are " + counter + " facilities that recycle " + nonbluebinobjects.items[l].description + ", which has the condition of " + nonbluebinobjects.items[l].condition + ".")
+        
       }
       
       setMarkers(markers);
