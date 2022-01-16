@@ -91,8 +91,8 @@ export default function Geolocation({ items }) {
   const selectStyles = { menu: (styles) => ({ ...styles, zIndex: 999 }) };
 
   // Mock list of objects passed in from previous screen
-  var mockitems = 
-  [
+  var mockitems = items;
+  // [
     // {
     //   category: "Paper",
     //   description: "Writing paper",
@@ -101,14 +101,14 @@ export default function Geolocation({ items }) {
     //   name: "writing paper",
     //   condition: null,
     // },
-    {
-      category: "ICT equipment",
-      condition: "Spoilt beyond repair",
-      description: "Printers",
-      id: 2,
-      isBlueBinRecyclable: false,
-      name: "Printers",
-    },
+    // {
+    //   category: "ICT equipment",
+    //   condition: "Spoilt beyond repair",
+    //   description: "Printers",
+    //   id: 2,
+    //   isBlueBinRecyclable: false,
+    //   name: "Printers",
+    // },
     // {
     //   category: "ICT_Equipment",
     //   description: "Tablets",
@@ -125,7 +125,7 @@ export default function Geolocation({ items }) {
     //   name: "Batteries",
     //   condition: "Spoilt_beyond_repair",
     // },
-  ];
+  // ];
 
   // Fetch data from API and save it in state hooks
   // Blue Bins
@@ -441,15 +441,18 @@ export default function Geolocation({ items }) {
           nonbluebinobjects.items.push(mockitems[i]);
         }
       }
+      console.log("------------------------------------------------------------------");
 
+      /////////////////////////////////
       // BLUE BIN MARKERS
       allLocations = [];
       bluebinmarkers = [];
       var items = [];
+      console.log("There are " + bluebindata.length + " blue bins in total.")
       if (bluebinarray.length != 0) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
-            postal: bluebindata[bb].postal,
+            postal: bluebindata[bb].postcode,
             distance: calcCrow(
               position.coords.latitude,
               position.coords.longitude,
@@ -465,47 +468,61 @@ export default function Geolocation({ items }) {
         items.sort(function (a, b) {
           return a.distance - b.distance;
         });
-        for (let i = 0; i < items.length; i++) {
-          console.log(items[i].distance);
-        }
-        // get the blue bin with shortest distance from house
+
+        // Get the blue bin with shortest distance from house
         items[0].itemname = bluebinarray;
         bluebinmarkers.push(items[0]);
         allLocations.push(items[0]);
         setBlueBinMarkers(bluebinmarkers);
+        console.log("The nearest location is:")
+        console.log(items[0])
+      }else{
+        bluebinmarkers = []
+        setBlueBinMarkers(bluebinmarkers);
+        console.log("There are no blue bin items.")
       }
-      console.log(nonbluebinobjects.items);
-      // NON BLUE BIN MARKERS
+      
+      console.log("------------------------------------------------------------------");
 
+      ////////////////////////////////////////////////
+      // NON BLUE BIN MARKERS
+      console.log(nonbluebinobjects.items);
       var items = [];
       console.log(
-        "Length of unfiltered dataset:" + data.physical_channels.length
+        "Length of unfiltered dataset:" + data.length
       );
-      console.log(nonbluebinobjects.items.length);
 
       markers = [];
-
+    
+      var counter = 0;
       for (let l = 0; l < nonbluebinobjects.items.length; l++) {
-        for (let i = 0; i < data.physical_channels.length; i++) {
+        for (let i = 0; i < data.length; i++) {
           if (
-            data.physical_channels[i].Items_accepted.includes(
+            data[i].categories_accepted.includes(
               nonbluebinobjects.items[l].category
             ) &&
-            data.physical_channels[i].Type.includes(
+            data[i].type.includes(
               nonbluebinobjects.items[l].condition
             )
           ) {
+            counter = counter + 1;
             var item = {
-              postal: data.physical_channels[i].postal,
+              postal: data[i].postcode,
               distance: calcCrow(
                 position.coords.latitude,
                 position.coords.longitude,
-                data.physical_channels[i].latitude,
-                data.physical_channels[i].longitude
+                data[i].latitude,
+                data[i].longitude
               ),
-              latitude: data.physical_channels[i].latitude,
-              longitude: data.physical_channels[i].longitude,
-              address: data.physical_channels[i].address,
+              latitude: data[i].latitude,
+              longitude: data[i].longitude,
+              address: data[i].address,
+              channel_name: data[i].channel_name,
+              operating_hours: data[i].operating_hours,
+              contact: data[i].contact,
+              website: data[i].website,
+              categories_accepted: data[i].categories_accepted,
+              organisation_name: data[i].organisation_name,
             };
             items.push(item);
           }
@@ -513,19 +530,19 @@ export default function Geolocation({ items }) {
         items.sort(function (a, b) {
           return a.distance - b.distance;
         });
-        for (let i = 0; i < items.length; i++) {
-          console.log(items[i].distance);
-        }
         items[0].itemname = nonbluebinobjects.items[l].description;
         console.log(items[0]);
         markers.push(items[0]);
         allLocations.push(items[0]);
         items = [];
+        console.log("There are " + counter + " facilities that recycle " + nonbluebinobjects.items[l].description + ", which has the condition of " + nonbluebinobjects.items[l].condition + ".")
       }
+      
       setMarkers(markers);
       setAllLocations(allLocations);
       console.log(allLocations);
       setEncode(btoa(JSON.stringify(allLocations)));
+      console.log("------------------------------------------------------------------");
       console.log(encode);
     };
 
