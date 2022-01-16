@@ -425,6 +425,8 @@ export default function Geolocation({ items }) {
         lat: position.coords.latitude,
         lng: position.coords.longitude,
       });
+      console.log("User's Latitude: " + position.coords.latitude);
+      console.log("User's Longitude: " + position.coords.longitude);
 
       //////////////////
       // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN
@@ -445,18 +447,18 @@ export default function Geolocation({ items }) {
       bluebinmarkers = [];
       var items = [];
       if (bluebinarray.length != 0) {
-        for (let bb = 0; bb < bluebindata.bluebins.length; bb++) {
+        for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
-            postal: bluebindata.bluebins[bb].postal,
+            postal: bluebindata[bb].postal,
             distance: calcCrow(
               position.coords.latitude,
               position.coords.longitude,
-              bluebindata.bluebins[bb].latitude,
-              bluebindata.bluebins[bb].longitude
+              bluebindata[bb].latitude,
+              bluebindata[bb].longitude
             ),
-            latitude: bluebindata.bluebins[bb].latitude,
-            longitude: bluebindata.bluebins[bb].longitude,
-            address: bluebindata.bluebins[bb].address,
+            latitude: bluebindata[bb].latitude,
+            longitude: bluebindata[bb].longitude,
+            block_number: bluebindata[bb].block_number,
           };
           items.push(item);
         }
@@ -474,14 +476,8 @@ export default function Geolocation({ items }) {
       }
       console.log(nonbluebinobjects.items);
       // NON BLUE BIN MARKERS
-      var data1 = {
-        sections: [
-          {
-            items: [],
-          },
-        ],
-      };
-      var items = data1.sections[0].items;
+
+      var items = [];
       console.log(
         "Length of unfiltered dataset:" + data.physical_channels.length
       );
