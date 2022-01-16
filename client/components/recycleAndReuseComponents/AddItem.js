@@ -4,8 +4,8 @@ import Image from 'next/image'
 import AddItemDialog from './AddItemDialog'
 import AddItemMultiSelect from './AddItemMultiSelect'
 
-const Additem = ({ setNextStep, data, setItems }) => {
-    const [didSelectItems, willTriggerDialog] = React.useState(false);
+const AddItem = ({ setNextStep, data, setItems }) => {
+    const [didSelectItems, willTriggerDialog] = React.useState(false)
 
     return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" >
@@ -23,4 +23,4 @@ const Additem = ({ setNextStep, data, setItems }) => {
     );
 }
 
-export default Additem
+export default AddItem
