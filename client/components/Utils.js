@@ -2,7 +2,7 @@ const BLUE_BIN_RECYCLABLE = 0
 const NON_BLUE_BIN_RECYCLABLE = 1
 const GENERAL_WASTE = 2
 
-const VALID_NON_BLUE_BIN_RECYCLABLE_CONDITIONS = ['In good condition']
+const VALID_NON_BLUE_BIN_RECYCLABLE_CONDITIONS = ['In good condition', 'In need of repair', 'Spoilt beyond repair']
 
 const getGeneralWasteItems = (items) => {
     return items ? items.filter(item => item.bluebinrecyclable === GENERAL_WASTE) : []
