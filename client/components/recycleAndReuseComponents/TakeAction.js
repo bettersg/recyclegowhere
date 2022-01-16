@@ -13,6 +13,7 @@ import {
 // import Geolocation from './Geolocation'
 
 import dynamic from "next/dynamic"
+import { getBlueBinRecyclableItems, getNonBlueBinRecyclableItems, hasCheckedNonBlueBinRecyclableItems, hasCleanedBlueBinRecyclableItems } from '../Utils'
 
 const GeolocationNoSSR = dynamic(
     () => import("./Geolocation"),
@@ -22,10 +23,12 @@ const GeolocationNoSSR = dynamic(
     }
 );
 
-const TakeAction = ({ items, setGeolocation, setLocation }) => {
-    const blueBinRecyclableItems = items.filter(item => item.isBlueBinRecyclable)
-    const nonBlueBinRecyclableItems = items.filter(item => !item.isBlueBinRecyclable)
-
+const TakeAction = ({ items, setGeolocation, navigateBackToAddItem }) => {
+    const blueBinRecyclableItems = getBlueBinRecyclableItems(items)
+    const nonBlueBinRecyclableItems = getNonBlueBinRecyclableItems(items)
+    const hasRecyclableItems = (blueBinRecyclableItems && blueBinRecyclableItems.length > 0) ||
+        (nonBlueBinRecyclableItems && nonBlueBinRecyclableItems.length > 0)
+    const hasValidRecyclableItems = hasCleanedBlueBinRecyclableItems(items) || hasCheckedNonBlueBinRecyclableItems(items)
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center'>
@@ -59,6 +62,7 @@ const TakeAction = ({ items, setGeolocation, setLocation }) => {
                             )
                         })}
                     </VStack>}
+                    {!hasRecyclableItems && <Text>No recyclable items selected!</Text>}
                 </Box>
                 <HStack>
                     <Button size='md' colorScheme='teal' size='md' onClick={() => { setLocation(true); }}>
@@ -66,6 +70,7 @@ const TakeAction = ({ items, setGeolocation, setLocation }) => {
                         </Button>
                     <Button size='md' colorScheme='teal' onClick={() => { setGeolocation(true); }}>Self disposal</Button>
                 </HStack>
+                {!hasValidRecyclableItems && <Button size='md' colorScheme='teal' onClick={navigateBackToAddItem}>Return to Add Items</Button>}
             </VStack>
             {/* <GeolocationNoSSR /> */}
         </Flex>

@@ -27,7 +27,6 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <Header />
       <Container
-        overflow="hidden"
         maxW="container.xl"
         minH="80vh"
         paddingTop={10}

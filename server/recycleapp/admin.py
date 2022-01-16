@@ -1,13 +1,8 @@
 from django.contrib import admin
-from .models import Category, Items, CallForCollection, b, n, g, ReuseChannel, PhysicalChannels
-
+from .models import Item, CallForCollection, b, n, g, ReuseChannel, PhysicalChannel, OneMapRecyclingBin
+from import_export.admin import ImportExportModelAdmin
 # Register your models here.
 
-admin.site.register(Category)
-admin.site.register(Items)
-admin.site.register(CallForCollection)
-admin.site.register(b)
-admin.site.register(n)
-admin.site.register(g)
-admin.site.register(ReuseChannel)
-admin.site.register(PhysicalChannels)
+@admin.register(Item, CallForCollection, b, n, g, ReuseChannel, PhysicalChannel, OneMapRecyclingBin)
+class ViewAdmin(ImportExportModelAdmin):
+    pass

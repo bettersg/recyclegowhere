@@ -2,12 +2,25 @@ import { Button, Flex } from '@chakra-ui/react'
 import React from 'react'
 import Select from 'react-select'
 
+import { selectStylesForColorModes } from '../DarkModeSwitch'
+
 const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
   const [selectedOptions, setSelectedOptions] = React.useState([])
 
-  const parseItemsIntoOptions = (categories, items) => {
+  const parseItemsIntoOptions = (items) => {
+    const categories = []
+    const itemsGroupedByCategory = items.reduce((accumulator, item) => {
+      let itemCategory = item.category
+      if (!accumulator[itemCategory]) {
+        accumulator[itemCategory] = []
+        categories.push(itemCategory)
+      }
+      accumulator[itemCategory].push(item)
+      return accumulator
+    }, {})
+
     return categories.map(category => {
-      const itemsInCategory = items.filter(item => item.category === category)
+      const itemsInCategory = itemsGroupedByCategory[category]
       const itemOptions = itemsInCategory.map(itemInCategory => {
         const option = {
           "label": itemInCategory.description,
@@ -24,7 +37,7 @@ const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
     })    
   }
 
-  const options = parseItemsIntoOptions(data.categories, data.items)
+  const options = parseItemsIntoOptions(data.items)
 
   const handleChange = (event) => {
     setSelectedOptions(event)
@@ -58,6 +71,7 @@ const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
           classNamePrefix="select"
           instanceId="postType"
           onChange={handleChange}
+          styles={selectStylesForColorModes}
         />
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
             <Button backgroundColor="#319795" color="white" my="5" type="submit" isDisabled={selectedOptions.length === 0}>

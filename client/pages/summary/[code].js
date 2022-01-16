@@ -27,13 +27,37 @@ export default function Summary(props) {
           <Heading as="h3">Summary of items</Heading>
           {console.log("this")}
           {console.log(actual)}
-          {actual.map((prop) => (
-            <div>
+          {actual.map((prop, index) => (
+          //   <div>
+          //   <strong>{prop.itemname}</strong>
+          //   <p>{prop.address}</p>
+          //   <p>{prop.latitude}</p>
+          //   <p>{prop.longitude}</p>
+          // </div>
+            prop.website ? 
+            (<div>
+              <p>Item {index}</p>
               <strong>{prop.itemname}</strong>
+              <p>{prop.channel_name} by {prop.organisation_name}</p>
               <p>{prop.address}</p>
+
+              <p><b>Items Accepted: </b> {prop.categories_accepted}</p>
+              <p><b>Operating Hours: </b>{prop.operating_hours}</p>
+              <p><b>Condition: </b>{prop.type}</p>
+              <p><b>Contact: </b>{prop.contact}</p>
+              <p>({prop.distance}km from your location)</p>
+              <a href={prop.website}>{prop.website}</a><br/>
+            </div>) : 
+            (<div>
+              <p>Item {index}</p>
+              <strong>{prop.itemname}</strong>
+              <p>Recycling Bin @ Blk {prop.block_number}, S{prop.postal}</p>
               <p>{prop.latitude}</p>
               <p>{prop.longitude}</p>
-            </div>
+              <p>({prop.distance}km from your location)</p>
+              <br/>
+
+            </div>)
           ))}
         </Box>
       </Flex>
