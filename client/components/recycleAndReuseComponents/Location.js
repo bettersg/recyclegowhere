@@ -600,7 +600,7 @@ export default function Location({ items }) {
           Contact these organisations for more info
         </Text>
       </div>
-      <Button>Geolocation</Button>
+
       <div>
         {orgs.map((org) => (
           <Accordion defaultIndex={[0]} allowMultiple>
