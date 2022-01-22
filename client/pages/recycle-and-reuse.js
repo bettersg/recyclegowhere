@@ -17,6 +17,7 @@ import { Step, Steps } from "chakra-ui-steps";
 import AddItem from "../components/recycleAndReuseComponents/AddItem";
 import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
 import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
+import Location from "../components/recycleAndReuseComponents/Location";
 
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
@@ -78,6 +79,7 @@ function RecycleAndReuse({ data }) {
   const [items, setItems] = useState([])
   const [step, setStep] = useState(0)
   const [geolocation, setGeolocation] = useState(false)
+  const [location, setLocation] = useState(false)
 
   return (
     <Center>
@@ -96,8 +98,11 @@ function RecycleAndReuse({ data }) {
             <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
               <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
               {
-                geolocation ? <GeolocationNoSSR items={items} />
-                  : <TakeAction items={items} setGeolocation={setGeolocation} navigateBackToAddItem={() => setStep(0)} />
+                geolocation 
+                  ? <GeolocationNoSSR items={items} />
+                    : location
+                    ? <Location items={items} setGeolocation={setGeolocation} setLocation={setLocation}/> 
+                  : <TakeAction items={items} setGeolocation={setGeolocation} setLocation={setLocation} navigateBackToAddItem={() => setStep(0)}/>
               }
             </Step>
             <Step label={false && 'Completed!'} icon={CheckIcon} key='3'>
