@@ -15,7 +15,13 @@ import { Button, filter } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
-import { selectStylesForColorModes } from "../DarkModeSwitch"
+import { selectStylesForColorModes } from "../DarkModeSwitch";
+
+import Item from '../../jsonfiles/Item.json'
+
+import physicalChannels from "../../jsonfiles/Physical-Channel.json";
+import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
+
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -89,65 +95,65 @@ export default function Geolocation({ items }) {
   const [encode, setEncode] = useState("");
 
   // Map style
-  const selectStyles = { ...selectStylesForColorModes, menu: (styles) => ({ ...styles, zIndex: 999 }) };
+  const selectStyles = {
+    ...selectStylesForColorModes,
+    menu: (styles) => ({ ...styles, zIndex: 999 }),
+  };
 
   // Mock list of objects passed in from previous screen
   var mockitems = items;
   // [
-    // {
-    //   category: "Paper",
-    //   description: "Writing paper",
-    //   id: 1,
-    //   isBlueBinRecyclable: true,
-    //   name: "writing paper",
-    //   condition: null,
-    // },
-    // {
-    //   category: "ICT equipment",
-    //   condition: "Spoilt beyond repair",
-    //   description: "Printers",
-    //   id: 2,
-    //   isBlueBinRecyclable: false,
-    //   name: "Printers",
-    // },
-    // {
-    //   category: "ICT_Equipment",
-    //   description: "Tablets",
-    //   id: 3,
-    //   isBlueBinRecyclable: false,
-    //   name: "Tablets",
-    //   condition: "Spoilt_beyond_repair",
-    // },
-    // {
-    //   category: "Portable_batteries",
-    //   description: "Batteries",
-    //   id: 4,
-    //   isBlueBinRecyclable: false,
-    //   name: "Batteries",
-    //   condition: "Spoilt_beyond_repair",
-    // },
+  // {
+  //   category: "Paper",
+  //   description: "Writing paper",
+  //   id: 1,
+  //   isBlueBinRecyclable: true,
+  //   name: "writing paper",
+  //   condition: null,
+  // },
+  // {
+  //   category: "ICT equipment",
+  //   condition: "Spoilt beyond repair",
+  //   description: "Printers",
+  //   id: 2,
+  //   isBlueBinRecyclable: false,
+  //   name: "Printers",
+  // },
+  // {
+  //   category: "ICT_Equipment",
+  //   description: "Tablets",
+  //   id: 3,
+  //   isBlueBinRecyclable: false,
+  //   name: "Tablets",
+  //   condition: "Spoilt_beyond_repair",
+  // },
+  // {
+  //   category: "Portable_batteries",
+  //   description: "Batteries",
+  //   id: 4,
+  //   isBlueBinRecyclable: false,
+  //   name: "Batteries",
+  //   condition: "Spoilt_beyond_repair",
+  // },
   // ];
 
   // Fetch data from API and save it in state hooks
   // Blue Bins
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/OneMapRecyclingBin/")
-      .then((res) => res.json())
-      .then((result) => {
-        setBlueBinData(result);
-        // console.log(data);
-      });
+    let ignore = false;
+
+    if (!ignore) setBlueBinData(oneMapRecyclingBin);
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // Physical Channels
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/PhysicalChannel/")
-      .then((res) => res.json())
-      .then((result) => {
-        // console.log(result);
-        setData(result);
-        // console.log(data);
-      });
+    let ignore = false;
+
+    if (!ignore)  setData(physicalChannels)
+    return () => { ignore = true; }
   }, []);
 
   // Function to calculate distance between two points + radian conversion
@@ -237,16 +243,16 @@ export default function Geolocation({ items }) {
     setMarker({ lat: event.lat, lng: event.long });
 
     ////////////////////////////////////////////////////////
-    // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN // 
+    // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN //
     var nonbluebinobjects = {
       items1: [],
     };
     var bluebinarray = [];
     for (let i = 0; i < mockitems.length; i++) {
       if (mockitems[i].bluebinrecyclable == 0) {
-        if (bluebinarray.length == 0){
+        if (bluebinarray.length == 0) {
           bluebinarray.push(mockitems[i].description);
-        }else{
+        } else {
           bluebinarray.push(", " + mockitems[i].description);
         }
       } else {
@@ -339,8 +345,8 @@ export default function Geolocation({ items }) {
         console.log("These are the details for the nearest facility:");
         console.log(items2[0]);
       }
-    }else{
-      console.log("There are no blue bin recyclables.")
+    } else {
+      console.log("There are no blue bin recyclables.");
     }
     console.log("--------------------------------------------");
 
@@ -348,22 +354,18 @@ export default function Geolocation({ items }) {
     // NON BLUE BIN MARKERS //
     var items3 = [];
 
-    console.log(
-      "Number of Physical Channels available: " + data.length
-    );
+    console.log("Number of Physical Channels available: " + data.length);
 
     markers = [];
     if (nonbluebinobjects.items1[0]) {
-      console.log("You have non-blue bin objects.")
+      console.log("You have non-blue bin objects.");
       for (let l = 0; l < nonbluebinobjects.items1.length; l++) {
         for (let i = 0; i < data.length; i++) {
           if (
             data[i].categories_accepted.includes(
               nonbluebinobjects.items1[l].category
             ) &&
-            data[i].type.includes(
-              nonbluebinobjects.items1[l].condition
-            )
+            data[i].type.includes(nonbluebinobjects.items1[l].condition)
           ) {
             console.log(data[i].categories_accepted);
             console.log(data[i].type);
@@ -388,8 +390,10 @@ export default function Geolocation({ items }) {
               contact: data[i].contact,
             };
             items3.push(item);
-          }else{
-            console.log("Error processing this item, it does not match our queries.")
+          } else {
+            console.log(
+              "Error processing this item, it does not match our queries."
+            );
           }
         }
         items3.sort(function (a, b) {
@@ -404,10 +408,10 @@ export default function Geolocation({ items }) {
         allLocations.push(items3[0]);
         items3 = [];
       }
-    }else{
-      console.log("There are no non-blue bin objects.")
+    } else {
+      console.log("There are no non-blue bin objects.");
     }
-    console.log("Your non-blue bin objects:")
+    console.log("Your non-blue bin objects:");
     console.log(nonbluebinobjects.items1);
 
     setMarkers(markers);
@@ -443,23 +447,25 @@ export default function Geolocation({ items }) {
       var bluebinarray = [];
       for (let i = 0; i < mockitems.length; i++) {
         if (mockitems[i].bluebinrecyclable == 0) {
-          if (bluebinarray.length == 0){
+          if (bluebinarray.length == 0) {
             bluebinarray.push(mockitems[i].description);
-          }else{
+          } else {
             bluebinarray.push(", " + mockitems[i].description);
           }
         } else {
           nonbluebinobjects.items.push(mockitems[i]);
         }
       }
-      console.log("------------------------------------------------------------------");
+      console.log(
+        "------------------------------------------------------------------"
+      );
 
       /////////////////////////////////
       // BLUE BIN MARKERS
       allLocations = [];
       bluebinmarkers = [];
       var items = [];
-      console.log("There are " + bluebindata.length + " blue bins in total.")
+      console.log("There are " + bluebindata.length + " blue bins in total.");
       if (bluebinarray.length != 0) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
@@ -485,26 +491,26 @@ export default function Geolocation({ items }) {
         bluebinmarkers.push(items[0]);
         allLocations.push(items[0]);
         setBlueBinMarkers(bluebinmarkers);
-        console.log("The nearest location is:")
-        console.log(items[0])
-      }else{
-        bluebinmarkers = []
+        console.log("The nearest location is:");
+        console.log(items[0]);
+      } else {
+        bluebinmarkers = [];
         setBlueBinMarkers(bluebinmarkers);
-        console.log("There are no blue bin items.")
+        console.log("There are no blue bin items.");
       }
-      
-      console.log("------------------------------------------------------------------");
+
+      console.log(
+        "------------------------------------------------------------------"
+      );
 
       ////////////////////////////////////////////////
       // NON BLUE BIN MARKERS
       console.log(nonbluebinobjects.items);
       var items = [];
-      console.log(
-        "Length of unfiltered dataset:" + data.length
-      );
+      console.log("Length of unfiltered dataset:" + data.length);
 
       markers = [];
-    
+
       var counter = 0;
       for (let l = 0; l < nonbluebinobjects.items.length; l++) {
         for (let i = 0; i < data.length; i++) {
@@ -512,11 +518,8 @@ export default function Geolocation({ items }) {
             data[i].categories_accepted.includes(
               nonbluebinobjects.items[l].category
             ) &&
-            data[i].type.includes(
-              nonbluebinobjects.items[l].condition
-            )
+            data[i].type.includes(nonbluebinobjects.items[l].condition)
           ) {
-            
             counter = counter + 1;
             var item = {
               postal: data[i].postcode,
@@ -544,20 +547,29 @@ export default function Geolocation({ items }) {
         items.sort(function (a, b) {
           return a.distance - b.distance;
         });
-        console.log("There are " + counter + " facilities that recycle " + nonbluebinobjects.items[l].description + ", which has the condition of " + nonbluebinobjects.items[l].condition + ".")
+        console.log(
+          "There are " +
+            counter +
+            " facilities that recycle " +
+            nonbluebinobjects.items[l].description +
+            ", which has the condition of " +
+            nonbluebinobjects.items[l].condition +
+            "."
+        );
         items[0].itemname = nonbluebinobjects.items[l].description;
         console.log(items[0]);
         markers.push(items[0]);
         allLocations.push(items[0]);
         items = [];
-        
       }
-      
+
       setMarkers(markers);
       setAllLocations(allLocations);
       console.log(allLocations);
       setEncode(btoa(JSON.stringify(allLocations)));
-      console.log("------------------------------------------------------------------");
+      console.log(
+        "------------------------------------------------------------------"
+      );
       console.log(encode);
     };
 
@@ -640,15 +652,18 @@ export default function Geolocation({ items }) {
               <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
-                  <b>{marker.channel_name}</b> by {marker.organisation_name} <br />
+                  <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
                   <br />
-                  
-                  <b>Address: </b>{marker.address} <br />
+                  <br />
+                  <b>Address: </b>
+                  {marker.address} <br />
                   <b>Postal: </b> {marker.postal} <br />
                   <b>Operating Hours: </b> {marker.operating_hours} <br />
                   <b>Contact: </b> {marker.contact} <br />
-                  <b>Website: </b> <a href={marker.website}>{marker.website}</a> <br />
-                  <b>Categories Accepted: </b> {marker.categories_accepted} <br />
+                  <b>Website: </b> <a href={marker.website}>{marker.website}</a>{" "}
+                  <br />
+                  <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
+                  <br />
                 </span>
               </Popup>
             </Marker>

@@ -25,6 +25,9 @@ import urlcat from "urlcat";
 import dynamic from "next/dynamic"
 import Head from '../components/head'
 
+import Item from '../jsonfiles/Item.json'
+import GeneralWaste from '../jsonfiles/General-Waste.json'
+
 const GeolocationNoSSR = dynamic(
   () => import("../components/recycleAndReuseComponents/Geolocation"),
   {
@@ -45,8 +48,8 @@ export async function getStaticProps() {
     return await response.json()
   }
 
-  let items = await fetchDataFromAPI("http://localhost:8000/api/Item/")
-  let generalWasteItemDetails = await fetchDataFromAPI("http://localhost:8000/api/GeneralWaste/")
+  let items = Item
+  let generalWasteItemDetails = GeneralWaste
 
   if (items === null) {
     items = []

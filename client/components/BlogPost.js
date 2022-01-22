@@ -2,7 +2,7 @@ import React from 'react'
 import NextLink from 'next/link'
 import { useColorMode, Heading, Text, Flex, Box, Link } from '@chakra-ui/react'
 import { parseISO, format } from 'date-fns'
-
+import GeneralWaste from '.../jsonfiles/General-Waste.json'
 const BlogPost = ({ title, publishedAt, summary, slug }) => {
     const { colorMode } = useColorMode()
     const secondaryTextColor = {
