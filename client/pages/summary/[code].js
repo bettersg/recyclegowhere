@@ -25,6 +25,7 @@ export default function Summary(props) {
       >
         <Box>
           <Heading as="h3">Summary of items</Heading>
+          <br/>
           {console.log("this")}
           {console.log(actual)}
           {actual.map((prop, index) => (
@@ -35,29 +36,33 @@ export default function Summary(props) {
           //   <p>{prop.longitude}</p>
           // </div>
             prop.website ? 
-            (<div>
-              <p>Item {index}</p>
+            (<Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
+              <p>Item {index + 1}</p>
               <strong>{prop.itemname}</strong>
+              <hr/>
               <p>{prop.channel_name} by {prop.organisation_name}</p>
-              <p>{prop.address}</p>
-
+              <p>({prop.address})</p>
+              <hr/>
               <p><b>Items Accepted: </b> {prop.categories_accepted}</p>
               <p><b>Operating Hours: </b>{prop.operating_hours}</p>
               <p><b>Condition: </b>{prop.type}</p>
               <p><b>Contact: </b>{prop.contact}</p>
               <p>({prop.distance}km from your location)</p>
               <a href={prop.website}>{prop.website}</a><br/>
-            </div>) : 
-            (<div>
-              <p>Item {index}</p>
+              <b>+5 points</b>
+            </Box>) : 
+            (<Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
+              <p>Item {index + 1}</p>
               <strong>{prop.itemname}</strong>
+              <hr/>
               <p>Recycling Bin @ Blk {prop.block_number}, S{prop.postal}</p>
-              <p>{prop.latitude}</p>
-              <p>{prop.longitude}</p>
-              <p>({prop.distance}km from your location)</p>
+              {/* <p>{prop.latitude}</p>
+              <p>{prop.longitude}</p> */}
+              <p>({prop.distance} km from your location)</p>
+              <b>+2 points</b>
               <br/>
 
-            </div>)
+            </Box>)
           ))}
         </Box>
       </Flex>

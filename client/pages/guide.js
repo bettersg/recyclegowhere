@@ -1,47 +1,38 @@
-import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import {
   Box,
   Center,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Flex,
-  Button,
   Heading,
-} from '@chakra-ui/react'
-// STEPPER IMPORTS
-import { Step, Steps } from "chakra-ui-steps";
+} from "@chakra-ui/react";
+import Image from 'next/image';
 
-import AddItem from "../components/recycleAndReuseComponents/AddItem";
-import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
-import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
-
-import axios from "axios";
 import { useState, useRef, useEffect } from "react";
-import urlcat from "urlcat";
 
-import dynamic from "next/dynamic"
-import Head from '../components/head'
-
-import Item from '../jsonfiles/Item.json'
-import GeneralWaste from '../jsonfiles/General-Waste.json'
-
+import Head from "../components/head";
 
 function Guide({ data }) {
-  const [items, setItems] = useState([])
-  const [step, setStep] = useState(0)
-  const [geolocation, setGeolocation] = useState(false)
+  // const [items, setItems] = useState([]);
+  // const [step, setStep] = useState(0);
+  // const [geolocation, setGeolocation] = useState(false);
 
   return (
     <Center>
       <Head title="Reuse and Recycle" />
-      <Box w={['70vw', '60vw', '40wv']}>
-        Guide to recycle
+      <Box w={["70vw", "60vw", "40wv"]}>
+        <Heading mb={4} as="h1" size="2xl" style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+          Website/Recycling Guide
+        </Heading>
+        <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
+          <Image
+          src="/infographic.jpg"
+          alt="Recycling Infographic"
+          width={550}
+          height={1350}
+        /> 
+        </div>
+          
       </Box>
-    </Center >
+    </Center>
   );
 }
 
-export default Guide
+export default Guide;
