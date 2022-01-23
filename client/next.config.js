@@ -1,6 +1,7 @@
-// module.exports = {
-//   reactStrictMode: true,
-// }
+module.exports = {
+  reactStrictMode: true,
+  distDir: 'functions/next',
+}
 
 const withMDX = require('@next/mdx')({
     extension: /\.mdx?$/,

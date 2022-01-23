@@ -1,8 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import RecycleAndReuse from "../recycle-and-reuse";
-import { options } from "../../../mockData/data";
+import RecycleAndReuse from "../pages/recycle-and-reuse";
+import { options } from "../../mockData/data";
+// import {describe, expect} from '@jest/globals';
 
 describe("RecycleAndReuse", () => {
   it("renders 3 tabs", () => {

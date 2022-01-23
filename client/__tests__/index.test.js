@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import Home from "../index";
+import Home from "../pages/index";
+// import {describe, expect} from '@jest/globals';
 
 describe("Home", () => {
   it("renders a heading", () => {
