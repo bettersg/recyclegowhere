@@ -22,7 +22,7 @@ const GeolocationNoSSR = dynamic(
     }
 );
 
-const TakeAction = ({ items, setGeolocation, navigateBackToAddItem }) => {
+const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem }) => {
     const blueBinRecyclableItems = getBlueBinRecyclableItems(items)
     const nonBlueBinRecyclableItems = getNonBlueBinRecyclableItems(items)
     const hasRecyclableItems = (blueBinRecyclableItems && blueBinRecyclableItems.length > 0) ||
@@ -64,7 +64,7 @@ const TakeAction = ({ items, setGeolocation, navigateBackToAddItem }) => {
                     {!hasRecyclableItems && <Text>No recyclable items selected!</Text>}
                 </Box>
                 {hasValidRecyclableItems && <HStack>
-                    <Button disabled size='md'>House Pickup</Button>
+                    <Button size='md' colorScheme='teal' onClick={() => { setLocation(true); }}>House Pickup</Button>
                     <Button size='md' colorScheme='teal' onClick={() => { setGeolocation(true); }}>Self disposal</Button>
                 </HStack>}
                 {!hasValidRecyclableItems && <Button size='md' colorScheme='teal' onClick={navigateBackToAddItem}>Return to Add Items</Button>}

@@ -293,12 +293,12 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < filteredbluebindata.length; bb++) {
           var item = {
             postal: filteredbluebindata[bb].postcode,
-            distance: calcCrow(
+            distance: Math.round((calcCrow(
               event.lat,
               event.long,
               filteredbluebindata[bb].latitude,
               filteredbluebindata[bb].longitude
-            ),
+            )*100))/100,
             latitude: filteredbluebindata[bb].latitude,
             longitude: filteredbluebindata[bb].longitude,
             block_number: filteredbluebindata[bb].block_number,
@@ -470,12 +470,12 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: calcCrow(
+            distance: Math.round((calcCrow(
               position.coords.latitude,
               position.coords.longitude,
               bluebindata[bb].latitude,
               bluebindata[bb].longitude
-            ),
+            )*100))/100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -677,10 +677,10 @@ export default function Geolocation({ items }) {
               <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
-                  Postal Code:{marker.postal} <br /> Distance: {marker.distance}{" "}
+                  Postal Code: {marker.postal} <br /> Distance: {marker.distance} km{" "}
                   <br />
-                  Latitude: {marker.latitude} <br /> Longitude:{" "}
-                  {marker.longitude} <br />
+                  {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                  {marker.longitude} <br /> */}
                 </span>
               </Popup>
             </Marker>
