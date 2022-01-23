@@ -77,12 +77,11 @@ export default function Location({ items, setGeolocation, setLocation }) {
               <div>
                 Your items are:
                 {items.map((item) => (
-                  <b>
+                  
                     <p key={item.id}>
-                      {item.description}
+                      <b>{item.description}</b>
                       <br />
                     </p>
-                  </b>
                 ))}
               </div>
               <Button
@@ -114,8 +113,8 @@ export default function Location({ items, setGeolocation, setLocation }) {
 
           <br />
           <div>
-            {orgs.map((org) => (
-              <Accordion defaultIndex={[0]} allowMultiple>
+            {orgs.map((org,idx) => (
+              <Accordion defaultIndex={[0]} allowMultiple key={`org-${idx}`}>
                 <AccordionItem key={org.id}>
                   <h2>
                     <AccordionButton>
@@ -131,7 +130,7 @@ export default function Location({ items, setGeolocation, setLocation }) {
                   </h2>
                   <AccordionPanel pb={2}>
                     <b>Website: </b>
-                    <a target="_blank" style={{ color: "#14828A" }} href={org.website}>
+                    <a target="_blank" rel="noreferrer" style={{ color: "#14828A" }} href={org.website}>
                       {org.website}
                     </a>
                   </AccordionPanel>

@@ -1,6 +1,6 @@
-module.exports = {
-  reactStrictMode: true,
-}
+// module.exports = {
+//   reactStrictMode: true,
+// }
 
 const withMDX = require('@next/mdx')({
     extension: /\.mdx?$/,
@@ -9,6 +9,8 @@ const withMDX = require('@next/mdx')({
       rehypePlugins: [],
     },
   })
-  module.exports = withMDX({
-    pageExtensions: ['js', 'jsx', 'md', 'mdx'],
-  })
+
+
+module.exports = withMDX({
+  pageExtensions: ['js', 'jsx', 'md', 'mdx'],
+})

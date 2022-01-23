@@ -608,8 +608,9 @@ export default function Geolocation({ items }) {
           },
         }}
         as={`/summary/${encode}`}
+        passHref
       >
-        <Button rightIcon={<ArrowForwardIcon />}>I'm done!</Button>
+        <Button rightIcon={<ArrowForwardIcon />}>I&apos;m done!</Button>
       </Link>
 
       {/* ///////////////////// */}
@@ -669,8 +670,9 @@ export default function Geolocation({ items }) {
             </Marker>
           ))}
 
-          {bluebinmarkers.map((marker) => (
-            <Marker
+          {bluebinmarkers.map((marker,idx) => (
+              <Marker
+              key={`marker-${idx}`}
               position={[marker.latitude, marker.longitude]}
               icon={markerRecycle}
             >
