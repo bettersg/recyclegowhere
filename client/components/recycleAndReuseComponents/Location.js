@@ -67,7 +67,7 @@ export default function Location({ items, setGeolocation, setLocation }) {
     <div>
       {confirmedAddress ? (
         <div>
-          <Flex mt="4">
+          <Flex mt="4" mb="3">
             <Box pr='20'>
               <div style={{ marginTop: 50, marginBottom: 10 }}>
                 Your location is <br />
@@ -84,7 +84,12 @@ export default function Location({ items, setGeolocation, setLocation }) {
                     </p>
                 ))}
               </div>
-              <Button
+              
+            </Box>
+            
+            
+          </Flex>
+          <Button
                   onClick={() => {
                     setGeolocation(true);
                     setLocation(false);
@@ -92,11 +97,6 @@ export default function Location({ items, setGeolocation, setLocation }) {
                 >
                   Dispose Items Yourself Instead
                 </Button>
-            </Box>
-            
-            
-          </Flex>
-
           <div>
             
           </div>
