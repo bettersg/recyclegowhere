@@ -34,7 +34,7 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center'>
 
-            <Text fontWeight='bold'>3. How would you like to take action?</Text>
+            <Text fontWeight='bold'>How would you like to take action?</Text>
 
             <Image
                 src='/unclesemakau.png'
@@ -150,7 +150,7 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
                             Return to Add Items
                         </Button>}
             </VStack>
-            
+
             {/* <GeolocationNoSSR /> */}
         </Flex>
     )

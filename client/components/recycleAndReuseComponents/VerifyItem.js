@@ -76,7 +76,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center' width='100%'>
-            <Text fontWeight='bold'>2. Please check against the statements below.</Text>
+            <Text fontWeight='bold'>Please check against the statements below.</Text>
             <Image
                 src='/unclesemakau.png'
                 alt='Uncle Semakau'
