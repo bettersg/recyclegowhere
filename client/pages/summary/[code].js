@@ -1,8 +1,8 @@
 import Head from "next/head";
 import { useState } from 'react' 
-import { Text, Heading, Center, Box, Flex } from "@chakra-ui/react";
+import { Stack, Heading, Center, Box, Flex, Button } from "@chakra-ui/react";
 import { Steps, Step } from "chakra-ui-steps";
-import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
+import { AddIcon, EditIcon, DeleteIcon, CheckIcon, EmailIcon, ArrowForwardIcon } from "@chakra-ui/icons";
 
 
 export default function Summary(props) {
@@ -71,12 +71,6 @@ export default function Summary(props) {
               icon={CheckIcon}
               description={stepLabels[3].description}
               key='3'>
-              <Heading 
-                as="h2" 
-                fontSize="xl" 
-                textAlign="center">
-                Complete!
-                </Heading>
                 <Flex
                   flexDirection="row"
                   justifyContent="center"
@@ -85,6 +79,14 @@ export default function Summary(props) {
                 >
                   <Box>
                     <Heading as="h3">Your Summary</Heading>
+                    <Stack direction='row' spacing={4}>
+                      <Button leftIcon={<EmailIcon />} colorScheme='teal' variant='solid'>
+                        Save this summary!
+                      </Button>
+                      <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline'>
+                        Restart
+                      </Button>
+                    </Stack>
                     <br/>
                     { parsedData.map((prop, index) => (
                     //   <div>
