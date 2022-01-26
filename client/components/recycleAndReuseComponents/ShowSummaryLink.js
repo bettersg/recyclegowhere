@@ -12,6 +12,7 @@ import {
   Button,
   useToast, 
 } from '@chakra-ui/react'
+import { CopyIcon } from '@chakra-ui/icons'
 
 function ShowSummaryLink({ isOpen, onClose, linkId }) {
   const summaryLink = `https://recyclegowhere.com/summary/${linkId}`
@@ -39,14 +40,15 @@ function ShowSummaryLink({ isOpen, onClose, linkId }) {
       <Modal isOpen={isOpen} onClose={onClose}>
 
         <ModalOverlay />
-        
+
         <ModalContent>
 
-          <ModalHeader>Summary Link</ModalHeader>
+          {/* <ModalHeader>Summary Link</ModalHeader> */}
 
           <ModalCloseButton />
 
           <ModalBody>
+            <br />
             Here's the unique link to your summary:
             <Input ref={linkRef} isReadOnly placeholder={summaryLink}/>
           </ModalBody>
@@ -57,7 +59,7 @@ function ShowSummaryLink({ isOpen, onClose, linkId }) {
               colorScheme='teal' 
               mr={3} 
               onClick={copyToClipboard}>
-              Copy
+              Copy Link <CopyIcon /> 
             </Button>
           </ModalFooter>
 
