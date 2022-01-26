@@ -2,15 +2,11 @@ import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import {
   Box,
   Center,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Flex,
   Button,
   Heading,
 } from '@chakra-ui/react'
+
 // STEPPER IMPORTS
 import { Step, Steps } from "chakra-ui-steps";
 
@@ -140,12 +136,6 @@ function RecycleAndReuse({ data }) {
               icon={CheckIcon}
               description={stepLabels[3].description}
               key='3'>
-              <Heading 
-                as="h2" 
-                fontSize="xl" 
-                textAlign="center">
-                Complete!
-                </Heading>
             </Step>
           </Steps>
         </Flex>
