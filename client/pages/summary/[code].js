@@ -2,7 +2,6 @@ import Head from "next/head";
 
 import Image from "next/image";
 import Link from "next/link";
-import { Stack, Text, Heading, Button, Box, Flex, Center } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 import { Step, Steps } from "chakra-ui-steps";
