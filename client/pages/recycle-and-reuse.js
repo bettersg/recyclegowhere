@@ -44,6 +44,12 @@ function RecycleAndReuse({ data }) {
   const [geolocation, setGeolocation] = useState(false)
   const [location, setLocation] = useState(false)
 
+  const stepLabels = [
+    { label: "Step 1", description: "Add Items"},
+    { label: "Step 2", description: "Verify Items"},
+    { label: "Step 3", description: "Take Action"},
+    { label: "Step 4", description: "Complete"},]
+
   return (
     <Center>
       <Head title="Reuse and Recycle" />
@@ -54,15 +60,17 @@ function RecycleAndReuse({ data }) {
 
           <Steps 
             activeStep={step} 
-            responsive={false} 
+            responsive={false}
+            labelOrientation="vertical"
             colorScheme='teal' 
             p={3} 
             size="md">
 
             {/* Add items to the recycling list */}
             <Step 
-              label={false && 'Add Items'} 
-              icon={AddIcon} 
+              label={stepLabels[0].label} 
+              icon={AddIcon}
+              description={stepLabels[0].description}
               key='0'>
               <Heading 
                 as="h2" 
@@ -77,26 +85,67 @@ function RecycleAndReuse({ data }) {
             </Step>
 
             {/* Verify that the items are empty, rinsed or dried  */}
-            <Step label={false && 'Verify Items'} icon={EditIcon} key='1'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Verify Items</Heading>
-              <VerifyItem items={items} setItems={setItems} generalWasteItemDetails={data.generalWasteItemDetails} navigateToTakeAction={() => setStep(2)} />
+            <Step 
+              label={stepLabels[1].label} 
+              icon={EditIcon} 
+              description={stepLabels[1].description}
+              key='1'>
+              <Heading 
+                as="h2" 
+                fontSize="xl" 
+                textAlign="center">
+                Verify Items
+              </Heading>
+              <VerifyItem 
+                items={items} 
+                setItems={setItems} 
+                generalWasteItemDetails={data.generalWasteItemDetails} 
+                navigateToTakeAction={() => setStep(2)} 
+              />
             </Step>
 
             {/* Decide what action to take: either house pickup or self-disposal */}
-            <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
+            <Step 
+              label={stepLabels[2].label} 
+              icon={DeleteIcon}
+              description={stepLabels[2].description}
+              key='2'>
+              <Heading 
+                as="h2" 
+                fontSize="xl" 
+                textAlign="center">
+                Take Action
+              </Heading>
               {
                 geolocation 
                   ? <GeolocationNoSSR items={items} />
                     : location
-                    ? <Location items={items} setGeolocation={setGeolocation} setLocation={setLocation}/> 
-                  : <TakeAction items={items} setGeolocation={setGeolocation} setLocation={setLocation} navigateBackToAddItem={() => setStep(0)}/>
+                    ? <Location 
+                        items={items} 
+                        setGeolocation={setGeolocation} 
+                        setLocation={setLocation}
+                      /> 
+                    : <TakeAction 
+                        items={items} 
+                        setGeolocation={setGeolocation} 
+                        setLocation={setLocation} 
+                        navigateBackToAddItem={() => setStep(0)}
+                      />
               }
             </Step>
 
             {/* Final Confirmation and Summary List*/}
-            <Step label={false && 'Completed!'} icon={CheckIcon} key='3'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Complete!</Heading>
+            <Step 
+              label={stepLabels[3].label} 
+              icon={CheckIcon}
+              description={stepLabels[3].description}
+              key='3'>
+              <Heading 
+                as="h2" 
+                fontSize="xl" 
+                textAlign="center">
+                Complete!
+                </Heading>
             </Step>
           </Steps>
         </Flex>

@@ -98,6 +98,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                                         <Checkbox
                                             name={itemToCheckCleaned.id}
                                             colorScheme="blue"
+                                            size='lg' 
                                         />
                                     </HStack>
                                 )

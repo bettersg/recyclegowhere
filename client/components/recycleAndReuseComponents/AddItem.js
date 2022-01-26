@@ -1,15 +1,16 @@
-import React from 'react'
+import { useState} from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import AddItemDialog from './AddItemDialog'
 import AddItemMultiSelect from './AddItemMultiSelect'
 
 const AddItem = ({ setNextStep, data, setItems }) => {
-    const [didSelectItems, willTriggerDialog] = React.useState(false)
+    const [didSelectItems, willTriggerDialog] = useState(false)
 
     return (
         <Flex flexDirection="column" justifyContent="center" alignItems="center" >
-            <Text fontWeight="bold">1. Type the name of the item you wish to reuse/recycle.</Text>
+            <br />
+            <Text fontWeight="bold">Key in the name of the items you wish to reuse/recycle.</Text>
             <Image
                 src="/unclesemakau.png"
                 alt="Uncle Semakau"
