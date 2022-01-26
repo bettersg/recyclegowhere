@@ -93,12 +93,7 @@ export default function Location({ items, setGeolocation, setLocation }) {
                   Dispose Items Yourself Instead
                 </Button>
             </Box>
-            <Image
-              src="/heatmap.jpg"
-              alt="Uncle Semakau"
-              width={370}
-              height={223}
-            />
+            
             
           </Flex>
 

@@ -1,10 +1,13 @@
 import Head from "next/head";
+
+import Image from "next/image";
+import Link from "next/link";
+import { Stack, Text, Heading, Button, Box, Flex, Center } from "@chakra-ui/react";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { useEffect } from "react";
+import { Step, Steps } from "chakra-ui-steps";
 import { useState } from 'react' 
-import { Stack, Heading, Center, Box, Flex, Button } from "@chakra-ui/react";
-import { Steps, Step } from "chakra-ui-steps";
 import { AddIcon, EditIcon, DeleteIcon, CheckIcon, EmailIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-
-
 export default function Summary(props) {
 
   const [step, setStep] = useState(3)
@@ -83,9 +86,11 @@ export default function Summary(props) {
                       <Button leftIcon={<EmailIcon />} colorScheme='teal' variant='solid'>
                         Save this summary!
                       </Button>
+                    <Link href="/recycle-and-reuse" passHref>
                       <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline'>
                         Restart
                       </Button>
+                    </Link>
                     </Stack>
                     <br/>
                     { parsedData.map((prop, index) => (
@@ -121,7 +126,7 @@ export default function Summary(props) {
                         <p>Recycling Bin @ Blk {prop.block_number}, S{prop.postal}</p>
                         {/* <p>{prop.latitude}</p>
                         <p>{prop.longitude}</p> */}
-                        <p>({Math.round(prop.distance)} km from your location)</p>
+                        <p>({prop.distance} km from your location)</p>
                         <b>+2 points</b>
                         <br/>
 

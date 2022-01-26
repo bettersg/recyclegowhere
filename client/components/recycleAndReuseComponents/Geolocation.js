@@ -70,8 +70,8 @@ export default function Geolocation({ items }) {
     lng: 103.950296238717,
   });
   const [marker, setMarker] = useState({
-    lat: 1.36882713986152,
-    lng: 103.950296238717,
+    lat: 1,
+    lng: 1,
   });
 
   // Markers (non bluebin + bluebin)
@@ -322,12 +322,12 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: calcCrow(
+            distance: Math.round((calcCrow(
               event.lat,
               event.long,
               bluebindata[bb].latitude,
               bluebindata[bb].longitude
-            ),
+            )*100))/100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -371,12 +371,12 @@ export default function Geolocation({ items }) {
             console.log(data[i].type);
             var item = {
               postal: data[i].postcode,
-              distance: calcCrow(
-                event.lat,
-                event.long,
-                data[i].latitude,
-                data[i].longitude
-              ),
+              distance: Math.round((calcCrow(
+              event.lat,
+              event.long,
+              data[i].latitude,
+              data[i].longitude
+            )*100))/100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -523,12 +523,12 @@ export default function Geolocation({ items }) {
             counter = counter + 1;
             var item = {
               postal: data[i].postcode,
-              distance: calcCrow(
+              distance: Math.round((calcCrow(
                 position.coords.latitude,
                 position.coords.longitude,
                 data[i].latitude,
                 data[i].longitude
-              ),
+              )*100))/100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
