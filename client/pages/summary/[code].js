@@ -1,11 +1,12 @@
 import Head from "next/head";
 import { useState } from 'react' 
-import { Stack, Heading, Center, Box, Flex, Button } from "@chakra-ui/react";
+import { Stack, Heading, Center, Box, Flex, Button, useDisclosure } from "@chakra-ui/react";
 import { Steps, Step } from "chakra-ui-steps";
 import { AddIcon, EditIcon, DeleteIcon, CheckIcon, EmailIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-
+import ShowSummaryLink from "../../components/recycleAndReuseComponents/ShowSummaryLink";
 
 export default function Summary(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   const [step, setStep] = useState(3)
 
@@ -22,6 +23,9 @@ export default function Summary(props) {
      <Head>
         <title>Summary</title>
       </Head>
+
+      <ShowSummaryLink isOpen={isOpen} onClose={onClose} linkId={props.cont}/>
+
       <Box w={['70vw', '60vw', '40wv']}>
         <Flex 
           flexDir='column' 
@@ -80,7 +84,7 @@ export default function Summary(props) {
                   <Box>
                     <Heading as="h3">Your Summary</Heading>
                     <Stack direction='row' spacing={4}>
-                      <Button leftIcon={<EmailIcon />} colorScheme='teal' variant='solid'>
+                      <Button leftIcon={<EmailIcon />} colorScheme='teal' variant='solid' onClick={onOpen}>
                         Save this summary!
                       </Button>
                       <Button rightIcon={<ArrowForwardIcon />} colorScheme='teal' variant='outline'>
