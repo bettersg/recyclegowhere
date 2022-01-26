@@ -12,8 +12,17 @@ import {
     Text
 } from '@chakra-ui/react'
 
-const VerifyItemDialog = ({ setNextStep, showDialog, setShowDialog, generalWasteItems, 
-    generalWasteItemDetails, selectedItems, setItems, dialogItemIndex, setDialogItemIndex }) => {        
+const VerifyItemDialog = ({ 
+    setNextStep, 
+    showDialog, 
+    setShowDialog, 
+    generalWasteItems, 
+    generalWasteItemDetails, 
+    selectedItems, 
+    setItems, 
+    dialogItemIndex, 
+    setDialogItemIndex }) => {  
+
     const cancelRef = useRef()
     const closeDialog = () => setShowDialog(false)
     const navigateToGeolocation = () => {
@@ -29,7 +38,11 @@ const VerifyItemDialog = ({ setNextStep, showDialog, setShowDialog, generalWaste
     const hasPrevGeneralWasteItems = dialogItemIndex > 0
 
     return (
-        <AlertDialog isOpen={showDialog} leastDestructiveRef={cancelRef} onClose={closeDialog}>
+        <AlertDialog 
+            isOpen={showDialog} 
+            leastDestructiveRef={cancelRef} 
+            onClose={closeDialog}>
+                
             <AlertDialogOverlay>
                 <AlertDialogContent>
                     <AlertDialogHeader fontSize='lg' fontWeight='bold'>
