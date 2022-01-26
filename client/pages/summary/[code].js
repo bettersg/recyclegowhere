@@ -2,13 +2,9 @@ import Head from "next/head";
 
 import Image from "next/image";
 import Link from "next/link";
-import { Stack, Text, Heading, Button, Box, Flex, Center } from "@chakra-ui/react";
-import { ArrowForwardIcon } from "@chakra-ui/icons";
-import { useEffect } from "react";
 import { Step, Steps } from "chakra-ui-steps";
 import { useState } from 'react' 
 import { Stack, Heading, Center, Box, Flex, Button, useDisclosure, Text, Spacer } from "@chakra-ui/react";
-import { Steps, Step } from "chakra-ui-steps";
 import { AddIcon, EditIcon, DeleteIcon, CheckIcon, LinkIcon, RepeatIcon } from "@chakra-ui/icons";
 import ShowSummaryLink from "../../components/recycleAndReuseComponents/ShowSummaryLink";
 import BlueBinCard from "../../components/recycleAndReuseComponents/BlueBinCard";
