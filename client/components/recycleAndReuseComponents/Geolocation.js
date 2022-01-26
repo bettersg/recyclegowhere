@@ -10,18 +10,17 @@ import {
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
-import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { Button, filter } from "@chakra-ui/react";
+import { InfoIcon, ArrowForwardIcon,  } from "@chakra-ui/icons";
+import { Button, filter, Heading, Box } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
 import { selectStylesForColorModes } from "../DarkModeSwitch";
 
-import Item from '../../jsonfiles/Item.json'
+import Item from "../../jsonfiles/Item.json";
 
 import physicalChannels from "../../jsonfiles/Physical-Channel.json";
 import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
-
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -94,6 +93,9 @@ export default function Geolocation({ items }) {
   // Encode JSON to Base64
   const [encode, setEncode] = useState("");
 
+  // Disable button if no location
+  const [disable, setDisable] = useState(true);
+
   // Map style
   const selectStyles = {
     ...selectStylesForColorModes,
@@ -152,8 +154,10 @@ export default function Geolocation({ items }) {
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore)  setData(physicalChannels)
-    return () => { ignore = true; }
+    if (!ignore) setData(physicalChannels);
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // Function to calculate distance between two points + radian conversion
@@ -293,12 +297,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < filteredbluebindata.length; bb++) {
           var item = {
             postal: filteredbluebindata[bb].postcode,
-            distance: Math.round((calcCrow(
-              event.lat,
-              event.long,
-              filteredbluebindata[bb].latitude,
-              filteredbluebindata[bb].longitude
-            )*100))/100,
+            distance:
+              Math.round(
+                calcCrow(
+                  event.lat,
+                  event.long,
+                  filteredbluebindata[bb].latitude,
+                  filteredbluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: filteredbluebindata[bb].latitude,
             longitude: filteredbluebindata[bb].longitude,
             block_number: filteredbluebindata[bb].block_number,
@@ -322,12 +329,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: Math.round((calcCrow(
-              event.lat,
-              event.long,
-              bluebindata[bb].latitude,
-              bluebindata[bb].longitude
-            )*100))/100,
+            distance:
+              Math.round(
+                calcCrow(
+                  event.lat,
+                  event.long,
+                  bluebindata[bb].latitude,
+                  bluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -371,12 +381,15 @@ export default function Geolocation({ items }) {
             console.log(data[i].type);
             var item = {
               postal: data[i].postcode,
-              distance: Math.round((calcCrow(
-              event.lat,
-              event.long,
-              data[i].latitude,
-              data[i].longitude
-            )*100))/100,
+              distance:
+                Math.round(
+                  calcCrow(
+                    event.lat,
+                    event.long,
+                    data[i].latitude,
+                    data[i].longitude
+                  ) * 100
+                ) / 100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -421,6 +434,8 @@ export default function Geolocation({ items }) {
     setEncode(btoa(JSON.stringify(allLocations)));
     console.log("The code for the summary page is: " + encode);
     console.log("--------------------------------------------");
+
+    setDisable(false);
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // BUTTON CLICK - THE SAME SEARCH ALGORITHM
@@ -470,12 +485,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: Math.round((calcCrow(
-              position.coords.latitude,
-              position.coords.longitude,
-              bluebindata[bb].latitude,
-              bluebindata[bb].longitude
-            )*100))/100,
+            distance:
+              Math.round(
+                calcCrow(
+                  position.coords.latitude,
+                  position.coords.longitude,
+                  bluebindata[bb].latitude,
+                  bluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -523,12 +541,15 @@ export default function Geolocation({ items }) {
             counter = counter + 1;
             var item = {
               postal: data[i].postcode,
-              distance: Math.round((calcCrow(
-                position.coords.latitude,
-                position.coords.longitude,
-                data[i].latitude,
-                data[i].longitude
-              )*100))/100,
+              distance:
+                Math.round(
+                  calcCrow(
+                    position.coords.latitude,
+                    position.coords.longitude,
+                    data[i].latitude,
+                    data[i].longitude
+                  ) * 100
+                ) / 100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -571,6 +592,7 @@ export default function Geolocation({ items }) {
         "------------------------------------------------------------------"
       );
       console.log(encode);
+      setDisable(false);
     };
 
     const errorCallback = (error) => {
@@ -583,24 +605,42 @@ export default function Geolocation({ items }) {
   };
 
   return (
-    <div>
-      <AsyncSelect
-        value={Address}
-        isSearchable
-        placeholder={"Input address..."}
-        loadOptions={loadOptionsHandler}
-        onChange={onChangeHandler}
-        components={{ NoOptionsMessage }}
-        styles={selectStyles}
-      />
-      <p>{Address}</p>
-
-      {/* ///////////////////// */}
-      <Button onClick={navigatorControl}>
-        {" "}
-        <InfoIcon /> Locate with GPS{" "}
-      </Button>
-      <Link
+    <div
+      style={{
+        position: "relative",
+      }}
+    >
+      <div
+        className="others-container"
+        style={{
+          position: "absolute",
+          width: "auto",
+          top: 0,
+          left: 0,
+          zIndex: 10000,
+        }}
+      >
+        <AsyncSelect
+          value={Address}
+          isSearchable
+          placeholder={"Input address..."}
+          loadOptions={loadOptionsHandler}
+          onChange={onChangeHandler}
+          components={{ NoOptionsMessage }}
+          styles={selectStyles}
+        />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button onClick={navigatorControl}>
+            {" "}
+            <InfoIcon /> Locate with GPS{" "}
+          </Button>
+          <Link
         href={{
           pathname: "/summary/[code]",
           query: {
@@ -610,8 +650,25 @@ export default function Geolocation({ items }) {
         as={`/summary/${encode}`}
         passHref
       >
-        <Button rightIcon={<ArrowForwardIcon />}>I&apos;m done!</Button>
+        <Button disabled={disable} rightIcon={<ArrowForwardIcon />}>I&apos;m done!</Button>
       </Link>
+        </div>
+      </div>
+      {disable && (<div
+        className="others-container"
+        style={{
+          position: "absolute",
+          width: "auto",
+          top: 150,
+          left: 400,
+          zIndex: 10000,
+        }}
+        
+      >
+        <Box bg="white" w={200} h={200} p={2}>
+        Tell Uncle Semakau where you are now.Uncle Semakau will help u find where to take action!
+        </Box>
+      </div>)}
 
       {/* ///////////////////// */}
 
@@ -637,8 +694,10 @@ export default function Geolocation({ items }) {
             icon={markerHome}
           >
             <Popup minWidth={90}>
-              <span onClick={toggleDraggable}>
-                {draggable ? "Click on this for no reason" : "Nice job!"}
+              {/* onClick={toggleDraggable} */}
+              <span>
+                {Address}
+                {/* {draggable ? "Click on this for no reason" : "Nice job!"} */}
               </span>
             </Popup>
             {/* {console.log(bluebinmarkers)}
@@ -670,8 +729,8 @@ export default function Geolocation({ items }) {
             </Marker>
           ))}
 
-          {bluebinmarkers.map((marker,idx) => (
-              <Marker
+          {bluebinmarkers.map((marker, idx) => (
+            <Marker
               key={`marker-${idx}`}
               position={[marker.latitude, marker.longitude]}
               icon={markerRecycle}
@@ -679,8 +738,8 @@ export default function Geolocation({ items }) {
               <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
-                  Postal Code: {marker.postal} <br /> Distance: {marker.distance} km{" "}
-                  <br />
+                  Postal Code: {marker.postal} <br /> Distance:{" "}
+                  {marker.distance} km <br />
                   {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
                   {marker.longitude} <br /> */}
                 </span>
