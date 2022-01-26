@@ -7,8 +7,8 @@ import { useEffect } from "react";
 
 export default function Summary(props) {
   
-  var actual = JSON.parse(atob(props.cont));
-  console.log(actual);
+  var parsedData = JSON.parse(atob(props.cont));
+
   return (
     <Box>
       <Head>
@@ -24,11 +24,9 @@ export default function Summary(props) {
         marginBottom={10}
       >
         <Box>
-          <Heading as="h3">Summary of items</Heading>
+          <Heading as="h3">Your Summary</Heading>
           <br/>
-          {console.log("this")}
-          {console.log(actual)}
-          {actual.map((prop, index) => (
+          { parsedData.map((prop, index) => (
           //   <div>
           //   <strong>{prop.itemname}</strong>
           //   <p>{prop.address}</p>
@@ -36,7 +34,8 @@ export default function Summary(props) {
           //   <p>{prop.longitude}</p>
           // </div>
             prop.website ? 
-            (<Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
+            (
+            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
               <p>Item {index + 1}</p>
               <strong>{prop.itemname}</strong>
               <hr/>
@@ -50,19 +49,22 @@ export default function Summary(props) {
               <p>({prop.distance}km from your location)</p>
               <a href={prop.website}>{prop.website}</a><br/>
               <b>+5 points</b>
-            </Box>) : 
-            (<Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
+            </Box>
+            ) :  
+            (
+            <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
               <p>Item {index + 1}</p>
               <strong>{prop.itemname}</strong>
               <hr/>
               <p>Recycling Bin @ Blk {prop.block_number}, S{prop.postal}</p>
               {/* <p>{prop.latitude}</p>
               <p>{prop.longitude}</p> */}
-              <p>({prop.distance} km from your location)</p>
+              <p>({Math.round(prop.distance)} km from your location)</p>
               <b>+2 points</b>
               <br/>
 
-            </Box>)
+            </Box>
+            )
           ))}
         </Box>
       </Flex>

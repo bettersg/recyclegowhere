@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import {
     Alert,
     AlertIcon,
@@ -20,17 +20,17 @@ import VerifyItemDialog from './VerifyItemDialog'
 import { getGeneralWasteItems, getBlueBinRecyclableItems, getNonBlueBinRecyclableItems } from '../Utils'
 
 const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAction }) => {
-    const [showDialog, setShowDialog] = React.useState(false)
-    const [dialogItemIndex, setDialogItemIndex] = React.useState(0)
-    const [selectedItems, setSelectedItems] = React.useState([])
+    const [showDialog, setShowDialog] = useState(false)
+    const [dialogItemIndex, setDialogItemIndex] = useState(0)
+    const [selectedItems, setSelectedItems] = useState([])
 
     const generalWasteItems = getGeneralWasteItems(items)
     const blueBinRecyclableItems = getBlueBinRecyclableItems(items)
     const nonBlueBinRecyclableItems = getNonBlueBinRecyclableItems(items)
 
-    const [showAlert, toggleShowAlert] = React.useState(true)
+    const [showAlert, toggleShowAlert] = useState(true)
     const initialCheckedConditionItems = Array(nonBlueBinRecyclableItems.length).fill(false)
-    const [checkedConditionItems, setCheckedConditionItems] = React.useState(initialCheckedConditionItems)
+    const [checkedConditionItems, setCheckedConditionItems] = useState(initialCheckedConditionItems)
 
     const itemConditions = ['In good condition', 'In need of repair', 'Spoilt beyond repair']
     const selectPlaceholder = 'Select condition'
