@@ -1,4 +1,5 @@
 import React, { Component, useRef, useState, useEffect } from "react";
+import Image from 'next/image';
 import {
   Map,
   TileLayer,
@@ -10,8 +11,8 @@ import {
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
-import { InfoIcon, ArrowForwardIcon,  } from "@chakra-ui/icons";
-import { Button, filter, Heading, Box } from "@chakra-ui/react";
+import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
+import { Button, filter, Heading, Box, Flex } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
@@ -95,6 +96,9 @@ export default function Geolocation({ items }) {
 
   // Disable button if no location
   const [disable, setDisable] = useState(true);
+
+  // Pre summary page loader
+  const [loader, setLoader] = useState(false);
 
   // Map style
   const selectStyles = {
@@ -604,20 +608,31 @@ export default function Geolocation({ items }) {
     });
   };
 
+  const left_proportion = '50%';
+
+  const switchLoader = () => {
+    setLoader(true);
+  }
+
   return (
     <div
       style={{
         position: "relative",
       }}
     >
+
+      {/* Multiselect+Buttons */}
       <div
-        className="others-container"
         style={{
           position: "absolute",
-          width: "auto",
+          width: "70%",
+          height: 'auto',
           top: 0,
-          left: 0,
           zIndex: 10000,
+          justifyContent: 'center',
+          left: {left_proportion},
+          marginLeft: "15%",
+          marginTop: "1%"
         }}
       >
         <AsyncSelect
@@ -634,44 +649,62 @@ export default function Geolocation({ items }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            marginTop: 5
           }}
         >
-          <Button onClick={navigatorControl}>
+          <Button onClick={navigatorControl} marginRight={5}>
             {" "}
-            <InfoIcon /> Locate with GPS{" "}
+            <InfoIcon /> <span style={{fontSize:'0.7rem'}}>-Locate with GPS{" "}</span>
           </Button>
           <Link
-        href={{
-          pathname: "/summary/[code]",
-          query: {
-            code: encode,
-          },
-        }}
-        as={`/summary/${encode}`}
-        passHref
-      >
-        <Button disabled={disable} rightIcon={<ArrowForwardIcon />}>I&apos;m done!</Button>
-      </Link>
+            href={{
+              pathname: "/summary/[code]",
+              query: {
+                code: encode,
+              },
+            }}
+            as={`/summary/${encode}`}
+            passHref
+          >
+            {loader ? (<Button isLoading colorScheme='gray' variant='solid' loadingText='Loading...'>
+  </Button>) : (<Button disabled={disable} rightIcon={<ArrowForwardIcon />} onClick={switchLoader}>
+              <span style={{fontSize:'0.7rem'}}>I&apos;m done!</span>
+            </Button>)}
+          </Link>
         </div>
       </div>
-      {disable && (<div
-        className="others-container"
-        style={{
-          position: "absolute",
-          width: "auto",
-          top: 150,
-          left: 400,
-          zIndex: 10000,
-        }}
-        
-      >
-        <Box bg="white" w={200} h={200} p={2}>
-        Tell Uncle Semakau where you are now.Uncle Semakau will help u find where to take action!
-        </Box>
-      </div>)}
 
-      {/* ///////////////////// */}
+      {/* Center instructional screen */}
+      {disable && (
+        <div
+          className="others-container"
+          style={{
+            position: "absolute",
+            width: "50%",
+            marginLeft: "25%",
+            marginTop: "28%",
+            height: 'auto',
+            zIndex: 10000,
+          }}
+        >
+          <Flex flexDirection="row"bg="white" h={200} style={{fontSize:"0.7rem"}}>
+          <Box flex={1} style={{paddingTop:"15%", paddingInline: "5%", fontSize: "1rem"}}>
+            Tell Uncle Semakau where you are now. Uncle Semakau will help you find
+            where to take action!
+            
+          </Box>
+          <Image flex={1}
+              src="/unclesemakau_singlet.png"
+              alt="Uncle Semakau in a Singlet"
+              width={"150%"}
+              height={'100%'}
+            />
+          </Flex>
+          
+        </div>
+      )}
 
+      {/* Map */}
       <div className="map-root">
         <Map
           center={position}

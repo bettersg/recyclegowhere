@@ -129,7 +129,8 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
                     <HStack>
                         <Button 
                             size='md' 
-                            colorScheme='teal' 
+                            colorScheme='gray'
+                            variant='outline'
                             onClick={() => { setLocation(true); }}>
                                 House Pickup
                         </Button>

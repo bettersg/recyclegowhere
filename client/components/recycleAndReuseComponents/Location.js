@@ -94,6 +94,7 @@ export default function Location({ items, setGeolocation, setLocation }) {
                     setGeolocation(true);
                     setLocation(false);
                   }}
+                  colorScheme='teal' variant='solid'
                 >
                   Dispose Items Yourself Instead
                 </Button>
