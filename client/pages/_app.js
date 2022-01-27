@@ -4,7 +4,7 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Container } from "@chakra-ui/react";
 import Head from 'next/head';
-
+import "./Geolocation.css";
 
 const theme = extendTheme({
   components: {

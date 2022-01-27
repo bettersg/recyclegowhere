@@ -1,5 +1,5 @@
 import React, { Component, useRef, useState, useEffect } from "react";
-import Image from 'next/image';
+import Image from "next/image";
 import {
   Map,
   TileLayer,
@@ -17,6 +17,7 @@ import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
 import { selectStylesForColorModes } from "../DarkModeSwitch";
+import { popupContent, popupHead, popupText, okText } from "./popupStyles";
 
 import Item from "../../jsonfiles/Item.json";
 
@@ -99,6 +100,13 @@ export default function Geolocation({ items }) {
 
   // Pre summary page loader
   const [loader, setLoader] = useState(false);
+
+  // Popup
+  const [popUp, setPopUp] = useState(false);
+
+  // Popup Content
+  const [content, setContent] = useState(false);
+
 
   // Map style
   const selectStyles = {
@@ -607,32 +615,47 @@ export default function Geolocation({ items }) {
       timeout: 25000,
     });
   };
-
-  const left_proportion = '50%';
+  const left_proportion = "50%";
+  const enablePopUp = (e) => {
+    console.log(e);
+    setPopUp(true);
+    console.log(popUp);
+  };
 
   const switchLoader = () => {
     setLoader(true);
-  }
+  };
 
   return (
+    <div>
+      {popUp && (
+        
+        <Box
+        bg="white"
+          flex={1}
+          style={{ paddingTop: "10%", paddingInline: "5%", fontSize: "1rem" }}
+        >
+          {content}
+        </Box>
+    )}
     <div
       style={{
         position: "relative",
       }}
     >
-
+      
       {/* Multiselect+Buttons */}
       <div
         style={{
           position: "absolute",
           width: "70%",
-          height: 'auto',
+          height: "auto",
           top: 0,
           zIndex: 10000,
-          justifyContent: 'center',
-          left: {left_proportion},
+          justifyContent: "center",
+          left: { left_proportion },
           marginLeft: "15%",
-          marginTop: "1%"
+          marginTop: "1%",
         }}
       >
         <AsyncSelect
@@ -649,12 +672,13 @@ export default function Geolocation({ items }) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            marginTop: 5
+            marginTop: 5,
           }}
         >
           <Button onClick={navigatorControl} marginRight={5}>
             {" "}
-            <InfoIcon /> <span style={{fontSize:'0.7rem'}}>-Locate with GPS{" "}</span>
+            <InfoIcon />{" "}
+            <span style={{ fontSize: "0.7rem" }}>-Locate with GPS </span>
           </Button>
           <Link
             href={{
@@ -666,10 +690,22 @@ export default function Geolocation({ items }) {
             as={`/summary/${encode}`}
             passHref
           >
-            {loader ? (<Button isLoading colorScheme='gray' variant='solid' loadingText='Loading...'>
-  </Button>) : (<Button disabled={disable} rightIcon={<ArrowForwardIcon />} onClick={switchLoader}>
-              <span style={{fontSize:'0.7rem'}}>I&apos;m done!</span>
-            </Button>)}
+            {loader ? (
+              <Button
+                isLoading
+                colorScheme="gray"
+                variant="solid"
+                loadingText="Loading..."
+              ></Button>
+            ) : (
+              <Button
+                disabled={disable}
+                rightIcon={<ArrowForwardIcon />}
+                onClick={switchLoader}
+              >
+                <span style={{ fontSize: "0.7rem" }}>I&apos;m done!</span>
+              </Button>
+            )}
           </Link>
         </div>
       </div>
@@ -683,26 +719,40 @@ export default function Geolocation({ items }) {
             width: "50%",
             marginLeft: "25%",
             marginTop: "28%",
-            height: 'auto',
+            height: "auto",
             zIndex: 10000,
           }}
         >
-          <Flex flexDirection="row"bg="white" h={200} style={{fontSize:"0.7rem"}}>
-          <Box flex={1} style={{paddingTop:"15%", paddingInline: "5%", fontSize: "1rem"}}>
-            Tell Uncle Semakau where you are now. Uncle Semakau will help you find
-            where to take action!
-            
-          </Box>
-          <Image flex={1}
+          <Flex
+            flexDirection="row"
+            bg="white"
+            h={200}
+            style={{ fontSize: "0.7rem" }}
+          >
+            <Box
+              flex={1}
+              style={{
+                paddingTop: "15%",
+                paddingInline: "5%",
+                fontSize: "1rem",
+              }}
+            >
+              Tell Uncle Semakau where you are now. Uncle Semakau will help you
+              find where to take action!
+            </Box>
+
+            <Image
+              flex={1}
               src="/unclesemakau_singlet.png"
               alt="Uncle Semakau in a Singlet"
               width={"150%"}
-              height={'100%'}
+              height={"100%"}
             />
           </Flex>
-          
         </div>
       )}
+
+
 
       {/* Map */}
       <div className="map-root">
@@ -725,24 +775,30 @@ export default function Geolocation({ items }) {
             animate={true}
             ref={refmarker}
             icon={markerHome}
-          >
-            <Popup minWidth={90}>
-              {/* onClick={toggleDraggable} */}
-              <span>
-                {Address}
-                {/* {draggable ? "Click on this for no reason" : "Nice job!"} */}
-              </span>
-            </Popup>
-            {/* {console.log(bluebinmarkers)}
-            {console.log(markers)} */}
-          </Marker>
+            onClick={() => { enablePopUp(); setContent(Address);}}
+          ></Marker>
           {markers.map((marker, idx) => (
             <Marker
               key={`marker-${idx}`}
               position={[marker.latitude, marker.longitude]}
               icon={markerOthers}
+              onClick={() => { enablePopUp(); setContent(<span>
+                <strong>{marker.itemname}</strong> <br /> <br />
+                <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
+                <br />
+                <br />
+                <b>Address: </b>
+                {marker.address} <br />
+                <b>Postal: </b> {marker.postal} <br />
+                <b>Operating Hours: </b> {marker.operating_hours} <br />
+                <b>Contact: </b> {marker.contact} <br />
+                <b>Website: </b> <a href={marker.website}>{marker.website}</a>{" "}
+                <br />
+                <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
+                <br />
+              </span>);}}
             >
-              <Popup>
+              {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
                   <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
@@ -758,7 +814,7 @@ export default function Geolocation({ items }) {
                   <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
                   <br />
                 </span>
-              </Popup>
+              </Popup> */}
             </Marker>
           ))}
 
@@ -767,16 +823,23 @@ export default function Geolocation({ items }) {
               key={`marker-${idx}`}
               position={[marker.latitude, marker.longitude]}
               icon={markerRecycle}
+              onClick={() => { enablePopUp(); setContent(<span>
+                <strong>{marker.itemname}</strong> <br /> <br />
+                Postal Code: {marker.postal} <br /> Distance:{" "}
+                {marker.distance} km <br />
+                {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                {marker.longitude} <br /> */}
+              </span>);}}
             >
-              <Popup>
+              {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
                   Postal Code: {marker.postal} <br /> Distance:{" "}
-                  {marker.distance} km <br />
+                  {marker.distance} km <br /> */}
                   {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
                   {marker.longitude} <br /> */}
-                </span>
-              </Popup>
+                {/* </span>
+              </Popup> */}
             </Marker>
           ))}
 
@@ -795,6 +858,9 @@ export default function Geolocation({ items }) {
           `}
         </style>
       </div>
+      
     </div>
+    </div>
+    
   );
 }
