@@ -107,7 +107,6 @@ export default function Geolocation({ items }) {
   // Popup Content
   const [content, setContent] = useState(false);
 
-
   // Map style
   const selectStyles = {
     ...selectStylesForColorModes,
@@ -628,177 +627,195 @@ export default function Geolocation({ items }) {
 
   return (
     <div>
-      {popUp && (
-        
-        <Box
-        bg="white"
-          flex={1}
-          style={{ paddingTop: "10%", paddingInline: "5%", fontSize: "1rem" }}
-        >
-          {content}
-        </Box>
-    )}
-    <div
-      style={{
-        position: "relative",
-      }}
-    >
-      
-      {/* Multiselect+Buttons */}
       <div
         style={{
-          position: "absolute",
-          width: "70%",
-          height: "auto",
-          top: 0,
-          zIndex: 10000,
-          justifyContent: "center",
-          left: { left_proportion },
-          marginLeft: "15%",
-          marginTop: "1%",
+          position: "relative",
         }}
       >
-        <AsyncSelect
-          value={Address}
-          isSearchable
-          placeholder={"Input address..."}
-          loadOptions={loadOptionsHandler}
-          onChange={onChangeHandler}
-          components={{ NoOptionsMessage }}
-          styles={selectStyles}
-        />
+        {/* Multiselect+Buttons */}
         <div
           style={{
-            display: "flex",
+            position: "absolute",
+            width: "70%",
+            height: "auto",
+            top: 0,
+            zIndex: 10000,
             justifyContent: "center",
-            alignItems: "center",
-            marginTop: 5,
+            left: { left_proportion },
+            marginLeft: "15%",
+            marginTop: "1%",
           }}
         >
-          <Button onClick={navigatorControl} marginRight={5}>
-            {" "}
-            <InfoIcon />{" "}
-            <span style={{ fontSize: "0.7rem" }}>-Locate with GPS </span>
-          </Button>
-          <Link
-            href={{
-              pathname: "/summary/[code]",
-              query: {
-                code: encode,
-              },
+          <AsyncSelect
+            value={Address}
+            isSearchable
+            placeholder={"Input address..."}
+            loadOptions={loadOptionsHandler}
+            onChange={onChangeHandler}
+            components={{ NoOptionsMessage }}
+            styles={selectStyles}
+          />
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 5,
             }}
-            as={`/summary/${encode}`}
-            passHref
           >
-            {loader ? (
-              <Button
-                isLoading
-                colorScheme="gray"
-                variant="solid"
-                loadingText="Loading..."
-              ></Button>
-            ) : (
-              <Button
-                disabled={disable}
-                rightIcon={<ArrowForwardIcon />}
-                onClick={switchLoader}
-              >
-                <span style={{ fontSize: "0.7rem" }}>I&apos;m done!</span>
-              </Button>
-            )}
-          </Link>
+            <Button onClick={navigatorControl} marginRight={5}>
+              {" "}
+              <InfoIcon />{" "}
+              <span style={{ fontSize: "0.7rem" }}>-Locate with GPS </span>
+            </Button>
+            <Link
+              href={{
+                pathname: "/summary/[code]",
+                query: {
+                  code: encode,
+                },
+              }}
+              as={`/summary/${encode}`}
+              passHref
+            >
+              {loader ? (
+                <Button
+                  isLoading
+                  colorScheme="gray"
+                  variant="solid"
+                  loadingText="Loading..."
+                ></Button>
+              ) : (
+                <Button
+                  disabled={disable}
+                  rightIcon={<ArrowForwardIcon />}
+                  onClick={switchLoader}
+                >
+                  <span style={{ fontSize: "0.7rem" }}>I&apos;m done!</span>
+                </Button>
+              )}
+            </Link>
+          </div>
         </div>
-      </div>
-
-      {/* Center instructional screen */}
-      {disable && (
-        <div
+        {/* Pop Up Box */}
+        <Box
           className="others-container"
           style={{
             position: "absolute",
             width: "50%",
             marginLeft: "25%",
-            marginTop: "28%",
             height: "auto",
             zIndex: 10000,
           }}
+          mt={[80,300,350,380]}
+          fontSize={['xs', 'sm', 'md', 'md']}
         >
-          <Flex
-            flexDirection="row"
-            bg="white"
-            h={200}
-            style={{ fontSize: "0.7rem" }}
+          <div mt={[2,4,6,8 ]}>
+            {popUp && (
+              <Box bg="white" flex={1} p={2}>
+                <span>{content}</span>
+              </Box>
+            )}
+          </div>
+        </Box>
+
+        {/* Center instructional Box */}
+        {disable && (
+          <div
+            className="others-container"
+            style={{
+              position: "absolute",
+              width: "50%",
+              marginLeft: "25%",
+              marginTop: "28%",
+              height: "auto",
+              zIndex: 10000,
+            }}
           >
-            <Box
-              flex={1}
-              style={{
-                paddingTop: "15%",
-                paddingInline: "5%",
-                fontSize: "1rem",
-              }}
+            <Flex
+              flexDirection="row"
+              bg="white"
+              h={200}
+              fontSize="0.7rem"
+              mt={[15, 4, 6, 8]}
             >
-              Tell Uncle Semakau where you are now. Uncle Semakau will help you
-              find where to take action!
-            </Box>
+              <Box
+                flex={1}
+                style={{
+                  paddingTop: "15%",
+                  paddingInline: "5%",
+                }}
+                fontSize={{ base: "7px", md: "10px", lg: "15px" }}
+              >
+                Tell Uncle Semakau where you are now. Uncle Semakau will help
+                you find where to take action!
+              </Box>
 
-            <Image
-              flex={1}
-              src="/unclesemakau_singlet.png"
-              alt="Uncle Semakau in a Singlet"
-              width={"150%"}
-              height={"100%"}
+              <Image
+                flex={1}
+                src="/unclesemakau_singlet.png"
+                alt="Uncle Semakau in a Singlet"
+                width={"150%"}
+                height={"100%"}
+              />
+            </Flex>
+          </div>
+        )}
+
+        {/* Map */}
+        <div className="map-root">
+          <Map
+            center={position}
+            zoom={zoom}
+            style={{
+              height: "500px",
+              flex: 4,
+            }}
+          >
+            <TileLayer
+              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-          </Flex>
-        </div>
-      )}
 
-
-
-      {/* Map */}
-      <div className="map-root">
-        <Map
-          center={position}
-          zoom={zoom}
-          style={{
-            height: "500px",
-          }}
-        >
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-
-          <Marker
-            draggable={false}
-            onDragend={updatePosition}
-            position={markerPosition}
-            animate={true}
-            ref={refmarker}
-            icon={markerHome}
-            onClick={() => { enablePopUp(); setContent(Address);}}
-          ></Marker>
-          {markers.map((marker, idx) => (
             <Marker
-              key={`marker-${idx}`}
-              position={[marker.latitude, marker.longitude]}
-              icon={markerOthers}
-              onClick={() => { enablePopUp(); setContent(<span>
-                <strong>{marker.itemname}</strong> <br /> <br />
-                <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
-                <br />
-                <br />
-                <b>Address: </b>
-                {marker.address} <br />
-                <b>Postal: </b> {marker.postal} <br />
-                <b>Operating Hours: </b> {marker.operating_hours} <br />
-                <b>Contact: </b> {marker.contact} <br />
-                <b>Website: </b> <a href={marker.website}>{marker.website}</a>{" "}
-                <br />
-                <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
-                <br />
-              </span>);}}
-            >
-              {/* <Popup>
+              draggable={false}
+              onDragend={updatePosition}
+              position={markerPosition}
+              animate={true}
+              ref={refmarker}
+              icon={markerHome}
+              onClick={() => {
+                enablePopUp();
+                setContent(Address);
+              }}
+            ></Marker>
+            {markers.map((marker, idx) => (
+              <Marker
+                key={`marker-${idx}`}
+                position={[marker.latitude, marker.longitude]}
+                icon={markerOthers}
+                onClick={() => {
+                  enablePopUp();
+                  setContent(
+                    <span>
+                      <strong>{marker.itemname}</strong> <br /> <br />
+                      <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
+                      <br />
+                      <br />
+                      <b>Address: </b>
+                      {marker.address} <br />
+                      <b>Postal: </b> {marker.postal} <br />
+                      <b>Operating Hours: </b> {marker.operating_hours} <br />
+                      <b>Contact: </b> {marker.contact} <br />
+                      <b>Website: </b>{" "}
+                      <a href={marker.website}>{marker.website}</a> <br />
+                      <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
+                      <br />
+                    </span>
+                  );
+                }}
+              >
+                {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
                   <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
@@ -815,52 +832,55 @@ export default function Geolocation({ items }) {
                   <br />
                 </span>
               </Popup> */}
-            </Marker>
-          ))}
+              </Marker>
+            ))}
 
-          {bluebinmarkers.map((marker, idx) => (
-            <Marker
-              key={`marker-${idx}`}
-              position={[marker.latitude, marker.longitude]}
-              icon={markerRecycle}
-              onClick={() => { enablePopUp(); setContent(<span>
-                <strong>{marker.itemname}</strong> <br /> <br />
-                Postal Code: {marker.postal} <br /> Distance:{" "}
-                {marker.distance} km <br />
-                {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+            {bluebinmarkers.map((marker, idx) => (
+              <Marker
+                key={`marker-${idx}`}
+                position={[marker.latitude, marker.longitude]}
+                icon={markerRecycle}
+                onClick={() => {
+                  enablePopUp();
+                  setContent(
+                    <span>
+                      <strong>{marker.itemname}</strong> <br /> <br />
+                      Postal Code: {marker.postal} <br /> Distance:{" "}
+                      {marker.distance} km <br />
+                      {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
                 {marker.longitude} <br /> */}
-              </span>);}}
-            >
-              {/* <Popup>
+                    </span>
+                  );
+                }}
+              >
+                {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
                   Postal Code: {marker.postal} <br /> Distance:{" "}
                   {marker.distance} km <br /> */}
-                  {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
                   {marker.longitude} <br /> */}
                 {/* </span>
               </Popup> */}
-            </Marker>
-          ))}
+              </Marker>
+            ))}
 
-          <SearchBar updateMarker={updateMarker} />
-        </Map>
-        <style jsx>
-          {`
-            .map-root {
-              height: 100%;
-            }
-            .leaflet-container {
-              height: 400px !important;
-              width: 80%;
-              margin: 0 auto;
-            }
-          `}
-        </style>
+            <SearchBar updateMarker={updateMarker} />
+          </Map>
+          <style jsx>
+            {`
+              .map-root {
+                height: 100%;
+              }
+              .leaflet-container {
+                height: 400px !important;
+                width: 80%;
+                margin: 0 auto;
+              }
+            `}
+          </style>
+        </div>
       </div>
-      
     </div>
-    </div>
-    
   );
 }
