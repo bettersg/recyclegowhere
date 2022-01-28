@@ -727,6 +727,7 @@ export default function Geolocation({ items }) {
               position: "absolute",
               width: "50%",
               marginLeft: "25%",
+              
               marginTop: "28%",
               height: "auto",
               zIndex: 10000,
@@ -734,18 +735,23 @@ export default function Geolocation({ items }) {
           >
             <Flex
               flexDirection="row"
+              flexBasis="auto "
               bg="white"
-              h={200}
-              fontSize="0.7rem"
-              mt={[15, 4, 6, 8]}
+              height={{
+                base: '125px', // 0-48em
+                md: '180px', // 48em-80em,
+                xl: '200px', // 80em+
+              }}
+              mt={[30, 20, 6, 8]}
             >
               <Box
                 flex={1}
                 style={{
-                  paddingTop: "15%",
+                  paddingTop: "5%",
                   paddingInline: "5%",
+                  
                 }}
-                fontSize={{ base: "7px", md: "10px", lg: "15px" }}
+                fontSize={{ base: "7px", md: "15px", lg: "15px" }}
               >
                 Tell Uncle Semakau where you are now. Uncle Semakau will help
                 you find where to take action!
@@ -755,8 +761,11 @@ export default function Geolocation({ items }) {
                 flex={1}
                 src="/unclesemakau_singlet.png"
                 alt="Uncle Semakau in a Singlet"
-                width={"150%"}
-                height={"100%"}
+                width={"95%"}
+                height={"150px"}
+                style={{
+                  flexGrow: 0
+                }}
               />
             </Flex>
           </div>

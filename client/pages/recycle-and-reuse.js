@@ -56,7 +56,7 @@ function RecycleAndReuse({ data }) {
 
           <Steps 
             activeStep={step} 
-            responsive={true}
+            responsive={false}
             labelOrientation="vertical"
             colorScheme='teal' 
             p={3} 
