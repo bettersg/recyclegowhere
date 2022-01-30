@@ -620,6 +620,9 @@ export default function Geolocation({ items }) {
     setPopUp(true);
     console.log(popUp);
   };
+  const closePopUp = () => {
+    setPopUp(false);
+  }
 
   const switchLoader = () => {
     setLoader(true);
@@ -663,10 +666,10 @@ export default function Geolocation({ items }) {
               marginTop: 5,
             }}
           >
-            <Button onClick={navigatorControl} marginRight={2}>
-              {" "}
+            <Button onClick={navigatorControl} marginRight={2} colorScheme="teal">
               <SearchIcon />
-              <span style={{ fontSize: "0.7rem" }}>Use My Location! </span>
+              {" "}
+              <span style={{ fontSize: "0.9rem" }}>Use My Location! </span>
             </Button>
             <Link
               href={{
@@ -681,7 +684,7 @@ export default function Geolocation({ items }) {
               {loader ? (
                 <Button
                   isLoading
-                  colorScheme="gray"
+                  colorScheme="teal"
                   variant="solid"
                   loadingText="Loading..."
                 ></Button>
@@ -690,8 +693,9 @@ export default function Geolocation({ items }) {
                   disabled={disable}
                   rightIcon={<ArrowForwardIcon />}
                   onClick={switchLoader}
+                  colorScheme="teal"
                 >
-                  <span style={{ fontSize: "0.7rem" }}>I&apos;m done!</span>
+                  <span style={{ fontSize: "0.9rem" }}>I&apos;m done!</span>
                 </Button>
               )}
             </Link>
@@ -700,25 +704,23 @@ export default function Geolocation({ items }) {
         {/* Pop Up Box */}
         <Box
           className="others-container"
-          style={{
-            position: "absolute",
-            width: "130%",
-            marginLeft: "-15%",
-            height: "auto",
-            zIndex: 998,
-            borderColor:"black",
-            border:5,
-          }}
+          position="absolute"
+          width="130%"
+          marginLeft="-15%"
+          height="auto"
+          zIndex="9999"
           mt={[600,600,600,550]}
           fontSize={['xs', 'sm', 'sm', 'sm']}
-          borderStyle={"solid"}
-          borderColor={"black"}
-          
+          borderWidth='1px' borderRadius='xl'    
+          bg="#E6FFFA
+          " 
         >
           <div mt={[1,4,6,8 ]}>
             {popUp && (
-              <Box bg="white" flex={1} p={2}>
+              <Box flex={1} p={4} >
                 <span>{content}</span>
+                <br/>
+                <Button onClick={closePopUp} colorScheme='teal' size='xs'>X</Button>
               </Box>
             )}
           </div>
@@ -857,7 +859,7 @@ export default function Geolocation({ items }) {
                   enablePopUp();
                   setContent(
                     <span>
-                      <strong>{marker.itemname}</strong> <br /> <br />
+                      <strong>Blue Recycling Bin</strong> for <strong>{marker.itemname}</strong> <br /> <br />
                       Postal Code: {marker.postal} <br /> Distance:{" "}
                       {marker.distance} km <br />
                       {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
