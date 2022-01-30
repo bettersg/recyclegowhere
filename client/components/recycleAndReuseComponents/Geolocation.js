@@ -1,4 +1,5 @@
 import React, { Component, useRef, useState, useEffect } from "react";
+
 import Image from "next/image";
 import {
   Map,
@@ -23,6 +24,8 @@ import Item from "../../jsonfiles/Item.json";
 
 import physicalChannels from "../../jsonfiles/Physical-Channel.json";
 import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
+
+import { Fade, ScaleFade, Slide, SlideFade, useDisclosure } from '@chakra-ui/react'
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -618,6 +621,7 @@ export default function Geolocation({ items }) {
   const enablePopUp = (e) => {
     console.log(e);
     setPopUp(true);
+
     console.log(popUp);
   };
   const closePopUp = () => {
@@ -627,6 +631,7 @@ export default function Geolocation({ items }) {
   const switchLoader = () => {
     setLoader(true);
   };
+  const { isOpen, onToggle } = useDisclosure()
 
   return (
     <div>
@@ -702,7 +707,8 @@ export default function Geolocation({ items }) {
           </div>
         </div>
         {/* Pop Up Box */}
-        <Box
+        
+        {popUp && (<Box
           className="others-container"
           position="absolute"
           width="130%"
@@ -716,15 +722,15 @@ export default function Geolocation({ items }) {
           " 
         >
           <div mt={[1,4,6,8 ]}>
-            {popUp && (
+            
               <Box flex={1} p={4} >
                 <span>{content}</span>
                 <br/>
-                <Button onClick={closePopUp} colorScheme='teal' size='xs'>X</Button>
+                <Button onClick={closePopUp} colorScheme='teal' size='xs' mt={1}>X</Button>
               </Box>
-            )}
+            
           </div>
-        </Box>
+        </Box>)}
 
         {/* Center instructional Box */}
         {disable && (
@@ -802,6 +808,7 @@ export default function Geolocation({ items }) {
               onClick={() => {
                 enablePopUp();
                 setContent(Address);
+                onToggle();
               }}
             ></Marker>
             {markers.map((marker, idx) => (
