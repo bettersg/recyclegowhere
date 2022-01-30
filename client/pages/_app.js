@@ -4,7 +4,12 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Container } from "@chakra-ui/react";
 import Head from 'next/head';
+import React, { useEffect } from 'react';
+import TagManager from "react-gtm-module"
 
+const tagManagerArgs = {
+  gtmId: "GTM-TWC8D9H",
+}
 
 const theme = extendTheme({
   components: {
@@ -13,6 +18,11 @@ const theme = extendTheme({
 });
 
 function MyApp({ Component, pageProps }) {
+
+  useEffect(() => {
+    TagManager.initialize(tagManagerArgs)
+  }, [])
+
   return (
     <ChakraProvider theme={theme}>
       <Head>

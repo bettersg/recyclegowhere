@@ -49,7 +49,7 @@ function ShowSummaryLink({ isOpen, onClose, linkId }) {
 
           <ModalBody>
             <br />
-            Here's the unique link to your summary:
+            Here&apos;s the unique link to your summary:
             <Input ref={linkRef} isReadOnly placeholder={summaryLink}/>
           </ModalBody>
 
