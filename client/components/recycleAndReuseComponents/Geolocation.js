@@ -1,4 +1,5 @@
 import React, { Component, useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import {
   Map,
   TileLayer,
@@ -10,18 +11,18 @@ import {
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
-import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { Button, filter } from "@chakra-ui/react";
+import { InfoIcon, ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
+import { Button, filter, Heading, Box, Flex, border } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
 import { selectStylesForColorModes } from "../DarkModeSwitch";
+import { popupContent, popupHead, popupText, okText } from "./popupStyles";
 
-import Item from '../../jsonfiles/Item.json'
+import Item from "../../jsonfiles/Item.json";
 
 import physicalChannels from "../../jsonfiles/Physical-Channel.json";
 import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
-
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -94,6 +95,18 @@ export default function Geolocation({ items }) {
   // Encode JSON to Base64
   const [encode, setEncode] = useState("");
 
+  // Disable button if no location
+  const [disable, setDisable] = useState(true);
+
+  // Pre summary page loader
+  const [loader, setLoader] = useState(false);
+
+  // Popup
+  const [popUp, setPopUp] = useState(false);
+
+  // Popup Content
+  const [content, setContent] = useState(false);
+
   // Map style
   const selectStyles = {
     ...selectStylesForColorModes,
@@ -152,8 +165,10 @@ export default function Geolocation({ items }) {
   useEffect(() => {
     let ignore = false;
 
-    if (!ignore)  setData(physicalChannels)
-    return () => { ignore = true; }
+    if (!ignore) setData(physicalChannels);
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // Function to calculate distance between two points + radian conversion
@@ -293,12 +308,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < filteredbluebindata.length; bb++) {
           var item = {
             postal: filteredbluebindata[bb].postcode,
-            distance: Math.round((calcCrow(
-              event.lat,
-              event.long,
-              filteredbluebindata[bb].latitude,
-              filteredbluebindata[bb].longitude
-            )*100))/100,
+            distance:
+              Math.round(
+                calcCrow(
+                  event.lat,
+                  event.long,
+                  filteredbluebindata[bb].latitude,
+                  filteredbluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: filteredbluebindata[bb].latitude,
             longitude: filteredbluebindata[bb].longitude,
             block_number: filteredbluebindata[bb].block_number,
@@ -322,12 +340,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: Math.round((calcCrow(
-              event.lat,
-              event.long,
-              bluebindata[bb].latitude,
-              bluebindata[bb].longitude
-            )*100))/100,
+            distance:
+              Math.round(
+                calcCrow(
+                  event.lat,
+                  event.long,
+                  bluebindata[bb].latitude,
+                  bluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -371,12 +392,15 @@ export default function Geolocation({ items }) {
             console.log(data[i].type);
             var item = {
               postal: data[i].postcode,
-              distance: Math.round((calcCrow(
-              event.lat,
-              event.long,
-              data[i].latitude,
-              data[i].longitude
-            )*100))/100,
+              distance:
+                Math.round(
+                  calcCrow(
+                    event.lat,
+                    event.long,
+                    data[i].latitude,
+                    data[i].longitude
+                  ) * 100
+                ) / 100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -421,6 +445,8 @@ export default function Geolocation({ items }) {
     setEncode(btoa(JSON.stringify(allLocations)));
     console.log("The code for the summary page is: " + encode);
     console.log("--------------------------------------------");
+
+    setDisable(false);
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // BUTTON CLICK - THE SAME SEARCH ALGORITHM
@@ -470,12 +496,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: Math.round((calcCrow(
-              position.coords.latitude,
-              position.coords.longitude,
-              bluebindata[bb].latitude,
-              bluebindata[bb].longitude
-            )*100))/100,
+            distance:
+              Math.round(
+                calcCrow(
+                  position.coords.latitude,
+                  position.coords.longitude,
+                  bluebindata[bb].latitude,
+                  bluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -523,12 +552,15 @@ export default function Geolocation({ items }) {
             counter = counter + 1;
             var item = {
               postal: data[i].postcode,
-              distance: Math.round((calcCrow(
-                position.coords.latitude,
-                position.coords.longitude,
-                data[i].latitude,
-                data[i].longitude
-              )*100))/100,
+              distance:
+                Math.round(
+                  calcCrow(
+                    position.coords.latitude,
+                    position.coords.longitude,
+                    data[i].latitude,
+                    data[i].longitude
+                  ) * 100
+                ) / 100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -571,6 +603,7 @@ export default function Geolocation({ items }) {
         "------------------------------------------------------------------"
       );
       console.log(encode);
+      setDisable(false);
     };
 
     const errorCallback = (error) => {
@@ -581,76 +614,223 @@ export default function Geolocation({ items }) {
       timeout: 25000,
     });
   };
+  const left_proportion = "50%";
+  const enablePopUp = (e) => {
+    console.log(e);
+    setPopUp(true);
+    console.log(popUp);
+  };
+  const closePopUp = () => {
+    setPopUp(false);
+  }
+
+  const switchLoader = () => {
+    setLoader(true);
+  };
 
   return (
     <div>
-      <AsyncSelect
-        value={Address}
-        isSearchable
-        placeholder={"Input address..."}
-        loadOptions={loadOptionsHandler}
-        onChange={onChangeHandler}
-        components={{ NoOptionsMessage }}
-        styles={selectStyles}
-      />
-      <p>{Address}</p>
-
-      {/* ///////////////////// */}
-      <Button onClick={navigatorControl}>
-        {" "}
-        <InfoIcon /> Locate with GPS{" "}
-      </Button>
-      <Link
-        href={{
-          pathname: "/summary/[code]",
-          query: {
-            code: encode,
-          },
+      <div
+        style={{
+          position: "relative",
         }}
-        as={`/summary/${encode}`}
-        passHref
       >
-        <Button rightIcon={<ArrowForwardIcon />}>I&apos;m done!</Button>
-      </Link>
-
-      {/* ///////////////////// */}
-
-      <div className="map-root">
-        <Map
-          center={position}
-          zoom={zoom}
+        {/* Multiselect+Buttons */}
+        <div
           style={{
-            height: "500px",
+            position: "absolute",
+            width: "90%",
+            height: "auto",
+            top: 0,
+            zIndex: 10000,
+            justifyContent: "center",
+            left: { left_proportion },
+            marginLeft: "5%",
+            marginTop: "5%",
           }}
         >
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          <AsyncSelect
+            value={Address}
+            isSearchable
+            placeholder={"Enter your Location"}
+            loadOptions={loadOptionsHandler}
+            onChange={onChangeHandler}
+            components={{ NoOptionsMessage }}
+            styles={selectStyles}
           />
-
-          <Marker
-            draggable={false}
-            onDragend={updatePosition}
-            position={markerPosition}
-            animate={true}
-            ref={refmarker}
-            icon={markerHome}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 5,
+            }}
           >
-            <Popup minWidth={90}>
-              <span onClick={toggleDraggable}>
-                {draggable ? "Click on this for no reason" : "Nice job!"}
-              </span>
-            </Popup>
-            {/* {console.log(bluebinmarkers)}
-            {console.log(markers)} */}
-          </Marker>
-          {markers.map((marker, idx) => (
-            <Marker
-              key={`marker-${idx}`}
-              position={[marker.latitude, marker.longitude]}
-              icon={markerOthers}
+            <Button onClick={navigatorControl} marginRight={2} colorScheme="teal">
+              <SearchIcon />
+              {" "}
+              <span style={{ fontSize: "0.9rem" }}>Use My Location! </span>
+            </Button>
+            <Link
+              href={{
+                pathname: "/summary/[code]",
+                query: {
+                  code: encode,
+                },
+              }}
+              as={`/summary/${encode}`}
+              passHref
             >
-              <Popup>
+              {loader ? (
+                <Button
+                  isLoading
+                  colorScheme="teal"
+                  variant="solid"
+                  loadingText="Loading..."
+                ></Button>
+              ) : (
+                <Button
+                  disabled={disable}
+                  rightIcon={<ArrowForwardIcon />}
+                  onClick={switchLoader}
+                  colorScheme="teal"
+                >
+                  <span style={{ fontSize: "0.9rem" }}>I&apos;m done!</span>
+                </Button>
+              )}
+            </Link>
+          </div>
+        </div>
+        {/* Pop Up Box */}
+        <Box
+          className="others-container"
+          position="absolute"
+          width="130%"
+          marginLeft="-15%"
+          height="auto"
+          zIndex="9999"
+          mt={[600,600,600,550]}
+          fontSize={['xs', 'sm', 'sm', 'sm']}
+          borderWidth='1px' borderRadius='xl'    
+          bg="#E6FFFA
+          " 
+        >
+          <div mt={[1,4,6,8 ]}>
+            {popUp && (
+              <Box flex={1} p={4} >
+                <span>{content}</span>
+                <br/>
+                <Button onClick={closePopUp} colorScheme='teal' size='xs'>X</Button>
+              </Box>
+            )}
+          </div>
+        </Box>
+
+        {/* Center instructional Box */}
+        {disable && (
+          <div
+            className="others-container"
+            style={{
+              position: "absolute",
+              width: "80%",
+              marginLeft: "10%",
+             
+              marginTop: "28%",
+              height: "auto",
+              zIndex: 998,
+            }}
+          >
+            <Flex
+              flexDirection="row"
+              bg="white"
+              height={{
+                base: '150px', // 0-48em
+                md: '180px', // 48em-80em,
+                xl: '200px', // 80em+
+              }}
+              mt={[50, 20, 6, 8]}
+            >
+              <Box
+                style={{
+                  paddingTop: "5%",
+                  paddingInline: "5%",
+                  width:"100%"
+                }}
+                fontSize={{ base: "14px", md: "18px", lg: "20px" }}
+              >
+                Tell Uncle Semakau where you are now. Uncle Semakau will help
+                you find where to take action!
+              </Box>
+
+              <Image
+                src="/unclesemakau_singlet.png"
+                alt="Uncle Semakau in a Singlet"
+                width={"95%"}
+                height={"150px"}
+                style={{
+                  flexGrow: 1
+                }}
+              />
+            </Flex>
+          </div>
+        )}
+
+        {/* Map */}
+        <div className="map-root">
+          <Map
+            center={position}
+            zoom={zoom}
+            style={{
+              height: "700px",
+              flex: 4,
+              width:"140%",
+              marginLeft:"-20%"
+            }}
+          >
+            <TileLayer
+              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+
+            <Marker
+              draggable={false}
+              onDragend={updatePosition}
+              position={markerPosition}
+              animate={true}
+              ref={refmarker}
+              icon={markerHome}
+              onClick={() => {
+                enablePopUp();
+                setContent(Address);
+              }}
+            ></Marker>
+            {markers.map((marker, idx) => (
+              <Marker
+                key={`marker-${idx}`}
+                position={[marker.latitude, marker.longitude]}
+                icon={markerOthers}
+                onClick={() => {
+                  enablePopUp();
+                  setContent(
+                    <span>
+                      <strong>{marker.itemname}</strong> <br /> <br />
+                      <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
+                      <br />
+                      <br />
+                      <b>Address: </b>
+                      {marker.address} <br />
+                      <b>Postal: </b> {marker.postal} <br />
+                      <b>Operating Hours: </b> {marker.operating_hours} <br />
+                      <b>Contact: </b> {marker.contact} <br />
+                      <b>Website: </b>{" "}
+                      <a href={marker.website}>{marker.website}</a> <br />
+                      <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
+                      <br />
+                    </span>
+                  );
+                }}
+              >
+                {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
                   <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
@@ -666,42 +846,55 @@ export default function Geolocation({ items }) {
                   <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
                   <br />
                 </span>
-              </Popup>
-            </Marker>
-          ))}
+              </Popup> */}
+              </Marker>
+            ))}
 
-          {bluebinmarkers.map((marker,idx) => (
+            {bluebinmarkers.map((marker, idx) => (
               <Marker
-              key={`marker-${idx}`}
-              position={[marker.latitude, marker.longitude]}
-              icon={markerRecycle}
-            >
-              <Popup>
+                key={`marker-${idx}`}
+                position={[marker.latitude, marker.longitude]}
+                icon={markerRecycle}
+                onClick={() => {
+                  enablePopUp();
+                  setContent(
+                    <span>
+                      <strong>Blue Recycling Bin</strong> for <strong>{marker.itemname}</strong> <br /> <br />
+                      Postal Code: {marker.postal} <br /> Distance:{" "}
+                      {marker.distance} km <br />
+                      {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                {marker.longitude} <br /> */}
+                    </span>
+                  );
+                }}
+              >
+                {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
-                  Postal Code: {marker.postal} <br /> Distance: {marker.distance} km{" "}
-                  <br />
-                  {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                  Postal Code: {marker.postal} <br /> Distance:{" "}
+                  {marker.distance} km <br /> */}
+                {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
                   {marker.longitude} <br /> */}
-                </span>
-              </Popup>
-            </Marker>
-          ))}
+                {/* </span>
+              </Popup> */}
+              </Marker>
+            ))}
 
-          <SearchBar updateMarker={updateMarker} />
-        </Map>
-        <style jsx>
-          {`
-            .map-root {
-              height: 100%;
-            }
-            .leaflet-container {
-              height: 400px !important;
-              width: 80%;
-              margin: 0 auto;
-            }
-          `}
-        </style>
+            <SearchBar updateMarker={updateMarker} />
+          </Map>
+          <style jsx>
+            {`
+              .map-root {
+                height: 100%;
+              }
+              .leaflet-container {
+                height: 400px !important;
+                width: 80%;
+                margin: 0 auto;
+              }
+            `}
+          </style>
+        </div>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ import { selectStylesForColorModes } from "../DarkModeSwitch";
 
 export default function Location({ items, setGeolocation, setLocation }) {
   const [orgs, setOrgs] = useState([]);
-  const [confirmedAddress, setConfirmedAddress] = useState(false);
+  const [confirmedAddress, setConfirmedAddress] = useState(true);
   const [Address, setAddress] = useState("");
   const fetchOrgs = async () => {
     // const { data } = await axios.get(
@@ -67,40 +67,41 @@ export default function Location({ items, setGeolocation, setLocation }) {
     <div>
       {confirmedAddress ? (
         <div>
-          <Flex mt="4" mb="3">
-            <Box pr='20'>
-              <div style={{ marginTop: 50, marginBottom: 10 }}>
+          <Flex mt="4" mb="3" flexBasis={"100%"} bg = "#EDF2F7" >
+            <Box pr='20' flex={1} p={5}>
+              {/* <div style={{ marginTop: 50, marginBottom: 10 }}>
                 Your location is <br />
                 <strong>{Address}. </strong>{" "}
                 
-              </div>
+              </div> */}
               <div>
                 Your items are:
                 {items.map((item) => (
                   
                     <p key={item.id}>
-                      <b>{item.description}</b>
+                      - <b>{item.description}</b>
                       <br />
                     </p>
                 ))}
               </div>
               
             </Box>
-            
-            
-          </Flex>
-          <Button
+            <Button flex={1} m={5}
                   onClick={() => {
                     setGeolocation(true);
                     setLocation(false);
                   }}
+                  colorScheme='teal' variant='solid'
                 >
                   Dispose Items Yourself Instead
                 </Button>
+            
+          </Flex>
+         <hr/>
           <div>
             
           </div>
-          <div style={{ marginTop: 10, marginBottom: 10 }}>
+          <div style={{ marginTop: 10, marginBottom: 0 }}>
             <Text fontWeight="bold" fontSize="20">
               Contact these organisations for doorstep collections:
             </Text>
