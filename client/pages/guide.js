@@ -21,9 +21,8 @@ function Guide({ data }) {
         </Heading>
     <Center>
       <Head title="Reuse and Recycle" />
-      
-      <Flex mt={4} width="80%" flexDirection="column">
-      <Box flex={4} pr={25}>
+    
+      <Box pr={25} mb={20}>
         We are Team RecycleGoWhere, a subsidiary project under Better.sg.
         <br/>
         <br/>
@@ -31,8 +30,11 @@ function Guide({ data }) {
         <br/>
         <br/>
         Singapore has only 1 landfill, Pulau Semakau, which will fill up by 2035. If we do not recycle regularly and correctly, we cannot ensure the longevity of the landfill, and we will have to create new landfills, which causes environmental destruction and requires land space that Singapore does not possess.
+        <br/>
+        <br/>
+
       </Box>
-      <Box w={["70vw", "60vw", "40wv"]} flex={2}>
+      <Box w={["60vw", "60vw", "30wv"]}>
         
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
           <Image
@@ -43,8 +45,7 @@ function Guide({ data }) {
         /> 
         </div>
           
-      </Box>
-      </Flex>
+      </Box>  
       
     </Center>
     </div>
