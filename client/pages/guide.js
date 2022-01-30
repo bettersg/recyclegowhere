@@ -34,7 +34,7 @@ function Guide({ data }) {
         <br/>
 
       </Box>
-      <Box w={["60vw", "60vw", "30wv"]}>
+      {/* <Box w={["60vw", "60vw", "30wv"]}>
         
         <div style={{display: 'flex',  justifyContent:'center', alignItems:'center'}}>
           <Image
@@ -45,7 +45,7 @@ function Guide({ data }) {
         /> 
         </div>
           
-      </Box>  
+      </Box>   */}
       
     </Center>
     </div>

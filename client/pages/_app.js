@@ -24,6 +24,7 @@ function MyApp({ Component, pageProps }) {
           href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css"
           rel="stylesheet"
         />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <Header />
       <Container
