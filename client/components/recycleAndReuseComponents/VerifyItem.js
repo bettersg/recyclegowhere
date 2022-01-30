@@ -76,7 +76,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center' width='100%'>
-            <Text fontWeight='bold'>Please check against the statements below.</Text>
+            {/* <Text fontWeight='bold'>Please check against the statements below.</Text> */}
             <Image
                 src='/unclesemakau.png'
                 alt='Uncle Semakau'
@@ -85,7 +85,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
             />
             <form onSubmit={handleSubmit}>
                 <VStack spacing={4} width='100%'>
-                    <Text fontWeight='bold' textAlign='center'>Your Item List</Text>
+                    <Text fontWeight='bold' textAlign='center' marginInline={"20%"}>Please check against the statements below!</Text>
                     <Text fontWeight='lighter' textAlign='left' width='100%'>* represents a required field</Text>
                     <Box width={['85vw', '60vw', '40vw']} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
                         {blueBinRecyclableItems && blueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>

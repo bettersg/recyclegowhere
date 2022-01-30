@@ -68,12 +68,12 @@ function RecycleAndReuse({ data }) {
               icon={AddIcon}
               description={stepLabels[0].description}
               key='0'>
-              <Heading 
+              {/* <Heading 
                 as="h2" 
                 fontSize="xl" 
                 textAlign="center">
                   Add Items
-              </Heading>
+              </Heading> */}
               <AddItem 
                 setNextStep={() => setStep(1)} 
                 data={data} 
@@ -86,12 +86,12 @@ function RecycleAndReuse({ data }) {
               icon={EditIcon} 
               description={stepLabels[1].description}
               key='1'>
-              <Heading 
+              {/* <Heading 
                 as="h2" 
                 fontSize="xl" 
                 textAlign="center">
                 Verify Items
-              </Heading>
+              </Heading> */}
               <VerifyItem 
                 items={items} 
                 setItems={setItems} 
@@ -106,12 +106,12 @@ function RecycleAndReuse({ data }) {
               icon={DeleteIcon}
               description={stepLabels[2].description}
               key='2'>
-              <Heading 
+              {/* <Heading 
                 as="h2" 
                 fontSize="xl" 
                 textAlign="center">
                 Take Action
-              </Heading>
+              </Heading> */}
               {
                 geolocation 
                   ? <GeolocationNoSSR items={items} />

@@ -11,8 +11,8 @@ import {
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
-import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { Button, filter, Heading, Box, Flex } from "@chakra-ui/react";
+import { InfoIcon, ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
+import { Button, filter, Heading, Box, Flex, border } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
@@ -636,20 +636,20 @@ export default function Geolocation({ items }) {
         <div
           style={{
             position: "absolute",
-            width: "70%",
+            width: "90%",
             height: "auto",
             top: 0,
             zIndex: 10000,
             justifyContent: "center",
             left: { left_proportion },
-            marginLeft: "15%",
-            marginTop: "1%",
+            marginLeft: "5%",
+            marginTop: "5%",
           }}
         >
           <AsyncSelect
             value={Address}
             isSearchable
-            placeholder={"Input address..."}
+            placeholder={"Enter your Location"}
             loadOptions={loadOptionsHandler}
             onChange={onChangeHandler}
             components={{ NoOptionsMessage }}
@@ -663,10 +663,10 @@ export default function Geolocation({ items }) {
               marginTop: 5,
             }}
           >
-            <Button onClick={navigatorControl} marginRight={5}>
+            <Button onClick={navigatorControl} marginRight={2}>
               {" "}
-              <InfoIcon />{" "}
-              <span style={{ fontSize: "0.7rem" }}>-Locate with GPS </span>
+              <SearchIcon />
+              <span style={{ fontSize: "0.7rem" }}>Use My Location! </span>
             </Button>
             <Link
               href={{
@@ -702,15 +702,20 @@ export default function Geolocation({ items }) {
           className="others-container"
           style={{
             position: "absolute",
-            width: "50%",
-            marginLeft: "25%",
+            width: "130%",
+            marginLeft: "-15%",
             height: "auto",
-            zIndex: 10000,
+            zIndex: 998,
+            borderColor:"black",
+            border:5,
           }}
-          mt={[80,300,350,380]}
-          fontSize={['xs', 'sm', 'md', 'md']}
+          mt={[600,600,600,550]}
+          fontSize={['xs', 'sm', 'sm', 'sm']}
+          borderStyle={"solid"}
+          borderColor={"black"}
+          
         >
-          <div mt={[2,4,6,8 ]}>
+          <div mt={[1,4,6,8 ]}>
             {popUp && (
               <Box bg="white" flex={1} p={2}>
                 <span>{content}</span>
@@ -725,46 +730,43 @@ export default function Geolocation({ items }) {
             className="others-container"
             style={{
               position: "absolute",
-              width: "50%",
-              marginLeft: "25%",
-              
+              width: "80%",
+              marginLeft: "10%",
+             
               marginTop: "28%",
               height: "auto",
-              zIndex: 10000,
+              zIndex: 998,
             }}
           >
             <Flex
               flexDirection="row"
-              flexBasis="auto "
               bg="white"
               height={{
-                base: '125px', // 0-48em
+                base: '150px', // 0-48em
                 md: '180px', // 48em-80em,
                 xl: '200px', // 80em+
               }}
-              mt={[30, 20, 6, 8]}
+              mt={[50, 20, 6, 8]}
             >
               <Box
-                flex={1}
                 style={{
                   paddingTop: "5%",
                   paddingInline: "5%",
-                  
+                  width:"100%"
                 }}
-                fontSize={{ base: "7px", md: "15px", lg: "15px" }}
+                fontSize={{ base: "14px", md: "18px", lg: "20px" }}
               >
                 Tell Uncle Semakau where you are now. Uncle Semakau will help
                 you find where to take action!
               </Box>
 
               <Image
-                flex={1}
                 src="/unclesemakau_singlet.png"
                 alt="Uncle Semakau in a Singlet"
                 width={"95%"}
                 height={"150px"}
                 style={{
-                  flexGrow: 0
+                  flexGrow: 1
                 }}
               />
             </Flex>
@@ -777,8 +779,10 @@ export default function Geolocation({ items }) {
             center={position}
             zoom={zoom}
             style={{
-              height: "500px",
+              height: "700px",
               flex: 4,
+              width:"140%",
+              marginLeft:"-20%"
             }}
           >
             <TileLayer

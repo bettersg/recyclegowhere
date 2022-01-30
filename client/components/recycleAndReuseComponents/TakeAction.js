@@ -34,7 +34,7 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center'>
 
-            <Text fontWeight='bold'>How would you like to take action?</Text>
+            {/* <Text fontWeight='bold'>How would you like to take action?</Text> */}
 
             <Image
                 src='/unclesemakau.png'
@@ -47,8 +47,9 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
 
                 <Text 
                     fontWeight='bold' 
-                    textAlign='center'> 
-                    Your Final Item List 
+                    textAlign='center'
+                    marginInline={"20%"}> 
+                    How would you like to take action?
                 </Text>
 
                 <Box 
