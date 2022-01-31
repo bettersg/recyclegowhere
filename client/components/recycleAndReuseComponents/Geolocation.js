@@ -1,6 +1,5 @@
 import React, { Component, useRef, useState, useEffect } from "react";
 
-
 import {
   Map,
   TileLayer,
@@ -25,7 +24,13 @@ import Item from "../../jsonfiles/Item.json";
 import physicalChannels from "../../jsonfiles/Physical-Channel.json";
 import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
 
-import { Fade, ScaleFade, Slide, SlideFade, useDisclosure } from '@chakra-ui/react'
+import {
+  Fade,
+  ScaleFade,
+  Slide,
+  SlideFade,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -247,6 +252,13 @@ export default function Geolocation({ items }) {
     );
   };
 
+  //   const ensureInDatabase=()=>{
+  //     console.log(nonBlueBinRecyclableItems)
+  //     var itemsThatAreValid = 0;
+
+  //     console.log(nonBlueBinRecyclableItems)
+  // }
+
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SEARCH BAR INPUT - THE SEARCH ALGORITHM //
   const onChangeHandler = (event) => {
@@ -268,11 +280,7 @@ export default function Geolocation({ items }) {
     var bluebinarray = [];
     for (let i = 0; i < mockitems.length; i++) {
       if (mockitems[i].bluebinrecyclable == 0) {
-        if (bluebinarray.length == 0) {
-          bluebinarray.push(mockitems[i].description);
-        } else {
-          bluebinarray.push(", " + mockitems[i].description);
-        }
+        bluebinarray.push(mockitems[i].description);
       } else {
         nonbluebinobjects.items1.push(mockitems[i]);
       }
@@ -376,10 +384,28 @@ export default function Geolocation({ items }) {
 
     ////////////////////////////////////////////////////////
     // NON BLUE BIN MARKERS //
+
     var items3 = [];
 
     console.log("Number of Physical Channels available: " + data.length);
-
+    // Remove items not in database
+    // var itemsThatAreValid = 0;
+    // console.log("these are non blue");
+    // console.log(nonbluebinobjects.items1.length);
+    // for (let l = 0; l < nonbluebinobjects.items1.length; l++) {
+    //   for (let i = 0; i < data.length; i++) {
+    //     if (
+    //       data[i].categories_accepted.includes(
+    //         nonbluebinobjects.items1[l].category
+    //       ) &&
+    //       data[i].type.includes(nonbluebinobjects.items1[l].condition)
+    //     ) {
+    //       itemsThatAreValid += 1;
+    //     } else {
+    //       nonbluebinobjects.items1.pop(nonbluebinobjects.items1[l]);
+    //     }
+    //   }
+    // }
     markers = [];
     if (nonbluebinobjects.items1[0]) {
       console.log("You have non-blue bin objects.");
@@ -442,6 +468,13 @@ export default function Geolocation({ items }) {
     console.log(nonbluebinobjects.items1);
 
     setMarkers(markers);
+    const person = {
+      latitude: event.lat,
+      longitude: event.long,
+      isPerson: true,
+    };
+
+    allLocations.push(person);
     setAllLocations(allLocations);
     console.log("The nearest facility is:");
     console.log(allLocations);
@@ -476,7 +509,7 @@ export default function Geolocation({ items }) {
       var bluebinarray = [];
       for (let i = 0; i < mockitems.length; i++) {
         if (mockitems[i].bluebinrecyclable == 0) {
-            bluebinarray.push(mockitems[i].description);
+          bluebinarray.push(mockitems[i].description);
         } else {
           nonbluebinobjects.items.push(mockitems[i]);
         }
@@ -592,12 +625,15 @@ export default function Geolocation({ items }) {
         markers.push(items[0]);
         allLocations.push(items[0]);
 
-        const person = {latitude: position.coords.latitude, longitude: position.coords.longitude}
-
-        allLocations.push(person)
         items = [];
       }
+      const person = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        isPerson: true,
+      };
 
+      allLocations.push(person);
       setMarkers(markers);
       setAllLocations(allLocations);
       console.log(allLocations);
@@ -626,12 +662,12 @@ export default function Geolocation({ items }) {
   };
   const closePopUp = () => {
     setPopUp(false);
-  }
+  };
 
   const switchLoader = () => {
     setLoader(true);
   };
-  const { isOpen, onToggle } = useDisclosure()
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
     <div>
@@ -671,9 +707,12 @@ export default function Geolocation({ items }) {
               marginTop: 5,
             }}
           >
-            <Button onClick={navigatorControl} marginRight={2} colorScheme="teal">
-              <SearchIcon />
-              {" "}
+            <Button
+              onClick={navigatorControl}
+              marginRight={2}
+              colorScheme="teal"
+            >
+              <SearchIcon />{" "}
               <span style={{ fontSize: "0.9rem" }}>Use My Location! </span>
             </Button>
             <Link
@@ -707,30 +746,38 @@ export default function Geolocation({ items }) {
           </div>
         </div>
         {/* Pop Up Box */}
-        
-        {popUp && (<Box
-          className="others-container"
-          position="absolute"
-          width="130%"
-          marginLeft="-15%"
-          height="auto"
-          zIndex="9999"
-          mt={[600,600,600,550]}
-          fontSize={['xs', 'sm', 'sm', 'sm']}
-          borderWidth='1px' borderRadius='xl'    
-          bg="#E6FFFA
-          " 
-        >
-          <div mt={[1,4,6,8 ]}>
-            
-              <Box flex={1} p={4} >
+
+        {popUp && (
+          <Box
+            className="others-container"
+            position="absolute"
+            width="130%"
+            marginLeft="-15%"
+            height="auto"
+            zIndex="9999"
+            mt={[600, 600, 600, 550]}
+            fontSize={["xs", "sm", "sm", "sm"]}
+            borderWidth="1px"
+            borderRadius="xl"
+            bg="#E6FFFA
+          "
+          >
+            <div mt={[1, 4, 6, 8]}>
+              <Box flex={1} p={4}>
                 <span>{content}</span>
-                <br/>
-                <Button onClick={closePopUp} colorScheme='teal' size='xs' mt={1}>X</Button>
+                <br />
+                <Button
+                  onClick={closePopUp}
+                  colorScheme="teal"
+                  size="xs"
+                  mt={1}
+                >
+                  X
+                </Button>
               </Box>
-            
-          </div>
-        </Box>)}
+            </div>
+          </Box>
+        )}
 
         {/* Center instructional Box */}
         {disable && (
@@ -740,7 +787,7 @@ export default function Geolocation({ items }) {
               position: "absolute",
               width: "80%",
               marginLeft: "10%",
-             
+
               marginTop: "28%",
               height: "auto",
               zIndex: 998,
@@ -750,9 +797,9 @@ export default function Geolocation({ items }) {
               flexDirection="row"
               bg="white"
               height={{
-                base: '150px', // 0-48em
-                md: '180px', // 48em-80em,
-                xl: '200px', // 80em+
+                base: "150px", // 0-48em
+                md: "180px", // 48em-80em,
+                xl: "200px", // 80em+
               }}
               mt={[50, 20, 6, 8]}
             >
@@ -760,7 +807,7 @@ export default function Geolocation({ items }) {
                 style={{
                   paddingTop: "5%",
                   paddingInline: "5%",
-                  width:"100%"
+                  width: "100%",
                 }}
                 fontSize={{ base: "12px", md: "18px", lg: "20px" }}
                 flexGrow={1}
@@ -769,13 +816,13 @@ export default function Geolocation({ items }) {
                 you find where to take action!
               </Box>
               <Box flexGrow={1} h={"100%"} w={"100%"}>
-              <Image
-                src="/unclesemakau_singlet.png"
-                alt="Uncle Semakau in a Singlet"
-                ml={["0%","10%  ", "20%", "30%", "35%"]}
-                // w={["100%", "80%", "70%", "55%"]}
-                height={"100%"}
-              />
+                <Image
+                  src="/unclesemakau_singlet.png"
+                  alt="Uncle Semakau in a Singlet"
+                  ml={["0%", "10%  ", "20%", "30%", "35%"]}
+                  // w={["100%", "80%", "70%", "55%"]}
+                  height={"100%"}
+                />
               </Box>
             </Flex>
           </div>
@@ -789,8 +836,8 @@ export default function Geolocation({ items }) {
             style={{
               height: "700px",
               flex: 4,
-              width:"140%",
-              marginLeft:"-20%"
+              width: "140%",
+              marginLeft: "-20%",
             }}
           >
             <TileLayer
@@ -866,7 +913,8 @@ export default function Geolocation({ items }) {
                   enablePopUp();
                   setContent(
                     <span>
-                      <strong>Blue Recycling Bin</strong> for <strong>{marker.itemname}</strong> <br /> <br />
+                      <strong>Blue Recycling Bin</strong> for{" "}
+                      <strong>{marker.itemname}</strong> <br /> <br />
                       Postal Code: {marker.postal} <br /> Distance:{" "}
                       {marker.distance} km <br />
                       {/* Latitude: {marker.latitude} <br /> Longitude:{" "}

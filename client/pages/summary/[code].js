@@ -145,7 +145,7 @@ export default function Summary(props) {
 
                     
                     { parsedData.map((prop, index) => (
-                      prop.isperson ? <div></div> :
+                      prop.isPerson ? <p></p> :
                       (prop.website ? 
                       (
                         <div>

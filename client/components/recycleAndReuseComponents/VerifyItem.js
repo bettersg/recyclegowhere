@@ -73,6 +73,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
             navigateToTakeAction()
         }
     }
+    
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center' width='100%'>

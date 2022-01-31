@@ -10,7 +10,8 @@ import {
     VStack
 } from '@chakra-ui/react'
 // import Geolocation from './Geolocation'
-
+import { useEffect } from 'react'
+import physicalChannels from "../../jsonfiles/Physical-Channel.json";
 import dynamic from "next/dynamic"
 import { getBlueBinRecyclableItems, getNonBlueBinRecyclableItems, hasCheckedNonBlueBinRecyclableItems, hasCleanedBlueBinRecyclableItems } from '../Utils'
 
@@ -30,6 +31,21 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
     const hasRecyclableItems = (blueBinRecyclableItems && blueBinRecyclableItems.length > 0) || (nonBlueBinRecyclableItems && nonBlueBinRecyclableItems.length > 0)
 
     const hasValidRecyclableItems = hasCleanedBlueBinRecyclableItems(items) || hasCheckedNonBlueBinRecyclableItems(items)
+
+    // const [data, setData] = useState(null);
+
+
+    // useEffect(() => {
+    //     let ignore = false;
+    
+    //     if (!ignore) setData(physicalChannels);
+    //     return () => {
+    //       ignore = true;
+    //     };
+    //   }, []);   
+    // // Ensure that item + condition is in database.
+    
+
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center'>
@@ -138,7 +154,7 @@ const TakeAction = ({ items, setLocation, setGeolocation, navigateBackToAddItem 
                         <Button 
                             size='md' 
                             colorScheme='teal' 
-                            onClick={() => { setGeolocation(true); }}>
+                            onClick={() => { setGeolocation(true); ensureInDatabase(); }}>
                                 Self disposal
                         </Button>
                     </HStack>

@@ -23,7 +23,7 @@ const NonBlueBinCard = ({person, data}) => {
 
       {/* timings */}
       <Text fontSize='sm' mt={1}>
-        When to go: { data.operating_hours } 
+        When to go: {data.operating_hours ? ( data.operating_hours ) : (<span>-</span>)}
       </Text>
 
       <br />
@@ -53,9 +53,9 @@ const NonBlueBinCard = ({person, data}) => {
 
       <Flex direction="row-reverse">
         <ButtonGroup>
-          <a href="https://www.google.com/maps/dir/1.3918193,103.9027994/1.3975897,103.9007985/@1.3942831,103.8985932,17z/data=!3m1!4b1!4m5!4m4!1m1!4e1!1m0!3e3">
+          <a href={hyperlink}>
           <Button> Directions</Button></a>
-          <Button colorScheme={'teal'}> Contact </Button>
+          <Button colorScheme={'teal'} isDisabled={true}> Contact </Button>
         </ButtonGroup>
       </Flex>
 
