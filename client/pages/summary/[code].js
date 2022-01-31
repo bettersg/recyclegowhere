@@ -52,6 +52,10 @@ export default function Summary(props) {
   var parsedData = JSON.parse(atob(props.cont));
   console.log(parsedData)
 
+  //last item in array
+  const person = parsedData.at(-1);
+  console.log(person)
+
   return (
     <Center>
      <Head>
@@ -75,9 +79,9 @@ export default function Summary(props) {
 
             {/* Add items to the recycling list */}
             <Step 
-              label={stepLabels[0].label} 
+              // label={false && 'Add Items'}
               icon={AddIcon}
-              description={stepLabels[0].description}
+              // description={stepLabels[0].description}
               key='0'>
               <Heading 
                 as="h2" 
@@ -89,25 +93,25 @@ export default function Summary(props) {
 
             {/* Verify that the items are empty, rinsed or dried  */}
             <Step 
-              label={stepLabels[1].label} 
+              // label={stepLabels[1].label} 
               icon={EditIcon} 
-              description={stepLabels[1].description}
+              // description={stepLabels[1].description}
               key='1'>
             </Step>
 
             {/* Decide what action to take: either house pickup or self-disposal */}
             <Step 
-              label={stepLabels[2].label} 
+              // label={stepLabels[2].label} 
               icon={DeleteIcon}
-              description={stepLabels[2].description}
+              // description={stepLabels[2].description}
               key='2'>
             </Step>
 
             {/* Final Confirmation and Summary List*/}
             <Step 
-              label={stepLabels[3].label} 
+              // label={stepLabels[3].label} 
               icon={CheckIcon}
-              description={stepLabels[3].description}
+              // description={stepLabels[3].description}
               key='3'>
                 <Flex
                   flexDirection="row"
@@ -139,52 +143,55 @@ export default function Summary(props) {
                     </Stack>
                     <br/>
 
-                    {/*  
+                    
                     { parsedData.map((prop, index) => (
-                    //   <div>
-                    //   <strong>{prop.itemname}</strong>
-                    //   <p>{prop.address}</p>
-                    //   <p>{prop.latitude}</p>
-                    //   <p>{prop.longitude}</p>
-                    // </div>
-                      prop.website ? 
+                      prop.isperson ? <div></div> :
+                      (prop.website ? 
                       (
-                      <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
-                        <p>Item {index + 1}</p>
-                        <strong>{prop.itemname}</strong>
-                        <hr/>
-                        <p>{prop.channel_name} by {prop.organisation_name}</p>
-                        <p>({prop.address})</p>
-                        <hr/>
-                        <p><b>Items Accepted: </b> {prop.categories_accepted}</p>
-                        <p><b>Operating Hours: </b>{prop.operating_hours}</p>
-                        <p><b>Condition: </b>{prop.type}</p>
-                        <p><b>Contact: </b>{prop.contact}</p>
-                        <p>({prop.distance}km from your location)</p>
-                        <a href={prop.website}>{prop.website}</a><br/>
-                        <b>+5 points</b>
-                      </Box>
+                        <div>
+                        <NonBlueBinCard data={prop} person={person} key={`bluebin${index}`} />
+                        <br/>
+                        </div>
+                      //   <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
+                      //   <p>Item {index + 1}</p>
+                      //   <strong>{prop.itemname}</strong>
+                      //   <hr/>
+                      //   <p>{prop.channel_name} by {prop.organisation_name}</p>
+                      //   <p>({prop.address})</p>
+                      //   <hr/>
+                      //   <p><b>Items Accepted: </b> {prop.categories_accepted}</p>
+                      //   <p><b>Operating Hours: </b>{prop.operating_hours}</p>
+                      //   <p><b>Condition: </b>{prop.type}</p>
+                      //   <p><b>Contact: </b>{prop.contact}</p>
+                      //   <p>({prop.distance}km from your location)</p>
+                      //   <a href={prop.website}>{prop.website}</a><br/>
+                      //   <b>+5 points</b>
+                      // </Box>
                       ) :  
                       (
-                      <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
-                        <p>Item {index + 1}</p>
-                        <strong>{prop.itemname}</strong>
-                        <hr/>
-                        <p>Recycling Bin @ Blk {prop.block_number}, S{prop.postal}</p>
-
-                        <p>{prop.latitude}</p>
-                        <p>{prop.longitude}</p>
-                        <p>({Math.round(prop.distance)} km from your location)</p>
-                        <b>+2 points</b>
+                        <div>
+                        <BlueBinCard data={prop}  key={`bluebin${index}`} />
                         <br/>
+                        </div>
+                      // <Box maxW='sm' borderWidth='1px' borderRadius='lg' overflow='hidden' p='6'>
+                      //   <p>Item {index + 1}</p>
+                      //   <strong>{prop.itemname}</strong>
+                      //   <hr/>
+                      //   <p>Recycling Bin @ Blk {prop.block_number}, S{prop.postal}</p>
 
-                      </Box>
+                      //   <p>{prop.latitude}</p>
+                      //   <p>{prop.longitude}</p>
+                      //   <p>({Math.round(prop.distance)} km from your location)</p>
+                      //   <b>+2 points</b>
+                      //   <br/>
+
+                      // </Box>
                       )
-                    ))}
-                    */}
+                    )))}
+                    
 
                     {/* BLUEBIN */}
-                    { 
+                    {/* { 
                       bluebinDummyData ? bluebinDummyData.map((data, idx) => {
                         return (
                           <BlueBinCard data={data} key={`bluebin${idx}`} />
@@ -195,10 +202,10 @@ export default function Summary(props) {
 
                     <br />
                     <Heading size="md">For non-blue bin recycling</Heading>
-                    <br />
+                    <br /> */}
 
                     {/* NONBLUEBIN */}
-                   { 
+                   {/* { 
                     nonBluebinDummyData ? nonBluebinDummyData.map( (data, idx) => {
                       return (
                           <> 
@@ -208,7 +215,7 @@ export default function Summary(props) {
                           )
                     })
                     : ""
-                   }
+                   } */}
 
                   </Flex>
                 </Flex>

@@ -7,17 +7,17 @@ const BlueBinCard = ({data}) => {
             The nearest blue bin to you is at:
             {/* address */}
             <Text fontSize='4xl' fontWeight='bold'>
-              { data.address }
+              Blk { data.block_number }
             </Text>
 
             {/* location */}
             <Text fontWeight='bold' color='dodgerblue'>
-              { data.location }
+              {data.distance}km away
             </Text>
 
             {/* timings */}
             <Text fontSize='xs'>
-              { data.timings }
+              Available 24/7
             </Text>
 
             <br />
@@ -31,7 +31,7 @@ const BlueBinCard = ({data}) => {
             <Text marginLeft="20px">
               <ul>
                 { 
-                  data.items ? data.items.map((item, idx) => {
+                  data.itemname ? data.itemname.map((item, idx) => {
                     return (
                       <li key={idx}> { item } </li>
                     )

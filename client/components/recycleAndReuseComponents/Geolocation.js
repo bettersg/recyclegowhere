@@ -476,11 +476,7 @@ export default function Geolocation({ items }) {
       var bluebinarray = [];
       for (let i = 0; i < mockitems.length; i++) {
         if (mockitems[i].bluebinrecyclable == 0) {
-          if (bluebinarray.length == 0) {
             bluebinarray.push(mockitems[i].description);
-          } else {
-            bluebinarray.push(", " + mockitems[i].description);
-          }
         } else {
           nonbluebinobjects.items.push(mockitems[i]);
         }
@@ -595,6 +591,10 @@ export default function Geolocation({ items }) {
         console.log(items[0]);
         markers.push(items[0]);
         allLocations.push(items[0]);
+
+        const person = {latitude: position.coords.latitude, longitude: position.coords.longitude}
+
+        allLocations.push(person)
         items = [];
       }
 
