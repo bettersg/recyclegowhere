@@ -57,23 +57,14 @@ function RecycleAndReuse({ data }) {
           <Steps 
             activeStep={step} 
             responsive={false}
-            labelOrientation="vertical"
+            // labelOrientation="vertical"
             colorScheme='teal' 
             p={3} 
             size="md">
 
             {/* Add items to the recycling list */}
-            <Step 
-              label={stepLabels[0].label} 
-              icon={AddIcon}
-              description={stepLabels[0].description}
-              key='0'>
-              {/* <Heading 
-                as="h2" 
-                fontSize="xl" 
-                textAlign="center">
-                  Add Items
-              </Heading> */}
+            <Step label={false && 'Add Items'} icon={AddIcon} key='0'>
+
               <AddItem 
                 setNextStep={() => setStep(1)} 
                 data={data} 
@@ -81,17 +72,8 @@ function RecycleAndReuse({ data }) {
             </Step>
 
             {/* Verify that the items are empty, rinsed or dried  */}
-            <Step 
-              label={stepLabels[1].label} 
-              icon={EditIcon} 
-              description={stepLabels[1].description}
-              key='1'>
-              {/* <Heading 
-                as="h2" 
-                fontSize="xl" 
-                textAlign="center">
-                Verify Items
-              </Heading> */}
+            <Step label={false && 'Verify Items'} icon={EditIcon} key='1'>
+
               <VerifyItem 
                 items={items} 
                 setItems={setItems} 
@@ -101,17 +83,8 @@ function RecycleAndReuse({ data }) {
             </Step>
 
             {/* Decide what action to take: either house pickup or self-disposal */}
-            <Step 
-              label={stepLabels[2].label} 
-              icon={DeleteIcon}
-              description={stepLabels[2].description}
-              key='2'>
-              {/* <Heading 
-                as="h2" 
-                fontSize="xl" 
-                textAlign="center">
-                Take Action
-              </Heading> */}
+            <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
+
               {
                 geolocation 
                   ? <GeolocationNoSSR items={items} />
@@ -132,9 +105,9 @@ function RecycleAndReuse({ data }) {
 
             {/* Final Confirmation and Summary List*/}
             <Step 
-              label={stepLabels[3].label} 
+              label={false && 'Complete'}
               icon={CheckIcon}
-              description={stepLabels[3].description}
+              
               key='3'>
             </Step>
           </Steps>

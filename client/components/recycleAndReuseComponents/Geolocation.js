@@ -1,6 +1,6 @@
 import React, { Component, useRef, useState, useEffect } from "react";
 
-import Image from "next/image";
+
 import {
   Map,
   TileLayer,
@@ -13,7 +13,7 @@ import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
 import { InfoIcon, ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
-import { Button, filter, Heading, Box, Flex, border } from "@chakra-ui/react";
+import { Button, Box, Flex, Spacer, Image } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
@@ -762,21 +762,21 @@ export default function Geolocation({ items }) {
                   paddingInline: "5%",
                   width:"100%"
                 }}
-                fontSize={{ base: "14px", md: "18px", lg: "20px" }}
+                fontSize={{ base: "12px", md: "18px", lg: "20px" }}
+                flexGrow={1}
               >
                 Tell Uncle Semakau where you are now. Uncle Semakau will help
                 you find where to take action!
               </Box>
-
+              <Box flexGrow={1} h={"100%"} w={"100%"}>
               <Image
                 src="/unclesemakau_singlet.png"
                 alt="Uncle Semakau in a Singlet"
-                width={"95%"}
-                height={"150px"}
-                style={{
-                  flexGrow: 1
-                }}
+                ml={["0%","10%  ", "20%", "30%", "35%"]}
+                // w={["100%", "80%", "70%", "55%"]}
+                height={"100%"}
               />
+              </Box>
             </Flex>
           </div>
         )}
