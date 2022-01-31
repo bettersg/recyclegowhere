@@ -32,6 +32,33 @@ function Guide({ data }) {
         Singapore has only 1 landfill, Pulau Semakau, which will fill up by 2035. If we do not recycle regularly and correctly, we cannot ensure the longevity of the landfill, and we will have to create new landfills, which causes environmental destruction and requires land space that Singapore does not possess.
         <br/>
         <br/>
+        This page will be updated as we progress. Credits to organisations that have trailblazed this: <b>Better.SG</b> and <b>Ministry of Sustainability and Environment</b>.
+        <br/>
+        <br/>
+        <b>Our Team:</b><br/>
+        - Zhi Xuan<br/>
+        - Gaurav K<br/>
+        - Yee Siang<br/>
+        - Emmanuel<br/>
+        - Joanna<br/>
+        - Raphael<br/>
+        - Cee T<br/>
+        - Junze<br/>
+        - Syahidah<br/>
+        - Qi Hui<br/>
+        - Raphael<br/>
+        - Gilliane<br/>
+        - Bowen<br/>
+        - Prannaya<br/>
+        - Simon<br/>
+        - Joanne<br/>
+        - Rebecca<br/>
+        - Ishneet<br/>
+        - Xin Lin<br/>
+        - Kiat Lim<br/>
+        - Bang Rou<br/>
+        - Zack Hong<br/>
+        - Vincent<br/>
 
       </Box>
       {/* <Box w={["60vw", "60vw", "30wv"]}>
