@@ -33,7 +33,7 @@ const AddItemDialog = ({ setNextStep, didSelectItems, willTriggerDialog }) => {
                     <Button ref={cancelRef} onClick={onClose}>
                         Cancel
                     </Button>
-                    <Button colorScheme='green' onClick={navigateToVerifyItem} ml={3}>
+                    <Button colorScheme='green' onClick={navigateToVerifyItem} ml={3} >
                         Confirm
                     </Button>
                     </AlertDialogFooter>
