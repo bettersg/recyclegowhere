@@ -8,7 +8,11 @@ const AddItem = ({ setNextStep, data, setItems }) => {
     const [didSelectItems, willTriggerDialog] = useState(false)
 
     return (
-        <Flex flexDirection="column" justifyContent="center" alignItems="center" >
+        <Flex 
+            flexDirection="column" 
+            justifyContent="center" 
+            alignItems="center" 
+            >
             <br />
             {/* <Text fontWeight="bold">Key in the name of the items you wish to reuse/recycle.</Text> */}
             <Image
@@ -18,7 +22,11 @@ const AddItem = ({ setNextStep, data, setItems }) => {
                 height={223}
             />
             <div style={{marginInline:"20%", marginBottom:"20px"}}>
-            <Text fontWeight="bold" textAlign="center"> Type in item(s) to recycle/donate:</Text>
+                <Text 
+                    fontWeight="bold" 
+                    textAlign="center"> 
+                    Type in the item(s) you wish to recycle/donate:
+                </Text>
             </div>
             <AddItemMultiSelect data={data} setItems={setItems} willTriggerDialog={willTriggerDialog} />
             <AddItemDialog setNextStep={setNextStep} didSelectItems={didSelectItems} willTriggerDialog={willTriggerDialog} />

@@ -15,7 +15,7 @@ import {
 import { CopyIcon } from '@chakra-ui/icons'
 
 function ShowSummaryLink({ isOpen, onClose, linkId }) {
-  const summaryLink = `https://recyclegowhere.com/summary/${linkId}`
+  const summaryLink = `https://recyclegowhere.sg/summary/${linkId}`
   const linkRef= useRef(summaryLink)
   const toast = useToast()
 
