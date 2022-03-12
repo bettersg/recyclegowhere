@@ -1,4 +1,4 @@
-import { Button, Flex } from '@chakra-ui/react'
+import { Button, Flex, Text } from '@chakra-ui/react'
 import React from 'react'
 import Select from 'react-select'
 
@@ -74,7 +74,8 @@ const AddItemMultiSelect = ({ data, setItems, willTriggerDialog }) => {
           styles={selectStylesForColorModes}
         />
         <Flex flexDirection="column" justifyContent="center" alignItems="center">
-            <Button backgroundColor="#319795" color="white" my="5" type="submit" isDisabled={selectedOptions.length === 0}>
+            <Text fontWeight='lighter' textAlign="left" width='100%' mt="2">Let us know if your item is <a href="#"><Text as="u">not in our list.</Text></a></Text>          
+            <Button backgroundColor="#319795" color="white" mt="11%" type="submit" isDisabled={selectedOptions.length === 0}>
                 Submit
             </Button>
         </Flex>

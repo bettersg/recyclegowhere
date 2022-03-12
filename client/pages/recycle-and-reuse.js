@@ -2,21 +2,18 @@ import { AddIcon, EditIcon, DeleteIcon, CheckIcon } from "@chakra-ui/icons";
 import {
   Box,
   Center,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
   Flex,
   Button,
   Heading,
 } from '@chakra-ui/react'
+
 // STEPPER IMPORTS
 import { Step, Steps } from "chakra-ui-steps";
 
 import AddItem from "../components/recycleAndReuseComponents/AddItem";
 import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
 import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
+import Location from "../components/recycleAndReuseComponents/Location";
 
 import axios from "axios";
 import { useState, useRef, useEffect } from "react";
@@ -24,6 +21,9 @@ import urlcat from "urlcat";
 
 import dynamic from "next/dynamic"
 import Head from '../components/head'
+
+import Item from '../jsonfiles/Item.json'
+import GeneralWaste from '../jsonfiles/General-Waste.json'
 
 const GeolocationNoSSR = dynamic(
   () => import("../components/recycleAndReuseComponents/Geolocation"),
@@ -33,7 +33,93 @@ const GeolocationNoSSR = dynamic(
   }
 );
 
+function RecycleAndReuse({ data }) {
+
+  const [items, setItems] = useState([])
+  const [step, setStep] = useState(0)
+  const [geolocation, setGeolocation] = useState(false)
+  const [location, setLocation] = useState(false)
+
+  const stepLabels = [
+    { label: "Step 1", description: "Add Items"},
+    { label: "Step 2", description: "Verify Items"},
+    { label: "Step 3", description: "Take Action"},
+    { label: "Step 4", description: "Complete"},]
+
+  return (
+    <Center>
+      <Head title="Reuse and Recycle" />
+      <Box w={['70vw', '60vw', '40wv']}>
+        <Flex 
+          flexDir='column' 
+          width='100%'>
+
+          <Steps 
+            activeStep={step} 
+            responsive={false}
+            // labelOrientation="vertical"
+            colorScheme='teal' 
+            p={3} 
+            size="md">
+
+            {/* Add items to the recycling list */}
+            <Step label={false && 'Add Items'} icon={AddIcon} key='0'>
+
+              <AddItem 
+                setNextStep={() => setStep(1)} 
+                data={data} 
+                setItems={setItems} />
+            </Step>
+
+            {/* Verify that the items are empty, rinsed or dried  */}
+            <Step label={false && 'Verify Items'} icon={EditIcon} key='1'>
+
+              <VerifyItem 
+                items={items} 
+                setItems={setItems} 
+                generalWasteItemDetails={data.generalWasteItemDetails} 
+                navigateToTakeAction={() => setStep(2)} 
+              />
+            </Step>
+
+            {/* Decide what action to take: either house pickup or self-disposal */}
+            <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
+
+              {
+                geolocation 
+                  ? <GeolocationNoSSR items={items} />
+                    : location
+                    ? <Location 
+                        items={items} 
+                        setGeolocation={setGeolocation} 
+                        setLocation={setLocation}
+                      /> 
+                    : <TakeAction 
+                        items={items} 
+                        setGeolocation={setGeolocation} 
+                        setLocation={setLocation} 
+                        navigateBackToAddItem={() => setStep(0)}
+                      />
+              }
+            </Step>
+
+            {/* Final Confirmation and Summary List*/}
+            <Step 
+              label={false && 'Complete'}
+              icon={CheckIcon}
+              
+              key='3'>
+            </Step>
+          </Steps>
+        </Flex>
+      </Box>
+    </Center >
+  );
+}
+
+
 export async function getStaticProps() {
+
   async function fetchDataFromAPI(url) {
     const response = await fetch(url)
 
@@ -45,20 +131,8 @@ export async function getStaticProps() {
     return await response.json()
   }
 
-  let items = await fetchDataFromAPI("http://localhost:8000/api/Item/")
-  let generalWasteItemDetails = await fetchDataFromAPI("http://localhost:8000/api/GeneralWaste/")
-
-  if (items === null) {
-    items = []
-  }
-
-  if (generalWasteItemDetails === null) {
-    generalWasteItemDetails = []
-  }
-
-  if (items === null || generalWasteItemDetails === null) {
-    items = []
-  }
+  let items = Item || [] 
+  let generalWasteItemDetails = GeneralWaste || []
 
   return {
     props: {
@@ -69,42 +143,6 @@ export async function getStaticProps() {
     }
   }
   
-}
-
-function RecycleAndReuse({ data }) {
-  const [items, setItems] = useState([])
-  const [step, setStep] = useState(0)
-  const [geolocation, setGeolocation] = useState(false)
-
-  return (
-    <Center>
-      <Head title="Reuse and Recycle" />
-      <Box w={['70vw', '60vw', '40wv']}>
-        <Flex flexDir='column' width='100%'>
-          <Steps activeStep={step} responsive={false} colorScheme='teal' p={3} size="md">
-            <Step label={false && 'Add Items'} icon={AddIcon} key='0'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Add Items</Heading>
-              <AddItem setNextStep={() => setStep(1)} data={data} setItems={setItems} />
-            </Step>
-            <Step label={false && 'Verify Items'} icon={EditIcon} key='1'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Verify Items</Heading>
-              <VerifyItem items={items} setItems={setItems} generalWasteItemDetails={data.generalWasteItemDetails} navigateToTakeAction={() => setStep(2)} />
-            </Step>
-            <Step label={false && 'Take Action'} icon={DeleteIcon} key='2'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Take Action</Heading>
-              {
-                geolocation ? <GeolocationNoSSR items={items} />
-                  : <TakeAction items={items} setGeolocation={setGeolocation} navigateBackToAddItem={() => setStep(0)} />
-              }
-            </Step>
-            <Step label={false && 'Completed!'} icon={CheckIcon} key='3'>
-              <Heading as="h2" fontSize="xl" textAlign="center">Complete!</Heading>
-            </Step>
-          </Steps>
-        </Flex>
-      </Box>
-    </Center >
-  );
 }
 
 export default RecycleAndReuse

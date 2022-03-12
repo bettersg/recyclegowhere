@@ -1,0 +1,112 @@
+[
+  {
+    "id": 0,
+    "name": "Greensquare",
+    "contact_method": "Website",
+    "contact_number": "-",
+    "whatsapp": "-",
+    "website": "https://www.greensquare.com.sg/collection",
+    "minimum_weight": "15kg (approximately 3 full large black trash bags)",
+    "pricing_terms": "$0"
+  },
+  {
+    "id": 1,
+    "name": "Passiton.org",
+    "contact_method": "Website",
+    "contact_number": "-",
+    "whatsapp": "-",
+    "website": "https://www.passiton.org.sg/grant-a-wish",
+    "minimum_weight": "-",
+    "pricing_terms": "$0 (delivery cost covered)"
+  },
+  {
+    "id": 2,
+    "name": "Salvation Army",
+    "contact_method": "Multiple",
+    "contact_number": "62885438",
+    "whatsapp": "85205343",
+    "website": "https://redshieldindustries.com/",
+    "minimum_weight": "-",
+    "pricing_terms": "$60 (recommended)"
+  },
+  {
+    "id": 3,
+    "name": "Ezi",
+    "contact_method": "Application",
+    "contact_number": "",
+    "whatsapp": "",
+    "website": "https://ezi-recycling.com/#doorstep",
+    "minimum_weight": "5kg at least (avail in postal codes 12, 73 and 76 for now only)",
+    "pricing_terms": "$0 (cash for trash option available)"
+  },
+  {
+    "id": 4,
+    "name": "Gee Hoe Seng Pte Ltd",
+    "contact_method": "Email (sales@ghs.sg)/ whatsapp",
+    "contact_number": "6844 1323",
+    "whatsapp": "",
+    "website": "https://www.ghs.sg/service/recycling-services-cash-for-trash/",
+    "minimum_weight": "1- 500kg",
+    "pricing_terms": "$30"
+  },
+  {
+    "id": 5,
+    "name": "Tidy",
+    "contact_method": "Call/ Whatsapp",
+    "contact_number": "9616 6105/ 9234 4800",
+    "whatsapp": "85111509",
+    "website": "https://tidy.com.sg/type-of-services/disposal-recycling/",
+    "minimum_weight": "",
+    "pricing_terms": "depends on distance, whatsapp / email for quote."
+  },
+  {
+    "id": 6,
+    "name": "Alba",
+    "contact_method": "Online form",
+    "contact_number": "66357410",
+    "whatsapp": "",
+    "website": "https://alba-ewaste.sg/doorstep-collection/",
+    "minimum_weight": "E-waste and large household appliances only",
+    "pricing_terms": "$17.12 per every 3 small E-items $42.80 per large item (surcharge for express and weekend services)"
+  },
+  {
+    "id": 7,
+    "name": "ALBA E-waste Smart Recycling",
+    "contact_method": "Website",
+    "contact_number": "31051608",
+    "whatsapp": "-",
+    "website": "https://alba-ewaste.sg/doorstep-collection/",
+    "minimum_weight": "No minimum weight",
+    "pricing_terms": "Small items* standard service (collection within 7 days, on Monday to Friday, 10am to 5pm, excluding public holiday) - $17.12 per every 3 items // Small items express service (collection within 24 hour, on Monday to Friday, 10am to 5pm, excluding public holiday) - $34.24 per every 3 items // Large items~ standard service (collection within 7 days, on Monday to Friday, 10am to 5pm, excluding public holiday) - $42.80 per item // Large items express service (collection within 24 hour, on Monday to Friday, 10am to 5pm, excluding public holiday) - $59.92 per item // Collection request on weekends or after 6pm - $17.12 surcharge // *Small item - laptop, desktop computer, desktop monitor, set-top box, router, modem, network switch, network hub, mobile telephone, tablet, household battery, lithium-ion portable battery, fluorescent bulb, LED bulb, fluorescent tube, LED tube //~Large item - refrigerator (≤ 900L), washing machine, dryer, air-conditioner, television, electric vehicle battery, electric mobility scooter, power assisted bicycle, personal mobility device, printer (20kg or less only)"
+  },
+  {
+    "id": 8,
+    "name": "PWC-Alba-WH",
+    "contact_method": "Alba Step up app",
+    "contact_number": "31051608",
+    "whatsapp": "",
+    "website": "https://step-up.sg/",
+    "minimum_weight": "",
+    "pricing_terms": "DTD collection- Free, refer to website on cost for other collection by appointment"
+  },
+  {
+    "id": 9,
+    "name": "PWC-Sembwaste",
+    "contact_method": "Website",
+    "contact_number": "",
+    "whatsapp": "",
+    "website": "https://www.sembcorpenergy.com.sg/residential/solid-waste-management/recycling-and-cash-for-trash/",
+    "minimum_weight": "",
+    "pricing_terms": "DTD collection- Free, refer to website on cost for other collection by appointment"
+  },
+  {
+    "id": 10,
+    "name": "PWC-800 Super",
+    "contact_method": "website",
+    "contact_number": "",
+    "whatsapp": "",
+    "website": "https://800super.com.sg/services/waste-management-recycling",
+    "minimum_weight": "",
+    "pricing_terms": "DTD collection- Free, refer to website on cost for other collection by appointment"
+  }
+]

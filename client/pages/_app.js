@@ -5,6 +5,15 @@ import Header from "../components/Header";
 import { Container } from "@chakra-ui/react";
 import Head from 'next/head';
 
+import React, { useEffect } from 'react';
+import TagManager from "react-gtm-module"
+
+const tagManagerArgs = {
+  gtmId: "GTM-TWC8D9H",
+}
+
+import "./Geolocation.css";
+
 
 const theme = extendTheme({
   components: {
@@ -13,6 +22,11 @@ const theme = extendTheme({
 });
 
 function MyApp({ Component, pageProps }) {
+
+  useEffect(() => {
+    TagManager.initialize(tagManagerArgs)
+  }, [])
+
   return (
     <ChakraProvider theme={theme}>
       <Head>
@@ -24,6 +38,7 @@ function MyApp({ Component, pageProps }) {
           href="https://unpkg.com/leaflet-geosearch@latest/assets/css/leaflet.css"
           rel="stylesheet"
         />
+        <link rel="shortcut icon" href="/favicon.ico" />
       </Head>
       <Header />
       <Container

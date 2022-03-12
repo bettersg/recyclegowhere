@@ -1,4 +1,5 @@
 import React, { Component, useRef, useState, useEffect } from "react";
+
 import {
   Map,
   TileLayer,
@@ -10,12 +11,26 @@ import {
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
 import AsyncSelect from "react-select/async";
 import { components } from "react-select";
-import { InfoIcon, ArrowForwardIcon } from "@chakra-ui/icons";
-import { Button, filter } from "@chakra-ui/react";
+import { InfoIcon, ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
+import { Button, Box, Flex, Spacer, Image } from "@chakra-ui/react";
 import urlcat from "urlcat";
 import axios from "axios";
 import Link from "next/link";
-import { selectStylesForColorModes } from "../DarkModeSwitch"
+import { selectStylesForColorModes } from "../DarkModeSwitch";
+import { popupContent, popupHead, popupText, okText } from "./popupStyles";
+
+import Item from "../../jsonfiles/Item.json";
+
+import physicalChannels from "../../jsonfiles/Physical-Channel.json";
+import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
+
+import {
+  Fade,
+  ScaleFade,
+  Slide,
+  SlideFade,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 class SearchBox extends MapControl {
   constructor(props) {
@@ -64,8 +79,8 @@ export default function Geolocation({ items }) {
     lng: 103.950296238717,
   });
   const [marker, setMarker] = useState({
-    lat: 1.36882713986152,
-    lng: 103.950296238717,
+    lat: 1,
+    lng: 1,
   });
 
   // Markers (non bluebin + bluebin)
@@ -88,66 +103,80 @@ export default function Geolocation({ items }) {
   // Encode JSON to Base64
   const [encode, setEncode] = useState("");
 
+  // Disable button if no location
+  const [disable, setDisable] = useState(true);
+
+  // Pre summary page loader
+  const [loader, setLoader] = useState(false);
+
+  // Popup
+  const [popUp, setPopUp] = useState(false);
+
+  // Popup Content
+  const [content, setContent] = useState(false);
+
   // Map style
-  const selectStyles = { ...selectStylesForColorModes, menu: (styles) => ({ ...styles, zIndex: 999 }) };
+  const selectStyles = {
+    ...selectStylesForColorModes,
+    menu: (styles) => ({ ...styles, zIndex: 999 }),
+  };
 
   // Mock list of objects passed in from previous screen
   var mockitems = items;
   // [
-    // {
-    //   category: "Paper",
-    //   description: "Writing paper",
-    //   id: 1,
-    //   isBlueBinRecyclable: true,
-    //   name: "writing paper",
-    //   condition: null,
-    // },
-    // {
-    //   category: "ICT equipment",
-    //   condition: "Spoilt beyond repair",
-    //   description: "Printers",
-    //   id: 2,
-    //   isBlueBinRecyclable: false,
-    //   name: "Printers",
-    // },
-    // {
-    //   category: "ICT_Equipment",
-    //   description: "Tablets",
-    //   id: 3,
-    //   isBlueBinRecyclable: false,
-    //   name: "Tablets",
-    //   condition: "Spoilt_beyond_repair",
-    // },
-    // {
-    //   category: "Portable_batteries",
-    //   description: "Batteries",
-    //   id: 4,
-    //   isBlueBinRecyclable: false,
-    //   name: "Batteries",
-    //   condition: "Spoilt_beyond_repair",
-    // },
+  // {
+  //   category: "Paper",
+  //   description: "Writing paper",
+  //   id: 1,
+  //   isBlueBinRecyclable: true,
+  //   name: "writing paper",
+  //   condition: null,
+  // },
+  // {
+  //   category: "ICT equipment",
+  //   condition: "Spoilt beyond repair",
+  //   description: "Printers",
+  //   id: 2,
+  //   isBlueBinRecyclable: false,
+  //   name: "Printers",
+  // },
+  // {
+  //   category: "ICT_Equipment",
+  //   description: "Tablets",
+  //   id: 3,
+  //   isBlueBinRecyclable: false,
+  //   name: "Tablets",
+  //   condition: "Spoilt_beyond_repair",
+  // },
+  // {
+  //   category: "Portable_batteries",
+  //   description: "Batteries",
+  //   id: 4,
+  //   isBlueBinRecyclable: false,
+  //   name: "Batteries",
+  //   condition: "Spoilt_beyond_repair",
+  // },
   // ];
 
   // Fetch data from API and save it in state hooks
   // Blue Bins
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/OneMapRecyclingBin/")
-      .then((res) => res.json())
-      .then((result) => {
-        setBlueBinData(result);
-        // console.log(data);
-      });
+    let ignore = false;
+
+    if (!ignore) setBlueBinData(oneMapRecyclingBin);
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // Physical Channels
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/PhysicalChannel/")
-      .then((res) => res.json())
-      .then((result) => {
-        // console.log(result);
-        setData(result);
-        // console.log(data);
-      });
+    let ignore = false;
+
+    if (!ignore) setData(physicalChannels);
+    return () => {
+      ignore = true;
+    };
   }, []);
 
   // Function to calculate distance between two points + radian conversion
@@ -223,6 +252,13 @@ export default function Geolocation({ items }) {
     );
   };
 
+  //   const ensureInDatabase=()=>{
+  //     console.log(nonBlueBinRecyclableItems)
+  //     var itemsThatAreValid = 0;
+
+  //     console.log(nonBlueBinRecyclableItems)
+  // }
+
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // SEARCH BAR INPUT - THE SEARCH ALGORITHM //
   const onChangeHandler = (event) => {
@@ -237,18 +273,14 @@ export default function Geolocation({ items }) {
     setMarker({ lat: event.lat, lng: event.long });
 
     ////////////////////////////////////////////////////////
-    // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN // 
+    // SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN //
     var nonbluebinobjects = {
       items1: [],
     };
     var bluebinarray = [];
     for (let i = 0; i < mockitems.length; i++) {
       if (mockitems[i].bluebinrecyclable == 0) {
-        if (bluebinarray.length == 0){
-          bluebinarray.push(mockitems[i].description);
-        }else{
-          bluebinarray.push(", " + mockitems[i].description);
-        }
+        bluebinarray.push(mockitems[i].description);
       } else {
         nonbluebinobjects.items1.push(mockitems[i]);
       }
@@ -287,12 +319,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < filteredbluebindata.length; bb++) {
           var item = {
             postal: filteredbluebindata[bb].postcode,
-            distance: calcCrow(
-              event.lat,
-              event.long,
-              filteredbluebindata[bb].latitude,
-              filteredbluebindata[bb].longitude
-            ),
+            distance:
+              Math.round(
+                calcCrow(
+                  event.lat,
+                  event.long,
+                  filteredbluebindata[bb].latitude,
+                  filteredbluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: filteredbluebindata[bb].latitude,
             longitude: filteredbluebindata[bb].longitude,
             block_number: filteredbluebindata[bb].block_number,
@@ -316,12 +351,15 @@ export default function Geolocation({ items }) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: calcCrow(
-              event.lat,
-              event.long,
-              bluebindata[bb].latitude,
-              bluebindata[bb].longitude
-            ),
+            distance:
+              Math.round(
+                calcCrow(
+                  event.lat,
+                  event.long,
+                  bluebindata[bb].latitude,
+                  bluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -339,42 +377,59 @@ export default function Geolocation({ items }) {
         console.log("These are the details for the nearest facility:");
         console.log(items2[0]);
       }
-    }else{
-      console.log("There are no blue bin recyclables.")
+    } else {
+      console.log("There are no blue bin recyclables.");
     }
     console.log("--------------------------------------------");
 
     ////////////////////////////////////////////////////////
     // NON BLUE BIN MARKERS //
+
     var items3 = [];
 
-    console.log(
-      "Number of Physical Channels available: " + data.length
-    );
-
+    console.log("Number of Physical Channels available: " + data.length);
+    // Remove items not in database
+    // var itemsThatAreValid = 0;
+    // console.log("these are non blue");
+    // console.log(nonbluebinobjects.items1.length);
+    // for (let l = 0; l < nonbluebinobjects.items1.length; l++) {
+    //   for (let i = 0; i < data.length; i++) {
+    //     if (
+    //       data[i].categories_accepted.includes(
+    //         nonbluebinobjects.items1[l].category
+    //       ) &&
+    //       data[i].type.includes(nonbluebinobjects.items1[l].condition)
+    //     ) {
+    //       itemsThatAreValid += 1;
+    //     } else {
+    //       nonbluebinobjects.items1.pop(nonbluebinobjects.items1[l]);
+    //     }
+    //   }
+    // }
     markers = [];
     if (nonbluebinobjects.items1[0]) {
-      console.log("You have non-blue bin objects.")
+      console.log("You have non-blue bin objects.");
       for (let l = 0; l < nonbluebinobjects.items1.length; l++) {
         for (let i = 0; i < data.length; i++) {
           if (
             data[i].categories_accepted.includes(
               nonbluebinobjects.items1[l].category
             ) &&
-            data[i].type.includes(
-              nonbluebinobjects.items1[l].condition
-            )
+            data[i].type.includes(nonbluebinobjects.items1[l].condition)
           ) {
             console.log(data[i].categories_accepted);
             console.log(data[i].type);
             var item = {
               postal: data[i].postcode,
-              distance: calcCrow(
-                event.lat,
-                event.long,
-                data[i].latitude,
-                data[i].longitude
-              ),
+              distance:
+                Math.round(
+                  calcCrow(
+                    event.lat,
+                    event.long,
+                    data[i].latitude,
+                    data[i].longitude
+                  ) * 100
+                ) / 100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -388,8 +443,10 @@ export default function Geolocation({ items }) {
               contact: data[i].contact,
             };
             items3.push(item);
-          }else{
-            console.log("Error processing this item, it does not match our queries.")
+          } else {
+            console.log(
+              "Error processing this item, it does not match our queries."
+            );
           }
         }
         items3.sort(function (a, b) {
@@ -404,19 +461,28 @@ export default function Geolocation({ items }) {
         allLocations.push(items3[0]);
         items3 = [];
       }
-    }else{
-      console.log("There are no non-blue bin objects.")
+    } else {
+      console.log("There are no non-blue bin objects.");
     }
-    console.log("Your non-blue bin objects:")
+    console.log("Your non-blue bin objects:");
     console.log(nonbluebinobjects.items1);
 
     setMarkers(markers);
+    const person = {
+      latitude: event.lat,
+      longitude: event.long,
+      isPerson: true,
+    };
+
+    allLocations.push(person);
     setAllLocations(allLocations);
     console.log("The nearest facility is:");
     console.log(allLocations);
     setEncode(btoa(JSON.stringify(allLocations)));
     console.log("The code for the summary page is: " + encode);
     console.log("--------------------------------------------");
+
+    setDisable(false);
   };
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // BUTTON CLICK - THE SAME SEARCH ALGORITHM
@@ -443,33 +509,34 @@ export default function Geolocation({ items }) {
       var bluebinarray = [];
       for (let i = 0; i < mockitems.length; i++) {
         if (mockitems[i].bluebinrecyclable == 0) {
-          if (bluebinarray.length == 0){
-            bluebinarray.push(mockitems[i].description);
-          }else{
-            bluebinarray.push(", " + mockitems[i].description);
-          }
+          bluebinarray.push(mockitems[i].description);
         } else {
           nonbluebinobjects.items.push(mockitems[i]);
         }
       }
-      console.log("------------------------------------------------------------------");
+      console.log(
+        "------------------------------------------------------------------"
+      );
 
       /////////////////////////////////
       // BLUE BIN MARKERS
       allLocations = [];
       bluebinmarkers = [];
       var items = [];
-      console.log("There are " + bluebindata.length + " blue bins in total.")
+      console.log("There are " + bluebindata.length + " blue bins in total.");
       if (bluebinarray.length != 0) {
         for (let bb = 0; bb < bluebindata.length; bb++) {
           var item = {
             postal: bluebindata[bb].postcode,
-            distance: calcCrow(
-              position.coords.latitude,
-              position.coords.longitude,
-              bluebindata[bb].latitude,
-              bluebindata[bb].longitude
-            ),
+            distance:
+              Math.round(
+                calcCrow(
+                  position.coords.latitude,
+                  position.coords.longitude,
+                  bluebindata[bb].latitude,
+                  bluebindata[bb].longitude
+                ) * 100
+              ) / 100,
             latitude: bluebindata[bb].latitude,
             longitude: bluebindata[bb].longitude,
             block_number: bluebindata[bb].block_number,
@@ -485,26 +552,26 @@ export default function Geolocation({ items }) {
         bluebinmarkers.push(items[0]);
         allLocations.push(items[0]);
         setBlueBinMarkers(bluebinmarkers);
-        console.log("The nearest location is:")
-        console.log(items[0])
-      }else{
-        bluebinmarkers = []
+        console.log("The nearest location is:");
+        console.log(items[0]);
+      } else {
+        bluebinmarkers = [];
         setBlueBinMarkers(bluebinmarkers);
-        console.log("There are no blue bin items.")
+        console.log("There are no blue bin items.");
       }
-      
-      console.log("------------------------------------------------------------------");
+
+      console.log(
+        "------------------------------------------------------------------"
+      );
 
       ////////////////////////////////////////////////
       // NON BLUE BIN MARKERS
       console.log(nonbluebinobjects.items);
       var items = [];
-      console.log(
-        "Length of unfiltered dataset:" + data.length
-      );
+      console.log("Length of unfiltered dataset:" + data.length);
 
       markers = [];
-    
+
       var counter = 0;
       for (let l = 0; l < nonbluebinobjects.items.length; l++) {
         for (let i = 0; i < data.length; i++) {
@@ -512,20 +579,20 @@ export default function Geolocation({ items }) {
             data[i].categories_accepted.includes(
               nonbluebinobjects.items[l].category
             ) &&
-            data[i].type.includes(
-              nonbluebinobjects.items[l].condition
-            )
+            data[i].type.includes(nonbluebinobjects.items[l].condition)
           ) {
-            
             counter = counter + 1;
             var item = {
               postal: data[i].postcode,
-              distance: calcCrow(
-                position.coords.latitude,
-                position.coords.longitude,
-                data[i].latitude,
-                data[i].longitude
-              ),
+              distance:
+                Math.round(
+                  calcCrow(
+                    position.coords.latitude,
+                    position.coords.longitude,
+                    data[i].latitude,
+                    data[i].longitude
+                  ) * 100
+                ) / 100,
               latitude: data[i].latitude,
               longitude: data[i].longitude,
               address: data[i].address,
@@ -544,21 +611,38 @@ export default function Geolocation({ items }) {
         items.sort(function (a, b) {
           return a.distance - b.distance;
         });
-        console.log("There are " + counter + " facilities that recycle " + nonbluebinobjects.items[l].description + ", which has the condition of " + nonbluebinobjects.items[l].condition + ".")
+        console.log(
+          "There are " +
+            counter +
+            " facilities that recycle " +
+            nonbluebinobjects.items[l].description +
+            ", which has the condition of " +
+            nonbluebinobjects.items[l].condition +
+            "."
+        );
         items[0].itemname = nonbluebinobjects.items[l].description;
         console.log(items[0]);
         markers.push(items[0]);
         allLocations.push(items[0]);
+
         items = [];
-        
       }
-      
+      const person = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        isPerson: true,
+      };
+
+      allLocations.push(person);
       setMarkers(markers);
       setAllLocations(allLocations);
       console.log(allLocations);
       setEncode(btoa(JSON.stringify(allLocations)));
-      console.log("------------------------------------------------------------------");
+      console.log(
+        "------------------------------------------------------------------"
+      );
       console.log(encode);
+      setDisable(false);
     };
 
     const errorCallback = (error) => {
@@ -569,122 +653,303 @@ export default function Geolocation({ items }) {
       timeout: 25000,
     });
   };
+  const left_proportion = "50%";
+  const enablePopUp = (e) => {
+    console.log(e);
+    setPopUp(true);
+
+    console.log(popUp);
+  };
+  const closePopUp = () => {
+    setPopUp(false);
+  };
+
+  const switchLoader = () => {
+    setLoader(true);
+  };
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
     <div>
-      <AsyncSelect
-        value={Address}
-        isSearchable
-        placeholder={"Input address..."}
-        loadOptions={loadOptionsHandler}
-        onChange={onChangeHandler}
-        components={{ NoOptionsMessage }}
-        styles={selectStyles}
-      />
-      <p>{Address}</p>
-
-      {/* ///////////////////// */}
-      <Button onClick={navigatorControl}>
-        {" "}
-        <InfoIcon /> Locate with GPS{" "}
-      </Button>
-      <Link
-        href={{
-          pathname: "/summary/[code]",
-          query: {
-            code: encode,
-          },
+      <div
+        style={{
+          position: "relative",
         }}
-        as={`/summary/${encode}`}
       >
-        <Button rightIcon={<ArrowForwardIcon />}>I'm done!</Button>
-      </Link>
-
-      {/* ///////////////////// */}
-
-      <div className="map-root">
-        <Map
-          center={position}
-          zoom={zoom}
+        {/* Multiselect+Buttons */}
+        <div
           style={{
-            height: "500px",
+            position: "absolute",
+            width: "90%",
+            height: "auto",
+            top: 0,
+            zIndex: 10000,
+            justifyContent: "center",
+            left: { left_proportion },
+            marginLeft: "5%",
+            marginTop: "5%",
           }}
         >
-          <TileLayer
-            attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          <AsyncSelect
+            value={Address}
+            isSearchable
+            placeholder={"Enter your Location"}
+            loadOptions={loadOptionsHandler}
+            onChange={onChangeHandler}
+            components={{ NoOptionsMessage }}
+            styles={selectStyles}
           />
-
-          <Marker
-            draggable={false}
-            onDragend={updatePosition}
-            position={markerPosition}
-            animate={true}
-            ref={refmarker}
-            icon={markerHome}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginTop: 5,
+            }}
           >
-            <Popup minWidth={90}>
-              <span onClick={toggleDraggable}>
-                {draggable ? "Click on this for no reason" : "Nice job!"}
-              </span>
-            </Popup>
-            {/* {console.log(bluebinmarkers)}
-            {console.log(markers)} */}
-          </Marker>
-          {markers.map((marker, idx) => (
-            <Marker
-              key={`marker-${idx}`}
-              position={[marker.latitude, marker.longitude]}
-              icon={markerOthers}
+            <Button
+              onClick={navigatorControl}
+              marginRight={2}
+              colorScheme="teal"
             >
-              <Popup>
+              <SearchIcon />{" "}
+              <span style={{ fontSize: "0.9rem" }}>Use My Location! </span>
+            </Button>
+            <Link
+              href={{
+                pathname: "/summary/[code]",
+                query: {
+                  code: encode,
+                },
+              }}
+              as={`/summary/${encode}`}
+              passHref
+            >
+              {loader ? (
+                <Button
+                  isLoading
+                  colorScheme="teal"
+                  variant="solid"
+                  loadingText="Loading..."
+                ></Button>
+              ) : (
+                <Button
+                  disabled={disable}
+                  rightIcon={<ArrowForwardIcon />}
+                  onClick={switchLoader}
+                  colorScheme="teal"
+                >
+                  <span style={{ fontSize: "0.9rem" }}>I&apos;m done!</span>
+                </Button>
+              )}
+            </Link>
+          </div>
+        </div>
+        {/* Pop Up Box */}
+
+        {popUp && (
+          <Box
+            className="others-container"
+            position="absolute"
+            width="130%"
+            marginLeft="-15%"
+            height="auto"
+            zIndex="9999"
+            mt={[600, 600, 600, 550]}
+            fontSize={["xs", "sm", "sm", "sm"]}
+            borderWidth="1px"
+            borderRadius="xl"
+            bg="#E6FFFA
+          "
+          >
+            <div mt={[1, 4, 6, 8]}>
+              <Box flex={1} p={4}>
+                <span>{content}</span>
+                <br />
+                <Button
+                  onClick={closePopUp}
+                  colorScheme="teal"
+                  size="xs"
+                  mt={1}
+                >
+                  X
+                </Button>
+              </Box>
+            </div>
+          </Box>
+        )}
+
+        {/* Center instructional Box */}
+        {disable && (
+          <div
+            className="others-container"
+            style={{
+              position: "absolute",
+              width: "80%",
+              marginLeft: "10%",
+
+              marginTop: "28%",
+              height: "auto",
+              zIndex: 998,
+            }}
+          >
+            <Flex
+              flexDirection="row"
+              bg="white"
+              height={{
+                base: "150px", // 0-48em
+                md: "180px", // 48em-80em,
+                xl: "200px", // 80em+
+              }}
+              mt={[50, 20, 6, 8]}
+            >
+              <Box
+                style={{
+                  paddingTop: "5%",
+                  paddingInline: "5%",
+                  width: "100%",
+                }}
+                fontSize={{ base: "12px", md: "18px", lg: "20px" }}
+                flexGrow={1}
+              >
+                Tell Uncle Semakau where you are now. Uncle Semakau will help
+                you find where to take action!
+              </Box>
+              <Box flexGrow={1} h={"100%"} w={"100%"}>
+                <Image
+                  src="/unclesemakau_singlet.png"
+                  alt="Uncle Semakau in a Singlet"
+                  ml={["0%", "10%  ", "20%", "30%", "35%"]}
+                  // w={["100%", "80%", "70%", "55%"]}
+                  height={"100%"}
+                />
+              </Box>
+            </Flex>
+          </div>
+        )}
+
+        {/* Map */}
+        <div className="map-root">
+          <Map
+            center={position}
+            zoom={zoom}
+            style={{
+              height: "700px",
+              flex: 4,
+              width: "140%",
+              marginLeft: "-20%",
+            }}
+          >
+            <TileLayer
+              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+
+            <Marker
+              draggable={false}
+              onDragend={updatePosition}
+              position={markerPosition}
+              animate={true}
+              ref={refmarker}
+              icon={markerHome}
+              onClick={() => {
+                enablePopUp();
+                setContent(Address);
+                onToggle();
+              }}
+            ></Marker>
+            {markers.map((marker, idx) => (
+              <Marker
+                key={`marker-${idx}`}
+                position={[marker.latitude, marker.longitude]}
+                icon={markerOthers}
+                onClick={() => {
+                  enablePopUp();
+                  setContent(
+                    <span>
+                      <strong>{marker.itemname}</strong> <br /> <br />
+                      <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
+                      <br />
+                      <br />
+                      <b>Address: </b>
+                      {marker.address} <br />
+                      <b>Postal: </b> {marker.postal} <br />
+                      <b>Operating Hours: </b> {marker.operating_hours} <br />
+                      <b>Contact: </b> {marker.contact} <br />
+                      <b>Website: </b>{" "}
+                      <a href={marker.website}>{marker.website}</a> <br />
+                      <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
+                      <br />
+                    </span>
+                  );
+                }}
+              >
+                {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
-                  <b>{marker.channel_name}</b> by {marker.organisation_name} <br />
+                  <b>{marker.channel_name}</b> by {marker.organisation_name}{" "}
                   <br />
-                  
-                  <b>Address: </b>{marker.address} <br />
+                  <br />
+                  <b>Address: </b>
+                  {marker.address} <br />
                   <b>Postal: </b> {marker.postal} <br />
                   <b>Operating Hours: </b> {marker.operating_hours} <br />
                   <b>Contact: </b> {marker.contact} <br />
-                  <b>Website: </b> <a href={marker.website}>{marker.website}</a> <br />
-                  <b>Categories Accepted: </b> {marker.categories_accepted} <br />
+                  <b>Website: </b> <a href={marker.website}>{marker.website}</a>{" "}
+                  <br />
+                  <b>Categories Accepted: </b> {marker.categories_accepted}{" "}
+                  <br />
                 </span>
-              </Popup>
-            </Marker>
-          ))}
+              </Popup> */}
+              </Marker>
+            ))}
 
-          {bluebinmarkers.map((marker) => (
-            <Marker
-              position={[marker.latitude, marker.longitude]}
-              icon={markerRecycle}
-            >
-              <Popup>
+            {bluebinmarkers.map((marker, idx) => (
+              <Marker
+                key={`marker-${idx}`}
+                position={[marker.latitude, marker.longitude]}
+                icon={markerRecycle}
+                onClick={() => {
+                  enablePopUp();
+                  setContent(
+                    <span>
+                      <strong>Blue Recycling Bin</strong> for{" "}
+                      <strong>{marker.itemname}</strong> <br /> <br />
+                      Postal Code: {marker.postal} <br /> Distance:{" "}
+                      {marker.distance} km <br />
+                      {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                {marker.longitude} <br /> */}
+                    </span>
+                  );
+                }}
+              >
+                {/* <Popup>
                 <span>
                   <strong>{marker.itemname}</strong> <br /> <br />
-                  Postal Code:{marker.postal} <br /> Distance: {marker.distance}{" "}
-                  <br />
-                  Latitude: {marker.latitude} <br /> Longitude:{" "}
-                  {marker.longitude} <br />
-                </span>
-              </Popup>
-            </Marker>
-          ))}
+                  Postal Code: {marker.postal} <br /> Distance:{" "}
+                  {marker.distance} km <br /> */}
+                {/* Latitude: {marker.latitude} <br /> Longitude:{" "}
+                  {marker.longitude} <br /> */}
+                {/* </span>
+              </Popup> */}
+              </Marker>
+            ))}
 
-          <SearchBar updateMarker={updateMarker} />
-        </Map>
-        <style jsx>
-          {`
-            .map-root {
-              height: 100%;
-            }
-            .leaflet-container {
-              height: 400px !important;
-              width: 80%;
-              margin: 0 auto;
-            }
-          `}
-        </style>
+            <SearchBar updateMarker={updateMarker} />
+          </Map>
+          <style jsx>
+            {`
+              .map-root {
+                height: 100%;
+              }
+              .leaflet-container {
+                height: 400px !important;
+                width: 80%;
+                margin: 0 auto;
+              }
+            `}
+          </style>
+        </div>
       </div>
     </div>
   );
