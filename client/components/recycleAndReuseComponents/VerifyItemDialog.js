@@ -1,4 +1,4 @@
-import { React, useRef } from 'react'
+import { React, useRef } from "react";
 import {
     AlertDialog,
     AlertDialogOverlay,
@@ -10,39 +10,39 @@ import {
     Button,
     HStack,
     Text
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
-const VerifyItemDialog = ({ 
-    setNextStep, 
-    showDialog, 
-    setShowDialog, 
-    generalWasteItems, 
-    generalWasteItemDetails, 
-    selectedItems, 
-    setItems, 
-    dialogItemIndex, 
-    setDialogItemIndex }) => {  
+const VerifyItemDialog = ({
+    setNextStep,
+    showDialog,
+    setShowDialog,
+    generalWasteItems,
+    generalWasteItemDetails,
+    selectedItems,
+    setItems,
+    dialogItemIndex,
+    setDialogItemIndex }) => {
 
-    const cancelRef = useRef()
-    const closeDialog = () => setShowDialog(false)
+    const cancelRef = useRef();
+    const closeDialog = () => setShowDialog(false);
     const navigateToGeolocation = () => {
-        setItems(selectedItems)
-        setNextStep()
-        closeDialog()
-    }
+        setItems(selectedItems);
+        setNextStep();
+        closeDialog();
+    };
 
-    const generalWasteItem = generalWasteItems[dialogItemIndex]
-    const generalWasteItemDetail = generalWasteItemDetails.find(item => item.description === generalWasteItem.description)
+    const generalWasteItem = generalWasteItems[dialogItemIndex];
+    const generalWasteItemDetail = generalWasteItemDetails.find(item => item.description === generalWasteItem.description);
 
-    const hasNextGeneralWasteItems = dialogItemIndex < generalWasteItems.length - 1
-    const hasPrevGeneralWasteItems = dialogItemIndex > 0
+    const hasNextGeneralWasteItems = dialogItemIndex < generalWasteItems.length - 1;
+    const hasPrevGeneralWasteItems = dialogItemIndex > 0;
 
     return (
-        <AlertDialog 
-            isOpen={showDialog} 
-            leastDestructiveRef={cancelRef} 
+        <AlertDialog
+            isOpen={showDialog}
+            leastDestructiveRef={cancelRef}
             onClose={closeDialog}>
-                
+
             <AlertDialogOverlay>
                 <AlertDialogContent>
                     <AlertDialogHeader fontSize='lg' fontWeight='bold'>
@@ -73,7 +73,7 @@ const VerifyItemDialog = ({
                 </AlertDialogContent>
             </AlertDialogOverlay>
         </AlertDialog>
-    )
-}
+    );
+};
 
-export default VerifyItemDialog
+export default VerifyItemDialog;
