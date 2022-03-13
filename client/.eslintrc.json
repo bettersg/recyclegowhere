@@ -1,3 +1,9 @@
 {
-  "extends": ["next/core-web-vitals", "prettier"]
+	"extends": ["eslint:recommended", "next/core-web-vitals", "prettier"],
+	"rules": {
+		"no-console": 2,
+		"no-trailing-spaces": "error",
+		"quotes": "error",
+		"semi": "error"
+	}
 }
