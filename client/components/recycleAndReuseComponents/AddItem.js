@@ -1,17 +1,17 @@
-import { useState} from 'react'
-import { Flex, Text } from '@chakra-ui/react'
-import Image from 'next/image'
-import AddItemDialog from './AddItemDialog'
-import AddItemMultiSelect from './AddItemMultiSelect'
+import { useState} from "react";
+import { Flex, Text } from "@chakra-ui/react";
+import Image from "next/image";
+import AddItemDialog from "./AddItemDialog";
+import AddItemMultiSelect from "./AddItemMultiSelect";
 
 const AddItem = ({ setNextStep, data, setItems }) => {
-    const [didSelectItems, willTriggerDialog] = useState(false)
+    const [didSelectItems, willTriggerDialog] = useState(false);
 
     return (
-        <Flex 
-            flexDirection="column" 
-            justifyContent="center" 
-            alignItems="center" 
+        <Flex
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
             >
             <br />
             {/* <Text fontWeight="bold">Key in the name of the items you wish to reuse/recycle.</Text> */}
@@ -22,9 +22,9 @@ const AddItem = ({ setNextStep, data, setItems }) => {
                 height={223}
             />
             <div style={{marginInline:"20%", marginBottom:"20px"}}>
-                <Text 
-                    fontWeight="bold" 
-                    textAlign="center"> 
+                <Text
+                    fontWeight="bold"
+                    textAlign="center">
                     Type in the item(s) you wish to recycle/donate:
                 </Text>
             </div>
@@ -32,6 +32,6 @@ const AddItem = ({ setNextStep, data, setItems }) => {
             <AddItemDialog setNextStep={setNextStep} didSelectItems={didSelectItems} willTriggerDialog={willTriggerDialog} />
         </Flex>
     );
-}
+};
 
-export default AddItem
+export default AddItem;

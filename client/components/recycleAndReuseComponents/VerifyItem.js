@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
     Alert,
     AlertIcon,
@@ -14,66 +14,66 @@ import {
     Text,
     UnorderedList,
     VStack
-} from '@chakra-ui/react'
-import Image from 'next/image'
-import VerifyItemDialog from './VerifyItemDialog'
-import { getGeneralWasteItems, getBlueBinRecyclableItems, getNonBlueBinRecyclableItems } from '../Utils'
+} from "@chakra-ui/react";
+import Image from "next/image";
+import VerifyItemDialog from "./VerifyItemDialog";
+import { getGeneralWasteItems, getBlueBinRecyclableItems, getNonBlueBinRecyclableItems } from "../Utils";
 
 const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAction }) => {
-    const [showDialog, setShowDialog] = useState(false)
-    const [dialogItemIndex, setDialogItemIndex] = useState(0)
-    const [selectedItems, setSelectedItems] = useState([])
+    const [showDialog, setShowDialog] = useState(false);
+    const [dialogItemIndex, setDialogItemIndex] = useState(0);
+    const [selectedItems, setSelectedItems] = useState([]);
 
-    const generalWasteItems = getGeneralWasteItems(items)
-    const blueBinRecyclableItems = getBlueBinRecyclableItems(items)
-    const nonBlueBinRecyclableItems = getNonBlueBinRecyclableItems(items)
+    const generalWasteItems = getGeneralWasteItems(items);
+    const blueBinRecyclableItems = getBlueBinRecyclableItems(items);
+    const nonBlueBinRecyclableItems = getNonBlueBinRecyclableItems(items);
 
-    const [showAlert, toggleShowAlert] = useState(true)
-    const initialCheckedConditionItems = Array(nonBlueBinRecyclableItems.length).fill(false)
-    const [checkedConditionItems, setCheckedConditionItems] = useState(initialCheckedConditionItems)
+    const [showAlert, toggleShowAlert] = useState(true);
+    const initialCheckedConditionItems = Array(nonBlueBinRecyclableItems.length).fill(false);
+    const [checkedConditionItems, setCheckedConditionItems] = useState(initialCheckedConditionItems);
 
-    const itemConditions = ['In good condition', 'In need of repair', 'Spoilt beyond repair']
-    const selectPlaceholder = 'Select condition'
-    const enableConfirmButton = checkedConditionItems.every((itemCondition) => itemConditions.includes(itemCondition))
+    const itemConditions = ["In good condition", "In need of repair", "Spoilt beyond repair"];
+    const selectPlaceholder = "Select condition";
+    const enableConfirmButton = checkedConditionItems.every((itemCondition) => itemConditions.includes(itemCondition));
 
     const toggleSelect = (selectValue, index) => {
         const itemsCheckedForCondition = checkedConditionItems.map((checkedConditionItem, itemIndex) => {
-            return itemIndex === index ? selectValue : checkedConditionItem
-        })
-        setCheckedConditionItems(itemsCheckedForCondition)
-    }
+            return itemIndex === index ? selectValue : checkedConditionItem;
+        });
+        setCheckedConditionItems(itemsCheckedForCondition);
+    };
 
     const handleSubmit = (event) => {
-        event.preventDefault()
-        const checkedItems = event.target.elements
-        const updatedItems = []
+        event.preventDefault();
+        const checkedItems = event.target.elements;
+        const updatedItems = [];
 
         const addToUpdatedItemsList = (element, value, field) => {
-            const item = items.filter(item => item.id === parseInt(element.name))[0]
-            const clonedItem = { ...item }
-            clonedItem[field] = value
-            updatedItems.push(clonedItem)
-        }
+            const item = items.filter(item => item.id === parseInt(element.name))[0];
+            const clonedItem = { ...item };
+            clonedItem[field] = value;
+            updatedItems.push(clonedItem);
+        };
 
         for (let i = 0; i < checkedItems.length; i++) {
-            if (checkedItems[i].nodeName === 'INPUT' && checkedItems[i].type === 'checkbox') {
-                const isChecked = checkedItems[i].checked
-                addToUpdatedItemsList(checkedItems[i], isChecked, 'isCleaned')
-            } else if (checkedItems[i].nodeName === 'SELECT') {
-                const condition = checkedItems[i].selectedOptions[0].value
-                addToUpdatedItemsList(checkedItems[i], condition, 'condition')
+            if (checkedItems[i].nodeName === "INPUT" && checkedItems[i].type === "checkbox") {
+                const isChecked = checkedItems[i].checked;
+                addToUpdatedItemsList(checkedItems[i], isChecked, "isCleaned");
+            } else if (checkedItems[i].nodeName === "SELECT") {
+                const condition = checkedItems[i].selectedOptions[0].value;
+                addToUpdatedItemsList(checkedItems[i], condition, "condition");
             }
         }
 
         if (generalWasteItems && generalWasteItems.length > 0) {
-            setSelectedItems(updatedItems)
-            setShowDialog(true)
+            setSelectedItems(updatedItems);
+            setShowDialog(true);
         } else {
-            setItems(updatedItems)
-            navigateToTakeAction()
+            setItems(updatedItems);
+            navigateToTakeAction();
         }
-    }
-    
+    };
+
 
     return (
         <Flex flexDirection='column' justifyContent='center' alignItems='center' width='100%'>
@@ -88,7 +88,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                 <VStack spacing={4} width='100%'>
                     <Text fontWeight='bold' textAlign='center' marginInline={"20%"}>Please check against the statements below!</Text>
                     <Text fontWeight='lighter' textAlign='left' width='100%'>* represents a required field</Text>
-                    <Box width={['85vw', '60vw', '40vw']} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
+                    <Box width={["85vw", "60vw", "40vw"]} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
                         {blueBinRecyclableItems && blueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
                             <Text fontWeight='bold' textAlign='left' width='100%'>ITEM IS EMPTY, RINSED AND/OR DRIED</Text>
                             {blueBinRecyclableItems.map(itemToCheckCleaned => {
@@ -99,10 +99,10 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                                         <Checkbox
                                             name={itemToCheckCleaned.id}
                                             colorScheme="blue"
-                                            size='lg' 
+                                            size='lg'
                                         />
                                     </HStack>
-                                )
+                                );
                             })}
                         </VStack>}
                         {nonBlueBinRecyclableItems && nonBlueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
@@ -130,7 +130,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                                             )}
                                         </Select>
                                     </HStack>
-                                )
+                                );
                             })}
                         </VStack>}
                         {(!blueBinRecyclableItems || blueBinRecyclableItems.length === 0) && (!nonBlueBinRecyclableItems || nonBlueBinRecyclableItems.length === 0) && (
@@ -166,7 +166,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                     </Button>
                 </VStack>
             </form>
-            {generalWasteItems && generalWasteItems.length > 0 && generalWasteItemDetails && <VerifyItemDialog 
+            {generalWasteItems && generalWasteItems.length > 0 && generalWasteItemDetails && <VerifyItemDialog
                 setNextStep={navigateToTakeAction}
                 showDialog={showDialog}
                 setShowDialog={setShowDialog}
@@ -178,7 +178,7 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                 setDialogItemIndex={setDialogItemIndex}
             />}
         </Flex>
-    )
-}
+    );
+};
 
-export default VerifyItem
+export default VerifyItem;

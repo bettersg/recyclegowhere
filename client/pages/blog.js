@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import Head from 'next/head'
+import React, { useState } from "react";
+import Head from "next/head";
 import {
     Heading,
     Text,
@@ -9,23 +9,23 @@ import {
     InputGroup,
     InputRightElement,
     Divider
-} from '@chakra-ui/react'
+} from "@chakra-ui/react";
 
-import Container from '../components/Container'
-import { getAllFilesFrontMatter } from '../lib/mdx'
-import BlogPost from '../components/BlogPost'
+import Container from "../components/Container";
+import { getAllFilesFrontMatter } from "../lib/mdx";
+import BlogPost from "../components/BlogPost";
 
-import { SearchIcon } from '@chakra-ui/icons'
+import { SearchIcon } from "@chakra-ui/icons";
 
 export default function Blog({ posts }) {
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState("");
 
     const filteredBlogPosts = posts
         .sort(
             (a, b) => Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
         )
         .filter((frontMatter) =>
-            frontMatter.title.toLowerCase().includes(searchValue.toLowerCase()))
+            frontMatter.title.toLowerCase().includes(searchValue.toLowerCase()));
 
     return (
         <>
@@ -65,18 +65,18 @@ export default function Blog({ posts }) {
 
                         <Divider />
 
-                        <Text my={5} fontSize="lg">Uncle Sem curated {posts.length} article{posts.length == 1 ? '' : 's'} for you:</Text>
-                        {!filteredBlogPosts.length && 'No posts found :('}
+                        <Text my={5} fontSize="lg">Uncle Sem curated {posts.length} article{posts.length == 1 ? "" : "s"} for you:</Text>
+                        {!filteredBlogPosts.length && "No posts found :("}
                         {filteredBlogPosts.map((frontMatter) => <BlogPost key={frontMatter.title} {...frontMatter} />)}
                     </Flex>
                 </Stack>
             </Container>
         </>
-    )
+    );
 }
 
 export async function getStaticProps() {
-    const posts = await getAllFilesFrontMatter('blog')
+    const posts = await getAllFilesFrontMatter("blog");
 
-    return { props: { posts } }
+    return { props: { posts } };
 }

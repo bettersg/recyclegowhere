@@ -30,18 +30,18 @@ const BlueBinCard = ({data}) => {
             {/* item list */}
             <Text marginLeft="20px">
               <ul>
-                { 
+                {
                   data.itemname ? data.itemname.map((item, idx) => {
                     return (
                       <li key={idx}> { item } </li>
-                    )
+                    );
                   }) : ""
                 }
               </ul>
             </Text>
 
           </Box>
-            )
+            );
 };
 
 export default BlueBinCard;
