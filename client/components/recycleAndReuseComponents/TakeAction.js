@@ -177,7 +177,6 @@ const TakeAction = ({
 							colorScheme="teal"
 							onClick={() => {
 								setGeolocation(true);
-								ensureInDatabase();
 							}}
 						>
 							Self disposal
