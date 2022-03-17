@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
     Alert,
     AlertIcon,
@@ -6,18 +5,22 @@ import {
     Button,
     Checkbox,
     CloseButton,
-    Flex,
     HStack,
     ListItem,
     Select,
     Spacer,
     Text,
     UnorderedList,
-    VStack
+	VStack,
 } from "@chakra-ui/react";
-import Image from "next/image";
+import { useState } from "react";
+import {
+	getBlueBinRecyclableItems,
+	getGeneralWasteItems,
+	getNonBlueBinRecyclableItems,
+} from "../Utils";
+import { StepsLayout } from "./Steps/StepsLayout";
 import VerifyItemDialog from "./VerifyItemDialog";
-import { getGeneralWasteItems, getBlueBinRecyclableItems, getNonBlueBinRecyclableItems } from "../Utils";
 
 const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAction }) => {
     const [showDialog, setShowDialog] = useState(false);
@@ -74,82 +77,174 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
         }
     };
 
-
     return (
-        <Flex flexDirection='column' justifyContent='center' alignItems='center' width='100%'>
-            {/* <Text fontWeight='bold'>Please check against the statements below.</Text> */}
-            <Image
-                src='/unclesemakau.png'
-                alt='Uncle Semakau'
-                width={211}
-                height={223}
-            />
+		<StepsLayout>
             <form onSubmit={handleSubmit}>
-                <VStack spacing={4} width='100%'>
-                    <Text fontWeight='bold' textAlign='center' marginInline={"20%"}>Please check against the statements below!</Text>
-                    <Text fontWeight='lighter' textAlign='left' width='100%'>* represents a required field</Text>
-                    <Box width={["85vw", "60vw", "40vw"]} borderWidth='1px' borderRadius='lg' overflow='scroll' height='250px' p='12px'>
-                        {blueBinRecyclableItems && blueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
-                            <Text fontWeight='bold' textAlign='left' width='100%'>ITEM IS EMPTY, RINSED AND/OR DRIED</Text>
-                            {blueBinRecyclableItems.map(itemToCheckCleaned => {
+				<VStack spacing={4} width="100%">
+					<Text
+						fontWeight="bold"
+						textAlign="center"
+						marginInline={"20%"}
+					>
+						Please check against the statements below!
+					</Text>
+					<Text fontWeight="lighter" textAlign="left" width="100%">
+						* represents a required field
+					</Text>
+					<Box
+						width={["85vw", "60vw", "40vw"]}
+						borderWidth="1px"
+						borderRadius="lg"
+						overflow="scroll"
+						height="250px"
+						p="12px"
+					>
+						{blueBinRecyclableItems &&
+							blueBinRecyclableItems.length > 0 && (
+								<VStack width="100%" p="12px">
+									<Text
+										fontWeight="bold"
+										textAlign="left"
+										width="100%"
+									>
+										ITEM IS EMPTY, RINSED AND/OR DRIED
+									</Text>
+									{blueBinRecyclableItems.map(
+										(itemToCheckCleaned) => {
                                 return (
-                                    <HStack width='100%' key={itemToCheckCleaned.id}>
-                                        <Text>{itemToCheckCleaned.description}</Text>
+												<HStack
+													width="100%"
+													key={itemToCheckCleaned.id}
+												>
+													<Text>
+														{
+															itemToCheckCleaned.description
+														}
+													</Text>
                                         <Spacer />
                                         <Checkbox
-                                            name={itemToCheckCleaned.id}
+														name={
+															itemToCheckCleaned.id
+														}
                                             colorScheme="blue"
-                                            size='lg'
+														size="lg"
                                         />
                                     </HStack>
                                 );
-                            })}
-                        </VStack>}
-                        {nonBlueBinRecyclableItems && nonBlueBinRecyclableItems.length > 0 && <VStack width='100%' p='12px'>
-                            <Text fontWeight='bold' textAlign='left' width='100%'>INDICATE THE CONDITION</Text>
-                            {nonBlueBinRecyclableItems.map((itemToCheckCondition, index) => {
+										},
+									)}
+								</VStack>
+							)}
+						{nonBlueBinRecyclableItems &&
+							nonBlueBinRecyclableItems.length > 0 && (
+								<VStack width="100%" p="12px">
+									<Text
+										fontWeight="bold"
+										textAlign="left"
+										width="100%"
+									>
+										INDICATE THE CONDITION
+									</Text>
+									{nonBlueBinRecyclableItems.map(
+										(itemToCheckCondition, index) => {
                                 return (
-                                    <HStack width='100%' key={`${itemToCheckCondition.id}`}>
-                                        <Text width='70%'>{itemToCheckCondition.description}*</Text>
+												<HStack
+													width="100%"
+													key={`${itemToCheckCondition.id}`}
+												>
+													<Text width="70%">
+														{
+															itemToCheckCondition.description
+														}
+														*
+													</Text>
                                         <Spacer />
                                         <Select
-                                            placeholder={selectPlaceholder}
-                                            onChange={(e) => toggleSelect(e.target.selectedOptions[0].value, index)}
+														placeholder={
+															selectPlaceholder
+														}
+														onChange={(e) =>
+															toggleSelect(
+																e.target
+																	.selectedOptions[0]
+																	.value,
+																index,
+															)
+														}
                                             isRequired={true}
-                                            name={itemToCheckCondition.id}
-                                            value={checkedConditionItems[index]}
+														name={
+															itemToCheckCondition.id
+														}
+														value={
+															checkedConditionItems[
+																index
+															]
+														}
                                         >
-                                            {itemConditions.map(itemCondition =>
+														{itemConditions.map(
+															(itemCondition) => (
                                                 <option
                                                     key={`${itemToCheckCondition.id}-${itemCondition}`}
-                                                    name={itemToCheckCondition.id}
-                                                    value={itemCondition}
+																	name={
+																		itemToCheckCondition.id
+																	}
+																	value={
+																		itemCondition
+																	}
                                                 >
-                                                    {itemCondition}
+																	{
+																		itemCondition
+																	}
                                                 </option>
+															),
                                             )}
                                         </Select>
                                     </HStack>
                                 );
-                            })}
-                        </VStack>}
-                        {(!blueBinRecyclableItems || blueBinRecyclableItems.length === 0) && (!nonBlueBinRecyclableItems || nonBlueBinRecyclableItems.length === 0) && (
+										},
+									)}
+								</VStack>
+							)}
+						{(!blueBinRecyclableItems ||
+							blueBinRecyclableItems.length === 0) &&
+							(!nonBlueBinRecyclableItems ||
+								nonBlueBinRecyclableItems.length === 0) && (
                             <Text>No recyclable items selected.</Text>
                         )}
                     </Box>
-                    {generalWasteItems && generalWasteItems.length > 0 && showAlert && (
-                        <Alert status='error'>
-                            <VStack width='100%'>
-                                <HStack width='100%'>
+					{generalWasteItems &&
+						generalWasteItems.length > 0 &&
+						showAlert && (
+							<Alert status="error">
+								<VStack width="100%">
+									<HStack width="100%">
                                     <AlertIcon />
-                                    <Text fontWeight="bold">The following items cannot be recycled.</Text>
+										<Text fontWeight="bold">
+											The following items cannot be
+											recycled.
+										</Text>
                                     <Spacer />
-                                    <CloseButton onClick={() => toggleShowAlert(false)} size='md' />
+										<CloseButton
+											onClick={() =>
+												toggleShowAlert(false)
+											}
+											size="md"
+										/>
                                 </HStack>
-                                <Box width='100%' pl={45}>
-                                    <UnorderedList width='100%'>
-                                        {generalWasteItems.map((generalWasteItem) =>
-                                            <ListItem key={generalWasteItem.id}>{generalWasteItem.description}</ListItem>
+									<Box width="100%" pl={45}>
+										<UnorderedList width="100%">
+											{generalWasteItems.map(
+												(generalWasteItem) => (
+													<ListItem
+														key={
+															generalWasteItem.id
+														}
+													>
+														{
+															generalWasteItem.description
+														}
+													</ListItem>
+												),
                                         )}
                                     </UnorderedList>
                                 </Box>
@@ -157,16 +252,19 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                         </Alert>
                     )}
                     <Button
-                        size='md'
-                        colorScheme='teal'
+						size="md"
+						colorScheme="teal"
                         isDisabled={!enableConfirmButton}
-                        type='submit'
+						type="submit"
                     >
                         Confirm
                     </Button>
                 </VStack>
             </form>
-            {generalWasteItems && generalWasteItems.length > 0 && generalWasteItemDetails && <VerifyItemDialog
+			{generalWasteItems &&
+				generalWasteItems.length > 0 &&
+				generalWasteItemDetails && (
+					<VerifyItemDialog
                 setNextStep={navigateToTakeAction}
                 showDialog={showDialog}
                 setShowDialog={setShowDialog}
@@ -176,8 +274,9 @@ const VerifyItem = ({ items, setItems, generalWasteItemDetails, navigateToTakeAc
                 setItems={setItems}
                 dialogItemIndex={dialogItemIndex}
                 setDialogItemIndex={setDialogItemIndex}
-            />}
-        </Flex>
+					/>
+				)}
+		</StepsLayout>
     );
 };
 
