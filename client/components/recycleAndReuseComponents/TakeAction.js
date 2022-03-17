@@ -1,13 +1,4 @@
-import {
-	Box,
-	Button,
-	Flex,
-	HStack,
-	Image,
-	Spacer,
-	Text,
-	VStack,
-} from "@chakra-ui/react";
+import { Box, Button, HStack, Spacer, Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import {
 	getBlueBinRecyclableItems,
@@ -15,6 +6,7 @@ import {
 	hasCheckedNonBlueBinRecyclableItems,
 	hasCleanedBlueBinRecyclableItems,
 } from "../Utils";
+import { StepsLayout } from "./Steps/StepsLayout";
 
 // const GeolocationNoSSR = dynamic(() => import("./Geolocation"), {
 // 	loading: () => <p>Map is loading...</p>,
@@ -50,20 +42,7 @@ const TakeAction = ({
 	// // Ensure that item + condition is in database.
 
 	return (
-		<Flex
-			flexDirection="column"
-			justifyContent="center"
-			alignItems="center"
-		>
-			{/* <Text fontWeight='bold'>How would you like to take action?</Text> */}
-
-			<Image
-				src="/unclesemakau.png"
-				alt="Uncle Semakau"
-				width={211}
-				height={223}
-			/>
-
+		<StepsLayout>
 			<VStack spacing={4} width="100%">
 				<Text fontWeight="bold" textAlign="center" marginInline={"20%"}>
 					How would you like to take action?
@@ -195,7 +174,7 @@ const TakeAction = ({
 			</VStack>
 
 			{/* <GeolocationNoSSR /> */}
-		</Flex>
+		</StepsLayout>
 	);
 };
 
