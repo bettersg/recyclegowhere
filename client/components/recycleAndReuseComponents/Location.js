@@ -4,8 +4,11 @@ import {
 	AccordionIcon,
 	AccordionItem,
 	AccordionPanel,
-} from "@chakra-ui/accordion";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+	Box,
+	Button,
+	Flex,
+	Text,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { components } from "react-select";
 import AsyncSelect from "react-select/async";

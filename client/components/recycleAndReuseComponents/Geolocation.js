@@ -234,13 +234,6 @@ export default function Geolocation({ items }) {
 		);
 	};
 
-	//   const ensureInDatabase=()=>{
-	//     console.log(nonBlueBinRecyclableItems)
-	//     var itemsThatAreValid = 0;
-
-	//     console.log(nonBlueBinRecyclableItems)
-	// }
-
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// SEARCH BAR INPUT - THE SEARCH ALGORITHM //
 	const onChangeHandler = (event) => {

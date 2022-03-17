@@ -34,17 +34,12 @@ function RecycleAndReuse({ data }) {
 					<Steps
 						activeStep={step}
 						responsive={false}
-						// labelOrientation="vertical"
 						colorScheme="teal"
 						p={3}
 						size="md"
 					>
 						{/* Add items to the recycling list */}
-						<Step
-							label={false && "Add Items"}
-							icon={AddIcon}
-							key="0"
-						>
+						<Step icon={AddIcon} key="0" data-testid="tab">
 							<AddItem
 								setNextStep={() => setStep(1)}
 								data={data}
@@ -53,11 +48,7 @@ function RecycleAndReuse({ data }) {
 						</Step>
 
 						{/* Verify that the items are empty, rinsed or dried  */}
-						<Step
-							label={false && "Verify Items"}
-							icon={EditIcon}
-							key="1"
-						>
+						<Step icon={EditIcon} key="1" data-testid="tab">
 							<VerifyItem
 								items={items}
 								setItems={setItems}
@@ -69,11 +60,7 @@ function RecycleAndReuse({ data }) {
 						</Step>
 
 						{/* Decide what action to take: either house pickup or self-disposal */}
-						<Step
-							label={false && "Take Action"}
-							icon={DeleteIcon}
-							key="2"
-						>
+						<Step icon={DeleteIcon} key="2" data-testid="tab">
 							{geolocation ? (
 								<GeolocationNoSSR items={items} />
 							) : location ? (
@@ -93,11 +80,7 @@ function RecycleAndReuse({ data }) {
 						</Step>
 
 						{/* Final Confirmation and Summary List*/}
-						<Step
-							label={false && "Complete"}
-							icon={CheckIcon}
-							key="3"
-						></Step>
+						<Step icon={CheckIcon} key="3" data-testid="tab"></Step>
 					</Steps>
 				</Flex>
 			</Box>

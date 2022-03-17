@@ -22,7 +22,7 @@ jobs:
         run: npm run lint
       - name: Run Tests
         working-directory: ./client
-        run: npm test
+        run: npm run testall
       - name: Compile FE
         working-directory: ./client
         run: npm run build
