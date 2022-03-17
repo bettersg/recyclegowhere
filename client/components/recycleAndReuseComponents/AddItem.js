@@ -5,19 +5,27 @@ import AddItemMultiSelect from "./AddItemMultiSelect";
 import { StepsLayout } from "./Steps/StepsLayout";
 
 const AddItem = ({ setNextStep, data, setItems }) => {
-    const [didSelectItems, willTriggerDialog] = useState(false);
+	const [didSelectItems, willTriggerDialog] = useState(false);
 
-    return (
+	return (
 		<StepsLayout>
 			<div style={{ marginInline: "20%", marginBottom: "20px" }}>
 				<Text fontWeight="bold" textAlign="center">
-                    Type in the item(s) you wish to recycle/donate:
-                </Text>
-            </div>
-            <AddItemMultiSelect data={data} setItems={setItems} willTriggerDialog={willTriggerDialog} />
-            <AddItemDialog setNextStep={setNextStep} didSelectItems={didSelectItems} willTriggerDialog={willTriggerDialog} />
+					Type in the item(s) you wish to recycle/donate:
+				</Text>
+			</div>
+			<AddItemMultiSelect
+				data={data}
+				setItems={setItems}
+				openDialog={() => willTriggerDialog(true)}
+			/>
+			<AddItemDialog
+				setNextStep={setNextStep}
+				didSelectItems={didSelectItems}
+				closeDialog={() => willTriggerDialog(false)}
+			/>
 		</StepsLayout>
-    );
+	);
 };
 
 export default AddItem;
