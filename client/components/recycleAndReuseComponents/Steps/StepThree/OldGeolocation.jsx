@@ -1,3 +1,7 @@
+/* eslint-disable */
+// =============================================================================
+// This is the old Geolocation file. It has been replaced with ..., and is only being kept for reference for bugs. To be deleted once bugs are fixed and the new component works
+// =============================================================================
 import { ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Image, useDisclosure } from "@chakra-ui/react";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";

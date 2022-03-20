@@ -67,7 +67,7 @@ function RecycleAndReuse({ data }) {
 						{/* Decide what action to take: either house pickup or self-disposal */}
 						<Step icon={DeleteIcon} key="2" data-testid="tab">
 							{geolocation ? (
-								<GeolocationNoSSR items={items} />
+								<GeolocationNoSSR userItems={items} />
 							) : location ? (
 								<Location
 									items={items}
