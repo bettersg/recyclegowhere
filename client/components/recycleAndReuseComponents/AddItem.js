@@ -18,6 +18,7 @@ const AddItem = ({ setNextStep, data, setItems }) => {
 				data={data}
 				setItems={setItems}
 				openDialog={() => willTriggerDialog(true)}
+				willTriggerDialog={willTriggerDialog}
 			/>
 			<AddItemDialog
 				setNextStep={setNextStep}
