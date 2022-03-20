@@ -5,7 +5,7 @@ import {
 	getNonBlueBinRecyclableItems,
 	hasCheckedNonBlueBinRecyclableItems,
 	hasCleanedBlueBinRecyclableItems,
-} from "../Utils";
+} from "../utils";
 import { StepsLayout } from "./Steps/StepsLayout";
 
 // const GeolocationNoSSR = dynamic(() => import("./Geolocation"), {

@@ -18,7 +18,7 @@ import {
 	getBlueBinRecyclableItems,
 	getGeneralWasteItems,
 	getNonBlueBinRecyclableItems,
-} from "../Utils";
+} from "../utils";
 import { StepsLayout } from "./Steps/StepsLayout";
 import VerifyItemDialog from "./VerifyItemDialog";
 

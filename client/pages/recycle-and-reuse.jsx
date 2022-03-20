@@ -4,7 +4,7 @@ import { Box, Center, Flex } from "@chakra-ui/react";
 import { Step, Steps } from "chakra-ui-steps";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import Head from "../components/head";
+import Head from "../components/Head";
 import AddItem from "../components/recycleAndReuseComponents/AddItem";
 import Location from "../components/recycleAndReuseComponents/Location";
 import TakeAction from "../components/recycleAndReuseComponents/TakeAction";

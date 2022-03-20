@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Image, useDisclosure } from "@chakra-ui/react";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";

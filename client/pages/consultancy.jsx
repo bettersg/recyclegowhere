@@ -1,6 +1,6 @@
 import { Box, Button, Center, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import Head from "../components/head";
+import Head from "../components/Head";
 // import { useState, useRef, useEffect } from "react";
 
 function Guide(/* { data } */) {

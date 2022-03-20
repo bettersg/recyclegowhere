@@ -15,7 +15,7 @@ import {
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
-import { DarkModeSwitch } from "../components/DarkModeSwitch";
+import { DarkModeSwitch } from "./DarkModeSwitch";
 
 const Header = (props) => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
