@@ -18,8 +18,8 @@ import {
 	getBlueBinRecyclableItems,
 	getGeneralWasteItems,
 	getNonBlueBinRecyclableItems,
-} from "../utils";
-import { StepsLayout } from "./Steps/StepsLayout";
+} from "../../../utils";
+import { StepsLayout } from "../StepsLayout";
 import VerifyItemDialog from "./VerifyItemDialog";
 
 const itemConditions = [
@@ -29,7 +29,7 @@ const itemConditions = [
 ];
 const selectPlaceholder = "Select condition";
 
-const VerifyItem = ({
+export const VerifyItem = ({
 	items,
 	setItems,
 	generalWasteItemDetails,
@@ -300,5 +300,3 @@ const VerifyItem = ({
 		</StepsLayout>
 	);
 };
-
-export default VerifyItem;

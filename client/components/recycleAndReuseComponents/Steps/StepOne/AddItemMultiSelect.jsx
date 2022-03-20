@@ -2,7 +2,7 @@ import { Button, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import Select from "react-select";
 
-import { selectStylesForColorModes } from "../DarkModeSwitch";
+import { selectStylesForColorModes } from "../../../DarkModeSwitch";
 
 const AddItemMultiSelect = ({ data, setItems, openDialog }) => {
 	const [selectedOptions, setSelectedOptions] = React.useState([]);

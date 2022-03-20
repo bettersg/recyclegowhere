@@ -6,9 +6,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Map, MapControl, Marker, TileLayer, withLeaflet } from "react-leaflet";
 import { components } from "react-select";
 import AsyncSelect from "react-select/async";
-import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
-import physicalChannels from "../../jsonfiles/Physical-Channel.json";
-import { selectStylesForColorModes } from "../DarkModeSwitch";
+import oneMapRecyclingBin from "../../../../jsonfiles/One-Map-Recycling-Bin.json";
+import physicalChannels from "../../../../jsonfiles/Physical-Channel.json";
+import { selectStylesForColorModes } from "../../../DarkModeSwitch";
 
 class SearchBox extends MapControl {
 	constructor(props) {

@@ -5,15 +5,20 @@ import { Step, Steps } from "chakra-ui-steps";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import Head from "../components/Head";
-import AddItem from "../components/recycleAndReuseComponents/AddItem";
-import Location from "../components/recycleAndReuseComponents/Location";
-import TakeAction from "../components/recycleAndReuseComponents/TakeAction";
-import VerifyItem from "../components/recycleAndReuseComponents/VerifyItem";
+import {
+	AddItem,
+	Location,
+	TakeAction,
+	VerifyItem,
+} from "../components/recycleAndReuseComponents/Steps";
 import GeneralWaste from "../jsonfiles/General-Waste.json";
 import Item from "../jsonfiles/Item.json";
 
 const GeolocationNoSSR = dynamic(
-	() => import("../components/recycleAndReuseComponents/Geolocation"),
+	() =>
+		import(
+			"../components/recycleAndReuseComponents/Steps/StepThree/Geolocation"
+		),
 	{
 		loading: () => <p>Map is loading</p>,
 		ssr: false,

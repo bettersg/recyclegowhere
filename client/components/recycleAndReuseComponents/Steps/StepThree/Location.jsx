@@ -12,10 +12,10 @@ import {
 import React, { useEffect, useState } from "react";
 import { components } from "react-select";
 import AsyncSelect from "react-select/async";
-import callForCollection from "../../jsonfiles/Call-For-Collection.json";
-import { selectStylesForColorModes } from "../DarkModeSwitch";
+import callForCollection from "../../../../jsonfiles/Call-For-Collection.json";
+import { selectStylesForColorModes } from "../../../DarkModeSwitch";
 
-export default function Location({ items, setGeolocation, setLocation }) {
+export const Location = ({ items, setGeolocation, setLocation }) => {
 	const [orgs, setOrgs] = useState([]);
 	const [confirmedAddress, setConfirmedAddress] = useState(true);
 	const [Address, setAddress] = useState("");
@@ -170,4 +170,4 @@ export default function Location({ items, setGeolocation, setLocation }) {
 			)}
 		</div>
 	);
-}
+};
