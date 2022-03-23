@@ -1,8 +1,8 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Button, Flex, Text, Alert, AlertIcon } from "@chakra-ui/react";
 import React from "react";
 import Select from "react-select";
 
-import { selectStylesForColorModes } from "../DarkModeSwitch";
+import { selectStylesForColorModes } from "../../../DarkModeSwitch";
 
 const AddItemMultiSelect = ({ data, setItems, openDialog }) => {
 	const [selectedOptions, setSelectedOptions] = React.useState([]);
@@ -35,8 +35,15 @@ const AddItemMultiSelect = ({ data, setItems, openDialog }) => {
 
 	return (
 		<form onSubmit={handleSubmit} style={{ width: "100%" }}>
+			{!!selectedOptions && selectedOptions.length ? (
+				<Alert size="1rem" mb="1rem" status="success">
+					<AlertIcon />
+					Please feel free to select more than one item from the list.
+				</Alert>
+			) : null}
 			<Select
 				isMulti
+				closeMenuOnSelect={false}
 				name="items"
 				options={options}
 				className="basic-multi-select"
