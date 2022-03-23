@@ -134,7 +134,7 @@ export default function Summary(props) {
 									{parsedData.map((prop, index) =>
 										prop.isPerson ? (
 											<p></p>
-										) : prop.website ? (
+										) : prop.organisation_name ? (
 											<div>
 												<NonBlueBinCard
 													data={prop}
