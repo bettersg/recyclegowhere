@@ -1,4 +1,7 @@
 /* eslint-disable */
+// =============================================================================
+// This is the old Geolocation file. It has been replaced with ..., and is only being kept for reference for bugs. To be deleted once bugs are fixed and the new component works
+// =============================================================================
 import { ArrowForwardIcon, SearchIcon } from "@chakra-ui/icons";
 import { Box, Button, Flex, Image, useDisclosure } from "@chakra-ui/react";
 import { GeoSearchControl, OpenStreetMapProvider } from "leaflet-geosearch";
@@ -7,9 +10,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Map, MapControl, Marker, TileLayer, withLeaflet } from "react-leaflet";
 import { components } from "react-select";
 import AsyncSelect from "react-select/async";
-import oneMapRecyclingBin from "../../jsonfiles/One-Map-Recycling-Bin.json";
-import physicalChannels from "../../jsonfiles/Physical-Channel.json";
-import { selectStylesForColorModes } from "../DarkModeSwitch";
+import oneMapRecyclingBin from "../../../../jsonfiles/One-Map-Recycling-Bin.json";
+import physicalChannels from "../../../../jsonfiles/Physical-Channel.json";
+import { selectStylesForColorModes } from "../../../DarkModeSwitch";
 
 class SearchBox extends MapControl {
 	constructor(props) {

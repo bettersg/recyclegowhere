@@ -1,5 +1,5 @@
 import { Box, Center, Heading } from "@chakra-ui/react";
-import Head from "../components/head";
+import Head from "../components/Head";
 
 function Guide() {
 	// const [items, setItems] = useState([]);

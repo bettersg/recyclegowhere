@@ -5,15 +5,15 @@ import {
 	getNonBlueBinRecyclableItems,
 	hasCheckedNonBlueBinRecyclableItems,
 	hasCleanedBlueBinRecyclableItems,
-} from "../Utils";
-import { StepsLayout } from "./Steps/StepsLayout";
+} from "../../..//utils";
+import { StepsLayout } from "../StepsLayout";
 
 // const GeolocationNoSSR = dynamic(() => import("./Geolocation"), {
 // 	loading: () => <p>Map is loading...</p>,
 // 	ssr: false,
 // });
 
-const TakeAction = ({
+export const TakeAction = ({
 	items,
 	setLocation,
 	setGeolocation,
@@ -177,5 +177,3 @@ const TakeAction = ({
 		</StepsLayout>
 	);
 };
-
-export default TakeAction;
