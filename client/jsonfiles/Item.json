@@ -457,7 +457,7 @@
 	},
 	{
 		"id": 76,
-		"description": "Windows",
+		"description": "Window",
 		"category": "Non-recyclable",
 		"bluebinrecyclable": 2
 	},
@@ -505,7 +505,7 @@
 	},
 	{
 		"id": 84,
-		"description": "Prams",
+		"description": "Pram",
 		"category": "Baby and children's Items",
 		"bluebinrecyclable": 1
 	},
@@ -517,19 +517,19 @@
 	},
 	{
 		"id": 86,
-		"description": "High Chairs",
+		"description": "High Chair",
 		"category": "Baby and children's Items",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 87,
-		"description": "Car Seats",
+		"description": "Car Seat",
 		"category": "Baby and children's Items",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 88,
-		"description": "Walkers",
+		"description": "Walker",
 		"category": "Baby and children's Items",
 		"bluebinrecyclable": 1
 	},
@@ -541,19 +541,19 @@
 	},
 	{
 		"id": 90,
-		"description": "Carriers",
+		"description": "Carrier",
 		"category": "Baby and children's Items",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 91,
-		"description": "Handbags",
+		"description": "Handbag",
 		"category": "Bags and accessories",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 92,
-		"description": "Backpacks",
+		"description": "Backpack",
 		"category": "Bags and accessories",
 		"bluebinrecyclable": 1
 	},
@@ -571,37 +571,37 @@
 	},
 	{
 		"id": 95,
-		"description": "Belts",
+		"description": "Belt",
 		"category": "Bags and accessories",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 96,
-		"description": "Reusable Bags",
+		"description": "Reusable Bag",
 		"category": "Bags and accessories",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 97,
-		"description": "Pens",
+		"description": "Pen",
 		"category": "Stationery",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 98,
-		"description": "Markers",
+		"description": "Marker",
 		"category": "Stationery",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 99,
-		"description": "Pencils",
+		"description": "Pencil",
 		"category": "Stationery",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 100,
-		"description": "Shirts",
+		"description": "Shirt",
 		"category": "Clothing",
 		"bluebinrecyclable": 1
 	},
@@ -613,7 +613,7 @@
 	},
 	{
 		"id": 102,
-		"description": "Skirts",
+		"description": "Skirt",
 		"category": "Clothing",
 		"bluebinrecyclable": 1
 	},
@@ -625,13 +625,13 @@
 	},
 	{
 		"id": 104,
-		"description": "Blouses",
+		"description": "Blouse",
 		"category": "Clothing",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 105,
-		"description": "Canned Food/Drinks",
+		"description": "Canned Food/Drink",
 		"category": "Food",
 		"bluebinrecyclable": 1
 	},
@@ -643,7 +643,7 @@
 	},
 	{
 		"id": 107,
-		"description": "Biscuits",
+		"description": "Biscuit",
 		"category": "Food",
 		"bluebinrecyclable": 1
 	},
@@ -655,37 +655,37 @@
 	},
 	{
 		"id": 109,
-		"description": "Sofas",
+		"description": "Sofa",
 		"category": "Furniture",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 110,
-		"description": "Beds",
+		"description": "Bed",
 		"category": "Furniture",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 111,
-		"description": "Tables",
+		"description": "Table",
 		"category": "Furniture",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 112,
-		"description": "Chairs",
+		"description": "Chair",
 		"category": "Furniture",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 113,
-		"description": "Bedsheets",
+		"description": "Bedsheet",
 		"category": "Household goods",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 114,
-		"description": "Towels",
+		"description": "Towel",
 		"category": "Household goods",
 		"bluebinrecyclable": 1
 	},
@@ -703,49 +703,49 @@
 	},
 	{
 		"id": 117,
-		"description": "Printers",
+		"description": "Printer",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 118,
-		"description": "Computers",
+		"description": "Computer",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 119,
-		"description": "Laptops",
+		"description": "Laptop",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 120,
-		"description": "Tablets",
+		"description": "Tablet",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 121,
-		"description": "Desktop Monitors",
+		"description": "Desktop Monitor",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 122,
-		"description": "Servers",
+		"description": "Server",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 123,
-		"description": "Routers",
+		"description": "Router",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 124,
-		"description": "Modems",
+		"description": "Modem",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
@@ -757,7 +757,7 @@
 	},
 	{
 		"id": 126,
-		"description": "Set-Top Boxes",
+		"description": "Set-Top Box",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
@@ -769,97 +769,97 @@
 	},
 	{
 		"id": 128,
-		"description": "Network Hubs",
+		"description": "Network Hub",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 129,
-		"description": "Mobile Telephones",
+		"description": "Mobile Telephone",
 		"category": "ICT equipment",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 130,
-		"description": "Light Bulbs",
+		"description": "Light Bulb",
 		"category": "Lamps",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 131,
-		"description": "Long Fluorescent Tubes",
+		"description": "Long Fluorescent Tube",
 		"category": "Lamps",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 132,
-		"description": "Refrigerators",
+		"description": "Refrigerator",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 133,
-		"description": "Air-Conditioners",
+		"description": "Air-Conditioner",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 134,
-		"description": "Washing Machines",
+		"description": "Washing Machine",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 135,
-		"description": "Clothes Dryers",
+		"description": "Clothes Dryer",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 136,
-		"description": "Televisions",
+		"description": "Television",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 137,
-		"description": "Personal Mobility Devices",
+		"description": "Personal Mobility Device",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 138,
-		"description": "Power Assisted Bicycles",
+		"description": "Power Assisted Bicycle",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 139,
-		"description": "Electric Mobility Scooters",
+		"description": "Electric Mobility Scooter",
 		"category": "Large home appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 140,
-		"description": "Ovens",
+		"description": "Oven",
 		"category": "Other electrical appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 141,
-		"description": "Toasters",
+		"description": "Toaster",
 		"category": "Other electrical appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 142,
-		"description": "Rice Cookers",
+		"description": "Rice Cooker",
 		"category": "Other electrical appliances",
 		"bluebinrecyclable": 1
 	},
 	{
 		"id": 143,
-		"description": "Irons",
+		"description": "Iron",
 		"category": "Other electrical appliances",
 		"bluebinrecyclable": 1
 	},
@@ -901,7 +901,7 @@
 	},
 	{
 		"id": 150,
-		"description": "Toy Cars",
+		"description": "Toy Car",
 		"category": "Toys",
 		"bluebinrecyclable": 1
 	},
