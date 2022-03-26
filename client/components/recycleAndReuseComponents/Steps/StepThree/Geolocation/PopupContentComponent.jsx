@@ -1,6 +1,11 @@
 const NonBlueBinPopupInfo = ({ marker }) => (
 	<span>
-		<strong>{marker.items}</strong> <br /> <br />
+		{marker.items.map(item => (
+			<>
+				<strong>{item}</strong> <br />
+			</>
+		))}
+		<br />
 		<b>{marker.channel_name}</b> by {marker.organisation_name} <br />
 		<br />
 		<b>Address: </b>

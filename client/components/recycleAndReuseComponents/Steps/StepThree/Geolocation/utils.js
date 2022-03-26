@@ -89,6 +89,25 @@ export const getNearestBlueBin = (items, { lat, lng }, postcode) => {
 	return result[0];
 };
 
+const setNearestLocation = (place) => {
+	let obj = {};
+
+	obj.id = place.id
+	obj.postal = place.postcode
+	obj.latitude = place.latitude
+	obj.longitude = place.longitude
+	obj.address = place.address
+	obj.channel_name = place.channel_name
+	obj.operating_hours = place.operating_hours
+	obj.contact = place.contact
+	obj.website = place.website
+	obj.categories_accepted = place.categories_accepted
+	obj.organisation_name = place.organisation_name
+	obj.type = place.type
+
+	return obj
+}
+
 export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 	if (!items.length) {
 		return null;
@@ -97,44 +116,60 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 	const results = [];
 
 	for (const item of items) {
-		const validLocations = [];
+		const distance = null;
+		const nearestLocation = null;
 
 		for (const place of physicalChannels) {
 			if (
 				place.categories_accepted.includes(item.category) &&
 				place.type.includes(item.condition)
 			) {
-				validLocations.push({
-					id: place.id,
-					postal: place.postcode,
-					distance:
-						Math.round(
-							calcCrow(
-								lat,
-								lng,
-								place.latitude,
-								place.longitude,
-							) * 100,
-						) / 100,
-					latitude: place.latitude,
-					longitude: place.longitude,
-					address: place.address,
-					channel_name: place.channel_name,
-					operating_hours: place.operating_hours,
-					contact: place.contact,
-					website: place.website,
-					categories_accepted: place.categories_accepted,
-					organisation_name: place.organisation_name,
-					type: place.type,
-				});
+				let calcDist = Math.round(
+					calcCrow(
+						lat,
+						lng,
+						place.latitude,
+						place.longitude,
+					) * 100,
+				) / 100;
+				if (!distance || (distance && distance > calcDist)) {
+					distance = calcDist;
+					nearestLocation = setNearestLocation(place);
+					nearestLocation.distance = calcDist;
+				} 
 			}
 		}
-
-		sortByDistance(validLocations);
-		const nearestLocation = validLocations[0];
-		nearestLocation.items = item.description;
-		results.push(nearestLocation);
+		const itemNames = [];
+		itemNames.push(item.description);
+		if (nearestLocation) {
+			nearestLocation.items = itemNames;
+			results.push(nearestLocation);
+		} else {
+			//For handling items which do not have a valid location
+		}
 	}
 
-	return results.length ? results : null;
+	const final = [];
+
+	for (const result of results) {
+		if (final.length == 0) {
+			final.push(result)
+		} else {
+			let found = false;
+			for (const item of final) {
+				if (item.id == result.id) {
+					found = true;
+					item.items.push(result.items[0]);
+					break;
+				}
+			}
+			if (!found) {
+				final.push(result)
+			}
+		}
+	}
+
+	console.log(final)
+
+	return final.length ? final : null;
 };

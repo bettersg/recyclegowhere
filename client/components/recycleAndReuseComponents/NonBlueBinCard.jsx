@@ -42,9 +42,11 @@ const NonBlueBinCard = ({ person, data }) => {
 			<Text fontWeight="bold">Your Item</Text>
 			{/* item list */}
 			<Text marginLeft="20px">
-				<li>
-					{data.items} ({data.type})
-				</li>
+				{
+					data.items.map(item => (
+						<li>{item} ({data.type})</li>
+					))
+				}
 				{/* {
           // data.items ? data.items.map( (item, idx) => {
           //   return (
