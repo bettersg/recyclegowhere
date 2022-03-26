@@ -43,8 +43,8 @@ const NonBlueBinCard = ({ person, data }) => {
 			{/* item list */}
 			<Text marginLeft="20px">
 				{
-					data.items.map(item => (
-						<li>{item} ({data.type})</li>
+					data.items.map((item, idx) => (
+						<li key={idx}>{item} ({data.type})</li>
 					))
 				}
 				{/* {

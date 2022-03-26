@@ -92,21 +92,21 @@ export const getNearestBlueBin = (items, { lat, lng }, postcode) => {
 const setNearestLocation = (place) => {
 	let obj = {};
 
-	obj.id = place.id
-	obj.postal = place.postcode
-	obj.latitude = place.latitude
-	obj.longitude = place.longitude
-	obj.address = place.address
-	obj.channel_name = place.channel_name
-	obj.operating_hours = place.operating_hours
-	obj.contact = place.contact
-	obj.website = place.website
-	obj.categories_accepted = place.categories_accepted
-	obj.organisation_name = place.organisation_name
-	obj.type = place.type
+	obj.id = place.id;
+	obj.postal = place.postcode;
+	obj.latitude = place.latitude;
+	obj.longitude = place.longitude;
+	obj.address = place.address;
+	obj.channel_name = place.channel_name;
+	obj.operating_hours = place.operating_hours;
+	obj.contact = place.contact;
+	obj.website = place.website;
+	obj.categories_accepted = place.categories_accepted;
+	obj.organisation_name = place.organisation_name;
+	obj.type = place.type;
 
-	return obj
-}
+	return obj;
+};
 
 export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 	if (!items.length) {
@@ -116,8 +116,8 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 	const results = [];
 
 	for (const item of items) {
-		const distance = null;
-		const nearestLocation = null;
+		let distance = null;
+		let nearestLocation = null;
 
 		for (const place of physicalChannels) {
 			if (
@@ -136,7 +136,7 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 					distance = calcDist;
 					nearestLocation = setNearestLocation(place);
 					nearestLocation.distance = calcDist;
-				} 
+				}
 			}
 		}
 		const itemNames = [];
@@ -153,7 +153,7 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 
 	for (const result of results) {
 		if (final.length == 0) {
-			final.push(result)
+			final.push(result);
 		} else {
 			let found = false;
 			for (const item of final) {
@@ -164,12 +164,10 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 				}
 			}
 			if (!found) {
-				final.push(result)
+				final.push(result);
 			}
 		}
 	}
-
-	console.log(final)
 
 	return final.length ? final : null;
 };
