@@ -7,6 +7,7 @@ function toRadians(Value) {
 
 const kmInR = 6371;
 
+// only exported for OldGeolocation; can be removed once that file is removed
 export const calcCrow = (lat1, lon1, lat2, lon2) => {
 	const dLat = toRadians(lat2 - lat1);
 	const dLon = toRadians(lon2 - lon1);
@@ -23,6 +24,9 @@ export const calcCrow = (lat1, lon1, lat2, lon2) => {
 	const d = kmInR * c;
 	return d;
 };
+
+const getDistance = (lat1, lon1, lat2, lon2) =>
+	Math.round(calcCrow(lat1, lon1, lat2, lon2) * 100) / 100;
 
 const filterBlueBinByPostcode = (postcode) => {
 	if (postcode) {
@@ -74,10 +78,7 @@ export const getNearestBlueBin = (items, { lat, lng }, postcode) => {
 	for (const bin of filteredBlueBins) {
 		result.push({
 			postal: bin.postcode,
-			distance:
-				Math.round(
-					calcCrow(lat, lng, bin.latitude, bin.longitude) * 100,
-				) / 100,
+			distance: getDistance(lat, lng, bin.latitude, bin.longitude),
 			latitude: bin.latitude,
 			longitude: bin.longitude,
 			block_number: bin.block_number,
@@ -94,7 +95,7 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 		return null;
 	}
 
-	const allNonBlueBinItems = [];
+	const allNonBlueBinFacilitiesPerItem = [];
 
 	for (const item of items) {
 		const validLocations = [];
@@ -107,15 +108,12 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 				validLocations.push({
 					id: place.id,
 					postal: place.postcode,
-					distance:
-						Math.round(
-							calcCrow(
-								lat,
-								lng,
-								place.latitude,
-								place.longitude,
-							) * 100,
-						) / 100,
+					distance: getDistance(
+						lat,
+						lng,
+						place.latitude,
+						place.longitude,
+					),
 					latitude: place.latitude,
 					longitude: place.longitude,
 					address: place.address,
@@ -125,7 +123,7 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 					website: place.website,
 					categories_accepted: place.categories_accepted,
 					organisation_name: place.organisation_name,
-					type: place.type
+					type: place.type,
 				});
 			}
 		}
@@ -136,26 +134,26 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 			const itemNames = [];
 			itemNames.push(item.description);
 			nearestLocation.items = itemNames;
-			allNonBlueBinItems.push(nearestLocation);
+			allNonBlueBinFacilitiesPerItem.push(nearestLocation);
 		}
 	}
 
 	const results = [];
 
-	for (const item of allNonBlueBinItems) {
+	for (const facility of allNonBlueBinFacilitiesPerItem) {
 		if (results.length == 0) {
-			results.push(item);
+			results.push(facility);
 		} else {
 			let found = false;
 			for (const result of results) {
-				if (item.id == result.id) {
+				if (facility.id == result.id) {
 					found = true;
-					result.items.push(item.items[0]);
+					result.items.push(facility.items[0]);
 					break;
 				}
 			}
 			if (!found) {
-				results.push(item);
+				results.push(facility);
 			}
 		}
 	}
