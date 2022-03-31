@@ -237,6 +237,7 @@ export default function Geolocation({ userItems }) {
 				{showPopup && (
 					<InfoBox
 						content={popupContent}
+						homeMarker={homeMarker}
 						handleCloseInfoBox={() => setShowPopup(false)}
 					/>
 				)}
@@ -291,7 +292,9 @@ export default function Geolocation({ userItems }) {
 								icon={markerRecycle}
 								onClick={() => {
 									setPopupContent(
-										<PopupInfo.blueBin marker={marker} />,
+										<PopupInfo.blueBin 
+											marker={marker}
+										/>,
 									);
 									setShowPopup(true);
 								}}
