@@ -296,12 +296,11 @@ export default function Geolocation({ userItems }) {
 								icon={markerRecycle}
 								onClick={() => {
 									setPopupContent(
-										<PopupInfo.blueBin 
+										<PopupInfo.blueBin
 											marker={marker}
-										/>,
-									);
+										/>);
 									setDisplayDirection(true);
-									setShowPopup(true);					
+									setShowPopup(true);
 								}}
 							/>
 						))}

@@ -28,7 +28,7 @@ export const InfoBox = ({ content, handleCloseInfoBox, homeMarker, displayDirect
 				>
 					X
 				</Button>
-				{displayDirection ? 
+				{displayDirection ?
 					<Button
 						mt={1}
 						size="xs">
@@ -43,7 +43,3 @@ export const InfoBox = ({ content, handleCloseInfoBox, homeMarker, displayDirect
 		</div>
 	</Box>
 );
-
-function consolelogging(content) {
-	console.log(content)
-}
