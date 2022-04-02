@@ -48,6 +48,7 @@ export const VerifyItem = ({
 	const initialCheckedConditionItems = Array(
 		nonBlueBinRecyclableItems.length,
 	).fill(false);
+
 	const [checkedConditionItems, setCheckedConditionItems] = useState(
 		initialCheckedConditionItems,
 	);

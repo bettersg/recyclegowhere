@@ -1,3 +1,5 @@
+import { Box } from "@chakra-ui/react";
+
 const NonBlueBinPopupInfo = ({ marker }) => (
 	<span>
 		<strong>{marker.items}</strong> <br /> <br />
@@ -22,7 +24,28 @@ const BlueBinPopupInfo = ({ marker }) => (
 	</span>
 );
 
+const NoFacilityInfo = ({ noFacilityItems }) => {
+	return (
+		<span>
+			<p>
+				Sorry but the following items selected do not have a facility to
+				take them in:
+			</p>
+			{noFacilityItems.map(({ description, condition, id }) => {
+				return (
+					<Box my="0.5rem" key={id}>
+						<b>Item: </b> {description} <br />
+						<b>Condition: </b> {condition} <br />
+					</Box>
+				);
+			})}
+		</span>
+	);
+};
+
+// need leaflet to nbe red and say thaT these items have no facilities
 export const PopupInfo = {
 	blueBin: BlueBinPopupInfo,
 	nonBlueBin: NonBlueBinPopupInfo,
+	noFacility: NoFacilityInfo,
 };

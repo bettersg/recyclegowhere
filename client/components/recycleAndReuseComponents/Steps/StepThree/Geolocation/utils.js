@@ -90,11 +90,13 @@ export const getNearestBlueBin = (items, { lat, lng }, postcode) => {
 };
 
 export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
-	if (!items.length) {
-		return null;
-	}
+	// if (!items.length) {
+	// 	return null;
+	// }
 
 	const results = [];
+	const validItems = [];
+	const invalidItems = [];
 
 	for (const item of items) {
 		const validLocations = [];
@@ -127,14 +129,26 @@ export const getNearestNonBlueBinFacilities = (items, { lat, lng }) => {
 					organisation_name: place.organisation_name,
 					type: place.type,
 				});
+				if (!validItems.includes(item)) {
+					validItems.push(item);
+				}
 			}
 		}
 
-		sortByDistance(validLocations);
-		const nearestLocation = validLocations[0];
-		nearestLocation.items = item.description;
-		results.push(nearestLocation);
+		if (!validItems.includes(item) && !invalidItems.includes(item)) {
+			invalidItems.push(item);
+		}
+
+		if (validLocations.length) {
+			sortByDistance(validLocations);
+			const nearestLocation = validLocations[0];
+			nearestLocation.items = item.description;
+			results.push(nearestLocation);
+		}
 	}
 
-	return results.length ? results : null;
+	return {
+		nonBlueBinFacilities: results,
+		invalidNoFacilityItems: invalidItems,
+	};
 };

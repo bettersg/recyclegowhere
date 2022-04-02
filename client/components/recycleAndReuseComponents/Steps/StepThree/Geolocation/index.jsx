@@ -65,8 +65,17 @@ export default function Geolocation({ userItems }) {
 			{ lat: event.lat, lng: event.long },
 			event.value,
 		);
-	};
 
+		if (noFacilityItems.length > 0) {
+			setShowPopup(true);
+			setPopupContent(
+				<PopupInfo.noFacility
+					warning={noFacilityItems}
+					noFacilityItems={noFacilityItems}
+				/>,
+			);
+		}
+	};
 	const onUseMyLocation = () => {
 		const successCallback = (position) => {
 			const address = `${position.coords.latitude},${position.coords.longitude}`;
@@ -95,6 +104,9 @@ export default function Geolocation({ userItems }) {
 		onToggle();
 	};
 
+	const allLocations = [];
+	const noFacilityItems = [];
+
 	const generateMarkers = (addressLabel, { lat, lng }, postcode) => {
 		inputAddress.current = addressLabel;
 		mapCenter.current = {
@@ -105,8 +117,6 @@ export default function Geolocation({ userItems }) {
 			lat,
 			lng,
 		};
-
-		const allLocations = [];
 
 		/* SORT OUT BLUE BIN OBJECTS FROM NON BLUE BIN  */
 		const nonBlueBinItems = [];
@@ -132,13 +142,16 @@ export default function Geolocation({ userItems }) {
 		}
 
 		/* NON-BLUE BIN ITEMS */
-		const nonBlueBinFacilities = getNearestNonBlueBinFacilities(
-			nonBlueBinItems,
-			{ lat, lng },
-		);
-		if (nonBlueBinFacilities) {
+		const { nonBlueBinFacilities, invalidNoFacilityItems } =
+			getNearestNonBlueBinFacilities(nonBlueBinItems, { lat, lng });
+
+		if (nonBlueBinFacilities?.length) {
 			setNonBlueBinMarkers(nonBlueBinFacilities);
 			allLocations.push(...nonBlueBinFacilities);
+		}
+
+		if (invalidNoFacilityItems?.length) {
+			noFacilityItems.push(...invalidNoFacilityItems);
 		}
 
 		const person = {
@@ -178,7 +191,9 @@ export default function Geolocation({ userItems }) {
 						isSearchable
 						placeholder={"Enter your Location"}
 						loadOptions={fetchOneMapSuggestions}
-						onChange={onChangeHandler}
+						onChange={(event) => {
+							onChangeHandler(event);
+						}}
 						components={{ NoOptions }}
 						styles={selectStyles}
 					/>
