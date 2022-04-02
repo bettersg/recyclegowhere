@@ -48,6 +48,7 @@ export default function Geolocation({ userItems }) {
 	// Popup
 	const [showPopup, setShowPopup] = useState(false);
 	const [popupContent, setPopupContent] = useState("");
+	const [displayDirection, setDisplayDirection] = useState(false);
 
 	// Map Stuff
 	//////////////////////////////////////
@@ -90,6 +91,7 @@ export default function Geolocation({ userItems }) {
 	};
 
 	const handleHomeMarkerClick = () => {
+		setDisplayDirection(false);
 		setPopupContent(inputAddress.current);
 		setShowPopup(true);
 		onToggle();
@@ -238,6 +240,7 @@ export default function Geolocation({ userItems }) {
 					<InfoBox
 						content={popupContent}
 						homeMarker={homeMarker}
+						displayDirection={displayDirection}
 						handleCloseInfoBox={() => setShowPopup(false)}
 					/>
 				)}
@@ -281,6 +284,7 @@ export default function Geolocation({ userItems }) {
 											marker={marker}
 										/>,
 									);
+									setDisplayDirection(true);
 									setShowPopup(true);
 								}}
 							/>
@@ -296,7 +300,8 @@ export default function Geolocation({ userItems }) {
 											marker={marker}
 										/>,
 									);
-									setShowPopup(true);
+									setDisplayDirection(true);
+									setShowPopup(true);					
 								}}
 							/>
 						))}
