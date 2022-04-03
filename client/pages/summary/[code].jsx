@@ -31,7 +31,9 @@ export default function Summary(props) {
 	var parsedData = JSON.parse(atob(props.cont));
 
 	//last item in array
-	const person = parsedData.at(-1);
+	// const person = parsedData.at(-1);
+	// The above code is what was causing issues in Safari on iOS and OSX.
+	const person = parsedData[parsedData.length - 1];
 
 	return (
 		<Center>
