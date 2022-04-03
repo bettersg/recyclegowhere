@@ -33,7 +33,7 @@ export default function Summary(props) {
 	//last item in array
 	// const person = parsedData.at(-1);
 	// The above code is what was causing issues in Safari on iOS and OSX.
-	const person = parsedData;
+	const person = parsedData[parsedData.length - 1];
 
 	return (
 		<Center>
