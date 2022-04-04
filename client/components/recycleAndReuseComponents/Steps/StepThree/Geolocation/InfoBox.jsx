@@ -32,9 +32,7 @@ export const InfoBox = ({ content, handleCloseInfoBox, homeMarker, displayDirect
 					<Button
 						mt={1}
 						size="xs">
-							<Link href={`https://www.google.com/maps/dir/?api=1&origin=${homeMarker.current.lat}%2C${homeMarker.current.lng}&destination=${content.props.marker.postal}`} target="_blank">
-								Click for directions
-							</Link>
+							<RedirectToGoogleMap origin={homeMarker} dest={content.props.marker.postal} />
 					</Button>
 					:
 					""
@@ -42,4 +40,13 @@ export const InfoBox = ({ content, handleCloseInfoBox, homeMarker, displayDirect
 			</Box>
 		</div>
 	</Box>
+);
+
+const RedirectToGoogleMap = ({ origin, dest }) => (
+
+	<Link href={
+		`https://www.google.com/maps/dir/?api=1&origin=${origin.lat}%2C${origin.lng}&destination=${dest}`} target="_blank">
+		Click for directions
+	</Link>
+
 );

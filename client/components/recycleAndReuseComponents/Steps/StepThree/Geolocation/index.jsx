@@ -239,7 +239,7 @@ export default function Geolocation({ userItems }) {
 				{showPopup && (
 					<InfoBox
 						content={popupContent}
-						homeMarker={homeMarker}
+						homeMarker={homeMarker.current}
 						displayDirection={displayDirection}
 						handleCloseInfoBox={() => setShowPopup(false)}
 					/>
