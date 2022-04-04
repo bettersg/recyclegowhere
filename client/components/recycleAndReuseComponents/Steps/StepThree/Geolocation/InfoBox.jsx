@@ -1,6 +1,7 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Link } from "@chakra-ui/react";
 
-export const InfoBox = ({ content, handleCloseInfoBox }) => (
+export const InfoBox = ({ content, handleCloseInfoBox, homeMarker, displayDirection }) => (
+
 	<Box
 		className="others-container"
 		position="absolute"
@@ -27,7 +28,25 @@ export const InfoBox = ({ content, handleCloseInfoBox }) => (
 				>
 					X
 				</Button>
+				{displayDirection ?
+					<Button
+						mt={1}
+						size="xs">
+							<RedirectToGoogleMap origin={homeMarker} dest={content.props.marker.postal} />
+					</Button>
+					:
+					""
+				}
 			</Box>
 		</div>
 	</Box>
+);
+
+const RedirectToGoogleMap = ({ origin, dest }) => (
+
+	<Link href={
+		`https://www.google.com/maps/dir/?api=1&origin=${origin.lat}%2C${origin.lng}&destination=${dest}`} target="_blank">
+		Click for directions
+	</Link>
+
 );
