@@ -59,7 +59,7 @@ const AddItemMultiSelect = ({ data, setItems, openDialog }) => {
 			>
 				<Text fontWeight="lighter" textAlign="left" width="100%" mt="2">
 					Let us know if your item is{" "}
-					<a href="#">
+					<a href="https://better-sg.typeform.com/to/wIiJlLKe" target="_blank">
 						<Text as="u">not in our list.</Text>
 					</a>
 				</Text>

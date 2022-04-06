@@ -42,7 +42,7 @@ export default function Home() {
 					</Heading>
 					<br />
 					<Heading as="h2" fontSize="lg">
-						Let’s do what we can to stop this!
+						Let us do what we can to stop this!
 					</Heading>
 					<br />
 					<Link href="/recycle-and-reuse" passHref>
