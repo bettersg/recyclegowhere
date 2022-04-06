@@ -41,7 +41,7 @@ const Footer = () => {
 							Home
 						</Button>
 					</Link>
-					<Link href="/" passHref>
+					<Link href="/recycle-and-reuse" passHref>
 						<Button
 							as="a"
 							leftIcon={<ArrowForwardIcon />}
