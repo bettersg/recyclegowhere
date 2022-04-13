@@ -9,9 +9,9 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
-            - name: Next Build and Export
+            - name: npm install & Next Build and Export
               working-directory: ./client
-              run: npm run out
+              run: npm install && npm run out
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: "${{ secrets.GITHUB_TOKEN }}"
