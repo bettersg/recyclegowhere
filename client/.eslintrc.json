@@ -4,7 +4,8 @@
 		"no-console": 2,
 		"no-trailing-spaces": "error",
 		"quotes": "error",
-		"semi": "error"
+		"semi": "error",
+		"@next/next/no-img-element": "off"
 	},
 	"env": {
 		"jest": true
