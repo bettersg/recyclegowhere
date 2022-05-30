@@ -1,5 +1,7 @@
 # RecycleGoWhere
 
+# NOTE: This branch is an archive of all the work done in phase 1. Do not delete.
+
 <p align="center">
     <img height="100px" src="img/recyclegowhere2.png" />
 </p>
