@@ -5,5 +5,8 @@
 		"no-trailing-spaces": "error",
 		"quotes": "error",
 		"semi": "error"
+	},
+	"env": {
+		"jest": true
 	}
 }
