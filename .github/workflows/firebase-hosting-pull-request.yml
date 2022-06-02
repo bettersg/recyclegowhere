@@ -12,8 +12,8 @@ jobs:
             - name: npm install & Next Build and Export
               working-directory: ./client
               run: npm install && npm run out
-            - uses: FirebaseExtended/action-hosting-deploy@v0
-              with:
-                  repoToken: "${{ secrets.GITHUB_TOKEN }}"
-                  firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_RECYCLEGOWHERE }}"
-                  projectId: recyclegowhere
+            # - uses: FirebaseExtended/action-hosting-deploy@v0
+            #   with:
+            #       repoToken: "${{ secrets.GITHUB_TOKEN }}"
+            #       firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_RECYCLEGOWHERE }}"
+            #       projectId: recyclegowhere
