@@ -5,7 +5,7 @@ import { Step, Steps } from "chakra-ui-steps";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import Head from "../components/Head";
-import AddItem from "../components/recycleAndReuseComponents";
+import AddItem from "../components/AddItem";
 import GeneralWaste from "../jsonfiles/General-Waste.json";
 import Item from "../jsonfiles/Item.json";
 
@@ -23,7 +23,11 @@ export async function getStaticProps() {
 	};
 }
 
-const Home = ({data}) => {
+interface Data {
+	items:()=>void;
+}
+
+const Home = ({data}: {data: Data}) => {
 	const [items, setItems] = useState([]);
 	const [step, setStep] = useState(0);
 	const [geolocation, setGeolocation] = useState(false);

@@ -9,8 +9,8 @@ import {
 	Button,
 } from "@chakra-ui/react";
 
-const AddItemDialog = ({ setNextStep, didSelectItems, closeDialog }) => {
-	const cancelRef = useRef();
+const AddItemDialog = ({ setNextStep, didSelectItems, closeDialog }:{setNextStep: ()=> void, didSelectItems: boolean, closeDialog:()=> void}) => {
+	const cancelRef = useRef(null);
 	const navigateToVerifyItem = () => {
 		setNextStep();
 		closeDialog();

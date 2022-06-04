@@ -2,8 +2,10 @@ import { Text } from "@chakra-ui/react";
 import { useState } from "react";
 import AddItemDialog from "./AddItemDialog";
 import AddItemMultiSelect from "./AddItemMultiSelect";
-
-export const AddItem = ({ setNextStep, data, setItems }) => {
+interface Data {
+	items:()=>void;
+}
+const AddItem = ({ setNextStep, data, setItems }:{setNextStep: ()=> void, data: Data, setItems:()=> void}) => {
 	const [didSelectItems, willTriggerDialog] = useState(false);
 
 	return (
@@ -26,3 +28,5 @@ export const AddItem = ({ setNextStep, data, setItems }) => {
 		</div>
 	);
 };
+
+export default AddItem;
