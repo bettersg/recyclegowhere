@@ -23,11 +23,31 @@ export async function getStaticProps() {
 	};
 }
 
-interface Data {
-	items:()=>void;
+export interface DataType {
+	items: {
+		[key: string]: Item
+	};
+	generalWasteItemDetails: {
+		[key: string]: GeneralWasteItemDetails
+	};
 }
 
-const Home = ({data}: {data: Data}) => {
+interface Item {
+	id: number;
+	description: string;
+	category: string;
+	bluebinrecyclable: number;
+}
+
+interface GeneralWasteItemDetails {
+	id: number;
+	description: string;
+	category: string;
+	reason: string;
+	suggestion: string;
+}
+
+const Home = (data:DataType) => {
 	const [items, setItems] = useState([]);
 	const [step, setStep] = useState(0);
 	const [geolocation, setGeolocation] = useState(false);
