@@ -9,18 +9,24 @@ import {
 	Button,
 } from "@chakra-ui/react";
 
-const AddItemDialog = ({ setNextStep, didSelectItems, closeDialog }:{setNextStep: ()=> void, didSelectItems: boolean, closeDialog:()=> void}) => {
+
+interface AddItemDialogType{
+	setNextStep: ()=> void;
+	didSelectItems: boolean; 
+	closeDialog:()=> void;
+}
+const AddItemDialog = (props: AddItemDialogType) => {
 	const cancelRef = useRef(null);
 	const navigateToVerifyItem = () => {
-		setNextStep();
-		closeDialog();
+		props.setNextStep();
+		props.closeDialog();
 	};
 
 	return (
 		<AlertDialog
-			isOpen={didSelectItems}
+			isOpen={props.didSelectItems}
 			leastDestructiveRef={cancelRef}
-			onClose={closeDialog}
+			onClose={props.closeDialog}
 		>
 			<AlertDialogOverlay>
 				<AlertDialogContent>

@@ -24,12 +24,8 @@ export async function getStaticProps() {
 }
 
 export interface DataType {
-	items: {
-		[key: string]: Item
-	};
-	generalWasteItemDetails: {
-		[key: string]: GeneralWasteItemDetails
-	};
+	items: Item;
+	generalWasteItemDetails: GeneralWasteItemDetails;
 }
 
 interface Item {

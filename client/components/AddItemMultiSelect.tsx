@@ -1,15 +1,19 @@
 import { Button, Flex, Text, Alert, AlertIcon } from "@chakra-ui/react";
 import React from "react";
 import Select from "react-select";
-interface Data {
-	items:()=>void;
-}
 import { selectStylesForColorModes } from "./DarkModeSwitch";
+import {DataType} from "../pages/index";
 
-const AddItemMultiSelect = ({ data, setItems, openDialog }: {data:Data, setItems:()=>void, openDialog:()=> void}) => {
+interface MultiSelectType {
+	data:DataType;
+	setItems:()=>void;
+	openDialog:()=> void;
+}
+
+const AddItemMultiSelect = (props: MultiSelectType) => {
 	const [selectedOptions, setSelectedOptions] = React.useState([]);
 
-	const options = parseItemsIntoOptions(data.items);
+	const options = parseItemsIntoOptions(props.data.items);
 
 	const handleChange = (event: React.SetStateAction<never[]>) => {
 		setSelectedOptions(event);
@@ -19,7 +23,7 @@ const AddItemMultiSelect = ({ data, setItems, openDialog }: {data:Data, setItems
 		const selectedItems = [];
 		for (const selected of selectedElements) {
 			if (selected.nodeName === "INPUT" && selected.name === "items") {
-				const selectedItem = data.items.filter(
+				const selectedItem = props.data.items.filter(
 					(item: { id: number; }) => item.id === parseInt(selected.value),
 				);
 				selectedItems.push(selectedItem[0]);
@@ -31,8 +35,8 @@ const AddItemMultiSelect = ({ data, setItems, openDialog }: {data:Data, setItems
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
 		const selectedItems = getSelectedItems(event.target.elements);
-		setItems(selectedItems);
-		openDialog();
+		props.setItems(selectedItems);
+		props.openDialog();
 	};
 
 	return (
