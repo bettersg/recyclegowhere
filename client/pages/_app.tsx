@@ -3,8 +3,8 @@ import type { AppProps } from "next/app";
 
 const theme = extendTheme({
 	colors: {
-		navBar: {
-			100: "#989898",
+		select: {
+			placeholder: "rgba(45, 55, 72, 0.36)",
 		},
 	},
 });

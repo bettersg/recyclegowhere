@@ -25,7 +25,7 @@ export const NavHeader = () => {
 			justify="flex-end"
 			wrap="wrap"
 			padding={5}
-			bg={COLORS.navBar[100]}
+			bg={COLORS.teal}
 		>
 			{/* <Flex align="center" mr={5}>
 				<Link href="/">
@@ -47,8 +47,8 @@ export const NavHeader = () => {
 			</Flex> */}
 			<IconButton
 				variant="solid"
-				color={COLORS.white}
-				background={COLORS.black}
+				color={COLORS.black}
+				background={COLORS.white}
 				aria-label="Navigate website"
 				icon={<HamburgerIcon />}
 				onClick={onOpen}

@@ -1,9 +1,16 @@
-const navBar = {
-	100: "navBar.100",
-};
-
 export const COLORS = {
 	black: "Black",
 	white: "White",
-	navBar,
+	teal: "teal.600",
+	gray: {
+		100: "gray.100",
+		700: "gray.700",
+	},
+	Select: {
+		placeholder: "select.placeholder",
+		icon: "gray.700",
+	},
+	Input: {
+		placeholder: "blackAlpha.500",
+	},
 };
