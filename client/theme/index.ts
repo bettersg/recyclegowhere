@@ -4,6 +4,7 @@ export const COLORS = {
 	teal: "teal.600",
 	gray: {
 		100: "gray.100",
+		200: "gray.200",
 		700: "gray.700",
 	},
 	Select: {

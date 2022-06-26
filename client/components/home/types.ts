@@ -4,3 +4,8 @@ export type TItems = {
 	name: string;
 	condition: string;
 };
+
+export type AddressOption = {
+	value: string;
+	label: string;
+};

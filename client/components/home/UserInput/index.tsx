@@ -36,12 +36,7 @@ export const UserInput = () => {
 
 	return (
 		<>
-			<Location
-				address={address}
-				updateAddress={(e) => {
-					setAddress(e.target.value);
-				}}
-			/>
+			<Location address={address} setAddress={setAddress} />
 			<Items
 				items={items}
 				handleUpdateItem={handleUpdateItem}
