@@ -5,25 +5,38 @@ import { COLORS } from "theme";
 import { AddressOption } from "../../types";
 import { IndicatorsContainer, NoOptionsMessage } from "./custom-components";
 import { OneMapResponse } from "./types";
+import debounce from "lodash/debounce";
 
 interface LocationProps {
 	address: string;
 	setAddress: Dispatch<SetStateAction<string>>;
 }
+
+const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
+	const response = await fetch(
+		`https://developers.onemap.sg/commonapi/search?searchVal=${searchValue}&returnGeom=Y&getAddrDetails=Y&pageNum=1`,
+	);
+	return await response.json();
+};
+
 export const Location = ({ address, setAddress }: LocationProps) => {
-	const loadOptionsHandler = useCallback(async (inputValue: string) => {
-		const response = await fetch(
-			`https://developers.onemap.sg/commonapi/search?searchVal=${inputValue}&returnGeom=Y&getAddrDetails=Y&pageNum=1`,
-		);
-		const json: OneMapResponse = await response.json();
-		return json.results.map(
-			(result) =>
-				({
-					value: result.ADDRESS,
-					label: result.ADDRESS,
-				} as AddressOption),
-		);
-	}, []);
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const debouncedLoadOptions = useCallback(
+		debounce((inputValue: string, cb: (options: AddressOption[]) => void) => {
+			fetchAddresses(inputValue).then((options) =>
+				cb(
+					options.results.map(
+						(result) =>
+							({
+								value: result.ADDRESS,
+								label: result.ADDRESS,
+							} as AddressOption),
+					),
+				),
+			);
+		}, 500),
+		[],
+	);
 
 	return (
 		<div>
@@ -38,7 +51,7 @@ export const Location = ({ address, setAddress }: LocationProps) => {
 					IndicatorsContainer,
 				}}
 				placeholder="Type address here"
-				loadOptions={loadOptionsHandler}
+				loadOptions={debouncedLoadOptions}
 				onChange={(newValue) => {
 					setAddress((newValue as AddressOption).value);
 				}}
