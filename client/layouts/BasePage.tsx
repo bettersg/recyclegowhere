@@ -1,3 +1,4 @@
+import { StickyFooter } from "components/footer/StickyFooter";
 import { NavHeader } from "components/nav/NavHeader";
 import { ReactNode } from "react";
 import { CustomHead } from "./components/CustomHead";
@@ -18,6 +19,7 @@ export const BasePage = ({
 			<CustomHead title={title} description={description} />
 			<NavHeader />
 			{children}
+			<StickyFooter/>
 		</>
 	);
 };
