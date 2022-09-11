@@ -1,28 +1,30 @@
 # Runs jest tests and builds tsc to look for typescript errors.
-name: '[PULL REQUEST] Test and Compile code'
+name: "[PULL REQUEST] Test and Compile code"
 
 on:
-  pull_request:
-    branches: [main]
+    push:
+        branches: release/**
+    pull_request:
+        branches: [main, release/**]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  Test-Compile-Frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-      - name: Install Packages
-        working-directory: ./client
-        run: npm install
-      - name: Run Linter
-        working-directory: ./client
-        run: npm run lint
-      - name: Run Tests
-        working-directory: ./client
-        run: npm run testall
-      - name: Compile FE
-        working-directory: ./client
-        run: npm run build
+    Test-Compile-Frontend:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: "16"
+            - name: Install Packages
+              working-directory: ./client
+              run: npm install
+            - name: Run Linter
+              working-directory: ./client
+              run: npm run lint
+            - name: Run Tests
+              working-directory: ./client
+              run: npm run testall
+            - name: Compile FE
+              working-directory: ./client
+              run: npm run build
