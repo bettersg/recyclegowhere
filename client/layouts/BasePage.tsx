@@ -1,4 +1,3 @@
-import { StickyFooter } from "components/footer/StickyFooter";
 import { NavHeader } from "components/nav/NavHeader";
 import { ReactNode } from "react";
 import { CustomHead } from "./components/CustomHead";
@@ -9,17 +8,12 @@ interface BasePageProps {
 	children: ReactNode;
 }
 
-export const BasePage = ({
-	title,
-	description = "",
-	children,
-}: BasePageProps) => {
+export const BasePage = ({ title, description = "", children }: BasePageProps) => {
 	return (
 		<>
 			<CustomHead title={title} description={description} />
 			<NavHeader />
 			{children}
-			<StickyFooter/>
 		</>
 	);
 };
