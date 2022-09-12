@@ -1,17 +1,18 @@
 import { Container, VStack } from "@chakra-ui/react";
 import { StickyFooter } from "components/footer/StickyFooter";
 import { Banner, UserInput } from "components/home";
+import styles from "components/home/hideScrollbar.module.css";
 import { NAVBAR_HEIGHT } from "components/nav/NavHeader";
 import { useWindowDimensions } from "hooks/window/useWindowDimensions";
 import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
-import styles from "components/home/hideScrollbar.module.css";
 
 const Home: NextPage = () => {
 	const [stickyHeight, setStickyHeight] = useState<number>(0);
-	const stickyRef = useRef<HTMLDivElement>(null);
 	const { height } = useWindowDimensions();
+	const stickyRef = useRef<HTMLDivElement>(null);
+	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
 
 	useEffect(() => {
 		setStickyHeight(stickyRef.current?.clientHeight || 0);
@@ -30,10 +31,11 @@ const Home: NextPage = () => {
 					pb={5}
 					overflow="auto"
 					height={height - stickyHeight - NAVBAR_HEIGHT}
+					ref={scrollableContainerRef}
 				>
 					<VStack align="initial" mx={25} spacing={30}>
 						<Banner />
-						<UserInput />
+						<UserInput scrollableContainerRef={scrollableContainerRef} />
 					</VStack>
 				</Container>
 				<StickyFooter ref={stickyRef} />
