@@ -1,0 +1,13 @@
+html,
+
+#map {
+    height: 600px;
+    width: 960px;
+}
+
+#stats {
+    position: absolute;
+    right: 6%;
+    top: 8%;
+    text-align: left;
+}
