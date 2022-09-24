@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    // "target": "es5",
+    "target": "es2017",
     "lib": [
       "dom",
       "dom.iterable",
@@ -23,7 +24,8 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "topLevelAwait.ts"
   ],
   "exclude": [
     "node_modules"

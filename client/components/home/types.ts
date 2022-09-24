@@ -9,3 +9,17 @@ export type AddressOption = {
 	value: string;
 	label: string;
 };
+export interface ItemObject {
+    "s/n": number
+    name: string
+    category: string
+}
+
+export interface CategoriesObject {
+	itemCategories: string
+	method1: string
+	method2: string
+	method3: string
+	method4: string
+	id: number
+}

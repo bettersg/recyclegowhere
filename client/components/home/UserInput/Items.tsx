@@ -4,6 +4,21 @@ import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
 import { TItems } from "../types";
+import getSheetData from "./GetSheetData";
+
+// Sheet names:
+const itemsList = "itemsList (final)";
+// const categoryList = "categoryList";
+// const facilityList = "facilitiesList (final)";
+
+// Sheet Endpoints
+const itemsEndpoint = "https://api.sheety.co/5a6beb2bb1b380b2c7619d503dbaa632/recycleGoWhereBackend [v2]/itemsList (final)";
+// const categoryEndpoint = "https://api.sheety.co/5a6beb2bb1b380b2c7619d503dbaa632/recycleGoWhereBackend [v2]/categoriesList";
+// const facilityEndpoint = "https://api.sheety.co/5a6beb2bb1b380b2c7619d503dbaa632/recycleGoWhereBackend [v2]/facilitiesList (final)";
+
+// Get data from Sheety:
+const ItemArray = await getSheetData(itemsEndpoint, itemsList);
+
 
 interface ItemProps {
 	items: TItems[];
