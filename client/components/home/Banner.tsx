@@ -1,4 +1,4 @@
-import { Flex, Heading, Image } from "@chakra-ui/react";
+import { Box, Flex, Heading, Image } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import styled from "styled-components";
 
@@ -8,11 +8,14 @@ export const Banner = () => (
 		<Ellipse>
 			<Image src="/unclesemakau.png" alt="Uncle Semakau" />
 		</Ellipse>
-		<Text mt={17}>
-			Uncle sem will tell you!
-			<br />
-			what do u want to know?
-		</Text>
+		<Box
+			width={{
+				base: "250px",
+				md: "100%",
+			}}
+		>
+			<Text mt={17}>Uncle sem will tell you! What do u want to know?</Text>
+		</Box>
 	</Flex>
 );
 

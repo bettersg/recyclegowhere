@@ -14,6 +14,8 @@ import {
 import Link from "next/link";
 import { COLORS } from "theme";
 
+export const NAVBAR_HEIGHT = 80;
+
 export const NavHeader = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -26,6 +28,7 @@ export const NavHeader = () => {
 			wrap="wrap"
 			padding={5}
 			bg={COLORS.teal}
+			height={`${NAVBAR_HEIGHT}px`}
 		>
 			{/* <Flex align="center" mr={5}>
 				<Link href="/">

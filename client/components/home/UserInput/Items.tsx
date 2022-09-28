@@ -29,7 +29,7 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 			</Text>
 			<VStack spacing="10px">
 				{items.map((item, index) => (
-					<HStack key={`item-${index}`} spacing="6px">
+					<HStack key={`item-${index}`} spacing="6px" width="100%">
 						<Input
 							placeholder="Item"
 							_placeholder={{ color: COLORS.Input.placeholder }}
@@ -39,6 +39,7 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 							}}
 						/>
 						<StyledSelect
+							flexShrink={1.5}
 							placeholder="Condition"
 							color={item.condition ? "chakra-body-text" : COLORS.Select.placeholder}
 							iconColor={COLORS.Select.icon}

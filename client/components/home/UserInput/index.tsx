@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { TItems } from "../types";
 import { Location } from "./Location";
 import { Items } from "./Items";
@@ -9,7 +9,11 @@ const emptyItem: TItems = {
 	condition: "",
 };
 
-export const UserInput = () => {
+type Props = {
+	scrollableContainerRef: RefObject<HTMLDivElement>;
+};
+
+export const UserInput = ({ scrollableContainerRef }: Props) => {
 	const [address, setAddress] = useState("");
 	const [items, setItems] = useState<TItems[]>([emptyItem]);
 
@@ -27,6 +31,15 @@ export const UserInput = () => {
 	const handleAddItem = () => {
 		const a = [...items, emptyItem];
 		setItems(a);
+		/*
+		HACK: This timeout is needed because for some reason,
+		the scrollBy call is done before the size of the component changes.
+		Can't find another way to add a resize listener without installing packages
+		or adding a ton of refs, so this is the simplest hack fix.
+		*/
+		setTimeout(() => {
+			scrollableContainerRef.current?.scrollBy(0, 60);
+		}, 50);
 	};
 	const handleRemoveItem = (index: number) => {
 		const _items = [...items];
