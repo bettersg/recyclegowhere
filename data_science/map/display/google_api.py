@@ -1,6 +1,143 @@
 from xml.dom import minicompat
 import googlemaps
 
+"""
+{'geocoded_waypoints': [
+    {'geocoder_status': 'OK', 
+    'place_id': 'ChIJp4zUhgQ92jERlhdtctKU4xo',
+     'types': [
+        'establishment',
+        'point_of_interest', 
+        'subway_station', 
+        'transit_station'
+        ]
+    }, 
+    {'geocoder_status': 'OK',
+        'place_id': 'ChIJI58jtbY92jER55jy0v8etzI', 
+        'types': ['premise']
+        }], 
+'routes': [
+    {'bounds': {
+        'northeast': {'lat': 1.377987, 'lng': 103.9640615}, 
+        'southwest': {'lat': 1.3555013, 'lng': 103.9524593}
+        }, 
+    'copyrights': 'Map data ©2022 Google', 
+    'legs': [
+        {'arrival_time': {'text': '11:06pm', 'time_zone': 'Asia/Singapore', 'value': 1662563191}, 
+        'departure_time': {'text': '10:39pm', 'time_zone': 'Asia/Singapore', 'value': 1662561578}, 
+        'distance': {'text': '4.0 km', 'value': 3964}, 
+        'duration': {'text': '27 mins', 'value': 1613}, 
+        'end_address': '60 Pasir Ris Drive 3, Singapore 519497', 
+        'end_location': {'lat': 1.377987, 'lng': 103.9534441}, 
+        'start_address': '394 Tampines Ave 7, Tampines East, Singapore 520394', 
+        'start_location': {'lat': 1.3555013, 'lng': 103.9555675}, 
+        'steps': [
+            {'distance': {'text': '0.3 km', 'value': 302}, 
+            'duration': {'text': '4 mins', 'value': 255}, 
+            'end_location': {'lat': 1.3566394, 'lng': 103.9573746}, 
+            'html_instructions': 'Walk to Opp Blk 390', 
+            'polyline': {'points': '{vgGiynyR_A?a@?a@?M?E?M?Ac@A[Cq@?{@?YCa@Ga@EQCMGQISMU'}, 
+            'start_location': {'lat': 1.3555013, 'lng': 103.9555675}, 
+            'steps': [{
+                'distance': {'text': '88 m', 'value': 88}, 
+                'duration': {'text': '1 min', 'value': 84}, 
+                'end_location': {'lat': 1.3563317, 'lng': 103.9555654}, 
+                'html_instructions': 'Head <b>north</b> on <b>Tampines Ave 2</b> toward <b>Tampines Ave 7</b>', 
+                'polyline': {'points': '{vgGiynyR_A?a@?a@?M?E?M?'}, 
+                'start_location': {'lat': 1.3555013, 'lng': 103.9555675}, 
+                'travel_mode': 'WALKING'}, 
+                {'distance': {'text': '0.2 km', 'value': 214}, 
+                'duration': {'text': '3 mins', 'value': 171}, 
+                'end_location': {'lat': 1.3566394, 'lng': 103.9573746}, 
+                'html_instructions': 'Turn <b>right</b> onto <b>Tampines Ave 7</b><div style="font-size:0.9em">Destination will be on the left</div>', 
+                'maneuver': 'turn-right', 
+                'polyline': {'points': 'a|gGiynyRAc@A[Cq@?{@?YCa@Ga@EQCMGQISMU'}, 
+                'start_location': {'lat': 1.3563317, 'lng': 103.9555654}, 
+                'travel_mode': 'WALKING'}], 
+            'travel_mode': 'WALKING'},
+
+            {'distance': {'text': '3.1 km', 'value': 3089}, 
+            'duration': {'text': '15 mins', 'value': 878}, 
+            'end_location': {'lat': 1.375062, 'lng': 103.95404}, 
+            'html_instructions': 'Bus towards Pasir Ris', 
+            'polyline': {'points': 'e~gGodoyRJEIQQY[a@g@q@_B}Ae@[}BwBEEmDmDm@k@[Ym@q@YYYYQQKKYWcBaBc@e@IIIGk@k@MMc@e@[]a@a@UUGGUU}AyAeBeBG@G?E?KAG?I@GBIDIHKHSL{BzB_A|@IH_BbBIHgB`BgAfAa@`@OPGDIJWX_@ZSTIJm@t@i@r@eAdBILs@|AQ^e@lAIPELOd@e@`BOn@QbAE\\CNSEqAIkAC]Aq@Ao@A{@?m@@Y@E?[D[Fu@PUFYHqC|@{@TG@]Fa@FY@QBQ?qABU@y@@E?[@u@@sBBVpDDb@PrCDh@TC@N'}, 
+            'start_location': {'lat': 1.356669, 'lng': 103.957359}, 
+            'transit_details': {
+                'arrival_stop': {
+                    'location': {'lat': 1.375062, 'lng': 103.95404}, 
+                    'name': 'Opp Downtown East'}, 
+                'arrival_time': {'text': '10:58pm', 'time_zone': 'Asia/Singapore', 'value': 1662562711}, 
+                'departure_stop': {'location': {'lat': 1.356669, 'lng': 103.957359}, 
+                'name': 'Opp Blk 390'}, 
+                'departure_time': {'text': '10:43pm', 'time_zone': 'Asia/Singapore', 'value': 1662561833}, 
+                'headsign': 'Pasir Ris', 
+                'headway': 780, 
+                'line': {
+                    'agencies': [{
+                        'name': 'SBS Transit', 'phone': '011 65 1800 225 5663', 'url': 'https://www.sbstransit.com.sg/'
+                        }], 
+                    'color': '#55dd33', 
+                    'name': '21', 
+                    'text_color': '#000000', 
+                    'vehicle': {'icon': '//maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png', 'name': 'Bus', 'type': 'BUS'}}, 
+                'num_stops': 8}, 
+            'travel_mode': 'TRANSIT'}, 
+                
+            {'distance': {'text': '0.6 km', 'value': 573}, 
+            'duration': {'text': '8 mins', 'value': 479}, 
+            'end_location': {'lat': 1.377987, 'lng': 103.9534441}, 
+            'html_instructions': 'Walk to 60 Pasir Ris Drive 3, Singapore 519497', 
+            'polyline': {
+                'points': 'oqkGuonyRJzABV@H@NBb@HxA@J@XOBWBG?GAEAGCEAIAKAM?y@BA?a@?c@?K?UCc@CGA]C@a@Bc@AGEIKWa@?Q?QCA?OEQCICWEEA[IA?YKEA[EKC'}, 
+                'start_location': {'lat': 1.3751224, 'lng': 103.9540315}, 
+                'steps': [
+                    {'distance': {'text': '0.2 km', 'value': 172}, 
+                    'duration': {'text': '2 mins', 'value': 126}, 
+                    'end_location': {'lat': 1.3750126, 'lng': 103.9524846}, 
+                    'html_instructions': 'Head <b>west</b> on <b>Pasir Ris Drive 3</b>', 
+                    'polyline': {'points': 'oqkGuonyRJzABV@H@NBb@HxA@J@XOB'}, 
+                    'start_location': {'lat': 1.3751224, 'lng': 103.9540315}, 
+                    'travel_mode': 'WALKING'}, 
+                    {'distance': {'text': '0.2 km', 'value': 193}, 
+                    'duration': {'text': '3 mins', 'value': 154}, 
+                    'end_location': {'lat': 1.3766834, 'lng': 103.9525838}, 
+                    'html_instructions': 'Turn <b>right</b>', 
+                    'maneuver': 'turn-right', 
+                    'polyline': {'points': 'ypkG_fnyRWBG?GAEAGCEAIAKAM?y@BA?a@?c@?K?UCc@CGA]C'}, 
+                    'start_location': {'lat': 1.3750126, 'lng': 103.9524846}, 
+                    'travel_mode': 'WALKING'}, 
+                    {'distance': {'text': '65 m', 'value': 65}, 
+                    'duration': {'text': '1 min', 'value': 50}, 
+                    'end_location': {'lat': 1.3767516, 'lng': 103.9531368}, 
+                    'html_instructions': 'Turn <b>right</b>', 
+                    'maneuver': 'turn-right', 
+                    'polyline': {'points': 'g{kGsfnyR@a@Bc@AGEIKW'}, 
+                    'start_location': {'lat': 1.3766834, 'lng': 103.9525838}, 
+                    'travel_mode': 'WALKING'}, 
+                    {'distance': {'text': '0.1 km', 'value': 143}, 
+                    'duration': {'text': '2 mins', 'value': 149}, 
+                    'end_location': {'lat': 1.377987, 'lng': 103.9534441}, 
+                    'html_instructions': 'Turn <b>left</b><div style="font-size:0.9em">Destination will be on the right</div>', 
+                    'maneuver': 'turn-left', 
+                    'polyline': {'points': 'u{kGcjnyRa@?Q?QCA?OEQCICWEEA[IA?YKEA[EKC'}, 
+                    'start_location': {'lat': 1.3767516, 'lng': 103.9531368}, 
+                    'travel_mode': 'WALKING'}
+                ], 
+            'travel_mode': 'WALKING'}
+        ], 
+    'traffic_speed_entry': [], 
+    'via_waypoint': []}], 
+    'overview_polyline': {
+        'points': '{vgGiynyRqC?S?C_ACmBC{@Ms@K_@Wi@E@JE[k@cAsA_B}Ae@[cC}B{EyEiAkAqAqAkDiDcEeEsBoBeBeBG@M?SAQDSN_@V{DxDiBlBqBjByBzBiAfA]`@wAhBoArBeA|BeArCu@pCW`BCNSE}CM{DEgABa@DaCj@mErAe@H{@Hc@BaDFkEFt@rKTC@NK@JzAD`@Dr@JdB@XOB_@BMCMEUCiABeA?a@Ck@E]C@a@Bc@AGQa@s@?SCcAS}@Wm@K'}, 
+        'summary': '', 
+        'warnings': ['Walking directions are in beta. Use caution – This route may be missing sidewalks or pedestrian paths.'], 
+        'waypoint_order': []
+        }
+    ], 
+'status': 'OK'
+}
+
+"""
 
 class Direction:
     def __init__(self, json_result):
@@ -107,7 +244,7 @@ class Direction:
 
         return points, lines, popups_points, popups_lines
 
-class Map:
+class GoogleMap:
     def __init__(self, api_key):
         self.gmaps = googlemaps.Client(key = api_key)
 

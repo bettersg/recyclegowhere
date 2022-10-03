@@ -1,0 +1,4 @@
+//Go to the command prompt and copy below line and run(Press Enter)//
+
+pip install streamlit pandas plotly DateTime . 
+
