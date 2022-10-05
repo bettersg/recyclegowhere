@@ -6,7 +6,7 @@ import { Items } from "./Items";
 const emptyItem: TItems = {
 	id: null as unknown as number,
 	name: "",
-	condition: "",
+	method: "",
 };
 
 type Props = {
@@ -18,7 +18,7 @@ export const UserInput = ({ scrollableContainerRef }: Props) => {
 	const [items, setItems] = useState<TItems[]>([emptyItem]);
 
 	const handleUpdateItem = (
-		type: keyof Pick<TItems, "name" | "condition">,
+		type: keyof Pick<TItems, "name" | "method">,
 		index: number,
 		value: string,
 	) => {

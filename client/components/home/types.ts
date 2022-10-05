@@ -2,7 +2,7 @@
 export type TItems = {
 	id: number;
 	name: string;
-	condition: string;
+	method: string;
 };
 
 export type AddressOption = {

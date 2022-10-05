@@ -8,7 +8,7 @@ import { TItems } from "../types";
 interface ItemProps {
 	items: TItems[];
 	handleUpdateItem: (
-		type: keyof Pick<TItems, "name" | "condition">,
+		type: keyof Pick<TItems, "name" | "method">,
 		index: number,
 		value: string,
 	) => void;
@@ -40,12 +40,12 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 						/>
 						<StyledSelect
 							flexShrink={1.5}
-							placeholder="Condition"
-							color={item.condition ? "chakra-body-text" : COLORS.Select.placeholder}
+							placeholder="Method"
+							color={item.method ? "chakra-body-text" : COLORS.Select.placeholder}
 							iconColor={COLORS.Select.icon}
-							value={item.condition}
+							value={item.method}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								handleUpdateItem("condition", index, e.target.value);
+								handleUpdateItem("method", index, e.target.value);
 							}}
 						>
 							<option value="option1">Option 1</option>
