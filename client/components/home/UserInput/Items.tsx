@@ -30,14 +30,20 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 			<VStack spacing="10px">
 				{items.map((item, index) => (
 					<HStack key={`item-${index}`} spacing="6px" width="100%">
-						<Input
+						<StyledSelect
 							placeholder="Item"
-							_placeholder={{ color: COLORS.Input.placeholder }}
+							color={item.name ? "chakra-body-text" : COLORS.Input.placeholder}
+							iconColor={COLORS.Select.icon}
 							value={item.name}
-							onChange={(e) => {
+							onChange={(e: ChangeEvent<HTMLInputElement>) => {
 								handleUpdateItem("name", index, e.target.value);
 							}}
-						/>
+						>
+							{/* We can map Sheety data into this select box. */}
+							<option value="option1">Option 1</option>
+							<option value="option2">Option 2</option>
+							<option value="option3">Option 3</option>
+						</StyledSelect>
 						<StyledSelect
 							flexShrink={1.5}
 							placeholder="Condition"
