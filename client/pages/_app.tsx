@@ -1,4 +1,5 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { AppContextProvider } from "app-context";
 import type { AppProps } from "next/app";
 
 const theme = extendTheme({
@@ -12,7 +13,9 @@ const theme = extendTheme({
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<ChakraProvider theme={theme}>
-			<Component {...pageProps} />
+			<AppContextProvider>
+				<Component {...pageProps} />
+			</AppContextProvider>
 		</ChakraProvider>
 	);
 }
