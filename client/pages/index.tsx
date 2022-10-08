@@ -3,7 +3,7 @@ import { StickyFooter } from "components/footer/StickyFooter";
 import { Banner, UserInput } from "components/home";
 import styles from "components/home/hideScrollbar.module.css";
 import { NAVBAR_HEIGHT } from "components/nav/NavHeader";
-import { useWindowDimensions } from "hooks/window/useWindowDimensions";
+import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
