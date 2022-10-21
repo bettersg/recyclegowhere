@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { COLORS } from "theme";
 import { AddressOption } from "../../types";
@@ -21,6 +21,8 @@ const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
 };
 
 export const Location = ({ address, setAddress, handleBlur }: LocationProps) => {
+	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedLoadOptions = useCallback(
 		debounce((inputValue: string, cb: (options: AddressOption[]) => void) => {
@@ -38,6 +40,12 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 		}, 500),
 		[],
 	);
+
+	const handleShowError = useCallback(() => {
+		if (!address) {
+			setShowEmptyWarning(true);
+		}
+	}, [address]);
 
 	return (
 		<div>
@@ -59,7 +67,7 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 				styles={{
 					control: (base) => ({
 						...base,
-						borderColor: COLORS.gray[200],
+						borderColor: showEmptyWarning ? COLORS.Select.error : COLORS.gray[200],
 					}),
 					placeholder: (base) => ({
 						...base,
@@ -72,6 +80,7 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 				}}
 				onBlur={() => {
 					handleBlur();
+					handleShowError();
 				}}
 			/>
 		</div>

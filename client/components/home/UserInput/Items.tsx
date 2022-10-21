@@ -32,7 +32,7 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 					<HStack key={`item-${index}`} spacing="6px" width="100%">
 						<StyledSelect
 							placeholder="Item"
-							color={item.name ? "chakra-body-text" : COLORS.Input.placeholder}
+							color={item.name ? COLORS.Select.body : COLORS.Input.placeholder}
 							iconColor={COLORS.Select.icon}
 							value={item.name}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +47,7 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 						<StyledSelect
 							flexShrink={1.5}
 							placeholder="Method"
-							color={item.method ? "chakra-body-text" : COLORS.Select.placeholder}
+							color={item.method ? COLORS.Select.body : COLORS.Select.placeholder}
 							iconColor={COLORS.Select.icon}
 							value={item.method}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
