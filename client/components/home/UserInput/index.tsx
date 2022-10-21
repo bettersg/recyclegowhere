@@ -1,4 +1,4 @@
-import { RefObject, useEffect, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
 import { TItems } from "../types";
 import { Location } from "./Location";
 import { Items } from "./Items";
@@ -11,11 +11,29 @@ const emptyItem: TItems = {
 
 type Props = {
 	scrollableContainerRef: RefObject<HTMLDivElement>;
+	setReadyToSubmit: Dispatch<SetStateAction<boolean>>;
 };
 
-export const UserInput = ({ scrollableContainerRef }: Props) => {
+export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) => {
 	const [address, setAddress] = useState("");
+	const [addressBlur, setAddressBlur] = useState(false);
 	const [items, setItems] = useState<TItems[]>([emptyItem]);
+
+	useEffect(() => {
+		if (!addressBlur) {
+			setReadyToSubmit(false);
+			return;
+		}
+		if (!address) {
+			setReadyToSubmit(false);
+			return;
+		}
+		if (/* items[0].id */ items[0].name && items[0].method) {
+			setReadyToSubmit(true);
+		} else {
+			setReadyToSubmit(false);
+		}
+	}, [address, addressBlur, items, setReadyToSubmit]);
 
 	useEffect(() => {
 		if (items.length > 1) {
@@ -46,7 +64,11 @@ export const UserInput = ({ scrollableContainerRef }: Props) => {
 
 	return (
 		<>
-			<Location address={address} setAddress={setAddress} />
+			<Location
+				address={address}
+				setAddress={setAddress}
+				handleBlur={() => setAddressBlur(true)}
+			/>
 			<Items
 				items={items}
 				handleUpdateItem={handleUpdateItem}

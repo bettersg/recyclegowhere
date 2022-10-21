@@ -10,6 +10,7 @@ import debounce from "lodash/debounce";
 interface LocationProps {
 	address: string;
 	setAddress: Dispatch<SetStateAction<string>>;
+	handleBlur: () => void;
 }
 
 const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
@@ -19,7 +20,7 @@ const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
 	return await response.json();
 };
 
-export const Location = ({ address, setAddress }: LocationProps) => {
+export const Location = ({ address, setAddress, handleBlur }: LocationProps) => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedLoadOptions = useCallback(
 		debounce((inputValue: string, cb: (options: AddressOption[]) => void) => {
@@ -68,6 +69,9 @@ export const Location = ({ address, setAddress }: LocationProps) => {
 						...base,
 						paddingLeft: 15,
 					}),
+				}}
+				onBlur={() => {
+					handleBlur();
 				}}
 			/>
 		</div>

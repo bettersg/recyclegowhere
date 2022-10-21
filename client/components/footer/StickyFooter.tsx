@@ -2,7 +2,11 @@ import { QuestionIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, Text, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import { forwardRef } from "react";
 
-export const StickyFooter = forwardRef<HTMLDivElement>((props, ref) => {
+type Props = {
+	disabled: boolean;
+};
+
+export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	return (
 		<Container
@@ -29,13 +33,12 @@ export const StickyFooter = forwardRef<HTMLDivElement>((props, ref) => {
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
 							<Button flex="1">How to recycle?</Button>
-							<Button bg="teal.500" color="#fff" flex="1">
+							<Button bg="teal.500" color="#fff" flex="1" disabled={disabled}>
 								Where to recycle
 							</Button>
 						</Flex>
 					</Flex>
 				</Flex>
-
 				<Flex justify="center" mt="1rem">
 					<Link
 						textDecor={isMobile ? "none" : "underline"}
