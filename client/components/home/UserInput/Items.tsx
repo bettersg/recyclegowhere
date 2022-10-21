@@ -36,7 +36,7 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 							iconColor={COLORS.Select.icon}
 							value={item.name}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								handleUpdateItem("name", index, e.target.value);
+								e.target.value && handleUpdateItem("name", index, e.target.value);
 							}}
 						>
 							{/* We can map Sheety data into this select box. */}
@@ -51,7 +51,7 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 							iconColor={COLORS.Select.icon}
 							value={item.method}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								handleUpdateItem("method", index, e.target.value);
+								e.target.value && handleUpdateItem("method", index, e.target.value);
 							}}
 						>
 							<option value="option1">Option 1</option>
