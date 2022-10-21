@@ -75,10 +75,10 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 };
 
 const StyledSelect = styled(Select)`
-	> option:first-of-type {
+	> option:first-child {
 		color: var(--chakra-colors-select-placeholder);
 	}
-	> option:not(:first-of-type) {
+	> option:not(:first-child) {
 		color: var(--chakra-colors-chakra-body-text);
 	}
 `;
