@@ -25,7 +25,7 @@ export const Location = ({ address, setAddress }: LocationProps) => {
 		debounce((inputValue: string, cb: (options: AddressOption[]) => void) => {
 			fetchAddresses(inputValue).then((options) =>
 				cb(
-					options.results.map(
+					options.results?.map(
 						(result) =>
 							({
 								value: result.ADDRESS,
