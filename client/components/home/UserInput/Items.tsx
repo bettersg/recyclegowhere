@@ -1,5 +1,6 @@
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
-import { HStack, IconButton, Input, Select, Text, VStack } from "@chakra-ui/react";
+import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
+import { useRecyclableItemList } from "hooks/useRecyclableItemList";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
@@ -16,6 +17,8 @@ interface ItemProps {
 	handleRemoveItem: (index: number) => void;
 }
 export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem }: ItemProps) => {
+	const { items: itemList } = useRecyclableItemList();
+
 	const isLastItem = useCallback(
 		(index: number) => {
 			return index === items.length - 1;
@@ -39,10 +42,11 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 								handleUpdateItem("name", index, e.target.value);
 							}}
 						>
-							{/* We can map Sheety data into this select box. */}
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
+							{itemList.map((item) => (
+								<option key={item["s/n"]} value={item.name}>
+									{item.name}
+								</option>
+							))}
 						</StyledSelect>
 						<StyledSelect
 							flexShrink={1.5}
