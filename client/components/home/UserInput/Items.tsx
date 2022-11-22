@@ -32,11 +32,11 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 					<HStack key={`item-${index}`} spacing="6px" width="100%">
 						<StyledSelect
 							placeholder="Item"
-							color={item.name ? "chakra-body-text" : COLORS.Input.placeholder}
+							color={item.name ? COLORS.Select.body : COLORS.Input.placeholder}
 							iconColor={COLORS.Select.icon}
 							value={item.name}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								handleUpdateItem("name", index, e.target.value);
+								e.target.value && handleUpdateItem("name", index, e.target.value);
 							}}
 						>
 							{/* We can map Sheety data into this select box. */}
@@ -47,11 +47,11 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 						<StyledSelect
 							flexShrink={1.5}
 							placeholder="Method"
-							color={item.method ? "chakra-body-text" : COLORS.Select.placeholder}
+							color={item.method ? COLORS.Select.body : COLORS.Select.placeholder}
 							iconColor={COLORS.Select.icon}
 							value={item.method}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
-								handleUpdateItem("method", index, e.target.value);
+								e.target.value && handleUpdateItem("method", index, e.target.value);
 							}}
 						>
 							<option value="option1">Option 1</option>
@@ -75,10 +75,10 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 };
 
 const StyledSelect = styled(Select)`
-	> option:first-of-type {
+	> option:first-child {
 		color: var(--chakra-colors-select-placeholder);
 	}
-	> option:not(:first-of-type) {
+	> option:not(:first-child) {
 		color: var(--chakra-colors-chakra-body-text);
 	}
 `;

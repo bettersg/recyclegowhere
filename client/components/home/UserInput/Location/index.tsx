@@ -1,5 +1,5 @@
 import { Text } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { COLORS } from "theme";
 import { AddressOption } from "../../types";
@@ -10,6 +10,7 @@ import debounce from "lodash/debounce";
 interface LocationProps {
 	address: string;
 	setAddress: Dispatch<SetStateAction<string>>;
+	handleBlur: () => void;
 }
 
 const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
@@ -19,13 +20,15 @@ const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
 	return await response.json();
 };
 
-export const Location = ({ address, setAddress }: LocationProps) => {
+export const Location = ({ address, setAddress, handleBlur }: LocationProps) => {
+	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
+
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedLoadOptions = useCallback(
 		debounce((inputValue: string, cb: (options: AddressOption[]) => void) => {
 			fetchAddresses(inputValue).then((options) =>
 				cb(
-					options.results.map(
+					options.results?.map(
 						(result) =>
 							({
 								value: result.ADDRESS,
@@ -37,6 +40,12 @@ export const Location = ({ address, setAddress }: LocationProps) => {
 		}, 500),
 		[],
 	);
+
+	const handleShowError = useCallback(() => {
+		if (!address) {
+			setShowEmptyWarning(true);
+		}
+	}, [address]);
 
 	return (
 		<div>
@@ -58,7 +67,7 @@ export const Location = ({ address, setAddress }: LocationProps) => {
 				styles={{
 					control: (base) => ({
 						...base,
-						borderColor: COLORS.gray[200],
+						borderColor: showEmptyWarning ? COLORS.Select.error : COLORS.gray[200],
 					}),
 					placeholder: (base) => ({
 						...base,
@@ -68,6 +77,10 @@ export const Location = ({ address, setAddress }: LocationProps) => {
 						...base,
 						paddingLeft: 15,
 					}),
+				}}
+				onBlur={() => {
+					handleBlur();
+					handleShowError();
 				}}
 			/>
 		</div>

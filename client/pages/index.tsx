@@ -10,6 +10,7 @@ import { useEffect, useRef, useState } from "react";
 
 const Home: NextPage = () => {
 	const [stickyHeight, setStickyHeight] = useState<number>(0);
+	const [readyToSubmit, setReadyToSubmit] = useState(false);
 	const { height } = useWindowDimensions();
 	const stickyRef = useRef<HTMLDivElement>(null);
 	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
@@ -35,10 +36,13 @@ const Home: NextPage = () => {
 				>
 					<VStack align="initial" mx={25} spacing={30}>
 						<Banner />
-						<UserInput scrollableContainerRef={scrollableContainerRef} />
+						<UserInput
+							scrollableContainerRef={scrollableContainerRef}
+							setReadyToSubmit={setReadyToSubmit}
+						/>
 					</VStack>
 				</Container>
-				<StickyFooter ref={stickyRef} />
+				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} />
 			</VStack>
 		</BasePage>
 	);

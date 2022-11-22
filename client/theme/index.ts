@@ -9,9 +9,14 @@ export const COLORS = {
 	},
 	Select: {
 		placeholder: "select.placeholder",
+		body: "chakra-body-text",
 		icon: "gray.700",
+		error: "#FB350E",
 	},
 	Input: {
 		placeholder: "blackAlpha.500",
+	},
+	Button: {
+		primary: "teal.500",
 	},
 };
