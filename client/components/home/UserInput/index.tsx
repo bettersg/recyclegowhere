@@ -2,6 +2,7 @@ import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react"
 import { TItemSelection } from "../types";
 import { Location } from "./Location";
 import { Items } from "./Items";
+import { validateSelections } from "./utils";
 
 const emptyItem: TItemSelection = {
 	name: "",
@@ -27,7 +28,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 			setReadyToSubmit(false);
 			return;
 		}
-		if (items[0].name && items[0].method) {
+		if (validateSelections(items)) {
 			setReadyToSubmit(true);
 		} else {
 			setReadyToSubmit(false);
@@ -61,7 +62,6 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 		setItems(_items);
 	};
 
-	console.log(items);
 	return (
 		<>
 			<Location

@@ -39,10 +39,12 @@ const Home: NextPage = () => {
 				>
 					<VStack align="initial" mx={25} spacing={30}>
 						<Banner />
-						<UserInput
-							scrollableContainerRef={scrollableContainerRef}
-							setReadyToSubmit={setReadyToSubmit}
-						/>
+						{isLoaded && (
+							<UserInput
+								scrollableContainerRef={scrollableContainerRef}
+								setReadyToSubmit={setReadyToSubmit}
+							/>
+						)}
 					</VStack>
 				</Container>
 				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} />
