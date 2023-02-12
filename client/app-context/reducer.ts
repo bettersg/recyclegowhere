@@ -6,12 +6,15 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 		case Actions.SET_ITEMS_LIST:
 			return {
 				...state,
-				recyclableItems: action.items,
+				recyclableItems: {
+					isLoaded: true,
+					data: action.items,
+				},
 			};
 		case Actions.SET_USER_SELECTION:
 			return {
 				...state,
-				recyclableItems: action.selection,
+				userSelection: action.selection,
 			};
 	}
 };

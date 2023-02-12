@@ -1,8 +1,12 @@
-export type Item = string; // TODO: update types
+import { Item } from "./sheety/types";
+
 type UserSelection = any;
 
 export interface AppContextState {
-	recyclableItems: Item[];
+	recyclableItems: {
+		isLoaded: boolean;
+		data: Item[];
+	};
 	userSelection: UserSelection[];
 }
 
