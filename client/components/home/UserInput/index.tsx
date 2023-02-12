@@ -1,10 +1,9 @@
 import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
-import { TItems } from "../types";
+import { TItemSelection } from "../types";
 import { Location } from "./Location";
 import { Items } from "./Items";
 
-const emptyItem: TItems = {
-	id: null as unknown as number,
+const emptyItem: TItemSelection = {
 	name: "",
 	method: "",
 };
@@ -17,7 +16,7 @@ type Props = {
 export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) => {
 	const [address, setAddress] = useState("");
 	const [addressBlur, setAddressBlur] = useState(false);
-	const [items, setItems] = useState<TItems[]>([emptyItem]);
+	const [items, setItems] = useState<TItemSelection[]>([emptyItem]);
 
 	useEffect(() => {
 		if (!addressBlur) {
@@ -28,7 +27,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 			setReadyToSubmit(false);
 			return;
 		}
-		if (/* items[0].id */ items[0].name && items[0].method) {
+		if (items[0].name && items[0].method) {
 			setReadyToSubmit(true);
 		} else {
 			setReadyToSubmit(false);
@@ -42,7 +41,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 	}, [items.length, scrollableContainerRef]);
 
 	const handleUpdateItem = (
-		type: keyof Pick<TItems, "name" | "method">,
+		type: keyof Pick<TItemSelection, "name" | "method">,
 		index: number,
 		value: string,
 	) => {
@@ -62,6 +61,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 		setItems(_items);
 	};
 
+	console.log(items);
 	return (
 		<>
 			<Location

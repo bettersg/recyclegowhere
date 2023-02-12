@@ -1,6 +1,5 @@
 /* TODO: move to a common folder once this is confirmed and used elsewhere */
-export type TItems = {
-	id: number;
+export type TItemSelection = {
 	name: string;
 	method: string;
 };

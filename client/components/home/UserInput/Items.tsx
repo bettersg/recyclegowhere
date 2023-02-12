@@ -1,23 +1,24 @@
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
-import { useRecyclableItemList } from "hooks/useRecyclableItemList";
+import { useSheetyData } from "hooks/useRecyclableItemList";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
-import { TItems } from "../types";
+import { TItemSelection } from "../types";
 
 interface ItemProps {
-	items: TItems[];
+	items: TItemSelection[];
 	handleUpdateItem: (
-		type: keyof Pick<TItems, "name" | "method">,
+		type: keyof Pick<TItemSelection, "name" | "method">,
 		index: number,
 		value: string,
 	) => void;
 	handleAddItem: () => void;
 	handleRemoveItem: (index: number) => void;
 }
+
 export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem }: ItemProps) => {
-	const { items: itemList } = useRecyclableItemList();
+	const { items: itemList, categories } = useSheetyData();
 
 	const isLastItem = useCallback(
 		(index: number) => {
@@ -25,6 +26,16 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 		},
 		[items.length],
 	);
+
+	const getValidMethods = (itemName: string) => {
+		const item = itemList.find((i) => i.name === itemName);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const category = categories!.find((c) => c.itemCategories === item!.category);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		return category?.methods || [];
+		// TODO: does not work for GENERAL_WASTE
+	};
+
 	return (
 		<div>
 			<Text fontWeight={500} fontSize="md" mb="8px">
@@ -58,9 +69,12 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 								e.target.value && handleUpdateItem("method", index, e.target.value);
 							}}
 						>
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
+							{item.name &&
+								getValidMethods(item.name).map((method) => (
+									<option key={method} value={method}>
+										{method}
+									</option>
+								))}
 						</StyledSelect>
 						{isLastItem(index) ? (
 							<AddLineButton onClick={handleAddItem} />
