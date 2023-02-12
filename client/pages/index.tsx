@@ -3,7 +3,7 @@ import { StickyFooter } from "components/footer/StickyFooter";
 import { Banner, UserInput } from "components/home";
 import styles from "components/home/hideScrollbar.module.css";
 import { NAVBAR_HEIGHT } from "components/nav/NavHeader";
-import { useRecyclableItemList } from "hooks/useRecyclableItemList";
+import { useSheetyData } from "hooks/useRecyclableItemList";
 import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
@@ -16,7 +16,7 @@ const Home: NextPage = () => {
 	const stickyRef = useRef<HTMLDivElement>(null);
 	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
 
-	const { isLoaded } = useRecyclableItemList();
+	const { isLoaded } = useSheetyData();
 
 	useEffect(() => {
 		setStickyHeight(stickyRef.current?.clientHeight || 0);
