@@ -2,23 +2,22 @@ import { Text } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useCallback, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { COLORS } from "theme";
-import { AddressOption } from "../../types";
 import { IndicatorsContainer, NoOptionsMessage } from "./custom-components";
-import { OneMapResponse } from "./types";
 import debounce from "lodash/debounce";
+import { fetchAddresses } from "api/onemap";
+import { Coordinates } from "app-context/types";
+
+type AddressOption = {
+	value: string;
+	label: string;
+	coordinates: Coordinates;
+};
 
 interface LocationProps {
 	address: string;
 	setAddress: Dispatch<SetStateAction<string>>;
 	handleBlur: () => void;
 }
-
-const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
-	const response = await fetch(
-		`https://developers.onemap.sg/commonapi/search?searchVal=${searchValue}&returnGeom=Y&getAddrDetails=Y&pageNum=1`,
-	);
-	return await response.json();
-};
 
 export const Location = ({ address, setAddress, handleBlur }: LocationProps) => {
 	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
@@ -33,6 +32,10 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 							({
 								value: result.ADDRESS,
 								label: result.ADDRESS,
+								coordinates: {
+									lat: result.LATITUDE,
+									long: result.LONGITUDE,
+								},
 							} as AddressOption),
 					),
 				),

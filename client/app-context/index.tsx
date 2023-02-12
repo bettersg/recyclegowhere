@@ -17,7 +17,13 @@ const initialState: AppContextState = {
 	},
 	methods: [],
 	categories: [],
-	userSelection: [],
+	userSelection: {
+		addressCoordinates: {
+			lat: "",
+			long: "",
+		},
+		items: [],
+	},
 };
 
 const initialContextState: IAppContext = {

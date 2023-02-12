@@ -1,11 +1,21 @@
 import { TSheetyCategories, Items, Methods } from "api/sheety/types";
 
+// =============================================================================
+// State types
+// =============================================================================
 export type TStateCategories = {
 	id: number;
 	itemCategories: string;
 	methods: string[];
 };
-type UserSelection = any;
+export type TItemSelection = {
+	name: string;
+	method: string;
+};
+export type Coordinates = {
+	lat: string;
+	long: string;
+};
 
 export interface AppContextState {
 	recyclableItems: {
@@ -14,35 +24,50 @@ export interface AppContextState {
 	};
 	methods: Methods[];
 	categories: TStateCategories[];
-	userSelection: UserSelection[];
+	userSelection: {
+		addressCoordinates: Coordinates;
+		items: TItemSelection[];
+	};
 }
 
+// =============================================================================
+// Action types
+// =============================================================================
 export enum Actions {
 	SET_ITEMS_LIST = "SET_ITEMS_LIST",
 	SET_METHODS_LIST = "SET_METHODS_LIST",
 	SET_CATEGORIES_LIST = "SET_CATEGORIES_LIST",
+	SET_ADDRESS = "SET_ADDRESS",
 	SET_USER_SELECTION = "SET_USER_SELECTION",
 }
 
-type TInitializeItemsListAction = {
+export type TInitializeItemsListAction = {
 	type: Actions.SET_ITEMS_LIST;
 	items: Items[];
 };
-type TInitializeMethodsAction = {
+export type TInitializeMethodsAction = {
 	type: Actions.SET_METHODS_LIST;
 	methods: Methods[];
 };
-type TInitializeCategoriesAction = {
+export type TInitializeCategoriesAction = {
 	type: Actions.SET_CATEGORIES_LIST;
 	categories: TSheetyCategories[];
 };
-type TSetUserSelectionAction = {
+export type TSetUserSelectionAction = {
 	type: Actions.SET_USER_SELECTION;
-	selection: UserSelection[];
+	selection: TItemSelection[];
+};
+export type TSetAddressAction = {
+	type: Actions.SET_ADDRESS;
+	coordinates: Coordinates;
 };
 
+// =============================================================================
+// Export
+// =============================================================================
 export type AppContextActions =
 	| TInitializeItemsListAction
 	| TSetUserSelectionAction
 	| TInitializeMethodsAction
-	| TInitializeCategoriesAction;
+	| TInitializeCategoriesAction
+	| TSetAddressAction;
