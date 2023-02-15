@@ -1,7 +1,7 @@
 import { Items, Methods, TSheetyCategories } from "api/sheety/types";
 import {
 	Actions,
-	Coordinates,
+	AddressOption,
 	TInitializeCategoriesAction,
 	TInitializeItemsListAction,
 	TInitializeMethodsAction,
@@ -12,29 +12,29 @@ import {
 
 const initializeItemsList = (items: Items[]): TInitializeItemsListAction => ({
 	type: Actions.SET_ITEMS_LIST,
-	items,
+	payload: items,
 });
 
 const initializeMethodsList = (methods: Methods[]): TInitializeMethodsAction => ({
 	type: Actions.SET_METHODS_LIST,
-	methods,
+	payload: methods,
 });
 
 const initializeCategoriessList = (
 	categories: TSheetyCategories[],
 ): TInitializeCategoriesAction => ({
 	type: Actions.SET_CATEGORIES_LIST,
-	categories,
+	payload: categories,
 });
 
 const setUserSelection = (selection: TItemSelection[]): TSetUserSelectionAction => ({
 	type: Actions.SET_USER_SELECTION,
-	selection,
+	payload: selection,
 });
 
-const setAddress = (coordinates: Coordinates): TSetAddressAction => ({
+const setAddress = (address: AddressOption): TSetAddressAction => ({
 	type: Actions.SET_ADDRESS,
-	coordinates,
+	payload: address,
 });
 
 export const SheetyActions = {

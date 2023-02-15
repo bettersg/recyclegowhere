@@ -19,11 +19,20 @@ const initialState: AppContextState = {
 	methods: [],
 	categories: [],
 	userSelection: {
-		addressCoordinates: {
-			lat: "",
-			long: "",
+		address: {
+			value: "",
+			label: "",
+			coordinates: {
+				lat: "",
+				long: "",
+			},
 		},
-		items: [],
+		items: [
+			{
+				name: "",
+				method: "",
+			},
+		],
 	},
 };
 

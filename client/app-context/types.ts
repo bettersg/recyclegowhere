@@ -12,11 +12,15 @@ export type TItemSelection = {
 	name: string;
 	method: string;
 };
-export type Coordinates = {
+type Coordinates = {
 	lat: string;
 	long: string;
 };
-
+export type AddressOption = {
+	value: string;
+	label: string;
+	coordinates: Coordinates;
+};
 export interface AppContextState {
 	recyclableItems: {
 		isLoaded: boolean;
@@ -25,7 +29,7 @@ export interface AppContextState {
 	methods: Methods[];
 	categories: TStateCategories[];
 	userSelection: {
-		addressCoordinates: Coordinates;
+		address: AddressOption;
 		items: TItemSelection[];
 	};
 }
@@ -43,23 +47,23 @@ export enum Actions {
 
 export type TInitializeItemsListAction = {
 	type: Actions.SET_ITEMS_LIST;
-	items: Items[];
+	payload: Items[];
 };
 export type TInitializeMethodsAction = {
 	type: Actions.SET_METHODS_LIST;
-	methods: Methods[];
+	payload: Methods[];
 };
 export type TInitializeCategoriesAction = {
 	type: Actions.SET_CATEGORIES_LIST;
-	categories: TSheetyCategories[];
+	payload: TSheetyCategories[];
 };
 export type TSetUserSelectionAction = {
 	type: Actions.SET_USER_SELECTION;
-	selection: TItemSelection[];
+	payload: TItemSelection[];
 };
 export type TSetAddressAction = {
 	type: Actions.SET_ADDRESS;
-	coordinates: Coordinates;
+	payload: AddressOption;
 };
 
 // =============================================================================
@@ -67,7 +71,7 @@ export type TSetAddressAction = {
 // =============================================================================
 export type AppContextActions =
 	| TInitializeItemsListAction
-	| TSetUserSelectionAction
 	| TInitializeMethodsAction
 	| TInitializeCategoriesAction
+	| TSetUserSelectionAction
 	| TSetAddressAction;

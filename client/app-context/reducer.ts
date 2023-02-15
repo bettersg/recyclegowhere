@@ -9,23 +9,34 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 				...state,
 				recyclableItems: {
 					isLoaded: true,
-					data: action.items,
+					data: action.payload,
 				},
 			};
 		case Actions.SET_METHODS_LIST:
 			return {
 				...state,
-				methods: action.methods,
+				methods: action.payload,
 			};
 		case Actions.SET_CATEGORIES_LIST:
 			return {
 				...state,
-				categories: action.categories.map((category) => transformCategory(category)),
+				categories: action.payload.map((category) => transformCategory(category)),
 			};
 		case Actions.SET_USER_SELECTION:
 			return {
 				...state,
-				userSelection: action.selection,
+				userSelection: {
+					address: { ...state.userSelection.address },
+					items: action.payload,
+				},
+			};
+		case Actions.SET_ADDRESS:
+			return {
+				...state,
+				userSelection: {
+					address: action.payload,
+					items: [...state.userSelection.items],
+				},
 			};
 	}
 };
