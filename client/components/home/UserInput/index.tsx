@@ -1,13 +1,8 @@
+import { useUserInputs } from "hooks/useUserSelection";
 import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
-import { TItemSelection } from "../types";
-import { Location } from "./Location";
 import { Items } from "./Items";
+import { Location } from "./Location";
 import { validateSelections } from "./utils";
-
-const emptyItem: TItemSelection = {
-	name: "",
-	method: "",
-};
 
 type Props = {
 	scrollableContainerRef: RefObject<HTMLDivElement>;
@@ -15,9 +10,8 @@ type Props = {
 };
 
 export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) => {
-	const [address, setAddress] = useState("");
 	const [addressBlur, setAddressBlur] = useState(false);
-	const [items, setItems] = useState<TItemSelection[]>([emptyItem]);
+	const { items, address } = useUserInputs();
 
 	useEffect(() => {
 		if (!addressBlur) {
@@ -41,40 +35,10 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 		}
 	}, [items.length, scrollableContainerRef]);
 
-	const handleUpdateItem = (
-		type: keyof Pick<TItemSelection, "name" | "method">,
-		index: number,
-		value: string,
-	) => {
-		const _items = [...items];
-		const _item = { ..._items[index] };
-		_item[type] = value;
-		_items[index] = _item;
-		setItems(_items);
-	};
-	const handleAddItem = () => {
-		const a = [...items, emptyItem];
-		setItems(a);
-	};
-	const handleRemoveItem = (index: number) => {
-		const _items = [...items];
-		_items.splice(index, 1);
-		setItems(_items);
-	};
-
 	return (
 		<>
-			<Location
-				address={address}
-				setAddress={setAddress}
-				handleBlur={() => setAddressBlur(true)}
-			/>
-			<Items
-				items={items}
-				handleUpdateItem={handleUpdateItem}
-				handleAddItem={handleAddItem}
-				handleRemoveItem={handleRemoveItem}
-			/>
+			<Location handleBlur={() => setAddressBlur(true)} />
+			<Items />
 		</>
 	);
 };

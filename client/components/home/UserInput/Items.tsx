@@ -1,23 +1,19 @@
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
+import { TItemSelection } from "app-context/types";
 import { useSheetyData } from "hooks/useRecyclableItemList";
+import { useUserInputs } from "hooks/useUserSelection";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
-import { TItemSelection } from "../types";
 
-interface ItemProps {
-	items: TItemSelection[];
-	handleUpdateItem: (
-		type: keyof Pick<TItemSelection, "name" | "method">,
-		index: number,
-		value: string,
-	) => void;
-	handleAddItem: () => void;
-	handleRemoveItem: (index: number) => void;
-}
+const emptyItem: TItemSelection = {
+	name: "",
+	method: "",
+};
 
-export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem }: ItemProps) => {
+export const Items = () => {
+	const { items, setUserSelection } = useUserInputs();
 	const { items: itemList, categories } = useSheetyData();
 
 	const isLastItem = useCallback(
@@ -27,14 +23,45 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 		[items.length],
 	);
 
-	const getValidMethods = (itemName: string) => {
-		const item = itemList.find((i) => i.name === itemName);
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const category = categories!.find((c) => c.itemCategories === item!.category);
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		return category?.methods || [];
-		// TODO: does not work for GENERAL_WASTE
-	};
+	const getValidMethods = useCallback(
+		(itemName: string) => {
+			const item = itemList.find((i) => i.name === itemName);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const category = categories!.find((c) => c.itemCategories === item!.category);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			return category?.methods || [];
+			// TODO: does not work for GENERAL_WASTE
+		},
+		[categories, itemList],
+	);
+
+	// =========================================================================
+	// Change handlers
+	// =========================================================================
+	const handleUpdateItem = useCallback(
+		(type: keyof Pick<TItemSelection, "name" | "method">, index: number, value: string) => {
+			const _items = [...items];
+			const _item = { ..._items[index] };
+			_item[type] = value;
+			_items[index] = _item;
+			setUserSelection(_items);
+		},
+		[items, setUserSelection],
+	);
+
+	const handleAddItem = useCallback(() => {
+		const a = [...items, emptyItem];
+		setUserSelection(a);
+	}, [items, setUserSelection]);
+
+	const handleRemoveItem = useCallback(
+		(index: number) => {
+			const _items = [...items];
+			_items.splice(index, 1);
+			setUserSelection(_items);
+		},
+		[items, setUserSelection],
+	);
 
 	return (
 		<div>

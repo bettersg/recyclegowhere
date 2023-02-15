@@ -13,10 +13,10 @@ const Home: NextPage = () => {
 	const [stickyHeight, setStickyHeight] = useState<number>(0);
 	const [readyToSubmit, setReadyToSubmit] = useState(false);
 	const { height } = useWindowDimensions();
+	const { isLoaded } = useSheetyData();
+
 	const stickyRef = useRef<HTMLDivElement>(null);
 	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
-
-	const { isLoaded } = useSheetyData();
 
 	useEffect(() => {
 		setStickyHeight(stickyRef.current?.clientHeight || 0);

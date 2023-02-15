@@ -1,4 +1,4 @@
-import { TItemSelection } from "../types";
+import { TItemSelection } from "app-context/types";
 
 export const validateSelections = (selection: TItemSelection[]) => {
 	if (selection.length === 1) {
