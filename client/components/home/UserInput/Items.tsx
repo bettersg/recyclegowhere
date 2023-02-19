@@ -1,5 +1,5 @@
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
-import { HStack, IconButton, Input, Select, Text, VStack } from "@chakra-ui/react";
+import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
