@@ -1,23 +1,77 @@
-export type Item = string; // TODO: update types
-type UserSelection = any;
+import { TSheetyCategories, Items, Methods } from "api/sheety/types";
 
+// =============================================================================
+// State types
+// =============================================================================
+export type TStateCategories = {
+	id: number;
+	itemCategories: string;
+	methods: string[];
+};
+export type TItemSelection = {
+	name: string;
+	method: string;
+};
+type Coordinates = {
+	lat: string;
+	long: string;
+};
+export type AddressOption = {
+	value: string;
+	label: string;
+	coordinates: Coordinates;
+};
 export interface AppContextState {
-	recyclableItems: Item[];
-	userSelection: UserSelection[];
+	recyclableItems: {
+		isLoaded: boolean;
+		data: Items[];
+	};
+	methods: Methods[];
+	categories: TStateCategories[];
+	userSelection: {
+		address: AddressOption;
+		items: TItemSelection[];
+	};
 }
 
+// =============================================================================
+// Action types
+// =============================================================================
 export enum Actions {
 	SET_ITEMS_LIST = "SET_ITEMS_LIST",
+	SET_METHODS_LIST = "SET_METHODS_LIST",
+	SET_CATEGORIES_LIST = "SET_CATEGORIES_LIST",
+	SET_ADDRESS = "SET_ADDRESS",
 	SET_USER_SELECTION = "SET_USER_SELECTION",
 }
 
-type TInitializeItemsListAction = {
+export type TInitializeItemsListAction = {
 	type: Actions.SET_ITEMS_LIST;
-	items: Item[];
+	payload: Items[];
 };
-type TSetUserSelectionAction = {
+export type TInitializeMethodsAction = {
+	type: Actions.SET_METHODS_LIST;
+	payload: Methods[];
+};
+export type TInitializeCategoriesAction = {
+	type: Actions.SET_CATEGORIES_LIST;
+	payload: TSheetyCategories[];
+};
+export type TSetUserSelectionAction = {
 	type: Actions.SET_USER_SELECTION;
-	selection: UserSelection[];
+	payload: TItemSelection[];
+};
+export type TSetAddressAction = {
+	type: Actions.SET_ADDRESS;
+	payload: AddressOption;
 };
 
-export type AppContextActions = TInitializeItemsListAction | TSetUserSelectionAction;
+// =============================================================================
+// Export
+// =============================================================================
+export type AppContextActions =
+	| TInitializeItemsListAction
+	| TInitializeMethodsAction
+	| TInitializeCategoriesAction
+	| TSetUserSelectionAction
+	| TSetAddressAction;

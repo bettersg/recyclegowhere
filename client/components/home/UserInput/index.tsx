@@ -1,13 +1,8 @@
+import { useUserInputs } from "hooks/useUserSelection";
 import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
-import { TItems } from "../types";
-import { Location } from "./Location";
 import { Items } from "./Items";
-
-const emptyItem: TItems = {
-	id: null as unknown as number,
-	name: "",
-	method: "",
-};
+import { Location } from "./Location";
+import { validateSelections } from "./utils";
 
 type Props = {
 	scrollableContainerRef: RefObject<HTMLDivElement>;
@@ -15,9 +10,8 @@ type Props = {
 };
 
 export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) => {
-	const [address, setAddress] = useState("");
 	const [addressBlur, setAddressBlur] = useState(false);
-	const [items, setItems] = useState<TItems[]>([emptyItem]);
+	const { items, address } = useUserInputs();
 
 	useEffect(() => {
 		if (!addressBlur) {
@@ -28,7 +22,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 			setReadyToSubmit(false);
 			return;
 		}
-		if (/* items[0].id */ items[0].name && items[0].method) {
+		if (validateSelections(items)) {
 			setReadyToSubmit(true);
 		} else {
 			setReadyToSubmit(false);
@@ -41,40 +35,10 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 		}
 	}, [items.length, scrollableContainerRef]);
 
-	const handleUpdateItem = (
-		type: keyof Pick<TItems, "name" | "method">,
-		index: number,
-		value: string,
-	) => {
-		const _items = [...items];
-		const _item = { ..._items[index] };
-		_item[type] = value;
-		_items[index] = _item;
-		setItems(_items);
-	};
-	const handleAddItem = () => {
-		const a = [...items, emptyItem];
-		setItems(a);
-	};
-	const handleRemoveItem = (index: number) => {
-		const _items = [...items];
-		_items.splice(index, 1);
-		setItems(_items);
-	};
-
 	return (
 		<>
-			<Location
-				address={address}
-				setAddress={setAddress}
-				handleBlur={() => setAddressBlur(true)}
-			/>
-			<Items
-				items={items}
-				handleUpdateItem={handleUpdateItem}
-				handleAddItem={handleAddItem}
-				handleRemoveItem={handleRemoveItem}
-			/>
+			<Location handleBlur={() => setAddressBlur(true)} />
+			<Items />
 		</>
 	);
 };

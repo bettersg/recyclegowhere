@@ -1,27 +1,70 @@
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
+
+import { TItemSelection } from "app-context/types";
+import { useSheetyData } from "hooks/useRecyclableItemList";
+import { useUserInputs } from "hooks/useUserSelection";
+
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
-import { TItems } from "../types";
 
-interface ItemProps {
-	items: TItems[];
-	handleUpdateItem: (
-		type: keyof Pick<TItems, "name" | "method">,
-		index: number,
-		value: string,
-	) => void;
-	handleAddItem: () => void;
-	handleRemoveItem: (index: number) => void;
-}
-export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem }: ItemProps) => {
+const emptyItem: TItemSelection = {
+	name: "",
+	method: "",
+};
+
+export const Items = () => {
+	const { items, setUserSelection } = useUserInputs();
+	const { items: itemList, categories } = useSheetyData();
+
 	const isLastItem = useCallback(
 		(index: number) => {
 			return index === items.length - 1;
 		},
 		[items.length],
 	);
+
+	const getValidMethods = useCallback(
+		(itemName: string) => {
+			const item = itemList.find((i) => i.name === itemName);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const category = categories!.find((c) => c.itemCategories === item!.category);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			return category?.methods || [];
+			// TODO: does not work for GENERAL_WASTE
+		},
+		[categories, itemList],
+	);
+
+	// =========================================================================
+	// Change handlers
+	// =========================================================================
+	const handleUpdateItem = useCallback(
+		(type: keyof Pick<TItemSelection, "name" | "method">, index: number, value: string) => {
+			const _items = [...items];
+			const _item = { ..._items[index] };
+			_item[type] = value;
+			_items[index] = _item;
+			setUserSelection(_items);
+		},
+		[items, setUserSelection],
+	);
+
+	const handleAddItem = useCallback(() => {
+		const a = [...items, emptyItem];
+		setUserSelection(a);
+	}, [items, setUserSelection]);
+
+	const handleRemoveItem = useCallback(
+		(index: number) => {
+			const _items = [...items];
+			_items.splice(index, 1);
+			setUserSelection(_items);
+		},
+		[items, setUserSelection],
+	);
+
 	return (
 		<div>
 			<Text fontWeight={500} fontSize="md" mb="8px">
@@ -39,10 +82,11 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 								e.target.value && handleUpdateItem("name", index, e.target.value);
 							}}
 						>
-							{/* We can map Sheety data into this select box. */}
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
+							{itemList.map((item) => (
+								<option key={item["s/n"]} value={item.name}>
+									{item.name}
+								</option>
+							))}
 						</StyledSelect>
 						<StyledSelect
 							flexShrink={1.5}
@@ -54,9 +98,12 @@ export const Items = ({ items, handleUpdateItem, handleAddItem, handleRemoveItem
 								e.target.value && handleUpdateItem("method", index, e.target.value);
 							}}
 						>
-							<option value="option1">Option 1</option>
-							<option value="option2">Option 2</option>
-							<option value="option3">Option 3</option>
+							{item.name &&
+								getValidMethods(item.name).map((method) => (
+									<option key={method} value={method}>
+										{method}
+									</option>
+								))}
 						</StyledSelect>
 						{isLastItem(index) ? (
 							<AddLineButton onClick={handleAddItem} />

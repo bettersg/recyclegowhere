@@ -3,6 +3,7 @@ import { StickyFooter } from "components/footer/StickyFooter";
 import { Banner, UserInput } from "components/home";
 import styles from "components/home/hideScrollbar.module.css";
 import { NAVBAR_HEIGHT } from "components/nav/NavHeader";
+import { useSheetyData } from "hooks/useRecyclableItemList";
 import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
@@ -12,6 +13,8 @@ const Home: NextPage = () => {
 	const [stickyHeight, setStickyHeight] = useState<number>(0);
 	const [readyToSubmit, setReadyToSubmit] = useState(false);
 	const { height } = useWindowDimensions();
+	const { isLoaded } = useSheetyData();
+
 	const stickyRef = useRef<HTMLDivElement>(null);
 	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
 
@@ -36,10 +39,12 @@ const Home: NextPage = () => {
 				>
 					<VStack align="initial" mx={25} spacing={30}>
 						<Banner />
-						<UserInput
-							scrollableContainerRef={scrollableContainerRef}
-							setReadyToSubmit={setReadyToSubmit}
-						/>
+						{isLoaded && (
+							<UserInput
+								scrollableContainerRef={scrollableContainerRef}
+								setReadyToSubmit={setReadyToSubmit}
+							/>
+						)}
 					</VStack>
 				</Container>
 				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} />

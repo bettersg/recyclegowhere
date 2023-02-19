@@ -1,4 +1,8 @@
-import { createContext, Dispatch, ReactNode, useReducer } from "react";
+import { getSheetyData } from "api/sheety";
+import { Sheets } from "api/sheety/constants";
+import { Items, Methods, TSheetyCategories } from "api/sheety/types";
+import { createContext, Dispatch, ReactNode, useEffect, useReducer } from "react";
+import { SheetyActions } from "./actions";
 import { AppContextReducer } from "./reducer";
 import { AppContextActions, AppContextState } from "./types";
 
@@ -8,8 +12,28 @@ interface IAppContext {
 }
 
 const initialState: AppContextState = {
-	recyclableItems: [],
-	userSelection: [],
+	recyclableItems: {
+		isLoaded: false,
+		data: [],
+	},
+	methods: [],
+	categories: [],
+	userSelection: {
+		address: {
+			value: "",
+			label: "",
+			coordinates: {
+				lat: "",
+				long: "",
+			},
+		},
+		items: [
+			{
+				name: "",
+				method: "",
+			},
+		],
+	},
 };
 
 const initialContextState: IAppContext = {
@@ -22,6 +46,26 @@ export const AppContext = createContext(initialContextState);
 
 export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 	const [state, dispatch] = useReducer(AppContextReducer, initialState);
+
+	useEffect(() => {
+		const fetchItems = async () => {
+			const res = await getSheetyData<Items>(Sheets.ITEMS_SHEET_NAME);
+
+			dispatch(SheetyActions.initializeItemsList(res));
+		};
+		const fetchMethods = async () => {
+			const res = await getSheetyData<Methods>(Sheets.METHODS_SHEET_NAME);
+			dispatch(SheetyActions.initializeMethodsList(res));
+		};
+		const fetchCategories = async () => {
+			const res = await getSheetyData<TSheetyCategories>(Sheets.CATEGORIES_SHEET_NAME);
+			dispatch(SheetyActions.initializeCategoriessList(res));
+		};
+
+		fetchItems();
+		fetchMethods();
+		fetchCategories();
+	}, []);
 
 	return (
 		<AppContext.Provider

@@ -1,27 +1,23 @@
 import { Text } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useCallback, useState } from "react";
+import { fetchAddresses } from "api/onemap";
+import { AddressOption } from "app-context/types";
+import { useUserInputs } from "hooks/useUserSelection";
+import debounce from "lodash/debounce";
+import { useCallback, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { COLORS } from "theme";
-import { AddressOption } from "../../types";
 import { IndicatorsContainer, NoOptionsMessage } from "./custom-components";
-import { OneMapResponse } from "./types";
-import debounce from "lodash/debounce";
 
 interface LocationProps {
-	address: string;
-	setAddress: Dispatch<SetStateAction<string>>;
 	handleBlur: () => void;
 }
 
-const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
-	const response = await fetch(
-		`https://developers.onemap.sg/commonapi/search?searchVal=${searchValue}&returnGeom=Y&getAddrDetails=Y&pageNum=1`,
-	);
-	return await response.json();
-};
-
-export const Location = ({ address, setAddress, handleBlur }: LocationProps) => {
+export const Location = ({ handleBlur }: LocationProps) => {
 	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
+	const {
+		address: { value: addressValue },
+		setAddress,
+	} = useUserInputs();
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedLoadOptions = useCallback(
@@ -33,6 +29,10 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 							({
 								value: result.ADDRESS,
 								label: result.ADDRESS,
+								coordinates: {
+									lat: result.LATITUDE,
+									long: result.LONGITUDE,
+								},
 							} as AddressOption),
 					),
 				),
@@ -42,10 +42,10 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 	);
 
 	const handleShowError = useCallback(() => {
-		if (!address) {
+		if (!addressValue) {
 			setShowEmptyWarning(true);
 		}
-	}, [address]);
+	}, [addressValue]);
 
 	return (
 		<div>
@@ -53,7 +53,7 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 				Where are you at?
 			</Text>
 			<AsyncSelect
-				value={address ? { value: address, label: address } : undefined}
+				value={addressValue ? { value: addressValue, label: addressValue } : undefined}
 				isSearchable
 				components={{
 					NoOptionsMessage,
@@ -62,7 +62,7 @@ export const Location = ({ address, setAddress, handleBlur }: LocationProps) => 
 				placeholder="Type address here"
 				loadOptions={debouncedLoadOptions}
 				onChange={(newValue) => {
-					setAddress((newValue as AddressOption).value);
+					setAddress(newValue as AddressOption);
 				}}
 				styles={{
 					control: (base) => ({

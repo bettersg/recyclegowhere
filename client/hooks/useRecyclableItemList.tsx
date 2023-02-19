@@ -1,15 +1,19 @@
-import { useContext } from "react";
 import { AppContext } from "app-context/index";
-import { Actions, Item } from "app-context/types";
+import { useContext } from "react";
 
-export const useRecyclableItemList = () => {
-	const { state, dispatch } = useContext(AppContext);
+export const useSheetyData = () => {
+	const {
+		state: {
+			recyclableItems: { isLoaded, data },
+			methods,
+			categories,
+		},
+	} = useContext(AppContext);
 
 	return {
-		items: state.recyclableItems,
-		setItems: (items: Item[]) => {
-			const updatedList = [...state.recyclableItems, ...items];
-			dispatch({ type: Actions.SET_ITEMS_LIST, items: updatedList });
-		},
+		isLoaded,
+		items: data,
+		methods,
+		categories,
 	};
 };
