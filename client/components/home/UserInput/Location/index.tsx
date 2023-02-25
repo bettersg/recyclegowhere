@@ -14,10 +14,8 @@ interface LocationProps {
 
 export const Location = ({ handleBlur }: LocationProps) => {
 	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
-	const {
-		address: { value: addressValue },
-		setAddress,
-	} = useUserInputs();
+	const { address, setAddress } = useUserInputs();
+	const { value: addressValue } = address;
 
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const debouncedLoadOptions = useCallback(
@@ -53,7 +51,7 @@ export const Location = ({ handleBlur }: LocationProps) => {
 				Where are you at?
 			</Text>
 			<AsyncSelect
-				value={addressValue ? { value: addressValue, label: addressValue } : undefined}
+				value={addressValue ? address : undefined}
 				isSearchable
 				components={{
 					NoOptionsMessage,
