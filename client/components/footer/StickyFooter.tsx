@@ -38,8 +38,8 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 									color={"white"}
 									justifyContent={"center"}
 									align="center">
-										{<QuestionOutlineIcon w={"2rem"} h={"2rem"}></QuestionOutlineIcon>}
-										{<br></br>}
+										<QuestionOutlineIcon w={"2rem"} h={"2rem"} />
+										<br />
 										Learn how to decontaminate and recycle properly.
 										This will help reduce contamination in blue bins!
 									</Text>}
