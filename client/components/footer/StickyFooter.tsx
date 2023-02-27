@@ -1,4 +1,4 @@
-import { QuestionIcon } from "@chakra-ui/icons";
+import { QuestionIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, Text, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import { forwardRef } from "react";
 import { COLORS } from "theme";
@@ -24,12 +24,32 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 			>
 				<Flex flexDir="column">
 					<Flex w="100%" flex="1" align="center" mb="0.5rem" gap="0.3rem">
-						<Tooltip>
-							<QuestionIcon w={3.5} />
-						</Tooltip>
-						<Text w="100%" fontSize="xs">
-							Recommended!
-						</Text>
+						<QuestionIcon w={3.5} />
+						<Flex maxW="100%">
+							<Tooltip
+								hasArrow
+								height={"18rem"}
+								width={"12rem"}
+								blockSize={"auto"}
+								label={<Text
+									padding={2}
+									noOfLines={8}
+									fontSize="xs"
+									color={"white"}
+									justifyContent={"center"}
+									align="center">
+										<QuestionOutlineIcon w={"2rem"} h={"2rem"} />
+										<br />
+										Learn how to decontaminate and recycle properly.
+										This will help reduce contamination in blue bins!
+									</Text>}
+								color="black"
+								placement="top">
+								<Text w="100%" fontSize="xs">
+									Recommended!
+								</Text>
+							</Tooltip>
+						</Flex>
 					</Flex>
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
