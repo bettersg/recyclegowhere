@@ -2,7 +2,7 @@ import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
 import { Methods } from "api/sheety/enums";
 import { TItemSelection } from "app-context/types";
-import { useSheetyData } from "hooks/useRecyclableItemList";
+import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";

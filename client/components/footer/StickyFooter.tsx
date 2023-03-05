@@ -1,6 +1,6 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
-import { useSheetyData } from "hooks/useRecyclableItemList";
+import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
 import { COLORS } from "theme";
