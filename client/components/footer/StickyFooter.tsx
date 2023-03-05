@@ -1,7 +1,10 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
+import { useSheetyData } from "hooks/useRecyclableItemList";
+import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
 import { COLORS } from "theme";
+import { getNearbyFacilities } from "utils";
 import { Tooltip } from "./Tooltip";
 
 type Props = {
@@ -10,6 +13,9 @@ type Props = {
 
 export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
+
+	const { items, address } = useUserInputs();
+	const { facilities } = useSheetyData();
 	return (
 		<Container
 			ref={ref}
@@ -36,6 +42,9 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 								color={COLORS.white}
 								flex="1"
 								disabled={disabled}
+								onClick={() => {
+									getNearbyFacilities(items, address, facilities);
+								}}
 							>
 								Where to recycle
 							</Button>
