@@ -1,15 +1,17 @@
 import { AddIcon, CloseIcon } from "@chakra-ui/icons";
 import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
+import { Methods } from "api/sheety/enums";
 import { TItemSelection } from "app-context/types";
 import { useSheetyData } from "hooks/useRecyclableItemList";
 import { useUserInputs } from "hooks/useUserSelection";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
+import { displayTitleCase } from "./utils";
 
 const emptyItem: TItemSelection = {
 	name: "",
-	method: "",
+	method: undefined,
 };
 
 export const Items = () => {
@@ -42,7 +44,12 @@ export const Items = () => {
 		(type: keyof Pick<TItemSelection, "name" | "method">, index: number, value: string) => {
 			const _items = [...items];
 			const _item = { ..._items[index] };
-			_item[type] = value;
+			/* this is so that typescript doesn't complain */
+			if (type === "method") {
+				_item[type] = value as Methods;
+			} else {
+				_item[type] = value;
+			}
 			_items[index] = _item;
 			setUserSelection(_items);
 		},
@@ -99,7 +106,7 @@ export const Items = () => {
 							{item.name &&
 								getValidMethods(item.name).map((method) => (
 									<option key={method} value={method}>
-										{method}
+										{displayTitleCase(method)}
 									</option>
 								))}
 						</StyledSelect>

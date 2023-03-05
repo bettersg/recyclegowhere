@@ -1,6 +1,6 @@
 import { Reducer } from "react";
 import { Actions, AppContextActions, AppContextState } from "./types";
-import { transformCategory } from "./utils";
+import { transformCategory, transformFacility } from "./utils";
 
 export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (state, action) => {
 	switch (action.type) {
@@ -15,12 +15,17 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 		case Actions.SET_METHODS_LIST:
 			return {
 				...state,
-				methods: action.payload,
+				methods: action.payload.map((method) => method.name),
 			};
 		case Actions.SET_CATEGORIES_LIST:
 			return {
 				...state,
 				categories: action.payload.map((category) => transformCategory(category)),
+			};
+		case Actions.SET_FACILITIES_LIST:
+			return {
+				...state,
+				facilities: action.payload.map((facility) => transformFacility(facility)),
 			};
 		case Actions.SET_USER_SELECTION:
 			return {
