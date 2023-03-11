@@ -5,9 +5,10 @@ import { COLORS } from "theme";
 
 type Props = {
 	disabled: boolean;
+	setPage: (pageNumber: number) => void;
 };
 
-export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref) => {
+export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPage }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	return (
 		<Container
@@ -31,20 +32,24 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 								height={"18rem"}
 								width={"12rem"}
 								blockSize={"auto"}
-								label={<Text
-									padding={2}
-									noOfLines={8}
-									fontSize="xs"
-									color={"white"}
-									justifyContent={"center"}
-									align="center">
+								label={
+									<Text
+										padding={2}
+										noOfLines={8}
+										fontSize="xs"
+										color={"white"}
+										justifyContent={"center"}
+										align="center"
+									>
 										<QuestionOutlineIcon w={"2rem"} h={"2rem"} />
 										<br />
-										Learn how to decontaminate and recycle properly.
-										This will help reduce contamination in blue bins!
-									</Text>}
+										Learn how to decontaminate and recycle properly. This will
+										help reduce contamination in blue bins!
+									</Text>
+								}
 								color="black"
-								placement="top">
+								placement="top"
+							>
 								<Text w="100%" fontSize="xs">
 									Recommended!
 								</Text>
@@ -53,12 +58,15 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 					</Flex>
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
-							<Button flex="1">How to recycle?</Button>
+							<Button flex="1" onClick={() => setPage(1)}>
+								How to recycle?
+							</Button>
 							<Button
 								bg={COLORS.Button.primary}
 								color={COLORS.white}
 								flex="1"
 								disabled={disabled}
+								onClick={() => setPage(2)}
 							>
 								Where to recycle
 							</Button>
@@ -66,13 +74,14 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 					</Flex>
 				</Flex>
 				<Flex justify="center" mt="1rem">
-					<Link
+					<a
 						textDecor={isMobile ? "none" : "underline"}
 						fontSize="sm"
 						fontWeight="medium"
+						onClick={() => setPage(3)}
 					>
 						I prefer someone to collect from me
-					</Link>
+					</a>
 				</Flex>
 			</Flex>
 		</Container>

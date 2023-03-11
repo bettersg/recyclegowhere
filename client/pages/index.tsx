@@ -8,10 +8,14 @@ import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
+import { InstructionsPage } from "./InstructionsPage";
+import { MapPage } from "./MapPage";
+import { HomePickupPage } from "./HomePickupPage";
 
 const Home: NextPage = () => {
 	const [stickyHeight, setStickyHeight] = useState<number>(0);
 	const [readyToSubmit, setReadyToSubmit] = useState(false);
+	const [page, setPage] = useState<number>(0);
 	const { height } = useWindowDimensions();
 	const { isLoaded } = useSheetyData();
 
@@ -37,17 +41,36 @@ const Home: NextPage = () => {
 					height={height - stickyHeight - NAVBAR_HEIGHT}
 					ref={scrollableContainerRef}
 				>
-					<VStack align="initial" mx={25} spacing={30}>
-						<Banner />
-						{isLoaded && (
-							<UserInput
-								scrollableContainerRef={scrollableContainerRef}
-								setReadyToSubmit={setReadyToSubmit}
-							/>
-						)}
-					</VStack>
+					{page === 0 && (
+						<VStack align="initial" mx={25} spacing={30}>
+							<Banner />
+							{isLoaded && (
+								<UserInput
+									scrollableContainerRef={scrollableContainerRef}
+									setReadyToSubmit={setReadyToSubmit}
+								/>
+							)}
+						</VStack>
+					)}
+					{page === 1 && (
+						<VStack align="initial" mx={25} spacing={30}>
+							<InstructionsPage />
+						</VStack>
+					)}
+					{page === 2 && (
+						<VStack align="initial" mx={25} spacing={30}>
+							<MapPage />
+						</VStack>
+					)}
+					{page === 3 && (
+						<VStack align="initial" mx={25} spacing={30}>
+							<HomePickupPage />
+						</VStack>
+					)}
 				</Container>
-				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} />
+				{page === 0 && (
+					<StickyFooter ref={stickyRef} disabled={!readyToSubmit} setPage={setPage} />
+				)}
 			</VStack>
 		</BasePage>
 	);
