@@ -61,6 +61,7 @@ export const Location = ({ handleBlur }: LocationProps) => {
 				loadOptions={debouncedLoadOptions}
 				onChange={(newValue) => {
 					setAddress(newValue as AddressOption);
+					setShowEmptyWarning(false);
 				}}
 				styles={{
 					control: (base) => ({
