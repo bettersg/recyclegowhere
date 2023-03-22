@@ -8,9 +8,9 @@ import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
 import { useEffect, useRef, useState } from "react";
-import { InstructionsPage } from "./InstructionsPage";
-import { MapPage } from "./MapPage";
-import { HomePickupPage } from "./HomePickupPage";
+import { InstructionsPage } from "../pageFiles/InstructionsPage";
+import { MapPage } from "../pageFiles/MapPage";
+import { HomePickupPage } from "../pageFiles/HomePickupPage";
 
 const Home: NextPage = () => {
 	const [stickyHeight, setStickyHeight] = useState<number>(0);
