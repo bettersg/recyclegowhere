@@ -9,6 +9,7 @@ import {
 	TSetAddressAction,
 	TSetUserSelectionAction,
 	TInitializeFacilitiesAction,
+	TEmptyItem,
 } from "./types";
 
 const initializeItemsList = (items: Items[]): TInitializeItemsListAction => ({
@@ -33,7 +34,7 @@ const initializeFaciltiesList = (facilities: TSheetyFacilities[]): TInitializeFa
 	payload: facilities,
 });
 
-const setUserSelection = (selection: TItemSelection[]): TSetUserSelectionAction => ({
+const setUserSelection = (selection: (TItemSelection | TEmptyItem)[]): TSetUserSelectionAction => ({
 	type: Actions.SET_USER_SELECTION,
 	payload: selection,
 });

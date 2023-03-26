@@ -1,6 +1,6 @@
 import { SelectionActions } from "app-context/actions";
 import { AppContext } from "app-context/index";
-import { AddressOption, TItemSelection } from "app-context/types";
+import { AddressOption, TEmptyItem, TItemSelection } from "app-context/types";
 import { useContext } from "react";
 
 export const useUserInputs = () => {
@@ -15,7 +15,7 @@ export const useUserInputs = () => {
 		dispatch(SelectionActions.setAddress(address));
 	};
 
-	const setUserSelection = (selection: TItemSelection[]) => {
+	const setUserSelection = (selection: (TItemSelection | TEmptyItem)[]) => {
 		dispatch(SelectionActions.setUserSelection(selection));
 	};
 

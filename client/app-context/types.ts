@@ -27,9 +27,13 @@ export type TStateFacilities = {
 	type: string;
 	website: string;
 };
+export type TEmptyItem = {
+	name: string;
+	method: undefined;
+};
 export type TItemSelection = {
 	name: string;
-	method: Methods | undefined;
+	method: Methods;
 };
 type Coordinates = {
 	lat: string;
@@ -50,7 +54,7 @@ export interface AppContextState {
 	facilities: TStateFacilities[];
 	userSelection: {
 		address: AddressOption;
-		items: TItemSelection[];
+		items: (TItemSelection | TEmptyItem)[];
 	};
 }
 
@@ -84,7 +88,7 @@ export type TInitializeFacilitiesAction = {
 };
 export type TSetUserSelectionAction = {
 	type: Actions.SET_USER_SELECTION;
-	payload: TItemSelection[];
+	payload: (TItemSelection | TEmptyItem)[];
 };
 export type TSetAddressAction = {
 	type: Actions.SET_ADDRESS;

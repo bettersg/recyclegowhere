@@ -43,7 +43,11 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 								flex="1"
 								disabled={disabled}
 								onClick={() => {
-									getNearbyFacilities(items, address, facilities);
+									getNearbyFacilities(
+										items as TItemSelection[],
+										address,
+										facilities,
+									);
 								}}
 							>
 								Where to recycle
