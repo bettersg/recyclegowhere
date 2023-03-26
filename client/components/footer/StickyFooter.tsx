@@ -1,6 +1,7 @@
 import { QuestionIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, Text, Tooltip, useBreakpointValue } from "@chakra-ui/react";
 import { forwardRef } from "react";
+import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
 
 type Props = {
@@ -58,7 +59,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					</Flex>
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
-							<Button flex="1" onClick={() => setPage(1)}>
+							<Button flex="1" onClick={() => setPage(Pages.INSTRUCTIONS)}>
 								How to recycle?
 							</Button>
 							<Button
@@ -66,7 +67,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 								color={COLORS.white}
 								flex="1"
 								disabled={disabled}
-								onClick={() => setPage(2)}
+								onClick={() => setPage(Pages.MAP)}
 							>
 								Where to recycle
 							</Button>
@@ -74,14 +75,14 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					</Flex>
 				</Flex>
 				<Flex justify="center" mt="1rem">
-					<a
+					<Link
 						textDecor={isMobile ? "none" : "underline"}
 						fontSize="sm"
 						fontWeight="medium"
-						onClick={() => setPage(3)}
+						onClick={() => setPage(Pages.HOMEPICKUP)}
 					>
 						I prefer someone to collect from me
-					</a>
+					</Link>
 				</Flex>
 			</Flex>
 		</Container>
