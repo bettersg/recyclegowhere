@@ -1,5 +1,6 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
+import { TItemSelection } from "app-context/types";
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
@@ -15,7 +16,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	const { items, address } = useUserInputs();
-	const { facilities } = useSheetyData();
+	const { facilities, getItemCategory } = useSheetyData();
 	return (
 		<Container
 			ref={ref}
@@ -47,6 +48,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 										items as TItemSelection[],
 										address,
 										facilities,
+										getItemCategory,
 									);
 								}}
 							>

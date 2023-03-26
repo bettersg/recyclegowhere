@@ -1,3 +1,4 @@
+import { Categories } from "api/sheety/enums";
 import { TItemSelection, AddressOption, TStateFacilities } from "app-context/types";
 
 const EARTH_RADIUS = 6371; // Radius of the earth in km
@@ -6,11 +7,13 @@ export const getNearbyFacilities = (
 	items: TItemSelection[],
 	address: AddressOption,
 	facilities: TStateFacilities[],
+	getItemCategory: (itemName: string) => Categories,
 ) => {
 	// TODO: get distance for multiple items
 
 	console.time();
 	const { name, method } = items[0];
+	const cat = getItemCategory(name);
 	const distances = new Map(
 		facilities.map((facility) => [
 			facility.id,
@@ -23,7 +26,10 @@ export const getNearbyFacilities = (
 		]),
 	);
 
-	const temp = facilities.filter((facility) => facility.methodsAccepted.includes(method));
+	const temp = facilities.filter(
+		(facility) =>
+			facility.methodsAccepted.includes(method) && facility.categoriesAccepted.includes(cat),
+	);
 	temp.sort((a, b) => {
 		const distA = distances.get(a.id) as number;
 		const distB = distances.get(b.id) as number;
