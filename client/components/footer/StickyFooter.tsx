@@ -1,13 +1,16 @@
-import { QuestionIcon, QuestionOutlineIcon } from "@chakra-ui/icons";
-import { Button, Container, Flex, Link, Text, Tooltip, useBreakpointValue } from "@chakra-ui/react";
+import { QuestionIcon } from "@chakra-ui/icons";
+import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
 import { forwardRef } from "react";
+import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
+import { Tooltip } from "./Tooltip";
 
 type Props = {
 	disabled: boolean;
+	setPage: (pageNumber: number) => void;
 };
 
-export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref) => {
+export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPage }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	return (
 		<Container
@@ -25,40 +28,19 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 				<Flex flexDir="column">
 					<Flex w="100%" flex="1" align="center" mb="0.5rem" gap="0.3rem">
 						<QuestionIcon w={3.5} />
-						<Flex maxW="100%">
-							<Tooltip
-								hasArrow
-								height={"18rem"}
-								width={"12rem"}
-								blockSize={"auto"}
-								label={<Text
-									padding={2}
-									noOfLines={8}
-									fontSize="xs"
-									color={"white"}
-									justifyContent={"center"}
-									align="center">
-										{<QuestionOutlineIcon w={"2rem"} h={"2rem"}></QuestionOutlineIcon>}
-										{<br></br>}
-										Learn how to decontaminate and recycle properly.
-										This will help reduce contamination in blue bins!
-									</Text>}
-								color="black"
-								placement="top">
-								<Text w="100%" fontSize="xs">
-									Recommended!
-								</Text>
-							</Tooltip>
-						</Flex>
+						<Tooltip />
 					</Flex>
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
-							<Button flex="1">How to recycle?</Button>
+							<Button flex="1" onClick={() => setPage(Pages.INSTRUCTIONS)}>
+								How to recycle?
+							</Button>
 							<Button
 								bg={COLORS.Button.primary}
 								color={COLORS.white}
 								flex="1"
 								disabled={disabled}
+								onClick={() => setPage(Pages.MAP)}
 							>
 								Where to recycle
 							</Button>
@@ -70,6 +52,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 						textDecor={isMobile ? "none" : "underline"}
 						fontSize="sm"
 						fontWeight="medium"
+						onClick={() => setPage(Pages.HOMEPICKUP)}
 					>
 						I prefer someone to collect from me
 					</Link>

@@ -1,56 +1,27 @@
-import { Container, VStack } from "@chakra-ui/react";
-import { StickyFooter } from "components/footer/StickyFooter";
-import { Banner, UserInput } from "components/home";
-import styles from "components/home/hideScrollbar.module.css";
-import { NAVBAR_HEIGHT } from "components/nav/NavHeader";
-import { useSheetyData } from "hooks/useRecyclableItemList";
-import { useWindowDimensions } from "hooks/useWindowDimensions";
-import { BasePage } from "layouts/BasePage";
 import type { NextPage } from "next";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import { HomePage, HomePickupPage, InstructionsPage, MapPage } from "spa-pages";
+import { Pages } from "spa-pages/pageEnums";
 
 const Home: NextPage = () => {
-	const [stickyHeight, setStickyHeight] = useState<number>(0);
-	const [readyToSubmit, setReadyToSubmit] = useState(false);
-	const { height } = useWindowDimensions();
-	const { isLoaded } = useSheetyData();
+	const [page, setPage] = useState<Pages>(Pages.HOME);
 
-	const stickyRef = useRef<HTMLDivElement>(null);
-	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
-
-	useEffect(() => {
-		setStickyHeight(stickyRef.current?.clientHeight || 0);
-	}, [stickyRef.current?.clientHeight, height]);
-
-	return (
-		<BasePage title="Home" description="Singapore's first recycling planner">
-			<VStack p={0} m={0} height={`${height - NAVBAR_HEIGHT}px`}>
-				<Container
-					className={styles.hideScrollbar}
-					maxW={{
-						base: "full",
-						sm: "container.md",
-					}}
-					p={0}
-					pb={5}
-					overflow="auto"
-					height={height - stickyHeight - NAVBAR_HEIGHT}
-					ref={scrollableContainerRef}
-				>
-					<VStack align="initial" mx={25} spacing={30}>
-						<Banner />
-						{isLoaded && (
-							<UserInput
-								scrollableContainerRef={scrollableContainerRef}
-								setReadyToSubmit={setReadyToSubmit}
-							/>
-						)}
-					</VStack>
-				</Container>
-				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} />
-			</VStack>
-		</BasePage>
-	);
+	let PageComponent: JSX.Element;
+	switch (page) {
+		case Pages.HOME:
+			PageComponent = <HomePage setPage={setPage} />;
+			break;
+		case Pages.HOMEPICKUP:
+			PageComponent = <HomePickupPage />;
+			break;
+		case Pages.INSTRUCTIONS:
+			PageComponent = <InstructionsPage />;
+			break;
+		case Pages.MAP:
+			PageComponent = <MapPage />;
+			break;
+	}
+	return PageComponent;
 };
 
 export default Home;
