@@ -1,16 +1,24 @@
 import { Box, Button, Heading, HStack, Spacer } from "@chakra-ui/react";
+import { Dispatch, SetStateAction } from "react";
+import { Pages } from "spa-pages/pageEnums";
 
-export const InstructionsHeader = () => {
+type Props = {
+	setPage: Dispatch<SetStateAction<Pages>>;
+};
+
+export const InstructionsHeader = ({ setPage }: Props) => {
 	return (
 		<>
 			<Spacer />
-			<HStack>
+			<HStack px={2}>
 				<Box>
 					<Heading size="lg">Instructions</Heading>
 				</Box>
 				<Spacer />
 				<Box>
-					<Button colorScheme="teal">Restart!</Button>
+					<Button onClick={() => setPage(Pages.HOME)} colorScheme="teal">
+						Restart!
+					</Button>
 				</Box>
 			</HStack>
 		</>
