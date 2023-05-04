@@ -1,22 +1,38 @@
 import { Button, Flex, Heading, Spacer, Box, ButtonGroup } from "@chakra-ui/react";
+import { ArrowBackIcon, SearchIcon } from "@chakra-ui/icons";
+import { Dispatch, SetStateAction } from "react";
+import { Pages } from "spa-pages/pageEnums";
 
-const ButtonRow = () => {
-    return (
-        <Flex minWidth={"max-content"} alignItems={"left"} gap={"2"}>
-            <Box p="2">
-                <Heading size={"md"}>Your Items:</Heading>
-            </Box>
-            <Spacer />
-            <ButtonGroup gap={"2"}>
-                <Button colorScheme={"teal"} size={"lg"}>
-                    Restart!
-                </Button>
-                <Button colorScheme={"teal"} size={"lg"}>
-                    Map
-                </Button>
-            </ButtonGroup>
-        </Flex>
-    );
+type Props = {
+	setPage: Dispatch<SetStateAction<Pages>>;
+};
+const ButtonRow = ({ setPage }: Props) => {
+	return (
+		<Flex px={4}>
+			<Box>
+				<Heading size={"lg"}>Your items:</Heading>
+			</Box>
+			<Spacer />
+			<ButtonGroup gap={"1"}>
+				<Button
+					onClick={() => setPage(Pages.HOME)}
+					leftIcon={<ArrowBackIcon />}
+					colorScheme={"teal"}
+					size={"md"}
+				>
+					Restart!
+				</Button>
+				<Button
+					onClick={() => setPage(Pages.MAP)}
+					leftIcon={<SearchIcon />}
+					colorScheme={"teal"}
+					size={"md"}
+				>
+					Map
+				</Button>
+			</ButtonGroup>
+		</Flex>
+	);
 };
 
 export default ButtonRow;
