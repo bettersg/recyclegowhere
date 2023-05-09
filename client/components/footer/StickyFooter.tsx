@@ -32,7 +32,11 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					</Flex>
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
-							<Button flex="1" onClick={() => setPage(Pages.INSTRUCTIONS)}>
+							<Button
+								disabled={disabled}
+								flex="1"
+								onClick={() => setPage(Pages.INSTRUCTIONS)}
+							>
 								How to recycle?
 							</Button>
 							<Button
@@ -52,7 +56,12 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 						textDecor={isMobile ? "none" : "underline"}
 						fontSize="sm"
 						fontWeight="medium"
-						onClick={() => setPage(Pages.HOMEPICKUP)}
+						onClick={!disabled ? () => setPage(Pages.HOMEPICKUP) : undefined}
+						sx={{
+							opacity: disabled ? 0.5 : 1,
+							cursor: disabled ? "not-allowed" : "pointer",
+							textDecoration: disabled ? "none" : "underline",
+						}}
 					>
 						I prefer someone to collect from me
 					</Link>
