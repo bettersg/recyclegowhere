@@ -1,7 +1,9 @@
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import {
 	AddressOption,
+	RecyclingLocationResults,
 	TSetAddressAction,
+	TSetRecyclingLocationResults,
 	TSetUserSelectionAction,
 	UserSelectionActionsEnums,
 } from "./types";
@@ -19,7 +21,15 @@ const setAddress = (address: AddressOption): TSetAddressAction => ({
 	payload: address,
 });
 
+const setRecyclingLocationResults = (
+	results: RecyclingLocationResults,
+): TSetRecyclingLocationResults => ({
+	type: UserSelectionActionsEnums.SET_RECYLING_LOCATION_RESULTS,
+	payload: results,
+});
+
 export const SelectionActions = {
 	setUserSelection,
 	setAddress,
+	setRecyclingLocationResults,
 };

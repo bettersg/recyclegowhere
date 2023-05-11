@@ -51,5 +51,13 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 					items: [...state.userSelection.items],
 				},
 			};
+		case UserSelectionActionsEnums.SET_RECYLING_LOCATION_RESULTS:
+			return {
+				...state,
+				userSelection: {
+					...state.userSelection,
+					recyclingLocationResults: action.payload,
+				},
+			};
 	}
 };

@@ -13,7 +13,7 @@ export type AddressOption = {
 	coordinates: Coordinates;
 };
 
-type RecyclingLocationResults = {
+export type RecyclingLocationResults = {
 	results: Record<string, { id: number; distance: number }>;
 	facilitiesList: number[];
 };
@@ -22,6 +22,7 @@ export interface UserSelectionContextState {
 	userSelection: {
 		address: AddressOption;
 		items: (TItemSelection | TEmptyItem)[];
+		recyclingLocationResults?: RecyclingLocationResults;
 	};
 }
 

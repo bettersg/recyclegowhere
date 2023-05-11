@@ -7,6 +7,7 @@ import {
 } from "./SheetyContext/types";
 import {
 	TSetAddressAction,
+	TSetRecyclingLocationResults,
 	TSetUserSelectionAction,
 	UserSelectionContextState,
 } from "./UserSelectionContext/types";
@@ -25,4 +26,5 @@ export type AppContextActions =
 	| TInitializeCategoriesAction
 	| TInitializeFacilitiesAction
 	| TSetUserSelectionAction
-	| TSetAddressAction;
+	| TSetAddressAction
+	| TSetRecyclingLocationResults;
