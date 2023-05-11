@@ -3,6 +3,7 @@ import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/re
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
+import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
 import { getNearbyFacilities } from "utils";
 import { Tooltip } from "./Tooltip";
@@ -10,9 +11,10 @@ import { TItemSelection } from "app-context/SheetyContext/types";
 
 type Props = {
 	disabled: boolean;
+	setPage: (pageNumber: number) => void;
 };
 
-export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref) => {
+export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPage }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	const { items, address, setRecyclingLocationResults } = useUserInputs();
@@ -22,6 +24,8 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 		setRecyclingLocationResults(
 			getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory),
 		);
+
+		setPage(Pages.MAP);
 	};
 
 	return (
@@ -44,7 +48,13 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 					</Flex>
 					<Flex w="100%" align="center" justify="center">
 						<Flex gap="1.5rem">
-							<Button flex="1">How to recycle?</Button>
+							<Button
+								disabled={disabled}
+								flex="1"
+								onClick={() => setPage(Pages.INSTRUCTIONS)}
+							>
+								How to recycle?
+							</Button>
 							<Button
 								bg={COLORS.Button.primary}
 								color={COLORS.white}
@@ -62,6 +72,12 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 						textDecor={isMobile ? "none" : "underline"}
 						fontSize="sm"
 						fontWeight="medium"
+						onClick={!disabled ? () => setPage(Pages.HOMEPICKUP) : undefined}
+						sx={{
+							opacity: disabled ? 0.5 : 1,
+							cursor: disabled ? "not-allowed" : "pointer",
+							textDecoration: disabled ? "none" : "underline",
+						}}
 					>
 						I prefer someone to collect from me
 					</Link>
