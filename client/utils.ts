@@ -1,5 +1,6 @@
 import { Categories } from "api/sheety/enums";
-import { TItemSelection, AddressOption, TStateFacilities } from "app-context/types";
+import { TItemSelection, TStateFacilities } from "app-context/SheetyContext/types";
+import { AddressOption } from "app-context/UserSelectionContext/types";
 
 const EARTH_RADIUS = 6371; // Radius of the earth in km
 

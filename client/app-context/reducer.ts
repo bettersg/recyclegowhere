@@ -6,6 +6,9 @@ import { UserSelectionActionsEnums } from "./UserSelectionContext/types";
 
 export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (state, action) => {
 	switch (action.type) {
+		// =====================================================================
+		// Sheety actions
+		// =====================================================================
 		case SheetyActionsEnums.SET_ITEMS_LIST:
 			return {
 				...state,
@@ -29,6 +32,9 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 				...state,
 				facilities: action.payload.map((facility) => transformFacility(facility)),
 			};
+		// =================================================================
+		// User selection actions
+		// =================================================================
 		case UserSelectionActionsEnums.SET_USER_SELECTION:
 			return {
 				...state,

@@ -1,12 +1,12 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
-import { TItemSelection } from "app-context/types";
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
 import { COLORS } from "theme";
 import { getNearbyFacilities } from "utils";
 import { Tooltip } from "./Tooltip";
+import { TItemSelection } from "app-context/SheetyContext/types";
 
 type Props = {
 	disabled: boolean;
