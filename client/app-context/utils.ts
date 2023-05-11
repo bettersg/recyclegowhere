@@ -1,6 +1,6 @@
 import { Categories, Methods } from "api/sheety/enums";
 import { TSheetyCategories, TSheetyFacilities } from "api/sheety/types";
-import { TStateCategories, TStateFacilities } from "./types";
+import { TStateCategories, TStateFacilities } from "./SheetyContext/types";
 
 export const transformCategory = ({
 	id,

@@ -2,9 +2,11 @@ import { getSheetyData } from "api/sheety";
 import { Sheets } from "api/sheety/constants";
 import { Items, TSheetyMethods, TSheetyCategories, TSheetyFacilities } from "api/sheety/types";
 import { createContext, Dispatch, ReactNode, useEffect, useReducer } from "react";
-import { SheetyActions } from "./actions";
 import { AppContextReducer } from "./reducer";
 import { AppContextActions, AppContextState } from "./types";
+import { initialSheetyState } from "./SheetyContext";
+import { initialUserSelectionState } from "./UserSelectionContext";
+import { SheetyActions } from "./SheetyContext/actions";
 
 interface IAppContext {
 	state: AppContextState;
@@ -12,29 +14,8 @@ interface IAppContext {
 }
 
 const initialState: AppContextState = {
-	recyclableItems: {
-		isLoaded: false,
-		data: [],
-	},
-	methods: [],
-	categories: [],
-	facilities: [],
-	userSelection: {
-		address: {
-			value: "",
-			label: "",
-			coordinates: {
-				lat: "",
-				long: "",
-			},
-		},
-		items: [
-			{
-				name: "",
-				method: undefined,
-			},
-		],
-	},
+	...initialSheetyState,
+	...initialUserSelectionState,
 };
 
 const initialContextState: IAppContext = {
