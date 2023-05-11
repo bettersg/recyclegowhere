@@ -15,8 +15,15 @@ type Props = {
 export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
-	const { items, address } = useUserInputs();
+	const { items, address, setRecyclingLocationResults } = useUserInputs();
 	const { facilities, getItemCategory } = useSheetyData();
+
+	const handleWhereToRecyleClick = () => {
+		setRecyclingLocationResults(
+			getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory),
+		);
+	};
+
 	return (
 		<Container
 			ref={ref}
@@ -43,14 +50,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled }, ref
 								color={COLORS.white}
 								flex="1"
 								disabled={disabled}
-								onClick={() => {
-									getNearbyFacilities(
-										items as TItemSelection[],
-										address,
-										facilities,
-										getItemCategory,
-									);
-								}}
+								onClick={handleWhereToRecyleClick}
 							>
 								Where to recycle
 							</Button>

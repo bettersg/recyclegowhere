@@ -12,9 +12,10 @@ export type AddressOption = {
 	label: string;
 	coordinates: Coordinates;
 };
+export type TResult = { facilities: { id: number; distance: number }[] };
 
 export type RecyclingLocationResults = {
-	results: Record<string, { id: number; distance: number }>;
+	results: Record<string, TResult>;
 	facilitiesList: number[];
 };
 

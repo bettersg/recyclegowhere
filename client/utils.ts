@@ -1,49 +1,73 @@
 import { Categories } from "api/sheety/enums";
 import { TItemSelection, TStateFacilities } from "app-context/SheetyContext/types";
-import { AddressOption } from "app-context/UserSelectionContext/types";
+import {
+	AddressOption,
+	RecyclingLocationResults,
+	TResult,
+} from "app-context/UserSelectionContext/types";
 
 const EARTH_RADIUS = 6371; // Radius of the earth in km
+const MAX_DISTANCE_KM = 6;
 
 export const getNearbyFacilities = (
 	items: TItemSelection[],
 	address: AddressOption,
 	facilities: TStateFacilities[],
 	getItemCategory: (itemName: string) => Categories,
-) => {
-	// TODO: get distance for multiple items
+): RecyclingLocationResults => {
+	const res: Record<string, TResult> = {};
+	const allFacilityIds: number[] = [];
 
-	console.time();
-	const { name, method } = items[0];
-	const cat = getItemCategory(name);
-	const distances = new Map(
-		facilities.map((facility) => [
-			facility.id,
-			calculateDistance(
-				Number(address.coordinates.lat),
-				Number(address.coordinates.long),
-				facility.latitude,
-				facility.longitude,
-			),
-		]),
-	);
+	for (const item of items) {
+		const { name, method } = item;
 
-	const temp = facilities.filter(
-		(facility) =>
-			facility.methodsAccepted.includes(method) && facility.categoriesAccepted.includes(cat),
-	);
-	temp.sort((a, b) => {
-		const distA = distances.get(a.id) as number;
-		const distB = distances.get(b.id) as number;
+		const cat = getItemCategory(name);
 
-		return distA - distB;
-	});
+		const distances = new Map<number, number>();
 
-	const slice20 = temp.slice(0, 20);
-	console.log(slice20);
-	console.log(slice20.map((s) => distances.get(s.id)));
-	console.timeEnd();
+		const relevantFacilities = facilities.filter((facility) => {
+			const { id, methodsAccepted, categoriesAccepted, latitude, longitude } = facility;
+			if (methodsAccepted.includes(method) && categoriesAccepted.includes(cat)) {
+				const distance = calculateDistance(
+					Number(address.coordinates.lat),
+					Number(address.coordinates.long),
+					latitude,
+					longitude,
+				);
+
+				if (distance < MAX_DISTANCE_KM) {
+					distances.set(id, distance);
+					allFacilityIds.push(id);
+					return true;
+				}
+			}
+			return false;
+		});
+
+		relevantFacilities.sort((a, b) => {
+			const distA = distances.get(a.id) as number;
+			const distB = distances.get(b.id) as number;
+
+			return distA - distB;
+		});
+
+		res[name] = {
+			facilities: relevantFacilities.map((facility) => ({
+				id: facility.id,
+				distance: distances.get(facility.id) as number,
+			})),
+		};
+	}
+
+	return {
+		results: res,
+		facilitiesList: allFacilityIds,
+	};
 };
 
+/**
+ * returns distance in km
+ */
 function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
 	/* thank you ChatGPT */
 	/* using Haversine formula */
