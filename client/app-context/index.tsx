@@ -1,10 +1,12 @@
 import { getSheetyData } from "api/sheety";
 import { Sheets } from "api/sheety/constants";
-import { Items, Methods, TSheetyCategories } from "api/sheety/types";
+import { Items, TSheetyMethods, TSheetyCategories, TSheetyFacilities } from "api/sheety/types";
 import { createContext, Dispatch, ReactNode, useEffect, useReducer } from "react";
-import { SheetyActions } from "./actions";
 import { AppContextReducer } from "./reducer";
 import { AppContextActions, AppContextState } from "./types";
+import { initialSheetyState } from "./SheetyContext";
+import { initialUserSelectionState } from "./UserSelectionContext";
+import { SheetyActions } from "./SheetyContext/actions";
 
 interface IAppContext {
 	state: AppContextState;
@@ -12,28 +14,8 @@ interface IAppContext {
 }
 
 const initialState: AppContextState = {
-	recyclableItems: {
-		isLoaded: false,
-		data: [],
-	},
-	methods: [],
-	categories: [],
-	userSelection: {
-		address: {
-			value: "",
-			label: "",
-			coordinates: {
-				lat: "",
-				long: "",
-			},
-		},
-		items: [
-			{
-				name: "",
-				method: "",
-			},
-		],
-	},
+	...initialSheetyState,
+	...initialUserSelectionState,
 };
 
 const initialContextState: IAppContext = {
@@ -54,17 +36,22 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 			dispatch(SheetyActions.initializeItemsList(res));
 		};
 		const fetchMethods = async () => {
-			const res = await getSheetyData<Methods>(Sheets.METHODS_SHEET_NAME);
+			const res = await getSheetyData<TSheetyMethods>(Sheets.METHODS_SHEET_NAME);
 			dispatch(SheetyActions.initializeMethodsList(res));
 		};
 		const fetchCategories = async () => {
 			const res = await getSheetyData<TSheetyCategories>(Sheets.CATEGORIES_SHEET_NAME);
 			dispatch(SheetyActions.initializeCategoriessList(res));
 		};
+		const fetchFacilities = async () => {
+			const res = await getSheetyData<TSheetyFacilities>(Sheets.FACILITIES_SHEET_NAME);
+			dispatch(SheetyActions.initializeFaciltiesList(res));
+		};
 
 		fetchItems();
 		fetchMethods();
 		fetchCategories();
+		fetchFacilities();
 	}, []);
 
 	return (

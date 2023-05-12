@@ -1,9 +1,13 @@
 import { QuestionIcon } from "@chakra-ui/icons";
 import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
+import { useSheetyData } from "hooks/useSheetyData";
+import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
+import { getNearbyFacilities } from "utils";
 import { Tooltip } from "./Tooltip";
+import { TItemSelection } from "app-context/SheetyContext/types";
 
 type Props = {
 	disabled: boolean;
@@ -12,6 +16,18 @@ type Props = {
 
 export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPage }, ref) => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
+
+	const { items, address, setRecyclingLocationResults } = useUserInputs();
+	const { facilities, getItemCategory } = useSheetyData();
+
+	const handleWhereToRecyleClick = () => {
+		setRecyclingLocationResults(
+			getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory),
+		);
+
+		setPage(Pages.MAP);
+	};
+
 	return (
 		<Container
 			ref={ref}
@@ -44,7 +60,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 								color={COLORS.white}
 								flex="1"
 								disabled={disabled}
-								onClick={() => setPage(Pages.MAP)}
+								onClick={handleWhereToRecyleClick}
 							>
 								Where to recycle
 							</Button>
