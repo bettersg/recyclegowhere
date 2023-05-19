@@ -15,3 +15,12 @@ export type TSheetyCategories = {
 	method3?: string;
 	method4?: string;
 };
+
+export type TInstructions = {
+	"s/n": number;
+	name: string;
+	category: string;
+	step1: string;
+	step2?: string;
+	step3?: string;
+};

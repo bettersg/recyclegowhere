@@ -1,6 +1,6 @@
 import { getSheetyData } from "api/sheety";
 import { Sheets } from "api/sheety/constants";
-import { Items, Methods, TSheetyCategories } from "api/sheety/types";
+import { Items, Methods, TSheetyCategories, TInstructions } from "api/sheety/types";
 import { createContext, Dispatch, ReactNode, useEffect, useReducer } from "react";
 import { SheetyActions } from "./actions";
 import { AppContextReducer } from "./reducer";
@@ -18,6 +18,7 @@ const initialState: AppContextState = {
 	},
 	methods: [],
 	categories: [],
+	instructions: [],
 	userSelection: {
 		address: {
 			value: "",
@@ -61,10 +62,15 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 			const res = await getSheetyData<TSheetyCategories>(Sheets.CATEGORIES_SHEET_NAME);
 			dispatch(SheetyActions.initializeCategoriessList(res));
 		};
+		const fetchInstructions = async () => {
+			const res = await getSheetyData<TInstructions>(Sheets.INSTRUCTIONS_SHEET_NAME);
+			dispatch(SheetyActions.initializeInstructionsList(res));
+		};
 
 		fetchItems();
 		fetchMethods();
 		fetchCategories();
+		fetchInstructions();
 	}, []);
 
 	return (

@@ -38,5 +38,10 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 					items: [...state.userSelection.items],
 				},
 			};
+		case Actions.SET_INSTRUCTIONS_LIST:
+			return {
+				...state,
+				instructions: action.payload,
+			};
 	}
 };

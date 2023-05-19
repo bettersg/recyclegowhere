@@ -1,8 +1,9 @@
-import { Items, Methods, TSheetyCategories } from "api/sheety/types";
+import { Items, Methods, TSheetyCategories, TInstructions } from "api/sheety/types";
 import {
 	Actions,
 	AddressOption,
 	TInitializeCategoriesAction,
+	TInitializeInstructionsAction,
 	TInitializeItemsListAction,
 	TInitializeMethodsAction,
 	TItemSelection,
@@ -27,6 +28,13 @@ const initializeCategoriessList = (
 	payload: categories,
 });
 
+const initializeInstructionsList = (
+	instructions: TInstructions[],
+): TInitializeInstructionsAction => ({
+	type: Actions.SET_INSTRUCTIONS_LIST,
+	payload: instructions,
+});
+
 const setUserSelection = (selection: TItemSelection[]): TSetUserSelectionAction => ({
 	type: Actions.SET_USER_SELECTION,
 	payload: selection,
@@ -41,6 +49,7 @@ export const SheetyActions = {
 	initializeItemsList,
 	initializeCategoriessList,
 	initializeMethodsList,
+	initializeInstructionsList,
 };
 
 export const SelectionActions = {

@@ -16,7 +16,6 @@ export type AccordionProps = {
 	items: {
 		title: string;
 		method: string;
-		imgURL: string;
 		contents: string[];
 	}[];
 };
@@ -48,13 +47,13 @@ export const AccordionComp = ({ items }: AccordionProps) => {
 						</AccordionButton>
 					</h2>
 					<AccordionPanel>
-						<Center>
+						{/* <Center>
 							<Image
 								alt="test"
 								src={item.imgURL}
 								fallbackSrc="https://via.placeholder.com/150"
 							/>
-						</Center>
+						</Center> */}
 						<Box p={4}>
 							<Carousel items={item.contents} />
 						</Box>
