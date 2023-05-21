@@ -1,12 +1,12 @@
 import { Text } from "@chakra-ui/react";
 import { fetchAddresses } from "api/onemap";
-import { AddressOption } from "app-context/types";
 import { useUserInputs } from "hooks/useUserSelection";
 import debounce from "lodash/debounce";
 import { useCallback, useState } from "react";
 import AsyncSelect from "react-select/async";
 import { COLORS } from "theme";
 import { IndicatorsContainer, NoOptionsMessage } from "./custom-components";
+import { AddressOption } from "app-context/UserSelectionContext/types";
 
 interface LocationProps {
 	handleBlur: () => void;

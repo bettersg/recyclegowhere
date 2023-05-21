@@ -1,4 +1,4 @@
-import { AddressOption } from "app-context/types";
+import { AddressOption } from "app-context/UserSelectionContext/types";
 import { ComponentType } from "react";
 import { components, GroupBase, NoticeProps } from "react-select";
 

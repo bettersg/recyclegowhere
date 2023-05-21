@@ -6,4 +6,5 @@ export enum Sheets {
 	METHODS_SHEET_NAME = "methods (final)",
 	CATEGORIES_SHEET_NAME = "categoriesList (final)",
 	INSTRUCTIONS_SHEET_NAME = "instructions",
+	FACILITIES_SHEET_NAME = "facilitiesList (final)",
 }
