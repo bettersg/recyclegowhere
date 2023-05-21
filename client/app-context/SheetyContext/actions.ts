@@ -1,10 +1,17 @@
-import { Items, TSheetyMethods, TSheetyCategories, TSheetyFacilities } from "api/sheety/types";
+import {
+	Items,
+	TSheetyMethods,
+	TSheetyCategories,
+	TSheetyFacilities,
+	TInstructions,
+} from "api/sheety/types";
 import {
 	TInitializeItemsListAction,
 	SheetyActionsEnums,
 	TInitializeMethodsAction,
 	TInitializeCategoriesAction,
 	TInitializeFacilitiesAction,
+	TInitializeInstructionsAction,
 } from "./types";
 
 const initializeItemsList = (items: Items[]): TInitializeItemsListAction => ({
@@ -29,9 +36,17 @@ const initializeFaciltiesList = (facilities: TSheetyFacilities[]): TInitializeFa
 	payload: facilities,
 });
 
+const initializeInstructionsList = (
+	instructions: TInstructions[],
+): TInitializeInstructionsAction => ({
+	type: SheetyActionsEnums.SET_INSTRUCTIONS_LIST,
+	payload: instructions,
+});
+
 export const SheetyActions = {
 	initializeItemsList,
 	initializeCategoriessList,
 	initializeMethodsList,
 	initializeFaciltiesList,
+	initializeInstructionsList,
 };

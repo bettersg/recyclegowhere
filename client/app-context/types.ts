@@ -1,4 +1,3 @@
-import { TSheetyCategories, Items, TSheetyMethods, TInstructions } from "api/sheety/types";
 import {
 	SheetyContextState,
 	TInitializeCategoriesAction,

@@ -1,5 +1,11 @@
 import { Categories, Methods } from "api/sheety/enums";
-import { TSheetyCategories, Items, TSheetyFacilities, TSheetyMethods } from "api/sheety/types";
+import {
+	TSheetyCategories,
+	Items,
+	TSheetyFacilities,
+	TSheetyMethods,
+	TInstructions,
+} from "api/sheety/types";
 
 // =============================================================================
 // State types
@@ -9,6 +15,7 @@ export interface SheetyContextState {
 		isLoaded: boolean;
 		data: Items[];
 	};
+	instructions: TInstructions[];
 	methods: Methods[];
 	categories: TStateCategories[];
 	facilities: TStateFacilities[];
@@ -53,6 +60,7 @@ export enum SheetyActionsEnums {
 	SET_METHODS_LIST = "SET_METHODS_LIST",
 	SET_CATEGORIES_LIST = "SET_CATEGORIES_LIST",
 	SET_FACILITIES_LIST = "SET_FACILITIES_LIST",
+	SET_INSTRUCTIONS_LIST = "SET_INSTRUCTIONS_LIST",
 }
 
 export type TInitializeItemsListAction = {
@@ -70,4 +78,9 @@ export type TInitializeCategoriesAction = {
 export type TInitializeFacilitiesAction = {
 	type: SheetyActionsEnums.SET_FACILITIES_LIST;
 	payload: TSheetyFacilities[];
+};
+
+export type TInitializeInstructionsAction = {
+	type: SheetyActionsEnums.SET_INSTRUCTIONS_LIST;
+	payload: TInstructions[];
 };

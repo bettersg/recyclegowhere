@@ -1,5 +1,5 @@
-import { Flex, Text, Container, VStack, filter } from "@chakra-ui/react";
-import { useSheetyData } from "hooks/useRecyclableItemList";
+import { Container, VStack } from "@chakra-ui/react";
+import { useSheetyData } from "hooks/useSheetyData";
 import { TInstructions } from "api/sheety/types";
 import { BasePage } from "layouts/BasePage";
 import { AccordionComp, InstructionsHeader } from "components/instructions";

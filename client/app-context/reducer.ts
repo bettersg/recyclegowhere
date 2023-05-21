@@ -32,6 +32,11 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 				...state,
 				facilities: action.payload.map((facility) => transformFacility(facility)),
 			};
+		case SheetyActionsEnums.SET_INSTRUCTIONS_LIST:
+			return {
+				...state,
+				instructions: action.payload,
+			};
 		// =================================================================
 		// User selection actions
 		// =================================================================
@@ -50,11 +55,6 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 					address: action.payload,
 					items: [...state.userSelection.items],
 				},
-			};
-		case UserSelectionActionsEnums.SET_INSTRUCTIONS_LIST:
-			return {
-				...state,
-				instructions: action.payload,
 			};
 		case UserSelectionActionsEnums.SET_RECYLING_LOCATION_RESULTS:
 			return {
