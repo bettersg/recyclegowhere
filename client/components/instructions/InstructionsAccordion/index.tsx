@@ -47,13 +47,6 @@ export const AccordionComp = ({ items }: AccordionProps) => {
 						</AccordionButton>
 					</h2>
 					<AccordionPanel>
-						{/* <Center>
-							<Image
-								alt="test"
-								src={item.imgURL}
-								fallbackSrc="https://via.placeholder.com/150"
-							/>
-						</Center> */}
 						<Box p={4}>
 							<Carousel items={item.contents} />
 						</Box>

@@ -34,19 +34,13 @@ const itemFilter = (items: itemType[], instructions: TInstructions[]) => {
 			if (instructionItem.step3 !== undefined) {
 				contents.push(instructionItem.step3);
 			}
-			return {
-				title: instructionItem.name,
-				method: "",
-				contents,
-			};
-		})
-		.map((instrItem) => {
 			const matchingItem = filteredSelections.find(
-				(selectedItem) => selectedItem.name === instrItem.title,
+				(selectedItem) => selectedItem.name === instructionItem.name,
 			) as itemType;
 			return {
-				...instrItem,
+				title: instructionItem.name,
 				method: matchingItem.method,
+				contents,
 			};
 		});
 	return filteredInstructions;
