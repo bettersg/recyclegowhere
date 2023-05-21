@@ -9,21 +9,16 @@ import { useUserInputs } from "hooks/useUserSelection";
 import { StickyFooterInstructions } from "components/footer/StickyFooterInstructions";
 import { useWindowDimensions } from "hooks/useWindowDimensions";
 import { NAVBAR_HEIGHT } from "components/nav/NavHeader";
+import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
-type itemType = {
-	name: string;
-	method: string;
-};
-
-const itemFilter = (items: itemType[], instructions: TInstructions[]) => {
-	const filteredSelections = items.filter((item) => item.method !== "");
+const itemFilter = (items: (TItemSelection | TEmptyItem)[], instructions: TInstructions[]) => {
 	const filteredInstructions = instructions
 		.filter((instructionItem) =>
-			filteredSelections.some((selectedItem) => selectedItem.name === instructionItem.name),
+			items.some((selectedItem) => selectedItem.name === instructionItem.name),
 		)
 		.map((instructionItem) => {
 			const contents = [];
@@ -34,9 +29,9 @@ const itemFilter = (items: itemType[], instructions: TInstructions[]) => {
 			if (instructionItem.step3 !== undefined) {
 				contents.push(instructionItem.step3);
 			}
-			const matchingItem = filteredSelections.find(
+			const matchingItem = items.find(
 				(selectedItem) => selectedItem.name === instructionItem.name,
-			) as itemType;
+			) as TItemSelection | TEmptyItem;
 			return {
 				title: instructionItem.name,
 				method: matchingItem.method,

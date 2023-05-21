@@ -11,11 +11,11 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import Carousel from "./InstructionsCarousel";
-
+import { Methods } from "api/sheety/enums";
 export type AccordionProps = {
 	items: {
 		title: string;
-		method: string;
+		method: Methods | undefined;
 		contents: string[];
 	}[];
 };
