@@ -1,6 +1,12 @@
 import { getSheetyData } from "api/sheety";
 import { Sheets } from "api/sheety/constants";
-import { Items, TSheetyMethods, TSheetyCategories, TSheetyFacilities } from "api/sheety/types";
+import {
+	Items,
+	TSheetyMethods,
+	TSheetyCategories,
+	TSheetyFacilities,
+	TInstructions,
+} from "api/sheety/types";
 import { createContext, Dispatch, ReactNode, useEffect, useReducer } from "react";
 import { AppContextReducer } from "./reducer";
 import { AppContextActions, AppContextState } from "./types";
@@ -43,6 +49,10 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 			const res = await getSheetyData<TSheetyCategories>(Sheets.CATEGORIES_SHEET_NAME);
 			dispatch(SheetyActions.initializeCategoriessList(res));
 		};
+		const fetchInstructions = async () => {
+			const res = await getSheetyData<TInstructions>(Sheets.INSTRUCTIONS_SHEET_NAME);
+			dispatch(SheetyActions.initializeInstructionsList(res));
+		};
 		const fetchFacilities = async () => {
 			const res = await getSheetyData<TSheetyFacilities>(Sheets.FACILITIES_SHEET_NAME);
 			dispatch(SheetyActions.initializeFaciltiesList(res));
@@ -51,6 +61,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 		fetchItems();
 		fetchMethods();
 		fetchCategories();
+		fetchInstructions();
 		fetchFacilities();
 	}, []);
 

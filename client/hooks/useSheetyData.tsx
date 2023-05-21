@@ -8,6 +8,7 @@ export const useSheetyData = () => {
 			recyclableItems: { isLoaded, data },
 			methods,
 			categories,
+			instructions,
 			facilities,
 		},
 	} = useContext(AppContext);
@@ -20,6 +21,7 @@ export const useSheetyData = () => {
 		items: data,
 		methods,
 		categories,
+		instructions,
 		facilities,
 		getItemCategory,
 	};

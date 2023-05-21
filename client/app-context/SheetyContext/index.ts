@@ -5,6 +5,7 @@ export const initialSheetyState: SheetyContextState = {
 		isLoaded: false,
 		data: [],
 	},
+	instructions: [],
 	methods: [],
 	categories: [],
 	facilities: [],

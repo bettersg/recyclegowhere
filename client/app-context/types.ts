@@ -4,6 +4,7 @@ import {
 	TInitializeFacilitiesAction,
 	TInitializeItemsListAction,
 	TInitializeMethodsAction,
+	TInitializeInstructionsAction,
 } from "./SheetyContext/types";
 import {
 	TSetAddressAction,
@@ -15,6 +16,7 @@ import {
 // =============================================================================
 // State types
 // =============================================================================
+
 export interface AppContextState extends SheetyContextState, UserSelectionContextState {}
 
 // =============================================================================
@@ -24,6 +26,7 @@ export type AppContextActions =
 	| TInitializeItemsListAction
 	| TInitializeMethodsAction
 	| TInitializeCategoriesAction
+	| TInitializeInstructionsAction
 	| TInitializeFacilitiesAction
 	| TSetUserSelectionAction
 	| TSetAddressAction

@@ -32,6 +32,11 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 				...state,
 				facilities: action.payload.map((facility) => transformFacility(facility)),
 			};
+		case SheetyActionsEnums.SET_INSTRUCTIONS_LIST:
+			return {
+				...state,
+				instructions: action.payload,
+			};
 		// =================================================================
 		// User selection actions
 		// =================================================================
