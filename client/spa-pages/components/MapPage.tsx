@@ -1,9 +1,39 @@
-import { Flex, Text, Button, Spacer } from "@chakra-ui/react";
 import { BasePage } from "layouts/BasePage";
-import { Container, VStack } from "@chakra-ui/react";
+import { Container, Flex, VStack, IconButton } from "@chakra-ui/react";
+import { HeaderButtons } from "components/map";
+import { Dispatch, SetStateAction, useState, MouseEventHandler } from "react";
+import { Pages } from "spa-pages/pageEnums";
+import { Location } from "components/home/UserInput/Location";
 import { COLORS } from "theme";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
-export const MapPage = () => {
+type Props = {
+	setPage: Dispatch<SetStateAction<Pages>>;
+};
+
+interface ButtonProps {
+	onClick: MouseEventHandler<HTMLButtonElement>;
+}
+
+const FilterButton = ({ onClick }: ButtonProps) => (
+	<IconButton
+		variant="solid"
+		color={COLORS.gray[700]}
+		background={COLORS.gray[100]}
+		aria-label="add line"
+		icon={<HamburgerIcon />}
+		onClick={onClick}
+	/>
+);
+
+export const MapPage = ({ setPage }: Props) => {
+	const [addressBlur, setAddressBlur] = useState(false);
+	const [filterShow, setFilterShow] = useState(false);
+
+	const showFilter = () => {
+		setFilterShow(true);
+	};
+
 	return (
 		<BasePage title="Instructions" description="Singapore's first recycling planner">
 			<Container
@@ -13,14 +43,10 @@ export const MapPage = () => {
 				}}
 			>
 				<VStack spacing={30} align="stretch">
-					<Spacer />
-					<Flex gap={5} direction={"row"}>
-						<Button bg={COLORS["gray"][700]} color={COLORS.white} flex="1" py="3">
-							Edit
-						</Button>
-						<Button bg={COLORS.Button.primary} color={COLORS.white} flex="1" py="3">
-							View Results
-						</Button>
+					<HeaderButtons setPage={setPage} />
+					<Flex w="100%" direction={"row"} gap={"0.3rem"}>
+						<Location showText={false} handleBlur={() => setAddressBlur(true)} />
+						<FilterButton onClick={showFilter} />
 					</Flex>
 				</VStack>
 			</Container>

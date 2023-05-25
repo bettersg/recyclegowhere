@@ -10,9 +10,10 @@ import { AddressOption } from "app-context/UserSelectionContext/types";
 
 interface LocationProps {
 	handleBlur: () => void;
+	showText: boolean;
 }
 
-export const Location = ({ handleBlur }: LocationProps) => {
+export const Location = ({ handleBlur, showText }: LocationProps) => {
 	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
 	const { address, setAddress } = useUserInputs();
 	const { value: addressValue } = address;
@@ -46,10 +47,12 @@ export const Location = ({ handleBlur }: LocationProps) => {
 	}, [addressValue]);
 
 	return (
-		<div>
-			<Text fontWeight={500} fontSize="md" mb="8px">
-				Where are you at?
-			</Text>
+		<div style={{ flex: 1 }}>
+			{showText && (
+				<Text fontWeight={500} fontSize="md" mb="8px">
+					Where are you at?
+				</Text>
+			)}
 			<AsyncSelect
 				value={addressValue ? address : undefined}
 				isSearchable
