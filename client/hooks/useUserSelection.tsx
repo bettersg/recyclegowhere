@@ -1,12 +1,13 @@
-import { SelectionActions } from "app-context/actions";
+import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
+import { SelectionActions } from "app-context/UserSelectionContext/actions";
+import { AddressOption, RecyclingLocationResults } from "app-context/UserSelectionContext/types";
 import { AppContext } from "app-context/index";
-import { AddressOption, TItemSelection } from "app-context/types";
 import { useContext } from "react";
 
 export const useUserInputs = () => {
 	const {
 		state: {
-			userSelection: { items, address },
+			userSelection: { items, address, recyclingLocationResults },
 		},
 		dispatch,
 	} = useContext(AppContext);
@@ -15,9 +16,20 @@ export const useUserInputs = () => {
 		dispatch(SelectionActions.setAddress(address));
 	};
 
-	const setUserSelection = (selection: TItemSelection[]) => {
+	const setUserSelection = (selection: (TItemSelection | TEmptyItem)[]) => {
 		dispatch(SelectionActions.setUserSelection(selection));
 	};
 
-	return { items, address, setAddress, setUserSelection };
+	const setRecyclingLocationResults = (results: RecyclingLocationResults) => {
+		dispatch(SelectionActions.setRecyclingLocationResults(results));
+	};
+
+	return {
+		items,
+		address,
+		recyclingLocationResults,
+		setAddress,
+		setUserSelection,
+		setRecyclingLocationResults,
+	};
 };

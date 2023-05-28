@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 			PageComponent = <HomePickupPage setPage={setPage} />;
 			break;
 		case Pages.INSTRUCTIONS:
-			PageComponent = <InstructionsPage />;
+			PageComponent = <InstructionsPage setPage={setPage} />;
 			break;
 		case Pages.MAP:
 			PageComponent = <MapPage />;

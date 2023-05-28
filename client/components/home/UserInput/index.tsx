@@ -22,7 +22,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 			setReadyToSubmit(false);
 			return;
 		}
-		if (validateSelections(items)) {
+		if (validateSelections(items) && address.value) {
 			setReadyToSubmit(true);
 		} else {
 			setReadyToSubmit(false);

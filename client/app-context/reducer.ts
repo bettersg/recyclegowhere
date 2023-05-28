@@ -1,10 +1,15 @@
 import { Reducer } from "react";
-import { Actions, AppContextActions, AppContextState } from "./types";
-import { transformCategory } from "./utils";
+import { AppContextActions, AppContextState } from "./types";
+import { transformCategory, transformFacility } from "./utils";
+import { SheetyActionsEnums } from "./SheetyContext/types";
+import { UserSelectionActionsEnums } from "./UserSelectionContext/types";
 
 export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (state, action) => {
 	switch (action.type) {
-		case Actions.SET_ITEMS_LIST:
+		// =====================================================================
+		// Sheety actions
+		// =====================================================================
+		case SheetyActionsEnums.SET_ITEMS_LIST:
 			return {
 				...state,
 				recyclableItems: {
@@ -12,17 +17,30 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 					data: action.payload,
 				},
 			};
-		case Actions.SET_METHODS_LIST:
+		case SheetyActionsEnums.SET_METHODS_LIST:
 			return {
 				...state,
-				methods: action.payload,
+				methods: action.payload.map((method) => method.name),
 			};
-		case Actions.SET_CATEGORIES_LIST:
+		case SheetyActionsEnums.SET_CATEGORIES_LIST:
 			return {
 				...state,
 				categories: action.payload.map((category) => transformCategory(category)),
 			};
-		case Actions.SET_USER_SELECTION:
+		case SheetyActionsEnums.SET_FACILITIES_LIST:
+			return {
+				...state,
+				facilities: action.payload.map((facility) => transformFacility(facility)),
+			};
+		case SheetyActionsEnums.SET_INSTRUCTIONS_LIST:
+			return {
+				...state,
+				instructions: action.payload,
+			};
+		// =================================================================
+		// User selection actions
+		// =================================================================
+		case UserSelectionActionsEnums.SET_USER_SELECTION:
 			return {
 				...state,
 				userSelection: {
@@ -30,12 +48,20 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 					items: action.payload,
 				},
 			};
-		case Actions.SET_ADDRESS:
+		case UserSelectionActionsEnums.SET_ADDRESS:
 			return {
 				...state,
 				userSelection: {
 					address: action.payload,
 					items: [...state.userSelection.items],
+				},
+			};
+		case UserSelectionActionsEnums.SET_RECYLING_LOCATION_RESULTS:
+			return {
+				...state,
+				userSelection: {
+					...state.userSelection,
+					recyclingLocationResults: action.payload,
 				},
 			};
 	}
