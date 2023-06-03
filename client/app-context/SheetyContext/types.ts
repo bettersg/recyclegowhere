@@ -5,6 +5,7 @@ import {
 	TSheetyFacilities,
 	TSheetyMethods,
 	TInstructions,
+	TSheetyPickupDetails,
 } from "api/sheety/types";
 
 // =============================================================================
@@ -19,6 +20,7 @@ export interface SheetyContextState {
 	methods: Methods[];
 	categories: TStateCategories[];
 	facilities: TStateFacilities[];
+	pickUpServices: TSheetyPickupDetails[];
 }
 export type TStateCategories = {
 	id: number;
@@ -61,6 +63,7 @@ export enum SheetyActionsEnums {
 	SET_CATEGORIES_LIST = "SET_CATEGORIES_LIST",
 	SET_FACILITIES_LIST = "SET_FACILITIES_LIST",
 	SET_INSTRUCTIONS_LIST = "SET_INSTRUCTIONS_LIST",
+	SET_PICKUP_LIST = "SET_PICKUP_LIST",
 }
 
 export type TInitializeItemsListAction = {
@@ -79,8 +82,11 @@ export type TInitializeFacilitiesAction = {
 	type: SheetyActionsEnums.SET_FACILITIES_LIST;
 	payload: TSheetyFacilities[];
 };
-
 export type TInitializeInstructionsAction = {
 	type: SheetyActionsEnums.SET_INSTRUCTIONS_LIST;
 	payload: TInstructions[];
 };
+export type TinitializePickupDetailsAction = {
+	type: SheetyActionsEnums.SET_PICKUP_LIST;
+	payload: TSheetyPickupDetails[];
+}

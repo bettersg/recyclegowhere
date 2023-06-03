@@ -1,26 +1,38 @@
 import { Text, Button, ButtonGroup, VStack, Heading } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/card";
+import { TSheetyPickupDetails } from "api/sheety/types";
 
-const OrgCard = () => {
+const OrgCard = ({
+	organisationName,
+	website,
+	categoriesAccepted,
+	time,
+	minimumWeightInKg,
+	pricingTermsInSgd,
+	contactMethod,
+	contactDetail,
+	lastUpdated
+}: TSheetyPickupDetails) => {
+//TODO: change categoriesAccepted to an enum Cateogry
 	return (
 		<Card p={5} boxShadow={"lg"} direction={{ base: "column" }} variant={"elevated"}>
 			<CardBody>
 				<VStack spacing={"3"} mt={"6"}>
 					<Heading size={"md"} as={"b"}>
-						<Text>Organisation Name</Text>
+						<Text>{organisationName}</Text>
 					</Heading>
 					<Text fontSize={"s"}>Please visit the website for more information.</Text>
 					<Text fontSize={"s"} as={"b"}>
 						You can donate:
 						<br />
 						<Text fontSize={"xs"}>
-							Clothing, Bags and Accessories, Books, Stationery, Drink Cans.
+							{categoriesAccepted}
 						</Text>
 					</Text>
 					<Text fontSize={"s"}>
-						<Text as={"b"}>Service Cost:</Text> $30
+						<Text as={"b"}>Service Cost: {pricingTermsInSgd}</Text>
 						<br />
-						<Text as={"b"}>Min. Pickup Quantity: </Text>40kg
+						<Text as={"b"}>Min. Pickup Quantity: {minimumWeightInKg}</Text>
 					</Text>
 					<ButtonGroup>
 						<Button colorScheme={"teal"} variant={"outline"}>

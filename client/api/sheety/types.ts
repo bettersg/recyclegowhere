@@ -45,3 +45,16 @@ export type TSheetyFacilities = {
 	type: string;
 	website: string;
 };
+
+export type TSheetyPickupDetails = {
+	"s/n": number;
+	organisationName: string;
+	website: string;
+	categoriesAccepted: string;
+	time: string;
+	minimumWeightInKg: string;
+	pricingTermsInSgd: string;
+	contactMethod: string;
+	contactDetail: string;
+	lastUpdated: string;
+}

@@ -5,16 +5,12 @@ import ButtonRow from "components/home/Pickup/button";
 import Carousel from "components/home/Pickup/carousel";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
-import { useUserInputs } from "hooks/useUserSelection";
 
-
-//select the item plox
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
 export const HomePickupPage = ({ setPage }: Props) => {
-	const {items: itemList} = useUserInputs();
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
@@ -29,7 +25,7 @@ export const HomePickupPage = ({ setPage }: Props) => {
 				<VStack align="stretch" my={23} spacing={4}>
 					<Carousel />
 					<ButtonRow setPage={setPage} />
-					<ItemTabs _itemList={itemList}/>
+					<ItemTabs />
 				</VStack>
 			</Container>
 		</BasePage>
