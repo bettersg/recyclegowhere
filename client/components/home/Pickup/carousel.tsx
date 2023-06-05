@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Stack, HStack, Image, Spacer } from "@chakra-ui/react";
+import { Box, Flex, Stack, HStack, Image } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { COLORS } from "theme";
 import { useBreakpointValue } from "@chakra-ui/react";

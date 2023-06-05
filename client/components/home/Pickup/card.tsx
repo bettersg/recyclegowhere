@@ -13,7 +13,6 @@ const OrgCard = ({
 	contactDetail,
 	lastUpdated
 }: TSheetyPickupDetails) => {
-//TODO: change categoriesAccepted to an enum Cateogry
 	return (
 		<Card p={5} boxShadow={"lg"} direction={{ base: "column" }} variant={"elevated"}>
 			<CardBody>
