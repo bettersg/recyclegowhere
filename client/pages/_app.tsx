@@ -1,6 +1,7 @@
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { AppContextProvider } from "app-context";
 import type { AppProps } from "next/app";
+import "leaflet/dist/leaflet.css";
 
 const theme = extendTheme({
 	colors: {

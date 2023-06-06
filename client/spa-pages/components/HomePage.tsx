@@ -1,4 +1,4 @@
-import { Container, VStack } from "@chakra-ui/react";
+import { Container, VStack, Button } from "@chakra-ui/react";
 import { StickyFooter } from "components/footer/StickyFooter";
 import { Banner, UserInput } from "components/home";
 import styles from "components/home/hideScrollbar.module.css";
@@ -49,6 +49,9 @@ export const HomePage = ({ setPage }: Props) => {
 								setReadyToSubmit={setReadyToSubmit}
 							/>
 						)}
+						<Button onClick={() => setPage(Pages.MAP)}>
+							Skip to map page cos API calls exceeded
+						</Button>
 					</VStack>
 				</Container>
 				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} setPage={setPage} />
