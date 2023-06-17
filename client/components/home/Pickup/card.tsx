@@ -1,6 +1,7 @@
 import { Text, Button, ButtonGroup, VStack, Heading } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/card";
 import { TSheetyPickupDetails } from "api/sheety/types";
+import NextLink from "next/link";
 
 const OrgCard = ({
 	organisationName,
@@ -34,9 +35,11 @@ const OrgCard = ({
 						<Text as={"b"}>Min. Pickup Quantity: {minimumWeightInKg}</Text>
 					</Text>
 					<ButtonGroup>
-						<Button colorScheme={"teal"} variant={"outline"}>
-							Website
-						</Button>
+						<NextLink href={website} passHref>
+							<Button colorScheme={"teal"} variant={"outline"} as={"a"}>
+								Website
+							</Button>
+						</NextLink>
 						<Button colorScheme={"teal"} variant={"solid"}>
 							Contact
 						</Button>

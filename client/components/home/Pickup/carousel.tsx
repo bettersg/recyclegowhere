@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import { COLORS } from "theme";
 import { useBreakpointValue } from "@chakra-ui/react";
 
+const SLIDES_INTERVAL_TIME = 20000;
+
 const PickupCarousel = () => {
 	const slides = [
 		{
@@ -22,24 +24,15 @@ const PickupCarousel = () => {
 	];
 	const [currentSlide, setCurrentSlide] = useState(0);
 	const slidesCount = slides.length;
-	const SLIDES_INTERVAL_TIME = 20000;
-	const ANIMATION_DIRECTION = "right";
 	const carouselStyle = {
 		transition: "all .5s",
 		ml: `-${currentSlide * 100}%`,
 	};
 	useEffect(() => {
-		const prevSlide = () => {
-			setCurrentSlide((s) => (s === 0 ? slidesCount - 1 : s - 1));
-		};
-
 		const nextSlide = () => {
 			setCurrentSlide((s) => (s === slidesCount - 1 ? 0 : s + 1));
 		};
-
-		const automatedSlide = setInterval(() => {
-			ANIMATION_DIRECTION.toLowerCase() === "left" ? prevSlide() : nextSlide();
-		}, SLIDES_INTERVAL_TIME);
+		const automatedSlide = setInterval(nextSlide, SLIDES_INTERVAL_TIME);
 		return () => clearInterval(automatedSlide);
 	}, [slidesCount]);
 
