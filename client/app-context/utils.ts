@@ -1,5 +1,5 @@
 import { Categories, Methods } from "api/sheety/enums";
-import { TSheetyCategories, TSheetyFacilities } from "api/sheety/types";
+import { TSheetyCategories, TSheetyFacilities, TSheetyPickupDetails } from "api/sheety/types";
 import { TStateCategories, TStateFacilities } from "./SheetyContext/types";
 
 export const transformCategory = ({
@@ -51,3 +51,4 @@ export const transformFacility = (facility: TSheetyFacilities): TStateFacilities
 		otherFormsOfContact: facility["otherFormsOfContact (string)"],
 	};
 };
+

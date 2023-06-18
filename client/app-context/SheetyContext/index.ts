@@ -9,4 +9,5 @@ export const initialSheetyState: SheetyContextState = {
 	methods: [],
 	categories: [],
 	facilities: [],
+	pickUpServices: [],
 };

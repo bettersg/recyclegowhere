@@ -12,7 +12,7 @@ const Home: NextPage = () => {
 			PageComponent = <HomePage setPage={setPage} />;
 			break;
 		case Pages.HOMEPICKUP:
-			PageComponent = <HomePickupPage />;
+			PageComponent = <HomePickupPage setPage={setPage} />;
 			break;
 		case Pages.INSTRUCTIONS:
 			PageComponent = <InstructionsPage setPage={setPage} />;

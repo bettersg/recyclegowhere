@@ -10,6 +10,7 @@ export const useSheetyData = () => {
 			categories,
 			instructions,
 			facilities,
+			pickUpServices,
 		},
 	} = useContext(AppContext);
 
@@ -23,6 +24,7 @@ export const useSheetyData = () => {
 		categories,
 		instructions,
 		facilities,
+		pickUpServices,
 		getItemCategory,
 	};
 };
