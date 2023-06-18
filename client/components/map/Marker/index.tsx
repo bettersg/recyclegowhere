@@ -8,11 +8,15 @@ export const CustomMarker: React.FC<{
 	position: CustomMarkerProps["position"];
 	icon: CustomMarkerProps["icon"];
 	color: CustomMarkerProps["color"];
-}> = ({ position, icon, color }: CustomMarkerProps) => {
+	handleOnClick: () => void;
+}> = ({ position, icon, color, handleOnClick }) => {
 	const { map } = useMapContext();
 	const { divIcon } = useLeafletDivIcon();
 
-	const handleMarkerClick = () => map?.panTo(position);
+	const handleMarkerClick = () => {
+		map?.panTo(position);
+		handleOnClick();
+	};
 
 	return (
 		<Marker

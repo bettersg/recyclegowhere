@@ -4,7 +4,7 @@ import { HomePage, HomePickupPage, InstructionsPage, MapPage } from "spa-pages";
 import { Pages } from "spa-pages/pageEnums";
 
 const Home: NextPage = () => {
-	const [page, setPage] = useState<Pages>(Pages.MAP);
+	const [page, setPage] = useState<Pages>(Pages.HOME);
 
 	let PageComponent: JSX.Element;
 	switch (page) {

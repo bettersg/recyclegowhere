@@ -12,7 +12,7 @@ export type AddressOption = {
 	label: string;
 	coordinates: Coordinates;
 };
-export type TResult = { facilities: { id: number; distance: number }[] };
+export type TResult = { facilities: { id: number; distance: number; latlng: Array<number> }[] };
 
 export type RecyclingLocationResults = {
 	results: Record<string, TResult>;

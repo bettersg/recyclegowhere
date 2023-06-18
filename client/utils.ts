@@ -55,6 +55,7 @@ export const getNearbyFacilities = (
 			facilities: relevantFacilities.map((facility) => ({
 				id: facility.id,
 				distance: distances.get(facility.id) as number,
+				latlng: [facility.latitude, facility.longitude],
 			})),
 		};
 	}

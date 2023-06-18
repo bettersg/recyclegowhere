@@ -49,9 +49,6 @@ export const HomePage = ({ setPage }: Props) => {
 								setReadyToSubmit={setReadyToSubmit}
 							/>
 						)}
-						<Button onClick={() => setPage(Pages.MAP)}>
-							Skip to map page cos API calls exceeded
-						</Button>
 					</VStack>
 				</Container>
 				<StickyFooter ref={stickyRef} disabled={!readyToSubmit} setPage={setPage} />
