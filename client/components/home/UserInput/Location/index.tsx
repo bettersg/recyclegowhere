@@ -7,7 +7,6 @@ import AsyncSelect from "react-select/async";
 import { COLORS } from "theme";
 import { IndicatorsContainer, NoOptionsMessage } from "./custom-components";
 import { AddressOption } from "app-context/UserSelectionContext/types";
-
 interface LocationProps {
 	handleBlur: () => void;
 	showText: boolean;
@@ -70,6 +69,10 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 					control: (base) => ({
 						...base,
 						borderColor: showEmptyWarning ? COLORS.Select.error : COLORS.gray[200],
+					}),
+					menu: (base) => ({
+						...base,
+						zIndex: 9999,
 					}),
 					placeholder: (base) => ({
 						...base,

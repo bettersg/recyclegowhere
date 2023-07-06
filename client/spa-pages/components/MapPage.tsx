@@ -1,14 +1,23 @@
+// General Imports
 import { BasePage } from "layouts/BasePage";
-import { Container, Flex, VStack, IconButton, Box, Button, Image, Text } from "@chakra-ui/react";
-import { HeaderButtons } from "components/map";
-import { Dispatch, SetStateAction, useState, MouseEventHandler } from "react";
+import { Container, Flex, VStack, Box } from "@chakra-ui/react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
-import { Location } from "components/home/UserInput/Location";
-import { COLORS } from "theme";
-import { HamburgerIcon } from "@chakra-ui/icons";
-import MapIcon from "components/map/Marker/MapIcon";
 import { useUserInputs } from "hooks/useUserSelection";
-import { ChevronLeftIcon } from "@chakra-ui/icons";
+import { useBreakpointValue } from "@chakra-ui/react";
+import { TStateFacilities } from "app-context/SheetyContext/types";
+import { useSheetyData } from "hooks/useSheetyData";
+import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
+import { TItemSelection } from "app-context/SheetyContext/types";
+// Component Imports
+import { Location } from "components/home/UserInput/Location";
+import MapIcon from "components/map/Marker/MapIcon";
+import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
+import PullUpTab from "components/map/PullUpTab";
+import { HeaderButtons } from "components/map";
+import FacilityCard from "components/map/FacilityCard";
+import { FilterButton } from "components/map/NearbyFacilitiesPanel";
+
 // Leaflet Imports
 import dynamic from "next/dynamic";
 import { LatLngExpression } from "leaflet";
@@ -17,9 +26,6 @@ import useLeafletWindow from "../../hooks/useLeafletWindow";
 import { useResizeDetector } from "react-resize-detector";
 import MapContextProvider from "components/map/MapContextProvider";
 // Reference page: https://github.com/richard-unterberg/next-leaflet-starter-typescript/blob/master/src/components/Map/ui/LocateButton.tsx
-import { useBreakpointValue } from "@chakra-ui/react";
-import { TStateFacilities } from "app-context/SheetyContext/types";
-import { useSheetyData } from "hooks/useSheetyData";
 
 // Next.js requires dynamic imports for Leaflet.js compatibility
 const LeafletMap = dynamic(
@@ -47,26 +53,8 @@ type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
-interface ButtonProps {
-	onClick: MouseEventHandler<HTMLButtonElement>;
-}
-
-// Button Design for the filter button
-const FilterButton = ({ onClick }: ButtonProps) => {
-	return (
-		<IconButton
-			variant="solid"
-			color={COLORS.gray[700]}
-			background={COLORS.gray[100]}
-			aria-label="add line"
-			icon={<HamburgerIcon />}
-			onClick={onClick}
-		/>
-	);
-};
-
 const MapInner = ({ setPage }: Props) => {
-	const [addressBlur, setAddressBlur] = useState(false);
+	// const [addressBlur, setAddressBlur] = useState(false);
 	const [filterShow, setFilterShow] = useState(false);
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [facCardIsOpen, setFacCardIsOpen] = useState(false);
@@ -88,12 +76,15 @@ const MapInner = ({ setPage }: Props) => {
 		type: "",
 		website: "",
 	});
-	const { getFacility } = useSheetyData();
-	// const [isTouched, setIsTouched] = useState(false);
+	const { getFacility, facilities, getItemCategory } = useSheetyData();
 	const { map } = useMapContext();
 	const leafletWindow = useLeafletWindow();
-	const { recyclingLocationResults, address } = useUserInputs();
-	const locations = recyclingLocationResults?.results;
+	const { recyclingLocationResults, address, items, setRecyclingLocationResults } =
+		useUserInputs();
+	const [locations, setLocations] = useState(recyclingLocationResults?.results);
+	const [nearbyLocations, setNearbyLocations] = useState(
+		getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory, 1),
+	);
 	const isLoading = !map || !leafletWindow;
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
@@ -109,7 +100,7 @@ const MapInner = ({ setPage }: Props) => {
 					parseFloat(address.coordinates.long),
 			  ] as LatLngExpression)
 			: ([1.376690088473865, 103.7993060574394] as LatLngExpression);
-	const zoom = 50;
+	const zoom = 15;
 	const {
 		width: viewportWidth,
 		height: viewportHeight,
@@ -118,10 +109,6 @@ const MapInner = ({ setPage }: Props) => {
 		refreshMode: "debounce",
 		refreshRate: 200,
 	});
-
-	const showFilter = () => {
-		setFilterShow(true);
-	};
 
 	// const handleClick = useCallback(() => {
 	// 	if (!isTouched || !map) return;
@@ -137,10 +124,55 @@ const MapInner = ({ setPage }: Props) => {
 		distance: number;
 		latlng: Array<number>;
 	}) => {
-		facility.id === facCardDetails.id
-			? setFacCardIsOpen(!facCardIsOpen)
-			: setFacCardIsOpen(true);
-		setFacCardDetails(getFacility(facility.id));
+		const { cardIsOpen, cardDetails } = getMatchingFacility(facility);
+		setFacCardIsOpen(cardIsOpen);
+		setFacCardDetails(cardDetails);
+	};
+
+	const getMatchingFacility = (facility: {
+		id: number;
+		distance: number;
+		latlng: Array<number>;
+	}) => {
+		let cardIsOpen = true;
+		let cardDetails = facCardDetails;
+		if (facility.id === facCardDetails.id) {
+			cardIsOpen = !facCardIsOpen;
+		} else {
+			cardDetails = getFacility(facility.id);
+		}
+
+		return { cardIsOpen: cardIsOpen, cardDetails: cardDetails };
+	};
+
+	const useForceUpdate = () => {
+		const [, setState] = useState(0);
+		const forceUpdate = () => setState((prevState) => prevState + 1);
+		return forceUpdate;
+	};
+	const forceUpdate = useForceUpdate();
+
+	const handleChangedLocation = () => {
+		const locations = getNearbyFacilities(
+			items as TItemSelection[],
+			address,
+			facilities,
+			getItemCategory,
+			MAX_DISTANCE_KM,
+		);
+		const locationsWithin1km = getNearbyFacilities(
+			items as TItemSelection[],
+			address,
+			facilities,
+			getItemCategory,
+			1,
+		);
+		setRecyclingLocationResults(locations);
+		setNearbyLocations(locationsWithin1km);
+
+		locations ? setLocations(locations.results) : setLocations(undefined);
+		forceUpdate();
+		map?.panTo(centerPos);
 	};
 
 	return (
@@ -152,45 +184,43 @@ const MapInner = ({ setPage }: Props) => {
 				}}
 				ref={viewportRef}
 			>
-				<VStack spacing={30} align="stretch">
+				<VStack spacing={5} align="stretch">
+					{/* Header Buttons */}
 					<HeaderButtons setPage={setPage} />
 					<Flex w="100%" direction={"row"} gap={"0.3rem"}>
-						<Location showText={false} handleBlur={() => setAddressBlur(true)} />
-						<FilterButton onClick={showFilter} />
+						<Location showText={false} handleBlur={handleChangedLocation} />
+						<FilterButton onClick={() => setFilterShow(true)} />
 					</Flex>
+
+					{/* Map Display */}
 					<Box overflow="hidden" width="100%" height={isMobile ? "70vh" : "80vh"}>
 						<Box
 							left={0}
 							transition="opacity 0.3s"
 							opacity={isLoading ? 0 : 1}
 							top={80}
+							// This was in the reference code
 							width={viewportWidth ?? "100%"}
 							height={viewportHeight ? viewportHeight - 80 : "100%"}
 						>
 							<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
+								{/* The color is the background color of the cluster */}
 								<Cluster icon={MapIcon} color={"#81C784"} chunkedLoading>
 									{locations &&
-										Object.entries(locations).map(([clothingType, result]) =>
-											result.facilities.map(
-												(facility: {
-													id: number;
-													distance: number;
-													latlng: Array<number>;
-												}) => (
-													<CustomMarker
-														key={facility.id}
-														position={
-															facility.latlng as LatLngExpression
-														}
-														icon={MapIcon}
-														color={"#81C784"}
-														handleOnClick={() =>
-															handleMarkerOnClick(facility)
-														}
-													/>
-												),
-											),
-										)}
+										// ClothingType will be used to show relevant icon
+										Object.entries(locations).map(([clothingType, result]) => {
+											return result.facilities.map((facility) => (
+												<CustomMarker
+													key={facility.id}
+													position={facility.latlng as LatLngExpression}
+													icon={MapIcon}
+													color={"#81C784"}
+													handleOnClick={() =>
+														handleMarkerOnClick(facility)
+													}
+												/>
+											));
+										})}
 									{/* Center Marker */}
 								</Cluster>
 								<CustomMarker
@@ -202,116 +232,41 @@ const MapInner = ({ setPage }: Props) => {
 							</LeafletMap>
 						</Box>
 					</Box>
-					{facCardIsOpen && !isMobile && (
-						<Flex
-							position={"fixed"}
-							height="150px"
-							width={"50%"}
-							left={"25%"}
-							bg="white"
-							marginLeft={"20%"}
-							zIndex={99999}
-							bottom={"80px"}
-							rounded="xl"
-							flexDir={"row"}
-						>
-							<Image height={"100%"} width={"50%"} left={0} />
-							<Flex flexDir={"column"} gap={3} padding={2}>
-								<Text fontSize={"sm"} as={"b"}>
-									{facCardDetails.channelName}
-								</Text>
-								<Text fontSize={"xs"}>
-									<b>Address:</b> {facCardDetails.address}
-								</Text>
-								<Text fontSize={"xs"}>
-									<b>Categories Accepted: </b>
-									{facCardDetails.categoriesAccepted.map(
-										(category) => category + ", ",
-									)}
-								</Text>
-							</Flex>
-						</Flex>
-					)}
+
+					{/* Facility Card */}
+					{facCardIsOpen &&
+						(isMobile ? (
+							<FacilityCard
+								facCardDetails={facCardDetails}
+								width={"86%"}
+								left={"7%"}
+							/>
+						) : (
+							<FacilityCard
+								facCardDetails={facCardDetails}
+								width={"50%"}
+								left={"25%"}
+							/>
+						))}
 				</VStack>
 			</Container>
-			<Box
-				as="footer"
-				w="100%"
-				bg="white"
-				py={4}
-				position="fixed"
-				bottom={isExpanded ? (isMobile ? "93.5vh" : "91.5vh") : 0}
-				transition="bottom 0.1s"
-				zIndex={9999}
-				onClick={handleStickyFooter}
-				height="57px"
-			>
-				<Box textAlign="center" position="relative" cursor="pointer">
-					<Box
-						position="absolute"
-						top="-10px"
-						left="50%"
-						transform="translateX(-50%)"
-						w="30px"
-						h="2px"
-						bg="black"
-						borderTopRadius="xl"
-					/>
-					<Box>
-						<p>x nearby.</p>
-					</Box>
-				</Box>
-			</Box>
+
+			{/* Pull up tab */}
+			<PullUpTab
+				isExpanded={isExpanded}
+				isMobile={isMobile}
+				handleStickyFooter={handleStickyFooter}
+				numberOfNearby={nearbyLocations.facilitiesList.length}
+			/>
+			{/* Panel upon pulling up */}
 			{isExpanded && (
-				<Box
-					position={"fixed"}
-					height="calc(100vh - 53px)"
-					width={"100vw"}
-					bg="white"
-					zIndex={99999}
-					bottom={0}
-				>
-					<Flex p={7}>
-						<Flex flexDir={"row"} w={"100%"} gap={3}>
-							<Button
-								bg={COLORS.Button.primary}
-								color={COLORS.white}
-								leftIcon={<ChevronLeftIcon />}
-							>
-								Restart!
-							</Button>
-							<Location showText={false} handleBlur={() => setAddressBlur(true)} />
-							<FilterButton onClick={showFilter} />
-						</Flex>
-					</Flex>
-				</Box>
-			)}
-			{facCardIsOpen && isMobile && (
-				<Flex
-					position={"fixed"}
-					height="150px"
-					width={"86vw"}
-					marginInline={"7vw"}
-					bg="white"
-					zIndex={99999}
-					bottom={"80px"}
-					rounded="xl"
-					flexDir={"row"}
-				>
-					<Image height={"100%"} width={"50%"} left={0} />
-					<Flex flexDir={"column"} gap={3} padding={2}>
-						<Text fontSize={"sm"} as={"b"}>
-							{facCardDetails.channelName}
-						</Text>
-						<Text fontSize={"xs"}>
-							<b>Address:</b> {facCardDetails.address}
-						</Text>
-						<Text fontSize={"xs"}>
-							<b>Categories Accepted: </b>
-							{facCardDetails.categoriesAccepted.map((category) => category + ", ")}
-						</Text>
-					</Flex>
-				</Flex>
+				<NearbyFacilitiesPanel
+					setPage={setPage}
+					handleChangedLocation={handleChangedLocation}
+					showFilter={() => setFilterShow(true)}
+					nearbyLocations={nearbyLocations}
+					getMatchingFacility={getMatchingFacility}
+				/>
 			)}
 		</BasePage>
 	);
