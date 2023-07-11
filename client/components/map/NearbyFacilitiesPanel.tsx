@@ -3,7 +3,8 @@ import { COLORS } from "theme";
 import { Pages } from "spa-pages/pageEnums";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { Location } from "components/home/UserInput/Location";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { HamburgerIcon, Search2Icon, CloseIcon } from "@chakra-ui/icons";
+
 import { IconButton } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, MouseEventHandler } from "react";
 import { RecyclingLocationResults } from "app-context/UserSelectionContext/types";
@@ -26,6 +27,30 @@ export const FilterButton = ({ onClick }: ButtonProps) => {
 		/>
 	);
 };
+export const SearchButton = ({ onClick }: ButtonProps) => {
+	return (
+		<IconButton
+			variant="solid"
+			color={COLORS.gray[700]}
+			background={COLORS.gray[100]}
+			aria-label="add line"
+			icon={<Search2Icon />}
+			onClick={onClick}
+		/>
+	);
+};
+export const XButton = ({ onClick }: ButtonProps) => {
+	return (
+		<IconButton
+			variant="solid"
+			color={COLORS.gray[700]}
+			background={COLORS.gray[100]}
+			aria-label="add line"
+			icon={<CloseIcon />}
+			onClick={onClick}
+		/>
+	);
+};
 type NearbyFacilitiesType = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 	handleChangedLocation: () => void;
@@ -34,6 +59,7 @@ type NearbyFacilitiesType = {
 	getMatchingFacility: (facility: { id: number; distance: number; latlng: Array<number> }) => {
 		cardDetails: TStateFacilities;
 	};
+	isMobile: boolean | undefined;
 };
 
 const NearbyFacilitiesPanel = ({
@@ -42,11 +68,12 @@ const NearbyFacilitiesPanel = ({
 	showFilter,
 	nearbyLocations,
 	getMatchingFacility,
+	isMobile,
 }: NearbyFacilitiesType) => {
 	return (
 		<Box
 			position={"fixed"}
-			height="calc(100vh - 53px)"
+			height={isMobile ? "calc(92vh - 53px)" : "calc(90vh - 53px)"}
 			width={"100vw"}
 			bg="white"
 			zIndex={1000}
