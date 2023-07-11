@@ -10,13 +10,15 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import Select from "react-select";
-import { ActionMeta } from "react-select";
+import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
 import { ChangeEvent } from "react";
 
 // Component Imports
 import { Location } from "components/home/UserInput/Location";
-import MapIcon from "components/map/Marker/MapIcon";
+import UserIcon from "components/map/Marker/UserIcon";
+import GeneralIcon from "components/map/Marker/GeneralIcon";
+import ClusterIcon from "components/map/Marker/ClusterIcon";
 import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
 import PullUpTab from "components/map/PullUpTab";
 import { HeaderButtons } from "components/map";
@@ -78,6 +80,7 @@ const MapInner = ({ setPage }: Props) => {
 		setRecyclingLocationResults,
 		setUserSelection,
 	} = useUserInputs();
+	console.log(recyclingLocationResults);
 
 	// States
 	const [filterShow, setFilterShow] = useState(false);
@@ -109,6 +112,7 @@ const MapInner = ({ setPage }: Props) => {
 		type: "",
 		website: "",
 	});
+	const [facCardDistance, setFacCardDistance] = useState(0);
 	const [locations, setLocations] = useState(recyclingLocationResults?.results);
 	const [nearbyLocations, setNearbyLocations] = useState(
 		getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory, 1),
@@ -167,9 +171,10 @@ const MapInner = ({ setPage }: Props) => {
 		distance: number;
 		latlng: Array<number>;
 	}) => {
-		const { cardIsOpen, cardDetails } = getMatchingFacility(facility);
+		const { cardIsOpen, cardDetails, distance } = getMatchingFacility(facility);
 		setFacCardIsOpen(cardIsOpen);
 		setFacCardDetails(cardDetails);
+		setFacCardDistance(distance);
 	};
 
 	const getMatchingFacility = (facility: {
@@ -185,7 +190,7 @@ const MapInner = ({ setPage }: Props) => {
 			cardDetails = getFacility(facility.id);
 		}
 
-		return { cardIsOpen: cardIsOpen, cardDetails: cardDetails };
+		return { cardIsOpen: cardIsOpen, cardDetails: cardDetails, distance: facility.distance };
 	};
 
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
@@ -218,11 +223,13 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 	};
 
+	// const handleUserInputChange =
+
 	const handleMultiselectOnChange = (
-		option: OptionType[],
+		newValue: MultiValue<OptionType>,
 		actionMeta: ActionMeta<OptionType>,
 	) => {
-		setSelectedOptions(selectedOptions);
+		// setSelectedOptions(selectedOptions);
 		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
 		let updatedOptions: OptionType[] = selectedOptions;
 		if (actionMeta.action === "select-option") {
@@ -233,6 +240,7 @@ const MapInner = ({ setPage }: Props) => {
 			itemState.push(newItem);
 			updatedItemState = [...itemState];
 			updatedOptions.push(actionMeta.option as OptionType);
+			console.log(updatedOptions);
 		} else if (actionMeta.action === "remove-value") {
 			const removedValue = actionMeta.removedValue;
 			updatedItemState = itemState.filter((item) => {
@@ -241,6 +249,7 @@ const MapInner = ({ setPage }: Props) => {
 			updatedOptions = selectedOptions.filter(
 				(option) => option.value !== removedValue.label,
 			);
+			console.log(updatedOptions);
 		}
 		setSelectedOptions(updatedOptions);
 		handleChangedLocation(updatedItemState);
@@ -320,7 +329,7 @@ const MapInner = ({ setPage }: Props) => {
 							showText={false}
 							handleBlur={() => handleChangedLocation(itemState)}
 						/>
-						<SearchButton onClick={() => setFilterShow(false)} />
+						{/* <SearchButton onClick={() => setFilterShow(false)} /> */}
 						<FilterButton onClick={() => setFilterShow(true)} />
 					</Flex>
 					<Select
@@ -349,7 +358,7 @@ const MapInner = ({ setPage }: Props) => {
 						>
 							<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
 								{/* The color is the background color of the cluster */}
-								<Cluster icon={MapIcon} color={"#81C784"} chunkedLoading>
+								<Cluster icon={ClusterIcon} color={"#81C784"} chunkedLoading>
 									{locations &&
 										// ClothingType will be used to show relevant icon
 										Object.entries(locations).map(([clothingType, result]) => {
@@ -357,8 +366,8 @@ const MapInner = ({ setPage }: Props) => {
 												<CustomMarker
 													key={facility.id}
 													position={facility.latlng as LatLngExpression}
-													icon={MapIcon}
-													color={"#81C784"}
+													icon={GeneralIcon}
+													color={"#FFFFFF"}
 													handleOnClick={() =>
 														handleMarkerOnClick(facility)
 													}
@@ -369,7 +378,7 @@ const MapInner = ({ setPage }: Props) => {
 								</Cluster>
 								<CustomMarker
 									position={centerPos}
-									icon={MapIcon}
+									icon={UserIcon}
 									color={"#FF0000"}
 									handleOnClick={() => setFacCardIsOpen(false)}
 								/>
@@ -382,12 +391,14 @@ const MapInner = ({ setPage }: Props) => {
 						(isMobile ? (
 							<FacilityCard
 								facCardDetails={facCardDetails}
+								facCardDistance={facCardDistance}
 								width={"86%"}
 								left={"7%"}
 							/>
 						) : (
 							<FacilityCard
 								facCardDetails={facCardDetails}
+								facCardDistance={facCardDistance}
 								width={"50%"}
 								left={"25%"}
 							/>

@@ -47,14 +47,14 @@ const FilterPanel = ({
 			height={isMobile ? "calc(92vh)" : "calc(90vh)"}
 			width={"100vw"}
 			bg="white"
-			zIndex={1000}
+			zIndex={99999}
 			bottom={0}
 			overflowY={"scroll"}
 			overflowX={"hidden"}
 		>
 			<VStack p={7} w={"100vw"} gap={5}>
 				<HStack w="100%" justify="space-between">
-					<XButton onClick={() => setFilterShow(false)} />
+					<XButton onClick={setFilterShow} />
 					<Spacer />
 					<Button
 						color={COLORS.white}
@@ -111,7 +111,7 @@ const FilterPanel = ({
 						</Stack>
 					</CheckboxGroup>
 				</VStack>
-				<VStack align="flex-start" w="100%">
+				{/* <VStack align="flex-start" w="100%">
 					<Text textAlign={"left"} fontWeight={"bold"}>
 						Types of Recycling Points
 					</Text>
@@ -122,7 +122,7 @@ const FilterPanel = ({
 							<Checkbox value="kakashi">Test</Checkbox>
 						</Stack>
 					</CheckboxGroup>
-				</VStack>
+				</VStack> */}
 			</VStack>
 		</Box>
 	);

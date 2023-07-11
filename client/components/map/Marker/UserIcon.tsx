@@ -2,7 +2,7 @@ import { Icon } from "@chakra-ui/react";
 import { IconProps } from "@chakra-ui/icons";
 
 // Map Icon (placeholder for testing)
-const MapIcon = (props: IconProps) => (
+const UserIcon = (props: IconProps) => (
 	<Icon viewBox="0 0 200 200" {...props}>
 		<path
 			d="M25 64.8903C8.33182 48.8834 0 37.6184 0 26.414C0 19.4086 2.63392 12.6901 7.32233 7.7365C12.0107 2.7829 18.3696 0 25 0C31.6304 0 37.9893 2.7829 42.6777 7.7365C47.3661 12.6901 50 19.4086 50 26.414C50 37.6184 41.6682 48.8834 25 64.8903Z"
@@ -17,4 +17,4 @@ const MapIcon = (props: IconProps) => (
 	</Icon>
 );
 
-export default MapIcon;
+export default UserIcon;

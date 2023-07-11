@@ -17,43 +17,45 @@ const MarkerIconWrapper = ({ icon, color, label }: Partial<CustomMarkerProps>) =
 	const IconFC = useMemo(() => icon ?? null, [icon]);
 
 	return (
-		<Box position={"relative"} padding={0} margin={0} className=" inline-flex ">
+		<Box position={"relative"} padding={0} margin={0} className="inline-flex ">
 			{label && (
 				<Box
 					position={"absolute"}
 					rounded={"full"}
 					className="-inset-2 opacity-40"
-					style={{ backgroundColor: "#000000" }}
+					style={{ background: "rgba(0,0,0,0)" }}
 				/>
 			)}
 			<Box
 				padding={2}
 				rounded={"full"}
-				backgroundColor={"81C784"}
 				position={"relative"}
 				className="inline-block"
-				style={{ backgroundColor: color }}
+				style={{ background: "rgba(0,0,0,0)" }}
 			>
-				{IconFC && <IconFC viewBox="-5 0 60 75" boxSize={20} />}
+				{IconFC &&
+					(label ? (
+						<IconFC className="cluster-marker-size" viewBox="0 0 60 80" />
+					) : (
+						<IconFC className="marker-size" viewBox="0 0 50 70" />
+					))}
 				{label && (
 					<Box
 						// flex flex-col bg-error
-						position={"absolute"}
+						position={"relative"}
 						top={2}
 						// right={-2}
 						border={-2}
 						borderColor={"white"}
 						rounded={"full"}
 						height={8}
-						width={8}
+						width={20}
 						alignItems={"center"}
 						justifyContent={"end"}
 						paddingTop={1}
 						backgroundColor={color}
 					>
-						<Text fontSize={"xs"} textAlign={"end"} textColor={"white"}>
-							{label}
-						</Text>
+						<Text className="marker-text">{label}</Text>
 					</Box>
 				)}
 			</Box>
