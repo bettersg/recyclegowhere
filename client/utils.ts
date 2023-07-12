@@ -52,7 +52,7 @@ export const getNearbyFacilities = (
 			return distA - distB;
 		});
 
-		res[name] = {
+		res[cat] = {
 			facilities: relevantFacilities.map((facility) => ({
 				id: facility.id,
 				distance: distances.get(facility.id) as number,

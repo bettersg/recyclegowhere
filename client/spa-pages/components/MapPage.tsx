@@ -13,19 +13,19 @@ import Select from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
 import { ChangeEvent } from "react";
-
+import { createElement } from "react";
 // Component Imports
 import { Location } from "components/home/UserInput/Location";
-import UserIcon from "components/map/Marker/UserIcon";
-import GeneralIcon from "components/map/Marker/GeneralIcon";
-import ClusterIcon from "components/map/Marker/ClusterIcon";
+import UserIcon from "components/map/Marker/icons/UserIcon";
+import GeneralIcon from "components/map/Marker/icons/GeneralIcon";
+import ClusterIcon from "components/map/Marker/icons/ClusterIcon";
 import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
 import PullUpTab from "components/map/PullUpTab";
 import { HeaderButtons } from "components/map";
 import FacilityCard from "components/map/FacilityCard";
 import { FilterButton } from "components/map/NearbyFacilitiesPanel";
 import FilterPanel from "components/map/FilterPanel";
-
+import { lazy } from "react";
 // Leaflet Imports
 import dynamic from "next/dynamic";
 import { LatLngExpression } from "leaflet";
@@ -35,7 +35,8 @@ import { useResizeDetector } from "react-resize-detector";
 import MapContextProvider from "components/map/MapContextProvider";
 import { SearchButton } from "components/map/NearbyFacilitiesPanel";
 // Reference page: https://github.com/richard-unterberg/next-leaflet-starter-typescript/blob/master/src/components/Map/ui/LocateButton.tsx
-
+import { IconProps } from "@chakra-ui/icons";
+import BABY_CHILDREN_ITEMS from "components/map/Marker/icons/BABY_CHILDREN_ITEMS";
 // Next.js requires dynamic imports for Leaflet.js compatibility
 const LeafletMap = dynamic(
 	async () => (await import("../../components/map/LeafletMap")).LeafletMap,
@@ -355,24 +356,30 @@ const MapInner = ({ setPage }: Props) => {
 							// This was in the reference code
 							width={viewportWidth ?? "100%"}
 							height={viewportHeight ? viewportHeight - 80 : "100%"}
+							onClick={() => setFacCardIsOpen(false)}
 						>
 							<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
 								{/* The color is the background color of the cluster */}
 								<Cluster icon={ClusterIcon} color={"#81C784"} chunkedLoading>
 									{locations &&
 										// ClothingType will be used to show relevant icon
-										Object.entries(locations).map(([clothingType, result]) => {
-											return result.facilities.map((facility) => (
-												<CustomMarker
-													key={facility.id}
-													position={facility.latlng as LatLngExpression}
-													icon={GeneralIcon}
-													color={"#FFFFFF"}
-													handleOnClick={() =>
-														handleMarkerOnClick(facility)
-													}
-												/>
-											));
+										Object.entries(locations).map(([category, result]) => {
+											return result.facilities.map((facility) => {
+												return (
+													<CustomMarker
+														key={facility.id}
+														position={
+															facility.latlng as LatLngExpression
+														}
+														icon={GeneralIcon}
+														color={"#FFFFFF"}
+														handleOnClick={() =>
+															handleMarkerOnClick(facility)
+														}
+														category={category}
+													/>
+												);
+											});
 										})}
 									{/* Center Marker */}
 								</Cluster>

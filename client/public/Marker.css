@@ -6,8 +6,8 @@
 .marker-text {
 	font-size: 9px !important;
 	position: absolute !important;
-	left: 25.5px !important;
-	bottom: -1.5px !important;
+	left: 30.5px !important;
+	bottom: -3.5px !important;
 	color: white !important;
 }
 
@@ -17,6 +17,14 @@
 }
 
 .cluster-marker-size {
-	width: 35px !important;
-	height: 35px !important;
+	width: 42px !important;
+	height: 42px !important;
+}
+
+.marker-image {
+	width: 13px !important;
+	height: 13px !important;
+	position: absolute !important;
+	left: 13px !important;
+	top: 5px !important;
 }

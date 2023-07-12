@@ -53,7 +53,7 @@ const CreateMarkerClusterGroup = (
 					/>
 				),
 				// The offset of the marker from the original lat/long??
-				anchor: [18, 18],
+				anchor: [17, 18],
 			}),
 		...props,
 	});

@@ -3,7 +3,7 @@
 // If not clustered, "label" is not passed in as an argument
 import { LatLngExpression } from "leaflet";
 import { useMemo } from "react";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, Image } from "@chakra-ui/react";
 import { IconProps } from "@chakra-ui/icons";
 
 export interface CustomMarkerProps {
@@ -11,9 +11,10 @@ export interface CustomMarkerProps {
 	icon?: (props: IconProps) => JSX.Element;
 	color: string;
 	label?: string;
+	category: string;
 }
 
-const MarkerIconWrapper = ({ icon, color, label }: Partial<CustomMarkerProps>) => {
+const MarkerIconWrapper = ({ icon, color, label, category }: Partial<CustomMarkerProps>) => {
 	const IconFC = useMemo(() => icon ?? null, [icon]);
 
 	return (
@@ -26,6 +27,7 @@ const MarkerIconWrapper = ({ icon, color, label }: Partial<CustomMarkerProps>) =
 					style={{ background: "rgba(0,0,0,0)" }}
 				/>
 			)}
+
 			<Box
 				padding={2}
 				rounded={"full"}
@@ -35,7 +37,7 @@ const MarkerIconWrapper = ({ icon, color, label }: Partial<CustomMarkerProps>) =
 			>
 				{IconFC &&
 					(label ? (
-						<IconFC className="cluster-marker-size" viewBox="0 0 60 80" />
+						<IconFC className="cluster-marker-size" viewBox="0 0 60 83" />
 					) : (
 						<IconFC className="marker-size" viewBox="0 0 50 70" />
 					))}
@@ -58,6 +60,8 @@ const MarkerIconWrapper = ({ icon, color, label }: Partial<CustomMarkerProps>) =
 						<Text className="marker-text">{label}</Text>
 					</Box>
 				)}
+
+				{category && <Image className="marker-image" src={`/icons/${category}.png`} />}
 			</Box>
 			<Box
 				position={"absolute"}
