@@ -42,6 +42,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 				px="6"
 			>
 				<Button
+					isDisabled={disabled}
 					bg={COLORS.Button.primary}
 					color="white"
 					justifyContent="flex-start"
@@ -51,6 +52,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					Find nearest recycling points
 				</Button>
 				<Button
+					isDisabled={disabled}
 					bg={COLORS.Button.primary}
 					color="white"
 					justifyContent="flex-start"
@@ -60,6 +62,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					Arrange pickups
 				</Button>
 				<Button
+					isDisabled={disabled}
 					color="black"
 					justifyContent="space-between"
 					onClick={() => setPage(Pages.INSTRUCTIONS)}
