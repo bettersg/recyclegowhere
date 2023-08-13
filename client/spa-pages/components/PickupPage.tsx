@@ -5,6 +5,7 @@ import ButtonRow from "components/pickup/ButtonRow";
 import Carousel from "components/pickup/PickupCarousel";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
+import ItemsAndFilterRow from "components/pickup/ItemsAndFilterRow";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
@@ -25,6 +26,7 @@ export const PickupPage = ({ setPage }: Props) => {
 				<VStack align="stretch" my={23} spacing={4}>
 					<Carousel />
 					<ButtonRow setPage={setPage} />
+					<ItemsAndFilterRow />
 					<ItemTabs />
 				</VStack>
 			</Container>
