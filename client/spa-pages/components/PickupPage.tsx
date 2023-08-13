@@ -1,8 +1,8 @@
-import { Divider, Flex, Container, VStack } from "@chakra-ui/react";
+import { Container, VStack } from "@chakra-ui/react";
 import { BasePage } from "layouts/BasePage";
-import ItemTabs from "components/home/Pickup/itemTabs";
-import ButtonRow from "components/home/Pickup/button";
-import Carousel from "components/home/Pickup/carousel";
+import ItemTabs from "components/pickup/ItemTabs";
+import ButtonRow from "components/pickup/ButtonRow";
+import Carousel from "components/pickup/PickupCarousel";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 
@@ -10,7 +10,7 @@ type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
-export const HomePickupPage = ({ setPage }: Props) => {
+export const PickupPage = ({ setPage }: Props) => {
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">

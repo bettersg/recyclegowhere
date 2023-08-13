@@ -1,5 +1,5 @@
 import { Divider, Flex, Tab, Tabs, TabList, TabPanel, TabPanels, Heading } from "@chakra-ui/react";
-import OrgCard from "./card";
+import OrgCard from "./OrgCard";
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { TSheetyPickupDetails } from "api/sheety/types";
@@ -14,10 +14,11 @@ export type PickupResult = {
 const ItemTabs = () => {
 	const { items } = useUserInputs();
 	const { pickUpServices, getItemCategory } = useSheetyData();
-	const getPickupData = (item: (TItemSelection|TEmptyItem)): PickupResult => {
+	const getPickupData = (item: (TItemSelection | TEmptyItem)): PickupResult => {
 		const cat = getItemCategory(item.name);
-		const possiblePickups = pickUpServices.filter((x)=>x.categoriesAccepted.includes(cat));
-		return {itemSelected: item.name, itemCategory: cat, possibleOrganizations: possiblePickups};};
+		const possiblePickups = pickUpServices.filter((x) => x.categoriesAccepted.includes(cat));
+		return { itemSelected: item.name, itemCategory: cat, possibleOrganizations: possiblePickups };
+	};
 
 	return (
 		<Tabs
@@ -43,8 +44,8 @@ const ItemTabs = () => {
 						<Heading size={"lg"} textAlign={"center"}>
 							Pick Up Services Near You
 						</Heading>
-						{getPickupData(item).possibleOrganizations.map((x)=>(
-							<OrgCard key={x["s/n"]} {...x}/>
+						{getPickupData(item).possibleOrganizations.map((x) => (
+							<OrgCard key={x["s/n"]} {...x} />
 						))}
 					</TabPanel>
 				))}
