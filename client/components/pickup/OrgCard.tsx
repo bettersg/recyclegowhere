@@ -1,7 +1,10 @@
-import { Text, Button, ButtonGroup, VStack, Heading } from "@chakra-ui/react";
+import { Text, Button, ButtonGroup, VStack, Heading, Flex, Icon, HStack } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/card";
 import { TSheetyPickupDetails } from "api/sheety/types";
-import NextLink from "next/link";
+import { MdOutlineScale } from "react-icons/md";
+import { BiTimeFive } from "react-icons/bi";
+import { BsCurrencyDollar } from "react-icons/bs";
+import OrgLabel from "./OrgLabel";
 
 const OrgCard = ({
 	organisationName,
@@ -14,14 +17,19 @@ const OrgCard = ({
 	contactDetail,
 	lastUpdated
 }: TSheetyPickupDetails) => {
+
 	return (
-		<Card p={5} boxShadow={"lg"} direction={{ base: "column" }} variant={"elevated"}>
+		<Card mx={5} my={2} boxShadow="lg" >
 			<CardBody>
-				<VStack spacing={"3"} mt={"6"}>
-					<Heading size={"md"} as={"b"}>
-						<Text>{organisationName}</Text>
+				<VStack spacing={"3"} align="left">
+					<Heading size={"md"}>
+						{organisationName}
 					</Heading>
-					<Text fontSize={"s"}>Please visit the website for more information.</Text>
+					<Flex wrap="wrap" columnGap={6} rowGap={1}>
+						<OrgLabel icon={MdOutlineScale} title="Min. Weight:" text={`${minimumWeightInKg} kg`} />
+						<OrgLabel icon={BiTimeFive} title="Pickup Hours:" text={time} />
+						<OrgLabel icon={BsCurrencyDollar} title="Service Cost:" text={`$${pricingTermsInSgd}`} />
+					</Flex>
 					<Text fontSize={"s"} as={"b"}>
 						You can donate:
 						<br />
@@ -29,20 +37,17 @@ const OrgCard = ({
 							{categoriesAccepted}
 						</Text>
 					</Text>
-					<Text fontSize={"s"}>
-						<Text as={"b"}>Service Cost: {pricingTermsInSgd}</Text>
-						<br />
-						<Text as={"b"}>Min. Pickup Quantity: {minimumWeightInKg}</Text>
-					</Text>
 					<ButtonGroup>
-						<NextLink href={website} passHref>
+						<a href={website} target="_blank">
 							<Button colorScheme={"teal"} variant={"outline"} as={"a"}>
 								Website
 							</Button>
-						</NextLink>
-						<Button colorScheme={"teal"} variant={"solid"}>
-							Contact
-						</Button>
+						</a>
+						<a href={Number.isNaN(Number(contactDetail)) ? contactDetail : `tel:${contactDetail}`} target="_blank">
+							<Button colorScheme={"teal"} variant={"solid"}>
+								Arrange Pickup!
+							</Button>
+						</a>
 					</ButtonGroup>
 				</VStack>
 			</CardBody>

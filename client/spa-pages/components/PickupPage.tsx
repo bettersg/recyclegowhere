@@ -1,17 +1,19 @@
 import { Container, VStack } from "@chakra-ui/react";
 import { BasePage } from "layouts/BasePage";
-import ItemTabs from "components/pickup/ItemTabs";
+import OrgList from "components/pickup/OrgList";
 import ButtonRow from "components/pickup/ButtonRow";
 import Carousel from "components/pickup/PickupCarousel";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import ItemsAndFilterRow from "components/pickup/ItemsAndFilterRow";
+import { useUserInputs } from "hooks/useUserSelection";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
 export const PickupPage = ({ setPage }: Props) => {
+	const { items } = useUserInputs();
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
@@ -26,8 +28,8 @@ export const PickupPage = ({ setPage }: Props) => {
 				<VStack align="stretch" my={23} spacing={4}>
 					<Carousel />
 					<ButtonRow setPage={setPage} />
-					<ItemsAndFilterRow />
-					<ItemTabs />
+					<ItemsAndFilterRow items={items} />
+					<OrgList items={items} />
 				</VStack>
 			</Container>
 		</BasePage>
