@@ -1,7 +1,6 @@
 import { Divider, Flex, Tab, Tabs, TabList, TabPanel, TabPanels, Heading, Center } from "@chakra-ui/react";
 import OrgCard from "./OrgCard";
 import { useSheetyData } from "hooks/useSheetyData";
-import { useUserInputs } from "hooks/useUserSelection";
 import { TSheetyPickupDetails } from "api/sheety/types";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 
@@ -33,7 +32,7 @@ const OrgList = (props: Props) => {
 				Pick Up Services Near You
 			</Heading>
 			{getPickupData(props.items[0]).possibleOrganizations.map((x) => (
-				<OrgCard key={x["s/n"]} {...x} />
+				<OrgCard key={x["s/n"]} items={props.items} orgDetails={x} getItemCategory={getItemCategory} />
 			))}
 		</>
 	);
