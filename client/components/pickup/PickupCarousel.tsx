@@ -1,11 +1,14 @@
-import { Box, Flex, Stack, HStack, Image } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
-import { COLORS } from "theme";
+import { Box } from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/react";
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import styles from "components/pickup/carousel.module.css";
 
-const SLIDES_INTERVAL_TIME = 20000;
+const SLIDES_INTERVAL_TIME = 5000;
 
 const PickupCarousel = () => {
+	// TODO: Issue #131 - Calculate number of organisations and distance to nearest blue bin and display them
+
 	const slides = [
 		{
 			url: useBreakpointValue({
@@ -22,52 +25,34 @@ const PickupCarousel = () => {
 			distance: "20m",
 		},
 	];
-	const [currentSlide, setCurrentSlide] = useState(0);
-	const slidesCount = slides.length;
-	const carouselStyle = {
-		transition: "all .5s",
-		ml: `-${currentSlide * 100}%`,
-	};
-	useEffect(() => {
-		const nextSlide = () => {
-			setCurrentSlide((s) => (s === slidesCount - 1 ? 0 : s + 1));
-		};
-		const automatedSlide = setInterval(nextSlide, SLIDES_INTERVAL_TIME);
-		return () => clearInterval(automatedSlide);
-	}, [slidesCount]);
 
 	return (
-		<Flex w="full" pos="relative" overflow="hidden" direction={"column"}>
-			<Flex h={"150px"} w={"full"} {...carouselStyle}>
-				{slides.map((slide, id) => (
-					<Box key={id} mx={[5, 1]} mr={[0, 2]} flex={"none"}>
-						<Stack>
-							<Image src={slide.url} alt="Header Banner" />
-						</Stack>
-					</Box>
+		<Box className={styles.carouselbox} px={4} h={40}>
+			<Carousel
+				showThumbs={false}
+				showStatus={false}
+				showArrows={false}
+				autoPlay
+				infiniteLoop
+				interval={SLIDES_INTERVAL_TIME}
+				renderIndicator={(clickHandler, isSelected, index) => {
+					return (
+						<li
+							onClick={clickHandler}
+							key={index}
+							role="button"
+							className={isSelected ? `${styles.ind} ${styles.active}` : styles.ind}
+						/>
+					);
+				}}
+			>
+				{slides.map((slide, index) => (
+					<div key={index}>
+						<img src={slide.url} />
+					</div>
 				))}
-			</Flex>
-			<HStack mt={[0, 5]} justify="center">
-				{Array.from({
-					length: slidesCount,
-				}).map((_, slide) => (
-					<Box
-						key={`dots-${slide}`}
-						cursor="pointer"
-						boxSize={["7px", null, "12px"]}
-						m="0 2px"
-						bg={currentSlide === slide ? COLORS.teal : COLORS.gray["300"]}
-						rounded="50%"
-						display="inline-block"
-						transition="background-color 0.6s ease"
-						_hover={{
-							bg: "blackAlpha.800",
-						}}
-						onClick={() => setCurrentSlide(slide)}
-					></Box>
-				))}
-			</HStack>
-		</Flex>
+			</Carousel>
+		</Box>
 	);
 };
 
