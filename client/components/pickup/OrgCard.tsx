@@ -68,25 +68,27 @@ const OrgCard = (props: Props) => {
 							</AccordionPanel>
 						</AccordionItem>
 					</Accordion>
-					<Accordion allowToggle>
-						<AccordionItem border="none">
-							<h2>
-								<AccordionButton py={1} bgColor="red.100" border="1px" borderColor="red.300" borderRadius="md" _hover={{ bg: "red.100" }}>
-									<Box rowGap={2} as="b" flex="1" textAlign="left" fontSize="sm" textColor="gray.700">
-										<SmallCloseIcon boxSize="4" mr={2} color="red.400" />
-										Not Accepted: {notAcceptedItems.length}/{numItems} items
-									</Box>
-									<AccordionIcon />
-								</AccordionButton>
-							</h2>
-							<AccordionPanel pb={4} fontSize="sm">
-								{notAcceptedItems.map((item) => item.name).join(', ')}
-							</AccordionPanel>
-						</AccordionItem>
-					</Accordion>
+					{notAcceptedItems.length > 0 &&
+						<Accordion allowToggle>
+							<AccordionItem border="none">
+								<h2>
+									<AccordionButton py={1} bgColor="red.100" border="1px" borderColor="red.300" borderRadius="md" _hover={{ bg: "red.100" }}>
+										<Box rowGap={2} as="b" flex="1" textAlign="left" fontSize="sm" textColor="gray.700">
+											<SmallCloseIcon boxSize="4" mr={2} color="red.400" />
+											Not Accepted: {notAcceptedItems.length}/{numItems} items
+										</Box>
+										<AccordionIcon />
+									</AccordionButton>
+								</h2>
+								<AccordionPanel pb={4} fontSize="sm">
+									{notAcceptedItems.map((item) => item.name).join(', ')}
+								</AccordionPanel>
+							</AccordionItem>
+						</Accordion>
+					}
 					<ButtonGroup mt={4}>
 						<a href={website} target="_blank">
-							<Button colorScheme={"teal"} variant={"outline"} as={"a"}>
+							<Button colorScheme={"teal"} variant={"outline"}>
 								Website
 							</Button>
 						</a>
