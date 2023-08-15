@@ -7,7 +7,7 @@ import { BsCurrencyDollar } from "react-icons/bs";
 import OrgLabel from "./OrgLabel";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 import { Categories } from "api/sheety/enums";
-import { CheckIcon, CloseIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { CheckIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 type Props = {
 	items: (TItemSelection | TEmptyItem)[];
@@ -28,7 +28,7 @@ const OrgCard = (props: Props) => {
 		contactDetail,
 		lastUpdated
 	} = props.orgDetails;
-	const getItemCategory = props.getItemCategory
+	const getItemCategory = props.getItemCategory;
 
 	const numItems = items.length;
 	const acceptedItems = items.filter((item) => categoriesAccepted.includes(getItemCategory(item.name)));
@@ -59,10 +59,10 @@ const OrgCard = (props: Props) => {
 							</h2>
 							<AccordionPanel pb={4} fontSize="sm">
 								<Box>
-									<Text>{acceptedItems.map((item) => item.name).join(', ')}</Text>
+									<Text>{acceptedItems.map((item) => item.name).join(", ")}</Text>
 									<Spacer mt={4} />
 									<Text as="b">They also accept these items:</Text>
-									<Text>{categoriesAccepted.slice(0, 1)}{categoriesAccepted.slice(1).toLowerCase().replaceAll('_', ' ')}.</Text>
+									<Text>{categoriesAccepted.slice(0, 1)}{categoriesAccepted.slice(1).toLowerCase().replaceAll("_", " ")}.</Text>
 									<Text>Please check their website for more info.</Text>
 								</Box>
 							</AccordionPanel>
@@ -81,18 +81,18 @@ const OrgCard = (props: Props) => {
 									</AccordionButton>
 								</h2>
 								<AccordionPanel pb={4} fontSize="sm">
-									{notAcceptedItems.map((item) => item.name).join(', ')}
+									{notAcceptedItems.map((item) => item.name).join(", ")}
 								</AccordionPanel>
 							</AccordionItem>
 						</Accordion>
 					}
 					<ButtonGroup mt={4}>
-						<a href={website} target="_blank">
+						<a href={website} target="_blank" rel="noreferrer">
 							<Button colorScheme={"teal"} variant={"outline"}>
 								Website
 							</Button>
 						</a>
-						<a href={Number.isNaN(Number(contactDetail)) ? contactDetail : `tel:${contactDetail}`} target="_blank">
+						<a href={Number.isNaN(Number(contactDetail)) ? contactDetail : `tel:${contactDetail}`} target="_blank" rel="noreferrer">
 							<Button colorScheme={"teal"} variant={"solid"}>
 								Arrange Pickup!
 							</Button>

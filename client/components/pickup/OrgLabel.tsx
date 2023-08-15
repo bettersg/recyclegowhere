@@ -1,6 +1,5 @@
 import { Text, HStack, Icon } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { MdOutlineScale } from "react-icons/md";
 
 type Props = {
     icon: IconType;

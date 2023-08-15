@@ -1,4 +1,4 @@
-import { Divider, Flex, Tab, Tabs, TabList, TabPanel, TabPanels, Heading, Center } from "@chakra-ui/react";
+import { Divider, Heading, Center } from "@chakra-ui/react";
 import OrgCard from "./OrgCard";
 import { useSheetyData } from "hooks/useSheetyData";
 import { TSheetyPickupDetails } from "api/sheety/types";

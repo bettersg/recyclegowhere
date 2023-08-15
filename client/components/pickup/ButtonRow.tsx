@@ -1,7 +1,6 @@
 import { Button, Flex, Heading, Spacer, Box, ButtonGroup, Icon } from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import { FiMap } from 'react-icons/fi';
-import { TbReload } from 'react-icons/tb';
+import { FiMap } from "react-icons/fi";
+import { TbReload } from "react-icons/tb";
 import { Dispatch, SetStateAction } from "react";
 import { Pages } from "spa-pages/pageEnums";
 

@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { useBreakpointValue } from "@chakra-ui/react";
-import { Carousel } from 'react-responsive-carousel';
+import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "components/pickup/carousel.module.css";
 
@@ -48,7 +48,7 @@ const PickupCarousel = () => {
 			>
 				{slides.map((slide, index) => (
 					<div key={index}>
-						<img src={slide.url} />
+						<img src={slide.url} alt={slide.url} />
 					</div>
 				))}
 			</Carousel>
