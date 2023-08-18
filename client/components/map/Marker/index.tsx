@@ -9,15 +9,15 @@ export const CustomMarker: React.FC<{
 	icon: CustomMarkerProps["icon"];
 	color: CustomMarkerProps["color"];
 	handleOnClick: () => void;
-	category: string;
+	category?: string;
 }> = ({ position, icon, color, handleOnClick, category }) => {
 	const { map } = useMapContext();
 	const { divIcon } = useLeafletDivIcon();
 
-	const handleMarkerClick = () => {
-		map?.panTo(position);
-		handleOnClick();
-	};
+	// const handleMarkerClick = () => {
+	// 	map?.panTo(position);
+	// 	handleOnClick();
+	// };
 
 	return (
 		<Marker
@@ -26,7 +26,7 @@ export const CustomMarker: React.FC<{
 				source: <MarkerIconWrapper color={color} icon={icon} category={category} />,
 				anchor: [13, 11],
 			})}
-			eventHandlers={{ click: handleMarkerClick }}
+			eventHandlers={{ click: handleOnClick }}
 		/>
 	);
 };

@@ -13,19 +13,19 @@ import Select from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
 import { ChangeEvent } from "react";
-import { createElement } from "react";
+
 // Component Imports
 import { Location } from "components/home/UserInput/Location";
 import UserIcon from "components/map/Marker/icons/UserIcon";
 import GeneralIcon from "components/map/Marker/icons/GeneralIcon";
 import ClusterIcon from "components/map/Marker/icons/ClusterIcon";
-import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
-import PullUpTab from "components/map/PullUpTab";
+// import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
+// import PullUpTab from "components/map/PullUpTab";
 import { HeaderButtons } from "components/map";
 import FacilityCard from "components/map/FacilityCard";
 import { FilterButton } from "components/map/NearbyFacilitiesPanel";
 import FilterPanel from "components/map/FilterPanel";
-import { lazy } from "react";
+
 // Leaflet Imports
 import dynamic from "next/dynamic";
 import { LatLngExpression } from "leaflet";
@@ -33,10 +33,8 @@ import useMapContext from "../../hooks/useMapContext";
 import useLeafletWindow from "../../hooks/useLeafletWindow";
 import { useResizeDetector } from "react-resize-detector";
 import MapContextProvider from "components/map/MapContextProvider";
-import { SearchButton } from "components/map/NearbyFacilitiesPanel";
 // Reference page: https://github.com/richard-unterberg/next-leaflet-starter-typescript/blob/master/src/components/Map/ui/LocateButton.tsx
-import { IconProps } from "@chakra-ui/icons";
-import BABY_CHILDREN_ITEMS from "components/map/Marker/icons/BABY_CHILDREN_ITEMS";
+
 // Next.js requires dynamic imports for Leaflet.js compatibility
 const LeafletMap = dynamic(
 	async () => (await import("../../components/map/LeafletMap")).LeafletMap,
@@ -70,30 +68,32 @@ type Props = {
 };
 
 const MapInner = ({ setPage }: Props) => {
-	// Hooks
+	////// Hooks //////
 	const { getFacility, facilities, getItemCategory } = useSheetyData();
 	const { map } = useMapContext();
 	const leafletWindow = useLeafletWindow();
-	const {
-		recyclingLocationResults,
-		address,
-		items,
-		setRecyclingLocationResults,
-		setUserSelection,
-	} = useUserInputs();
-	console.log(recyclingLocationResults);
+	const { recyclingLocationResults, address, items, setRecyclingLocationResults } =
+		useUserInputs();
 
-	// States
+	////// States //////
+
+	// Filters
 	const [filterShow, setFilterShow] = useState(false);
-	const [isExpanded, setIsExpanded] = useState(false);
 	const [range, setRange] = useState(60);
+	// const [isExpanded, setIsExpanded] = useState(false);
+
+	// Multiselect Box
 	const selectOptions: OptionType[] = items.map((item) => ({
 		value: item.name,
 		label: item.name,
 		method: item.method,
 		idx: index++,
 	}));
-	const [selectedOptions, setSelectedOptions] = useState([...selectOptions]);
+	const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([...selectOptions]);
+	// Internal tracking of user-selected items
+	const [itemState, setItemState] = useState<(TItemSelection | TEmptyItem)[]>(items);
+
+	// Facility Card
 	const [facCardIsOpen, setFacCardIsOpen] = useState(false);
 	const [facCardDetails, setFacCardDetails] = useState<TStateFacilities>({
 		id: 0,
@@ -114,14 +114,14 @@ const MapInner = ({ setPage }: Props) => {
 		website: "",
 	});
 	const [facCardDistance, setFacCardDistance] = useState(0);
+
+	// Locations of facilities
 	const [locations, setLocations] = useState(recyclingLocationResults?.results);
 	const [nearbyLocations, setNearbyLocations] = useState(
 		getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory, 1),
 	);
-	// Internal tracking of user-selected items
-	const [itemState, setItemState] = useState<(TItemSelection | TEmptyItem)[]>(items);
 
-	// Variables
+	////// Variables //////
 	const isLoading = !map || !leafletWindow;
 	const isMobile = useBreakpointValue({ base: true, md: false });
 	const zoom = 15;
@@ -145,16 +145,7 @@ const MapInner = ({ setPage }: Props) => {
 		refreshRate: 200,
 	});
 
-	// const handleClick = useCallback(() => {
-	// 	if (!isTouched || !map) return;
-
-	// 	map.flyTo(centerPos, zoom);
-	// 	map.once("moveend", () => {
-	// 		setIsTouched(false);
-	// 	});
-	// }, [map, isTouched, zoom, centerPos]);
-
-	// Functions
+	////// Functions //////
 	const useForceUpdate = () => {
 		const [, setState] = useState(0);
 		const forceUpdate = () => setState((prevState) => prevState + 1);
@@ -162,10 +153,11 @@ const MapInner = ({ setPage }: Props) => {
 	};
 	const forceUpdate = useForceUpdate();
 
-	const handleStickyFooter = () => {
-		setIsExpanded(!isExpanded);
-		setFacCardIsOpen(false);
-	};
+	///// Keeping for similar implementations /////
+	// const handleStickyFooter = () => {
+	// 	setIsExpanded(!isExpanded);
+	// 	setFacCardIsOpen(false);
+	// };
 
 	const handleMarkerOnClick = (facility: {
 		id: number;
@@ -194,6 +186,7 @@ const MapInner = ({ setPage }: Props) => {
 		return { cardIsOpen: cardIsOpen, cardDetails: cardDetails, distance: facility.distance };
 	};
 
+	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
 		const locations = getNearbyFacilities(
 			itemEntry as TItemSelection[],
@@ -209,30 +202,36 @@ const MapInner = ({ setPage }: Props) => {
 			getItemCategory,
 			1,
 		);
+
+		// Set map position
 		setCenterPos([
 			parseFloat(address.coordinates.lat),
 			parseFloat(address.coordinates.long),
 		] as LatLngExpression);
+		// Set facilities list on React Context
 		setRecyclingLocationResults(locations);
+		// For popup box (this is archived)
 		setNearbyLocations(locationsWithin1km);
-
+		// For current display of facilities
 		locations ? setLocations(locations.results) : setLocations(undefined);
+
+		// Refresh the state
 		forceUpdate();
+
 		map?.panTo([
 			parseFloat(address.coordinates.lat),
 			parseFloat(address.coordinates.long),
 		] as LatLngExpression);
 	};
 
-	// const handleUserInputChange =
-
+	// Handle change in multi-select box (remove, add items)
 	const handleMultiselectOnChange = (
 		newValue: MultiValue<OptionType>,
 		actionMeta: ActionMeta<OptionType>,
 	) => {
-		// setSelectedOptions(selectedOptions);
 		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
 		let updatedOptions: OptionType[] = selectedOptions;
+		// If user adds an option
 		if (actionMeta.action === "select-option") {
 			const newItem = {
 				name: actionMeta.option?.label,
@@ -242,6 +241,7 @@ const MapInner = ({ setPage }: Props) => {
 			updatedItemState = [...itemState];
 			updatedOptions.push(actionMeta.option as OptionType);
 			console.log(updatedOptions);
+			// If user removes an option
 		} else if (actionMeta.action === "remove-value") {
 			const removedValue = actionMeta.removedValue;
 			updatedItemState = itemState.filter((item) => {
@@ -250,7 +250,6 @@ const MapInner = ({ setPage }: Props) => {
 			updatedOptions = selectedOptions.filter(
 				(option) => option.value !== removedValue.label,
 			);
-			console.log(updatedOptions);
 		}
 		setSelectedOptions(updatedOptions);
 		handleChangedLocation(updatedItemState);
@@ -258,14 +257,10 @@ const MapInner = ({ setPage }: Props) => {
 		setFacCardIsOpen(false);
 	};
 
-	const filterApply = () => {
-		setFilterShow(false);
-	};
-
+	// Handle changes in items selected in the Filter panel
 	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
 		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
 		let updatedOptions: OptionType[] = selectedOptions;
-
 		if (e.target.checked) {
 			// If add
 			const newItem = {
@@ -293,6 +288,7 @@ const MapInner = ({ setPage }: Props) => {
 		setItemState(updatedItemState);
 	};
 
+	// Handle the changes in distance selected in Filter panel
 	const handleSliderChange = (val: number) => {
 		const dist = val / 10;
 		const locations = getNearbyFacilities(
@@ -302,15 +298,16 @@ const MapInner = ({ setPage }: Props) => {
 			getItemCategory,
 			dist,
 		);
+		setRange(val);
 		setRecyclingLocationResults(locations);
-
 		locations ? setLocations(locations.results) : setLocations(undefined);
+
 		forceUpdate();
+
 		map?.panTo([
 			parseFloat(address.coordinates.lat),
 			parseFloat(address.coordinates.long),
 		] as LatLngExpression);
-		setRange(val);
 	};
 
 	return (
@@ -381,8 +378,8 @@ const MapInner = ({ setPage }: Props) => {
 												);
 											});
 										})}
-									{/* Center Marker */}
 								</Cluster>
+								{/* Center Marker */}
 								<CustomMarker
 									position={centerPos}
 									icon={UserIcon}
@@ -413,15 +410,16 @@ const MapInner = ({ setPage }: Props) => {
 				</VStack>
 			</Container>
 
+			{/* Keeping this for future implementations of similar idea */}
 			{/* Pull up tab */}
-			<PullUpTab
+			{/* <PullUpTab
 				isExpanded={isExpanded}
 				isMobile={isMobile}
 				handleStickyFooter={handleStickyFooter}
 				numberOfNearby={nearbyLocations.facilitiesList.length}
-			/>
+			/> */}
 			{/* Panel upon pulling up */}
-			{isExpanded && (
+			{/* {isExpanded && (
 				<NearbyFacilitiesPanel
 					isMobile={isMobile}
 					setPage={setPage}
@@ -430,12 +428,12 @@ const MapInner = ({ setPage }: Props) => {
 					nearbyLocations={nearbyLocations}
 					getMatchingFacility={getMatchingFacility}
 				/>
-			)}
+			)} */}
 			{filterShow && (
 				<FilterPanel
 					isMobile={isMobile}
 					setFilterShow={() => setFilterShow(true)}
-					filterApply={filterApply}
+					filterApply={() => setFilterShow(false)}
 					handleSliderChange={handleSliderChange}
 					range={range}
 					itemState={itemState}
