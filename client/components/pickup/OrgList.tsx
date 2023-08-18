@@ -1,4 +1,4 @@
-import { Divider, Heading, Center } from "@chakra-ui/react";
+import { Divider, Heading, Center, theme } from "@chakra-ui/react";
 import OrgCard from "./OrgCard";
 import { useSheetyData } from "hooks/useSheetyData";
 import { TSheetyPickupDetails } from "api/sheety/types";
@@ -15,6 +15,8 @@ type Props = {
 };
 
 const OrgList = (props: Props) => {
+	const colors = theme.colors;
+
 	// TODO: #148: Sort facilities based on number of inputted-items it collects
 	const { pickUpServices, getItemCategory } = useSheetyData();
 	const getPickupData = (item: (TItemSelection | TEmptyItem)): PickupResult => {
@@ -26,7 +28,7 @@ const OrgList = (props: Props) => {
 	return (
 		<>
 			<Center>
-				<Divider borderColor="gray" w="85%" />
+				<Divider borderColor={colors.gray[500]} w="85%" />
 			</Center>
 			<Heading size="lg" textAlign="center">
 				Pick Up Services Near You
