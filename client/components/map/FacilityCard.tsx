@@ -47,5 +47,3 @@ const FacilityCard = ({
 		</Flex>
 	);
 };
-
-export default FacilityCard;

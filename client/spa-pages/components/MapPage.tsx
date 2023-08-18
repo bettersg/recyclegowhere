@@ -21,10 +21,13 @@ import GeneralIcon from "components/map/Marker/icons/GeneralIcon";
 import ClusterIcon from "components/map/Marker/icons/ClusterIcon";
 // import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
 // import PullUpTab from "components/map/PullUpTab";
-import { HeaderButtons } from "components/map";
-import FacilityCard from "components/map/FacilityCard";
-import { FilterButton } from "components/map/NearbyFacilitiesPanel";
-import FilterPanel from "components/map/FilterPanel";
+import {
+	HeaderButtons,
+	FacilityCard,
+	FilterPanel,
+	FilterButton,
+	MapContextProvider,
+} from "components/map";
 
 // Leaflet Imports
 import dynamic from "next/dynamic";
@@ -32,7 +35,6 @@ import { LatLngExpression } from "leaflet";
 import useMapContext from "../../hooks/useMapContext";
 import useLeafletWindow from "../../hooks/useLeafletWindow";
 import { useResizeDetector } from "react-resize-detector";
-import MapContextProvider from "components/map/MapContextProvider";
 // Reference page: https://github.com/richard-unterberg/next-leaflet-starter-typescript/blob/master/src/components/Map/ui/LocateButton.tsx
 
 // Next.js requires dynamic imports for Leaflet.js compatibility

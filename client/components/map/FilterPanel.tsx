@@ -127,5 +127,3 @@ const FilterPanel = ({
 		</Box>
 	);
 };
-
-export default FilterPanel;

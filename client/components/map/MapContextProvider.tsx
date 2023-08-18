@@ -19,5 +19,3 @@ const MapContextProvider = ({ children }: MapContextProviderProps) => {
 
 	return <MapContext.Provider value={{ map, setMap }}>{children}</MapContext.Provider>;
 };
-
-export default MapContextProvider;
