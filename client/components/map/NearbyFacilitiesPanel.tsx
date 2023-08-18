@@ -62,7 +62,7 @@ type NearbyFacilitiesType = {
 	isMobile: boolean | undefined;
 };
 
-const NearbyFacilitiesPanel = ({
+export const NearbyFacilitiesPanel = ({
 	setPage,
 	handleChangedLocation,
 	showFilter,
@@ -163,5 +163,3 @@ const NearbyFacilitiesPanel = ({
 		</Box>
 	);
 };
-
-export default NearbyFacilitiesPanel;

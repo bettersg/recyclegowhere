@@ -14,7 +14,7 @@ interface MapContextProviderProps {
 	children: React.ReactNode;
 }
 
-const MapContextProvider = ({ children }: MapContextProviderProps) => {
+export const MapContextProvider = ({ children }: MapContextProviderProps) => {
 	const [map, setMap] = useState<Leaflet.Map | undefined>(undefined);
 
 	return <MapContext.Provider value={{ map, setMap }}>{children}</MapContext.Provider>;

@@ -31,7 +31,7 @@ type FilterProps = {
 	handleCheckboxChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const FilterPanel = ({
+export const FilterPanel = ({
 	isMobile,
 	setFilterShow,
 	filterApply,

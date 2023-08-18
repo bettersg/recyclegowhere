@@ -2,7 +2,7 @@ import { Flex, Text, HStack, Button } from "@chakra-ui/react";
 import { TStateFacilities } from "app-context/SheetyContext/types";
 import Image from "next/image";
 import { COLORS } from "theme";
-const FacilityCard = ({
+export const FacilityCard = ({
 	facCardDetails,
 	facCardDistance,
 	width,
