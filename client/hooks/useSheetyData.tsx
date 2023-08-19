@@ -17,6 +17,15 @@ export const useSheetyData = () => {
 	const getItemCategory = (itemName: string) =>
 		data.find((i) => i.name === itemName)?.category as Categories;
 
+	const processCategory = (str: string) => {
+		return str
+			.replace(/_/g, " ") // Replace underscores with spaces
+			.replace(
+				/\b\w+/g,
+				(word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
+			);
+	};
+
 	return {
 		isLoaded,
 		items: data,
@@ -26,5 +35,6 @@ export const useSheetyData = () => {
 		facilities,
 		pickUpServices,
 		getItemCategory,
+		processCategory,
 	};
 };
