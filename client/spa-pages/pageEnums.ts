@@ -1,6 +1,6 @@
 export enum Pages {
 	HOME,
-	HOMEPICKUP,
+	PICKUP,
 	INSTRUCTIONS,
 	MAP,
 }

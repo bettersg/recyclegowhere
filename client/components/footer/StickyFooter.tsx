@@ -57,7 +57,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					color="white"
 					justifyContent="flex-start"
 					leftIcon={<CalendarIcon />}
-					onClick={() => setPage(Pages.HOMEPICKUP)}
+					onClick={() => setPage(Pages.PICKUP)}
 				>
 					Arrange pickups
 				</Button>

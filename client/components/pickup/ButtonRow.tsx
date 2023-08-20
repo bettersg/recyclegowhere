@@ -1,5 +1,6 @@
-import { Button, Flex, Heading, Spacer, Box, ButtonGroup } from "@chakra-ui/react";
-import { ArrowBackIcon, SearchIcon } from "@chakra-ui/icons";
+import { Button, Flex, Heading, Spacer, Box, ButtonGroup, Icon } from "@chakra-ui/react";
+import { FiMap } from "react-icons/fi";
+import { TbReload } from "react-icons/tb";
 import { Dispatch, SetStateAction } from "react";
 import { Pages } from "spa-pages/pageEnums";
 
@@ -10,23 +11,23 @@ const ButtonRow = ({ setPage }: Props) => {
 	return (
 		<Flex px={4}>
 			<Box>
-				<Heading size={"lg"}>Your items:</Heading>
+				<Heading size={"md"}>Your items:</Heading>
 			</Box>
 			<Spacer />
 			<ButtonGroup gap={"1"}>
 				<Button
 					onClick={() => setPage(Pages.HOME)}
-					leftIcon={<ArrowBackIcon />}
+					leftIcon={<TbReload />}
 					colorScheme={"teal"}
-					size={"md"}
+					size={"xs"}
 				>
-					Restart!
+					Restart
 				</Button>
 				<Button
 					onClick={() => setPage(Pages.MAP)}
-					leftIcon={<SearchIcon />}
+					leftIcon={<Icon as={FiMap} />}
 					colorScheme={"teal"}
-					size={"md"}
+					size={"xs"}
 				>
 					Map
 				</Button>
