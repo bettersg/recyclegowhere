@@ -1,15 +1,5 @@
-import {
-	Divider,
-	Flex,
-	Tab,
-	Tabs,
-	TabList,
-	TabPanel,
-	TabPanels,
-	Heading,
-	AbsoluteCenter,
-} from "@chakra-ui/react";
-import OrgCard from "./card";
+import { Divider, Flex, Tab, Tabs, TabList, TabPanel, TabPanels, Heading } from "@chakra-ui/react";
+import OrgCard from "./OrgCard";
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { TSheetyPickupDetails } from "api/sheety/types";
@@ -58,8 +48,8 @@ const ItemTabs = () => {
 						<Heading size={"lg"} textAlign={"center"}>
 							Pick Up Services Near You
 						</Heading>
-						{getPickupData(item).possibleOrganizations.map((x) => (
-							<OrgCard key={x["s/n"]} {...x} />
+						{getPickupData(item).possibleOrganizations.map((pickupDetails) => (
+							<OrgCard key={pickupDetails["s/n"]} {...pickupDetails} />
 						))}
 					</TabPanel>
 				))}
