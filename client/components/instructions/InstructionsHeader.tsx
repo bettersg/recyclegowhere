@@ -8,19 +8,15 @@ type Props = {
 
 export const InstructionsHeader = ({ setPage }: Props) => {
 	return (
-		<>
-			<Spacer />
-			<HStack px={2}>
-				<Box>
-					<Heading size="lg">Instructions</Heading>
-				</Box>
-				<Spacer />
-				<Box>
-					<Button onClick={() => setPage(Pages.HOME)} colorScheme="teal">
-						Restart!
-					</Button>
-				</Box>
+		<Box my={5}>
+			<HStack px={2} justifyContent={"space-between"}>
+				<Button onClick={() => setPage(Pages.HOME)} colorScheme="gray">
+					Edit
+				</Button>
+				<Button onClick={() => setPage(Pages.HOME)} colorScheme="teal">
+					Restart
+				</Button>
 			</HStack>
-		</>
+		</Box>
 	);
 };

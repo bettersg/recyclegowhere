@@ -3,7 +3,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
 type CarouselProps = {
-	items: string[];
+	items?: string[];
 };
 
 const Carousel = ({ items: props }: CarouselProps) => {

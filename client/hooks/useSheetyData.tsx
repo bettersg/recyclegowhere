@@ -11,6 +11,7 @@ export const useSheetyData = () => {
 			instructions,
 			facilities,
 			pickUpServices,
+			unrecyclableDetails,
 		},
 	} = useContext(AppContext);
 
@@ -25,6 +26,7 @@ export const useSheetyData = () => {
 		instructions,
 		facilities,
 		pickUpServices,
+		unrecyclableDetails,
 		getItemCategory,
 	};
 };

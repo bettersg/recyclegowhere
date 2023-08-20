@@ -40,8 +40,13 @@ export const AppContextReducer: Reducer<AppContextState, AppContextActions> = (s
 		case SheetyActionsEnums.SET_PICKUP_LIST: //list on the cards and tabs
 			return {
 				...state,
-				pickUpServices: action.payload
-			}
+				pickUpServices: action.payload,
+			};
+		case SheetyActionsEnums.SET_UNRECYCLABILITY_LIST:
+			return {
+				...state,
+				unrecyclableDetails: action.payload,
+			};
 		// =================================================================
 		// User selection actions
 		// =================================================================
