@@ -30,10 +30,7 @@ export const LeafletMap: React.FC<
 					className="w-full h-screen absolute outline-0 text-white"
 					{...options}
 				>
-					<TileLayer
-						attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-						url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-					/>
+					<TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
 					{options.children}
 				</MapContainer>
 			)}

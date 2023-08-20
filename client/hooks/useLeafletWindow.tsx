@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 const useLeafletWindow = () => {
 	const [leafletWindow, setLeafletWindow] = useState(
+		// Honestly not sure what type window.L should be - defined it as any in leaflet.d.ts
 		typeof window === "undefined" ? undefined : window.L,
 	);
 
