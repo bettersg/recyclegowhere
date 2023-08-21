@@ -1,9 +1,7 @@
-import { Button, Flex, Heading, Spacer, Box, ButtonGroup } from "@chakra-ui/react";
-import { ArrowBackIcon, SearchIcon, UpDownIcon } from "@chakra-ui/icons";
-import { Dispatch, SetStateAction, useState, useRef} from "react";
-import {
-    Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverFooter, PopoverArrow, PopoverCloseButton,
-    PopoverAnchor, } from '@chakra-ui/react';
+import { Button, Box } from "@chakra-ui/react";
+import {  UpDownIcon } from "@chakra-ui/icons";
+import { useState, useRef} from "react";
+import { Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverCloseButton } from '@chakra-ui/react';
 import MarkedSlider from "./slider";
 
 
