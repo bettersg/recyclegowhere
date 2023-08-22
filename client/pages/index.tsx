@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useState } from "react";
-import { HomePage, HomePickupPage, InstructionsPage, MapPage } from "spa-pages";
+import { HomePage, PickupPage, InstructionsPage, MapPage } from "spa-pages";
 import { Pages } from "spa-pages/pageEnums";
 
 const Home: NextPage = () => {
@@ -11,8 +11,8 @@ const Home: NextPage = () => {
 		case Pages.HOME:
 			PageComponent = <HomePage setPage={setPage} />;
 			break;
-		case Pages.HOMEPICKUP:
-			PageComponent = <HomePickupPage />;
+		case Pages.PICKUP:
+			PageComponent = <PickupPage setPage={setPage} />;
 			break;
 		case Pages.INSTRUCTIONS:
 			PageComponent = <InstructionsPage setPage={setPage} />;

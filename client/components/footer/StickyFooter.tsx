@@ -1,12 +1,11 @@
-import { QuestionIcon } from "@chakra-ui/icons";
-import { Button, Container, Flex, Link, useBreakpointValue } from "@chakra-ui/react";
+import { CalendarIcon, InfoOutlineIcon, SearchIcon } from "@chakra-ui/icons";
+import { Button, Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { forwardRef } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
 import { getNearbyFacilities } from "utils";
-import { Tooltip } from "./Tooltip";
 import { TItemSelection } from "app-context/SheetyContext/types";
 import { MAX_DISTANCE_KM } from "utils";
 
@@ -36,61 +35,50 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 	};
 
 	return (
-		<Container
+		<Box
 			ref={ref}
 			boxShadow="0px 0 10px rgba(0, 0, 0, 0.8)"
+			minH={{ base: "20%", md: "10%" }}
 			minW="100%"
 			py={{ base: "4", md: "6" }}
 		>
 			<Flex
 				direction={{ base: "column", sm: "row" }}
-				gap={isMobile ? 0 : "3rem"}
-				align="center"
+				gap={isMobile ? "1rem" : "3rem"}
 				justify="center"
+				px="6"
 			>
-				<Flex flexDir="column">
-					<Flex w="100%" flex="1" align="center" mb="0.5rem" gap="0.3rem">
-						<QuestionIcon w={3.5} />
-						<Tooltip />
-					</Flex>
-					<Flex w="100%" align="center" justify="center">
-						<Flex gap="1.5rem">
-							<Button
-								disabled={disabled}
-								flex="1"
-								onClick={() => setPage(Pages.INSTRUCTIONS)}
-							>
-								How to recycle?
-							</Button>
-							<Button
-								bg={COLORS.Button.primary}
-								color={COLORS.white}
-								flex="1"
-								disabled={disabled}
-								onClick={handleWhereToRecyleClick}
-							>
-								Where to recycle
-							</Button>
-						</Flex>
-					</Flex>
-				</Flex>
-				<Flex justify="center" mt="1rem">
-					<Link
-						textDecor={isMobile ? "none" : "underline"}
-						fontSize="sm"
-						fontWeight="medium"
-						onClick={!disabled ? () => setPage(Pages.HOMEPICKUP) : undefined}
-						sx={{
-							opacity: disabled ? 0.5 : 1,
-							cursor: disabled ? "not-allowed" : "pointer",
-							textDecoration: disabled ? "none" : "underline",
-						}}
-					>
-						I prefer someone to collect from me
-					</Link>
-				</Flex>
+				<Button
+					isDisabled={disabled}
+					bg={COLORS.Button.primary}
+					color="white"
+					justifyContent="flex-start"
+					leftIcon={<SearchIcon />}
+					onClick={handleWhereToRecyleClick}
+				>
+					Find nearest recycling points
+				</Button>
+				<Button
+					isDisabled={disabled}
+					bg={COLORS.Button.primary}
+					color="white"
+					justifyContent="flex-start"
+					leftIcon={<CalendarIcon />}
+					onClick={() => setPage(Pages.PICKUP)}
+				>
+					Arrange pickups
+				</Button>
+				<Button
+					isDisabled={disabled}
+					color="black"
+					justifyContent="space-between"
+					onClick={() => setPage(Pages.INSTRUCTIONS)}
+					rightIcon={<InfoOutlineIcon />}
+				>
+					How to recycle them properly?
+				</Button>
 			</Flex>
-		</Container>
+		</Box>
 	);
 });
 

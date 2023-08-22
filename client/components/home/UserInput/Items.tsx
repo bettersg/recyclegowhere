@@ -1,13 +1,22 @@
-import { AddIcon, CloseIcon } from "@chakra-ui/icons";
-import { HStack, IconButton, Select, Text, VStack } from "@chakra-ui/react";
+import { AddIcon, CloseIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import {
+	Button,
+	ButtonGroup,
+	Flex,
+	HStack,
+	IconButton,
+	Select,
+	Text,
+	VStack,
+} from "@chakra-ui/react";
 import { Methods } from "api/sheety/enums";
+import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 import { useSheetyData } from "hooks/useSheetyData";
 import { useUserInputs } from "hooks/useUserSelection";
 import { ChangeEvent, MouseEventHandler, useCallback } from "react";
 import styled from "styled-components";
 import { COLORS } from "theme";
 import { displayTitleCase } from "./utils";
-import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 
 const emptyItem: TEmptyItem = {
 	name: "",
@@ -70,11 +79,18 @@ export const Items = () => {
 		[items, setUserSelection],
 	);
 
+	const handleClearAll = useCallback(() => {
+		setUserSelection([emptyItem]);
+	}, [setUserSelection]);
+
 	return (
 		<div>
-			<Text fontWeight={500} fontSize="md" mb="8px">
-				Items you wish to recycle:
-			</Text>
+			<Flex justifyContent="space-between" mb="8px">
+				<Text verticalAlign="center" fontWeight={500} fontSize="md">
+					Items you wish to recycle:
+				</Text>
+				<ClearAllButton onClick={handleClearAll} />
+			</Flex>
 			<VStack spacing="10px">
 				{items.map((item, index) => (
 					<HStack key={`item-${index}`} spacing="6px" width="100%">
@@ -157,4 +173,19 @@ const AddLineButton = ({ onClick }: ButtonProps) => (
 		icon={<AddIcon />}
 		onClick={onClick}
 	/>
+);
+const ClearAllButton = ({ onClick }: ButtonProps) => (
+	<ButtonGroup isAttached size="xs">
+		<Button
+			size="xs"
+			variant="solid"
+			color={COLORS.gray[700]}
+			background={COLORS.gray[100]}
+			aria-label="clear all"
+			onClick={onClick}
+			leftIcon={<SmallCloseIcon />}
+		>
+			Clear all
+		</Button>
+	</ButtonGroup>
 );

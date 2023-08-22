@@ -5,6 +5,7 @@ import {
 	TInitializeItemsListAction,
 	TInitializeMethodsAction,
 	TInitializeInstructionsAction,
+	TinitializePickupDetailsAction,
 } from "./SheetyContext/types";
 import {
 	TSetAddressAction,
@@ -28,6 +29,7 @@ export type AppContextActions =
 	| TInitializeCategoriesAction
 	| TInitializeInstructionsAction
 	| TInitializeFacilitiesAction
+	| TinitializePickupDetailsAction
 	| TSetUserSelectionAction
 	| TSetAddressAction
 	| TSetRecyclingLocationResults;

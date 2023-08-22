@@ -6,6 +6,7 @@ import {
 	TSheetyCategories,
 	TSheetyFacilities,
 	TInstructions,
+	TSheetyPickupDetails,
 } from "api/sheety/types";
 import { createContext, Dispatch, ReactNode, useEffect, useReducer } from "react";
 import { AppContextReducer } from "./reducer";
@@ -57,12 +58,17 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 			const res = await getSheetyData<TSheetyFacilities>(Sheets.FACILITIES_SHEET_NAME);
 			dispatch(SheetyActions.initializeFaciltiesList(res));
 		};
+		const fetchPickUpDetails = async() => {
+			const res = await getSheetyData<TSheetyPickupDetails>(Sheets.PICKUP_SHEET_NAME);
+			dispatch(SheetyActions.initializePickupList(res));
+		}
 
 		fetchItems();
 		fetchMethods();
 		fetchCategories();
 		fetchInstructions();
 		fetchFacilities();
+		fetchPickUpDetails();
 	}, []);
 
 	return (

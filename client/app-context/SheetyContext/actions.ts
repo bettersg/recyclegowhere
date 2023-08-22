@@ -4,6 +4,7 @@ import {
 	TSheetyCategories,
 	TSheetyFacilities,
 	TInstructions,
+	TSheetyPickupDetails,
 } from "api/sheety/types";
 import {
 	TInitializeItemsListAction,
@@ -12,6 +13,7 @@ import {
 	TInitializeCategoriesAction,
 	TInitializeFacilitiesAction,
 	TInitializeInstructionsAction,
+	TinitializePickupDetailsAction,
 } from "./types";
 
 const initializeItemsList = (items: Items[]): TInitializeItemsListAction => ({
@@ -43,10 +45,16 @@ const initializeInstructionsList = (
 	payload: instructions,
 });
 
+const initializePickupList = (pickUpDetails: TSheetyPickupDetails[]): TinitializePickupDetailsAction => ({
+	type: SheetyActionsEnums.SET_PICKUP_LIST,
+	payload: pickUpDetails,
+});
+
 export const SheetyActions = {
 	initializeItemsList,
 	initializeCategoriessList,
 	initializeMethodsList,
 	initializeFaciltiesList,
 	initializeInstructionsList,
+	initializePickupList
 };

@@ -5,6 +5,7 @@ export const COLORS = {
 	gray: {
 		100: "gray.100",
 		200: "gray.200",
+		300: "gray.300",
 		700: "gray.700",
 	},
 	Select: {
