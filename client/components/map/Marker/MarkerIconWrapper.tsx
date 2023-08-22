@@ -8,7 +8,7 @@ import { IconProps } from "@chakra-ui/icons";
 
 export interface CustomMarkerProps {
 	position: LatLngExpression;
-	icon?: (props: IconProps) => JSX.Element;
+	icon?: React.ComponentType<IconProps>; // Update the type here
 	color: string;
 	label?: string;
 	category: string;

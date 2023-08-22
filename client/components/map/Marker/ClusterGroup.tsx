@@ -26,7 +26,7 @@ type ClusterEvents = {
 
 type MarkerClusterControl = L.MarkerClusterGroupOptions & {
 	children: React.ReactNode;
-	icon: (props: IconProps) => JSX.Element;
+	icon: React.ComponentType<IconProps>; // Update the type here
 	color: string;
 } & ClusterEvents;
 

@@ -1,6 +1,6 @@
 import { Flex, Text, HStack, Button } from "@chakra-ui/react";
 import { TStateFacilities } from "app-context/SheetyContext/types";
-import Image from "next/image";
+import { Image } from "@chakra-ui/react";
 import { COLORS } from "theme";
 export const FacilityCard = ({
 	facCardDetails,

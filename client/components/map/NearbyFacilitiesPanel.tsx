@@ -9,7 +9,7 @@ import { IconButton } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, MouseEventHandler } from "react";
 import { RecyclingLocationResults } from "app-context/UserSelectionContext/types";
 import { TStateFacilities } from "app-context/SheetyContext/types";
-import Image from "next/image";
+import { Image } from "@chakra-ui/react";
 
 interface ButtonProps {
 	onClick: MouseEventHandler<HTMLButtonElement>;
