@@ -1,9 +1,7 @@
 import { Icon } from "@chakra-ui/react";
-import { IconProps } from "@chakra-ui/icons";
 
-// Map Icon (placeholder for testing)
-const ClusterIcon = (props: IconProps) => (
-	<Icon viewBox="0 0 200 200" {...props}>
+const ClusterIcon = () => (
+	<Icon viewBox="0 0 200 200">
 		<path
 			d="M29 77.8903C12.3318 61.8834 4 50.6184 4 39.414C4 32.4086 6.63392 25.6901 11.3223 20.7365C16.0107 15.7829 22.3696 13 29 13C35.6304 13 41.9893 15.7829 46.6777 20.7365C51.3661 25.6901 54 32.4086 54 39.414C54 50.6184 45.6682 61.8834 29 77.8903Z"
 			fill="#004BBB"
