@@ -1,0 +1,25 @@
+.carouselbox :global(.carousel) {
+    height: 185px
+}
+
+@media only screen and (max-width: 600px) {
+    .carouselbox :global(.carousel) {
+        height: 170px
+    }
+}
+
+.ind {
+    width: 7px;
+    height: 7px;
+    margin-inline: 4px;
+    border-radius: 50%;
+    list-style: none;
+    background-color: gray;
+    display: inline-block;
+    position: relative;
+    z-index: 100;
+}
+
+.ind.active {
+    background-color: teal;
+}
