@@ -5,7 +5,7 @@ import {
 	AccordionItem,
 	AccordionPanel,
 	Badge,
-	Box
+	Box,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import Carousel from "./InstructionsCarousel";
