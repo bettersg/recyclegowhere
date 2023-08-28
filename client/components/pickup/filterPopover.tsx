@@ -1,17 +1,10 @@
-import { Button, Box } from "@chakra-ui/react";
-import { UpDownIcon } from "@chakra-ui/icons";
+import { 
+	Button, Box , IconButton,
+	Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverCloseButton } from "@chakra-ui/react";
 import { useState, useRef } from "react";
-import {
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
-	PopoverHeader,
-	PopoverBody,
-	PopoverCloseButton,
-} from "@chakra-ui/react";
-// import { RefObject } from "react";
-// import { FocusableElement } from "@chakra-ui/utils";
 import MarkedSlider from "./slider";
+import { BsFilter } from "react-icons/bs";
+import { Icon } from "@chakra-ui/icons";
 
 const FilterButton = () => {
 	const initRef = useRef<HTMLElement | null>(null); // Specify the correct type for initRef
@@ -31,9 +24,11 @@ const FilterButton = () => {
 			{({ isOpen, onClose }) => (
 				<>
 					<PopoverTrigger>
-						<Button leftIcon={<UpDownIcon />} colorScheme={"teal"} size={"md"}>
-							Filter
-						</Button>
+					<IconButton
+						icon={<Icon as={BsFilter} />}
+						variant="outline"
+						size="lg"
+						aria-label={"Filter"} />
 					</PopoverTrigger>
 					<PopoverContent>
 						<PopoverHeader>Filter Results</PopoverHeader>

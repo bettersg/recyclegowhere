@@ -4,21 +4,10 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { FiMap } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
 import { Pages } from "spa-pages/pageEnums";
-import FilterButton from "./filterPopover";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
-
-// const [showPopup, setShowPopup] = useState(false);
-
-// const handleButtonClick = () => {
-//     setShowPopup(true);
-// };
-
-// const handlePopupClose = () => {
-//     setShowPopup(false);
-// };
 
 const ButtonRow = ({ setPage }: Props) => {
 	return (
@@ -44,7 +33,6 @@ const ButtonRow = ({ setPage }: Props) => {
 				>
 					Map
 				</Button>
-				<FilterButton />
 			</ButtonGroup>
 		</Flex>
 	);
