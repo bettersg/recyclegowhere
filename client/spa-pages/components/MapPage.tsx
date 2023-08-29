@@ -9,6 +9,7 @@ import { TStateFacilities } from "app-context/SheetyContext/types";
 import { useSheetyData } from "hooks/useSheetyData";
 import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
+import { FacilityType } from "app-context/UserSelectionContext/types";
 import Select from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
@@ -21,13 +22,8 @@ import GeneralIcon from "components/map/Marker/icons/GeneralIcon";
 import ClusterIcon from "components/map/Marker/icons/ClusterIcon";
 // import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
 // import PullUpTab from "components/map/PullUpTab";
-import {
-	HeaderButtons,
-	FacilityCard,
-	FilterPanel,
-	FilterButton,
-	MapContextProvider,
-} from "components/map";
+import { HeaderButtons, FacilityCard, FilterPanel, MapContextProvider } from "components/map";
+import { FilterButton } from "components/map/Buttons";
 
 // Leaflet Imports
 import dynamic from "next/dynamic";
@@ -161,22 +157,14 @@ const MapInner = ({ setPage }: Props) => {
 	// 	setFacCardIsOpen(false);
 	// };
 
-	const handleMarkerOnClick = (facility: {
-		id: number;
-		distance: number;
-		latlng: Array<number>;
-	}) => {
+	const handleMarkerOnClick = (facility: FacilityType) => {
 		const { cardIsOpen, cardDetails, distance } = getMatchingFacility(facility);
 		setFacCardIsOpen(cardIsOpen);
 		setFacCardDetails(cardDetails);
 		setFacCardDistance(distance);
 	};
 
-	const getMatchingFacility = (facility: {
-		id: number;
-		distance: number;
-		latlng: Array<number>;
-	}) => {
+	const getMatchingFacility = (facility: FacilityType) => {
 		let cardIsOpen = true;
 		let cardDetails = facCardDetails;
 		if (facility.id === facCardDetails.id) {

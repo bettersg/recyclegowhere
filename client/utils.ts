@@ -5,6 +5,7 @@ import {
 	RecyclingLocationResults,
 	TResult,
 } from "app-context/UserSelectionContext/types";
+import { LatLngExpression } from "leaflet";
 
 const EARTH_RADIUS = 6371; // Radius of the earth in km
 export const MAX_DISTANCE_KM = 6; // Maximum distance from your location to facility
@@ -56,7 +57,7 @@ export const getNearbyFacilities = (
 			facilities: relevantFacilities.map((facility) => ({
 				id: facility.id,
 				distance: distances.get(facility.id) as number,
-				latlng: [facility.latitude, facility.longitude],
+				latlng: [facility.latitude, facility.longitude] as LatLngExpression,
 			})),
 		};
 	}

@@ -4,11 +4,11 @@
 }
 
 .marker-text {
-	font-size: 9px !important;
-	position: absolute !important;
-	left: 30.5px !important;
-	bottom: -3.5px !important;
-	color: white !important;
+	font-size: 9px;
+	position: absolute;
+	left: 30.5px;
+	bottom: -3.5px;
+	color: white;
 }
 
 .marker-size {
@@ -23,8 +23,8 @@
 
 .marker-image {
 	width: 13px !important;
-	height: 13px !important;
-	position: absolute !important;
-	left: 13px !important;
-	top: 5px !important;
+	height: 13px;
+	position: absolute;
+	left: 13px;
+	top: 6px;
 }

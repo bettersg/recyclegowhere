@@ -14,7 +14,7 @@ import {
 	Checkbox,
 	Stack,
 } from "@chakra-ui/react";
-import { XButton } from "./NearbyFacilitiesPanel";
+import { XButton } from "./Buttons";
 import { COLORS } from "theme";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import { OptionType } from "spa-pages";
@@ -111,18 +111,6 @@ export const FilterPanel = ({
 						</Stack>
 					</CheckboxGroup>
 				</VStack>
-				{/* <VStack align="flex-start" w="100%">
-					<Text textAlign={"left"} fontWeight={"bold"}>
-						Types of Recycling Points
-					</Text>
-					<CheckboxGroup colorScheme="blue" defaultValue={[]}>
-						<Stack pl={1} spacing={3} direction={"column"}>
-							<Checkbox value="naruto">Test</Checkbox>
-							<Checkbox value="sasuke">Test</Checkbox>
-							<Checkbox value="kakashi">Test</Checkbox>
-						</Stack>
-					</CheckboxGroup>
-				</VStack> */}
 			</VStack>
 		</Box>
 	);

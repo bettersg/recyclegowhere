@@ -3,60 +3,19 @@ import { COLORS } from "theme";
 import { Pages } from "spa-pages/pageEnums";
 import { ChevronLeftIcon } from "@chakra-ui/icons";
 import { Location } from "components/home/UserInput/Location";
-import { HamburgerIcon, Search2Icon, CloseIcon } from "@chakra-ui/icons";
-
-import { IconButton } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, MouseEventHandler } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { RecyclingLocationResults } from "app-context/UserSelectionContext/types";
 import { TStateFacilities } from "app-context/SheetyContext/types";
 import { Image } from "@chakra-ui/react";
+import { FacilityType } from "app-context/UserSelectionContext/types";
+import { FilterButton } from "./Buttons";
 
-interface ButtonProps {
-	onClick: MouseEventHandler<HTMLButtonElement>;
-}
-// Button Design for the filter button
-export const FilterButton = ({ onClick }: ButtonProps) => {
-	return (
-		<IconButton
-			variant="solid"
-			color={COLORS.gray[700]}
-			background={COLORS.gray[100]}
-			aria-label="add line"
-			icon={<HamburgerIcon />}
-			onClick={onClick}
-		/>
-	);
-};
-export const SearchButton = ({ onClick }: ButtonProps) => {
-	return (
-		<IconButton
-			variant="solid"
-			color={COLORS.gray[700]}
-			background={COLORS.gray[100]}
-			aria-label="add line"
-			icon={<Search2Icon />}
-			onClick={onClick}
-		/>
-	);
-};
-export const XButton = ({ onClick }: ButtonProps) => {
-	return (
-		<IconButton
-			variant="solid"
-			color={COLORS.gray[700]}
-			background={COLORS.gray[100]}
-			aria-label="add line"
-			icon={<CloseIcon />}
-			onClick={onClick}
-		/>
-	);
-};
 type NearbyFacilitiesType = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 	handleChangedLocation: () => void;
 	showFilter: () => void;
 	nearbyLocations: RecyclingLocationResults;
-	getMatchingFacility: (facility: { id: number; distance: number; latlng: Array<number> }) => {
+	getMatchingFacility: (facility: FacilityType) => {
 		cardDetails: TStateFacilities;
 	};
 	isMobile: boolean | undefined;

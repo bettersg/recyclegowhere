@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 
 const useLeafletWindow = () => {
 	const [leafletWindow, setLeafletWindow] = useState(
-		// Honestly not sure what type window.L should be - defined it as any in leaflet.d.ts
 		typeof window === "undefined" ? undefined : window.L,
 	);
+	console.log("window is ", window.L);
 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (window.L) {
-				setLeafletWindow(window.L);
+				setLeafletWindow(window);
 				clearInterval(interval);
 			}
 		}, 100);

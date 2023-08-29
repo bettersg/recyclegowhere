@@ -14,9 +14,12 @@ export interface CustomMarkerProps {
 	category: string;
 }
 
-const MarkerIconWrapper = ({ icon, color, label, category }: Partial<CustomMarkerProps>) => {
-	const IconFC = useMemo(() => icon ?? null, [icon]);
-
+const MarkerIconWrapper = ({
+	icon: IconFC,
+	color,
+	label,
+	category,
+}: Partial<CustomMarkerProps>) => {
 	return (
 		<Box position={"relative"} padding={0} margin={0} className="inline-flex ">
 			{label && (
@@ -43,7 +46,6 @@ const MarkerIconWrapper = ({ icon, color, label, category }: Partial<CustomMarke
 					))}
 				{label && (
 					<Box
-						// flex flex-col bg-error
 						position={"relative"}
 						top={2}
 						// right={-2}
@@ -61,7 +63,13 @@ const MarkerIconWrapper = ({ icon, color, label, category }: Partial<CustomMarke
 					</Box>
 				)}
 
-				{category && <Image className="marker-image" src={`/icons/${category}.png`} />}
+				{category && (
+					<Image
+						className="marker-image"
+						src={`/icons/${category}.png`}
+						alt={`${category} icon`}
+					/>
+				)}
 			</Box>
 			<Box
 				position={"absolute"}

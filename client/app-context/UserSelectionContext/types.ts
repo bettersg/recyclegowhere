@@ -1,5 +1,5 @@
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
-
+import { LatLngExpression } from "leaflet";
 // =============================================================================
 // State types
 // =============================================================================
@@ -12,7 +12,8 @@ export type AddressOption = {
 	label: string;
 	coordinates: Coordinates;
 };
-export type TResult = { facilities: { id: number; distance: number; latlng: Array<number> }[] };
+export type FacilityType = { id: number; distance: number; latlng: LatLngExpression };
+export type TResult = { facilities: FacilityType[] };
 
 export type RecyclingLocationResults = {
 	results: Record<string, TResult>;

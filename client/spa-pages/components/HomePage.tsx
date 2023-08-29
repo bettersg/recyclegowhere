@@ -1,4 +1,4 @@
-import { Container, VStack, Button } from "@chakra-ui/react";
+import { Container, VStack } from "@chakra-ui/react";
 import { StickyFooter } from "components/footer/StickyFooter";
 import { Banner, UserInput } from "components/home";
 import styles from "components/home/hideScrollbar.module.css";
