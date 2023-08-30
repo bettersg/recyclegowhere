@@ -26,10 +26,11 @@ const PickupCarousel = ({ minDist }: { minDist: number }) => {
 		},
 	];
 	const [isMobile] = useMediaQuery("(max-width: 30em)");
-	const getPosition = (isMobile: boolean, index: number) => {
+	const getPosition = (isMobile: boolean, slideIndex: number) => {
 		let bottom = "";
 		let left = "";
-		if (index == 0) {
+		// If first slide
+		if (slideIndex == 0) {
 			if (isMobile) {
 				bottom = "46%";
 				left = "56%";
@@ -37,12 +38,13 @@ const PickupCarousel = ({ minDist }: { minDist: number }) => {
 				bottom = "48%";
 				left = "71%";
 			}
+			// If second slide
 		} else {
 			if (isMobile) {
 				bottom = "53%";
-				left = "56%";
+				left = "30.5%";
 			} else {
-				bottom = "30.5%";
+				bottom = "48.5%";
 				left = "21%";
 			}
 		}
@@ -65,7 +67,7 @@ const PickupCarousel = ({ minDist }: { minDist: number }) => {
 				showThumbs={false}
 				showStatus={false}
 				showArrows={false}
-				// autoPlay
+				autoPlay
 				infiniteLoop
 				interval={SLIDES_INTERVAL_TIME}
 				renderIndicator={(clickHandler, isSelected, index) => {
