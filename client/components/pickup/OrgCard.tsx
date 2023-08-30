@@ -26,8 +26,7 @@ const OrgCard = (props: Props) => {
 		contactDetail,
 		lastUpdated
 	} = props.orgDetails;
-	const acceptedItems = props.acceptedItems;
-	const notAcceptedItems = props.notAcceptedItems;
+	const { acceptedItems, notAcceptedItems } = props;
 	const numItems = acceptedItems.length + notAcceptedItems.length;
 	const colors = theme.colors;
 
