@@ -4,6 +4,8 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "components/pickup/carousel.module.css";
 import { Image } from "@chakra-ui/react";
+import * as csstype from "csstype";
+
 const SLIDES_INTERVAL_TIME = 5000;
 
 const PickupCarousel = ({ minDist }: { minDist: number }) => {
@@ -24,6 +26,38 @@ const PickupCarousel = ({ minDist }: { minDist: number }) => {
 		},
 	];
 	const [isMobile] = useMediaQuery("(max-width: 30em)");
+	const getPosition = (isMobile: boolean, index: number) => {
+		let bottom = "";
+		let left = "";
+		if (index == 0) {
+			if (isMobile) {
+				bottom = "46%";
+				left = "56%";
+			} else {
+				bottom = "48%";
+				left = "71%";
+			}
+		} else {
+			if (isMobile) {
+				bottom = "53%";
+				left = "56%";
+			} else {
+				bottom = "30.5%";
+				left = "21%";
+			}
+		}
+		return {
+			position: "absolute",
+			left: left,
+			bottom: bottom,
+			color: "black",
+		} as {
+			position: csstype.Property.Position;
+			left: string;
+			bottom: string;
+			color: string;
+		};
+	};
 
 	return (
 		<Box className={styles.carouselbox} px={4} h={40}>
@@ -48,26 +82,7 @@ const PickupCarousel = ({ minDist }: { minDist: number }) => {
 				{slides.map((slide, index) => (
 					<Box key={index} minWidth={"100%"} style={{ position: "relative" }}>
 						<Image src={slide.url} alt={slide.url} />
-						<div
-							style={{
-								position: "absolute",
-								bottom: isMobile
-									? index === 0
-										? "46%"
-										: "53%"
-									: index === 0
-									? "48%"
-									: "48.5%", // Adjust the positioning as needed
-								left: isMobile
-									? index === 0
-										? "56%"
-										: "30.5%"
-									: index === 0
-									? "71%"
-									: "21%", // Adjust the positioning as needed
-								color: "black",
-							}}
-						>
+						<div style={getPosition(isMobile, index)}>
 							<Box w="70px" alignContent={"center"}>
 								{" "}
 								{index === 0 ? (
