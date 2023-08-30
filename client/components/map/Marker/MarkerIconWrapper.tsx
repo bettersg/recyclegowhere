@@ -2,7 +2,6 @@
 // If clustered, "label" is passed in as an argument
 // If not clustered, "label" is not passed in as an argument
 import { LatLngExpression } from "leaflet";
-import { useMemo } from "react";
 import { Box, Text, Image } from "@chakra-ui/react";
 import { IconProps } from "@chakra-ui/icons";
 

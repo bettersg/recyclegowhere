@@ -1,5 +1,4 @@
 import { Icon } from "@chakra-ui/react";
-import { IconProps } from "@chakra-ui/icons";
 
 const ClusterIcon = (props: any) => (
 	<Icon viewBox="0 0 200 200" {...props}>

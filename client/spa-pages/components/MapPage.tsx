@@ -230,7 +230,6 @@ const MapInner = ({ setPage }: Props) => {
 			itemState.push(newItem);
 			updatedItemState = [...itemState];
 			updatedOptions.push(actionMeta.option as OptionType);
-			console.log(updatedOptions);
 			// If user removes an option
 		} else if (actionMeta.action === "remove-value") {
 			const removedValue = actionMeta.removedValue;
