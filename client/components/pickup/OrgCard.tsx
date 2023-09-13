@@ -6,17 +6,15 @@ import { BiTimeFive } from "react-icons/bi";
 import { BsCurrencyDollar } from "react-icons/bs";
 import OrgLabel from "./OrgLabel";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
-import { Categories } from "api/sheety/enums";
 import { CheckIcon, SmallCloseIcon } from "@chakra-ui/icons";
 
 type Props = {
-	items: (TItemSelection | TEmptyItem)[];
 	orgDetails: TSheetyPickupDetails;
-	getItemCategory: (itemName: string) => Categories;
+	acceptedItems: (TItemSelection | TEmptyItem)[];
+	notAcceptedItems: (TItemSelection | TEmptyItem)[];
 };
 
 const OrgCard = (props: Props) => {
-	const items = props.items;
 	const {
 		organisationName,
 		website,
@@ -28,13 +26,9 @@ const OrgCard = (props: Props) => {
 		contactDetail,
 		lastUpdated
 	} = props.orgDetails;
+	const { acceptedItems, notAcceptedItems } = props;
+	const numItems = acceptedItems.length + notAcceptedItems.length;
 	const colors = theme.colors;
-
-	const getItemCategory = props.getItemCategory;
-
-	const numItems = items.length;
-	const acceptedItems = items.filter((item) => categoriesAccepted.includes(getItemCategory(item.name)));
-	const notAcceptedItems = items.filter((item) => !categoriesAccepted.includes(getItemCategory(item.name)));
 
 	return (
 		<Card mx={5} my={2} boxShadow="md" border="2px" borderColor={colors.gray[100]} >
