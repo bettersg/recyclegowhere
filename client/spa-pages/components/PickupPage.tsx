@@ -13,7 +13,22 @@ type Props = {
 };
 
 export const PickupPage = ({ setPage }: Props) => {
-	const { items } = useUserInputs();
+	const { items, recyclingLocationResults } = useUserInputs();
+	const results = recyclingLocationResults ? recyclingLocationResults.results : {};
+
+	// Find shortest distance to facility
+	let minDistance = 100;
+	if (Object.keys(results).length > 0) {
+		for (const category in results) {
+			if (results[category].facilities) {
+				for (const facility of results[category].facilities) {
+					if (facility.distance < minDistance) {
+						minDistance = facility.distance;
+					}
+				}
+			}
+		}
+	}
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
@@ -26,7 +41,7 @@ export const PickupPage = ({ setPage }: Props) => {
 				pb={5}
 			>
 				<VStack align="stretch" my={23} spacing={4}>
-					<Carousel />
+					<Carousel minDist={minDistance} />
 					<ButtonRow setPage={setPage} />
 					<ItemsAndFilterRow items={items} />
 					<OrgList items={items} />

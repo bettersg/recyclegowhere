@@ -20,7 +20,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 	const { items, address, setRecyclingLocationResults } = useUserInputs();
 	const { facilities, getItemCategory } = useSheetyData();
 
-	const handleWhereToRecyleClick = () => {
+	const handleNextPage = (pageNumber: number) => {
 		setRecyclingLocationResults(
 			getNearbyFacilities(
 				items as TItemSelection[],
@@ -31,7 +31,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 			),
 		);
 
-		setPage(Pages.MAP);
+		setPage(pageNumber);
 	};
 
 	return (
@@ -54,7 +54,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					color="white"
 					justifyContent="flex-start"
 					leftIcon={<SearchIcon />}
-					onClick={handleWhereToRecyleClick}
+					onClick={() => handleNextPage(Pages.MAP)}
 				>
 					Find nearest recycling points
 				</Button>
@@ -64,7 +64,7 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 					color="white"
 					justifyContent="flex-start"
 					leftIcon={<CalendarIcon />}
-					onClick={() => setPage(Pages.PICKUP)}
+					onClick={() => handleNextPage(Pages.PICKUP)}
 				>
 					Arrange pickups
 				</Button>
