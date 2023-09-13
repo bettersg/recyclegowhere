@@ -1,0 +1,30 @@
+.leaflet-marker-icon {
+	border: 0cm;
+	background: rgba(0, 0, 0, 0);
+}
+
+.marker-text {
+	font-size: 9px;
+	position: absolute;
+	left: 30.5px;
+	bottom: -3.5px;
+	color: white;
+}
+
+.marker-size {
+	width: 35px !important;
+	height: 35px !important;
+}
+
+.cluster-marker-size {
+	width: 42px !important;
+	height: 42px !important;
+}
+
+.marker-image {
+	width: 13px !important;
+	height: 13px;
+	position: absolute;
+	left: 13px;
+	top: 6px;
+}

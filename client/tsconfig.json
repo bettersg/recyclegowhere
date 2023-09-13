@@ -15,7 +15,10 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"baseUrl": ".",
-		"rootDir": "."
+		"rootDir": ".",
+		"paths": {
+			"leaflet": ["../node_modules/leaflet"]
+		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
 	"exclude": ["node_modules"]

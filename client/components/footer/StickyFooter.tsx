@@ -7,6 +7,7 @@ import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
 import { getNearbyFacilities } from "utils";
 import { TItemSelection } from "app-context/SheetyContext/types";
+import { MAX_DISTANCE_KM } from "utils";
 
 type Props = {
 	disabled: boolean;
@@ -21,7 +22,13 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 
 	const handleWhereToRecyleClick = () => {
 		setRecyclingLocationResults(
-			getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory),
+			getNearbyFacilities(
+				items as TItemSelection[],
+				address,
+				facilities,
+				getItemCategory,
+				MAX_DISTANCE_KM,
+			),
 		);
 
 		setPage(Pages.MAP);

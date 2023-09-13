@@ -37,7 +37,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 
 	return (
 		<>
-			<Location handleBlur={() => setAddressBlur(true)} />
+			<Location showText={true} handleBlur={() => setAddressBlur(true)} />
 			<Items />
 		</>
 	);
