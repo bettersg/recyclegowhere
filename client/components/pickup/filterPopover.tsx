@@ -1,6 +1,5 @@
-import { 
-	Button, Box , IconButton,
-	Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverCloseButton } from "@chakra-ui/react";
+import {Button, Box , IconButton,
+	Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverCloseButton} from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import MarkedSlider from "./slider";
 import { BsFilter } from "react-icons/bs";
@@ -47,7 +46,7 @@ const FilterButton = () => {
 								/>
 							</Box>
 
-							<Button mt={4} colorScheme="teal" onClick={onClose} ref={initRef}>
+							<Button mt={4} colorScheme="teal" onClick={onClose} ref={initRef as React.RefObject<HTMLButtonElement>}>
 								Apply
 							</Button>
 						</PopoverBody>

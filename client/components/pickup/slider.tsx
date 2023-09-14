@@ -4,27 +4,23 @@ import {
 		SliderFilledTrack,
 		SliderThumb,
 		SliderMark,
-	} from '@chakra-ui/react'
+	} from "@chakra-ui/react";
 import { Button, Flex, Heading, Spacer, Box, ButtonGroup } from "@chakra-ui/react";
-import { ArrowBackIcon, SearchIcon, UpDownIcon } from "@chakra-ui/icons";
 import { Dispatch, SetStateAction, useState, useRef} from "react";
 
+interface MarkedSliderProps {
+	value: number;
+	onSliderChange: (val: number) => void;
+}
 
-
-function MarkedSlider() {
+const MarkedSlider:React.FC<MarkedSliderProps> = ({value, onSliderChange}) => {
 
 	const [sliderValue, setSliderValue] = useState(100);
 
-	const changeMade = (val) => {
-			setSliderValue(val.target.value);
-	}
-	
 	const labelStyles = {
-		mt: '2',
-		ml: '-2.5',
-		fontSize: 'sm',
-	}
-	
+		mt: "2",
+		ml: "-2.5",
+		fontSize: "sm"};
 	return (
 		<Box pt={6} pb={2}>
 			<Slider
@@ -56,7 +52,7 @@ function MarkedSlider() {
 				<SliderThumb />
 			</Slider>
 		</Box>
-	)
-}
+	);
+};
 
 export default MarkedSlider;

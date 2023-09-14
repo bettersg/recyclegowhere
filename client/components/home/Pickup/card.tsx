@@ -2,7 +2,6 @@ import { Text, Button, ButtonGroup, VStack, Heading } from "@chakra-ui/react";
 import { Card, CardBody } from "@chakra-ui/card";
 import { TSheetyPickupDetails } from "api/sheety/types";
 import NextLink from "next/link";
-import FilterButton from "./filterPopover";
 
 const OrgCard = ({
 	organisationName,
