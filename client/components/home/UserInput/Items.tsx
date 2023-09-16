@@ -27,13 +27,6 @@ export const Items = () => {
 	const { items, setUserSelection } = useUserInputs();
 	const { items: itemList, categories } = useSheetyData();
 
-	const isLastItem = useCallback(
-		(index: number) => {
-			return index === items.length - 1;
-		},
-		[items.length],
-	);
-
 	const getValidMethods = useCallback(
 		(itemName: string) => {
 			const item = itemList.find((i) => i.name === itemName);
@@ -126,7 +119,7 @@ export const Items = () => {
 									</option>
 								))}
 						</StyledSelect>
-						{isLastItem(index) ? (
+						{index === 0 ? (
 							<AddLineButton onClick={handleAddItem} />
 						) : (
 							<RemoveLineButton

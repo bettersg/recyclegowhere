@@ -1,15 +1,17 @@
 import { Button, Flex, Heading, Spacer, Box, ButtonGroup, Icon } from "@chakra-ui/react";
+import { ArrowBackIcon, SearchIcon, UpDownIcon } from "@chakra-ui/icons";
+import { Dispatch, SetStateAction, useState } from "react";
 import { FiMap } from "react-icons/fi";
 import { TbReload } from "react-icons/tb";
-import { Dispatch, SetStateAction } from "react";
 import { Pages } from "spa-pages/pageEnums";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
+
 const ButtonRow = ({ setPage }: Props) => {
 	return (
-		<Flex px={4}>
+		<Flex px={6}>
 			<Box>
 				<Heading size={"md"}>Your items:</Heading>
 			</Box>

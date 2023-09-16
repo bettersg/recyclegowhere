@@ -5,15 +5,17 @@ import {
 	RecyclingLocationResults,
 	TResult,
 } from "app-context/UserSelectionContext/types";
+import { LatLngExpression } from "leaflet";
 
 const EARTH_RADIUS = 6371; // Radius of the earth in km
-const MAX_DISTANCE_KM = 6;
+export const MAX_DISTANCE_KM = 6; // Maximum distance from your location to facility
 
 export const getNearbyFacilities = (
 	items: TItemSelection[],
 	address: AddressOption,
 	facilities: TStateFacilities[],
 	getItemCategory: (itemName: string) => Categories,
+	maxDistance: number,
 ): RecyclingLocationResults => {
 	const res: Record<string, TResult> = {};
 	const allFacilityIds: number[] = [];
@@ -35,7 +37,7 @@ export const getNearbyFacilities = (
 					longitude,
 				);
 
-				if (distance < MAX_DISTANCE_KM) {
+				if (distance < maxDistance) {
 					distances.set(id, distance);
 					allFacilityIds.push(id);
 					return true;
@@ -51,10 +53,11 @@ export const getNearbyFacilities = (
 			return distA - distB;
 		});
 
-		res[name] = {
+		res[cat] = {
 			facilities: relevantFacilities.map((facility) => ({
 				id: facility.id,
 				distance: distances.get(facility.id) as number,
+				latlng: [facility.latitude, facility.longitude] as LatLngExpression,
 			})),
 		};
 	}

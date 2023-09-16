@@ -4,10 +4,10 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { TSheetyPickupDetails } from "api/sheety/types";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 
-export type PickupResult = {
-	itemSelected: string;
-	itemCategory: string;
-	possibleOrganizations: TSheetyPickupDetails[]
+type OrgProps = {
+	organisation: TSheetyPickupDetails;
+	acceptedItems: (TItemSelection | TEmptyItem)[];
+	notAcceptedItems: (TItemSelection | TEmptyItem)[];
 }
 
 type Props = {
@@ -17,13 +17,25 @@ type Props = {
 const OrgList = (props: Props) => {
 	const colors = theme.colors;
 
-	// TODO: #148: Sort facilities based on number of inputted-items it collects
 	const { pickUpServices, getItemCategory } = useSheetyData();
-	const getPickupData = (item: (TItemSelection | TEmptyItem)): PickupResult => {
-		const cat = getItemCategory(item.name);
-		const possiblePickups = pickUpServices.filter((x) => x.categoriesAccepted.includes(cat));
-		return { itemSelected: item.name, itemCategory: cat, possibleOrganizations: possiblePickups };
-	};
+	const possiblePickups = pickUpServices.filter((pickUpService) => {
+		let picksUpAtLeastOneItem = false;
+		for (const item of props.items) {
+			if (pickUpService.categoriesAccepted.includes(getItemCategory(item.name))) {
+				picksUpAtLeastOneItem = true;
+				break;
+			}
+		}
+		return picksUpAtLeastOneItem;
+	});
+	const orgPropsList: OrgProps[] = possiblePickups.map((pickup) => {
+		return {
+			organisation: pickup,
+			acceptedItems: props.items.filter((item) => pickup.categoriesAccepted.includes(getItemCategory(item.name))),
+			notAcceptedItems: props.items.filter((item) => !pickup.categoriesAccepted.includes(getItemCategory(item.name)))
+		};
+	});
+	const sortedPossiblePickups = orgPropsList.sort((a, b) => a.acceptedItems.length > b.acceptedItems.length ? -1 : 1);
 
 	return (
 		<>
@@ -33,8 +45,8 @@ const OrgList = (props: Props) => {
 			<Heading size="lg" textAlign="center">
 				Pick Up Services Near You
 			</Heading>
-			{getPickupData(props.items[0]).possibleOrganizations.map((x) => (
-				<OrgCard key={x["s/n"]} items={props.items} orgDetails={x} getItemCategory={getItemCategory} />
+			{sortedPossiblePickups.map((pickup) => (
+				<OrgCard key={pickup.organisation["s/n"]} orgDetails={pickup.organisation} acceptedItems={pickup.acceptedItems} notAcceptedItems={pickup.notAcceptedItems} />
 			))}
 		</>
 	);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import "leaflet/dist/leaflet.css";
 
 export const useWindowDimensions = () => {
 	const [windowDimensions, setWindowDimensions] = useState<{
