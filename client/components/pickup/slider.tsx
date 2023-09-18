@@ -1,31 +1,32 @@
 import {
-		Slider,
-		SliderTrack,
-		SliderFilledTrack,
-		SliderThumb,
-		SliderMark,
-	} from "@chakra-ui/react";
-import { Button, Flex, Heading, Spacer, Box, ButtonGroup } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useState, useRef} from "react";
+	Slider,
+	SliderTrack,
+	SliderFilledTrack,
+	SliderThumb,
+	SliderMark,
+} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { useState } from "react";
 
 interface MarkedSliderProps {
 	value: number;
 	onSliderChange: (val: number) => void;
 }
 
-const MarkedSlider:React.FC<MarkedSliderProps> = ({value, onSliderChange}) => {
+const MarkedSlider: React.FC<MarkedSliderProps> = ({ value, onSliderChange }) => {
 
 	const [sliderValue, setSliderValue] = useState(100);
 
 	const labelStyles = {
 		mt: "2",
 		ml: "-2.5",
-		fontSize: "sm"};
+		fontSize: "sm"
+	};
 	return (
 		<Box pt={6} pb={2}>
 			<Slider
-					defaultValue={sliderValue} onChange={(val) => setSliderValue(val)} colorScheme='teal'
-					aria-label='slider-ex-6'>
+				defaultValue={sliderValue} onChange={(val) => setSliderValue(val)} colorScheme='teal'
+				aria-label='slider-ex-6'>
 				<SliderMark value={25} {...labelStyles}>
 					25
 				</SliderMark>
