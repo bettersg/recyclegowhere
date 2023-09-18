@@ -8,9 +8,7 @@ import * as csstype from "csstype";
 
 const SLIDES_INTERVAL_TIME = 5000;
 
-const PickupCarousel = ({ minDist }: { minDist: number }) => {
-	// TODO: Issue #131 - Calculate number of organisations and distance to nearest blue bin and display them
-
+const PickupCarousel = ({ minDist, numPickupServices }: { minDist: number, numPickupServices: number }) => {
 	const slides = [
 		{
 			url: useBreakpointValue({
@@ -89,7 +87,7 @@ const PickupCarousel = ({ minDist }: { minDist: number }) => {
 								{" "}
 								{index === 0 ? (
 									<Text fontSize={["13px", "13px", "20px"]} as={"b"}>
-										TEST
+										{numPickupServices}
 									</Text>
 								) : (
 									<Text fontSize={["13px", "13px", "20px"]} as={"b"}>

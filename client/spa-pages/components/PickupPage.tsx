@@ -2,19 +2,29 @@ import { Container, VStack } from "@chakra-ui/react";
 import { BasePage } from "layouts/BasePage";
 import OrgList from "components/pickup/OrgList";
 import ButtonRow from "components/pickup/ButtonRow";
-import Carousel from "components/pickup/PickupCarousel";
+import PickupCarousel from "components/pickup/PickupCarousel";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import ItemsAndFilterRow from "components/pickup/ItemsAndFilterRow";
 import { useUserInputs } from "hooks/useUserSelection";
+import { useSheetyData } from "hooks/useSheetyData";
+import { TSheetyPickupDetails } from "api/sheety/types";
+import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
+export type OrgProps = {
+	organisation: TSheetyPickupDetails;
+	acceptedItems: (TItemSelection | TEmptyItem)[];
+	notAcceptedItems: (TItemSelection | TEmptyItem)[];
+}
+
 export const PickupPage = ({ setPage }: Props) => {
 	const { items, recyclingLocationResults } = useUserInputs();
 	const results = recyclingLocationResults ? recyclingLocationResults.results : {};
+	console.log(recyclingLocationResults);
 
 	// Find shortest distance to facility
 	let minDistance = 100;
@@ -30,6 +40,27 @@ export const PickupPage = ({ setPage }: Props) => {
 		}
 	}
 
+	// Pick up services
+	const { pickUpServices, getItemCategory } = useSheetyData();
+	const possiblePickups = pickUpServices.filter((pickUpService) => {
+		let picksUpAtLeastOneItem = false;
+		for (const item of items) {
+			if (pickUpService.categoriesAccepted.includes(getItemCategory(item.name))) {
+				picksUpAtLeastOneItem = true;
+				break;
+			}
+		}
+		return picksUpAtLeastOneItem;
+	});
+	const orgPropsList: OrgProps[] = possiblePickups.map((pickup) => {
+		return {
+			organisation: pickup,
+			acceptedItems: items.filter((item) => pickup.categoriesAccepted.includes(getItemCategory(item.name))),
+			notAcceptedItems: items.filter((item) => !pickup.categoriesAccepted.includes(getItemCategory(item.name)))
+		};
+	});
+	const sortedPossiblePickups = orgPropsList.sort((a, b) => a.acceptedItems.length > b.acceptedItems.length ? -1 : 1);
+
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
 			<Container
@@ -41,10 +72,10 @@ export const PickupPage = ({ setPage }: Props) => {
 				pb={5}
 			>
 				<VStack align="stretch" my={23} spacing={4}>
-					<Carousel minDist={minDistance} />
+					<PickupCarousel numPickupServices={sortedPossiblePickups.length} minDist={minDistance} />
 					<ButtonRow setPage={setPage} />
 					<ItemsAndFilterRow items={items} />
-					<OrgList items={items} />
+					<OrgList sortedPossiblePickups={sortedPossiblePickups} />
 				</VStack>
 			</Container>
 		</BasePage>
