@@ -1,6 +1,5 @@
 import { ChevronDownIcon, ChevronUpIcon, Icon } from "@chakra-ui/icons";
-import { BsFilter } from "react-icons/bs";
-import { Flex, IconButton, Tag, theme } from "@chakra-ui/react";
+import { Flex, Tag, theme } from "@chakra-ui/react";
 import { useState } from "react";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 import FilterButton from "./filterPopover";
@@ -24,11 +23,6 @@ const ItemsAndFilterRow = (props: Props) => {
                 </Flex>
                 <Icon as={isExpanded ? ChevronUpIcon : ChevronDownIcon} boxSize={6} mr={4} my={3} onClick={() => setIsExpanded(!isExpanded)} />
             </Flex>
-            {/* <IconButton
-                icon={<Icon as={BsFilter} />}
-                variant="outline"
-                size="lg"
-                aria-label={"Filter"} /> */}
             <FilterButton />
         </Flex>
     );
