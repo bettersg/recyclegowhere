@@ -14,7 +14,7 @@ export const Banner = () => (
 				md: "100%",
 			}}
 		>
-			<Text mt={17}>Uncle sem will tell you! What do u want to know?</Text>
+			<Text mt={17}>Come, Uncle Sem help you!</Text>
 		</Box>
 	</Flex>
 );

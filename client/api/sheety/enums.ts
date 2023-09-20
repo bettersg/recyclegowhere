@@ -4,6 +4,7 @@ export enum Methods {
 	DONATE = "DONATE",
 	REPAIR = "REPAIR",
 	SWAPPING = "SWAPPING",
+	THROW = "THROW",
 }
 
 export enum Categories {

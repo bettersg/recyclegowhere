@@ -2,19 +2,15 @@ import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 
-type CarouselProps = {
-	items: string[];
-};
-
-const Carousel = ({ items: props }: CarouselProps) => {
+const InstructionsCarousel = ({ items }: { items: string[] }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	const handlePrevClick = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === 0 ? props.length - 1 : prevIndex - 1));
+		setCurrentIndex((prevIndex) => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));
 	};
 
 	const handleNextClick = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === props.length - 1 ? 0 : prevIndex + 1));
+		setCurrentIndex((prevIndex) => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
 	};
 
 	return (
@@ -22,9 +18,9 @@ const Carousel = ({ items: props }: CarouselProps) => {
 			<Flex align="center">
 				<Box flexGrow={1}>
 					<Text as="b" fontSize="lg">
-						Step {props.indexOf(props[currentIndex]) + 1} of {props.length}
+						Step {items.indexOf(items[currentIndex]) + 1} of {items.length}
 					</Text>
-					<Text>{props[currentIndex]}</Text>
+					<Text>{items[currentIndex]}</Text>
 				</Box>
 			</Flex>
 			<Center>
@@ -39,4 +35,4 @@ const Carousel = ({ items: props }: CarouselProps) => {
 	);
 };
 
-export default Carousel;
+export default InstructionsCarousel;

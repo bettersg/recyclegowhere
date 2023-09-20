@@ -1,26 +1,32 @@
-import { Box, Button, Heading, HStack, Spacer } from "@chakra-ui/react";
+import { Box, Button, HStack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 import { Pages } from "spa-pages/pageEnums";
-
+import { ArrowBackIcon, RepeatIcon } from "@chakra-ui/icons";
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 
 export const InstructionsHeader = ({ setPage }: Props) => {
 	return (
-		<>
-			<Spacer />
-			<HStack px={2}>
-				<Box>
-					<Heading size="lg">Instructions</Heading>
-				</Box>
-				<Spacer />
-				<Box>
-					<Button onClick={() => setPage(Pages.HOME)} colorScheme="teal">
-						Restart!
-					</Button>
-				</Box>
+		<Box my={5}>
+			<HStack px={2} justifyContent={"space-between"} gap={5}>
+				<Button
+					w={"50%"}
+					leftIcon={<ArrowBackIcon />}
+					onClick={() => setPage(Pages.HOME)}
+					colorScheme="teal"
+				>
+					Back
+				</Button>
+				<Button
+					w={"50%"}
+					leftIcon={<RepeatIcon />}
+					onClick={() => setPage(Pages.HOME)}
+					colorScheme="teal"
+				>
+					Restart
+				</Button>
 			</HStack>
-		</>
+		</Box>
 	);
 };
