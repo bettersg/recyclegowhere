@@ -4,12 +4,12 @@ import {
 	AccordionIcon,
 	AccordionItem,
 	AccordionPanel,
-	Badge,
 	Box,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import Carousel from "./InstructionsCarousel";
 import { Methods } from "api/sheety/enums";
+import { InstructionsTag } from "./InstructionsTag";
 export type AccordionProps = {
 	items: {
 		title: string;
@@ -38,9 +38,7 @@ export const AccordionComp = ({ items }: AccordionProps) => {
 							<Box as="span" flex="1" textAlign="left">
 								{item.title}
 							</Box>
-							<Badge size="lg" colorScheme="green" borderRadius="full">
-								{item.method}
-							</Badge>
+							<InstructionsTag method={item.method} />
 							<AccordionIcon />
 						</AccordionButton>
 					</h2>
