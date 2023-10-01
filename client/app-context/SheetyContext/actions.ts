@@ -5,6 +5,7 @@ import {
 	TSheetyFacilities,
 	TInstructions,
 	TSheetyPickupDetails,
+	TReasonsForUnrecyclability,
 } from "api/sheety/types";
 import {
 	TInitializeItemsListAction,
@@ -14,6 +15,7 @@ import {
 	TInitializeFacilitiesAction,
 	TInitializeInstructionsAction,
 	TinitializePickupDetailsAction,
+	TInitializeUnrecyclabilityList,
 } from "./types";
 
 const initializeItemsList = (items: Items[]): TInitializeItemsListAction => ({
@@ -45,9 +47,18 @@ const initializeInstructionsList = (
 	payload: instructions,
 });
 
-const initializePickupList = (pickUpDetails: TSheetyPickupDetails[]): TinitializePickupDetailsAction => ({
+const initializePickupList = (
+	pickUpDetails: TSheetyPickupDetails[],
+): TinitializePickupDetailsAction => ({
 	type: SheetyActionsEnums.SET_PICKUP_LIST,
 	payload: pickUpDetails,
+});
+
+const initializeUnrecyclabilityList = (
+	unrecyclableDetails: TReasonsForUnrecyclability[],
+): TInitializeUnrecyclabilityList => ({
+	type: SheetyActionsEnums.SET_UNRECYCLABILITY_LIST,
+	payload: unrecyclableDetails,
 });
 
 export const SheetyActions = {
@@ -56,5 +67,6 @@ export const SheetyActions = {
 	initializeMethodsList,
 	initializeFaciltiesList,
 	initializeInstructionsList,
-	initializePickupList
+	initializePickupList,
+	initializeUnrecyclabilityList,
 };

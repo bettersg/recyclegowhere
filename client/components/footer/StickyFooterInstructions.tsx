@@ -2,7 +2,7 @@ import { Button, Container, Flex, useBreakpointValue, Text } from "@chakra-ui/re
 import { forwardRef } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { COLORS } from "theme";
-
+import { SearchIcon } from "@chakra-ui/icons";
 type Props = {
 	setPage: (pageNumber: number) => void;
 };
@@ -14,7 +14,8 @@ export const StickyFooterInstructions = forwardRef<HTMLDivElement, Props>(({ set
 			ref={ref}
 			boxShadow="0px 0 10px rgba(0, 0, 0, 0.8)"
 			minW="100%"
-			py={{ base: "4", md: "6" }}
+			minH={{ base: "20%", md: "10%" }}
+			py={{ base: "10", md: "6" }}
 		>
 			<Flex
 				direction={{ base: "column", sm: "row" }}
@@ -24,15 +25,16 @@ export const StickyFooterInstructions = forwardRef<HTMLDivElement, Props>(({ set
 			>
 				<Flex flexDir="column">
 					<Flex w="100%" align="center" justify="center" direction="column" gap="2">
-						<Text>I’ve read them all, and I’m ready! So...</Text>
+						<Text as="b">All done! Now go where?</Text>
 						<Button
+							leftIcon={<SearchIcon />}
 							bg={COLORS.Button.primary}
 							color={COLORS.white}
 							flex="1"
 							onClick={() => setPage(Pages.MAP)}
 							py="3"
 						>
-							Show me the map
+							Find nearest recycling points
 						</Button>
 					</Flex>
 				</Flex>

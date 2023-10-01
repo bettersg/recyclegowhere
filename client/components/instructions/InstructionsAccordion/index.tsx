@@ -1,54 +1,72 @@
-import {
-	Accordion,
-	AccordionButton,
-	AccordionIcon,
-	AccordionItem,
-	AccordionPanel,
-	Box,
-} from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import Carousel from "./InstructionsCarousel";
 import { Methods } from "api/sheety/enums";
-import { InstructionsTag } from "./InstructionsTag";
-export type AccordionProps = {
-	items: {
-		title: string;
-		method: Methods | undefined;
-		contents: string[];
-	}[];
+import DisplayAccordion from "./DisplayAccordion";
+
+export type AccordionDisplayProps = {
+	items: AccordionProps[];
+	handleAccordionClick: (index: number) => void;
+	recyclable: boolean;
 };
 
-export const AccordionComp = ({ items }: AccordionProps) => {
+export type AccordionProps = {
+	title: string;
+	method: Methods | undefined;
+	contents?: string[];
+	reason?: string;
+	suggestion?: string;
+};
+
+export type AccordionsProps = {
+	items: AccordionProps[];
+};
+
+export const AccordionComp: React.FC<AccordionsProps> = ({ items }) => {
 	const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
 	const handleAccordionClick = (index: number) => {
 		setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
 	};
 
+	const unrecyclableItems = [] as AccordionProps[];
+	const recyclableItems = items.filter((item) => {
+		if (item.method === Methods.THROW) {
+			unrecyclableItems.push(item);
+			return false; // Exclude the item from the remainingItems array
+		}
+		return true; // Keep the item in the remainingItems array
+	});
+
 	return (
-		<Accordion allowMultiple allowToggle>
-			{items.map((item, index) => (
-				<AccordionItem key={index}>
-					<h2>
-						<AccordionButton
-							_expanded={{ bg: "teal", color: "white" }}
-							onClick={() => handleAccordionClick(index)}
-							_hover={{ bg: "teal", color: "white" }}
-						>
-							<Box as="span" flex="1" textAlign="left">
-								{item.title}
-							</Box>
-							<InstructionsTag method={item.method} />
-							<AccordionIcon />
-						</AccordionButton>
-					</h2>
-					<AccordionPanel>
-						<Box p={4}>
-							<Carousel items={item.contents} />
-						</Box>
-					</AccordionPanel>
-				</AccordionItem>
-			))}
-		</Accordion>
+		<>
+			{unrecyclableItems.length > 0 && (
+				<Box>
+					<Text as={"b"} fontSize={"x-large"} mt={0}>
+						Non-Recyclables
+					</Text>
+
+					{/* Non-recyclable accordion */}
+					<DisplayAccordion
+						items={unrecyclableItems}
+						handleAccordionClick={handleAccordionClick}
+						recyclable={false}
+					/>
+				</Box>
+			)}
+			{recyclableItems.length > 0 && (
+				<Box>
+					<Text as={"b"} fontSize={"x-large"} mt={0}>
+						Recyclables
+					</Text>
+
+					{/* Recyclable accordion */}
+					<DisplayAccordion
+						items={recyclableItems}
+						handleAccordionClick={handleAccordionClick}
+						recyclable={true}
+					/>
+				</Box>
+			)}
+		</>
 	);
 };

@@ -6,6 +6,7 @@ import {
 	TSheetyMethods,
 	TInstructions,
 	TSheetyPickupDetails,
+	TReasonsForUnrecyclability,
 } from "api/sheety/types";
 
 // =============================================================================
@@ -21,6 +22,7 @@ export interface SheetyContextState {
 	categories: TStateCategories[];
 	facilities: TStateFacilities[];
 	pickUpServices: TSheetyPickupDetails[];
+	unrecyclableDetails: TReasonsForUnrecyclability[];
 }
 export type TStateCategories = {
 	id: number;
@@ -64,6 +66,7 @@ export enum SheetyActionsEnums {
 	SET_FACILITIES_LIST = "SET_FACILITIES_LIST",
 	SET_INSTRUCTIONS_LIST = "SET_INSTRUCTIONS_LIST",
 	SET_PICKUP_LIST = "SET_PICKUP_LIST",
+	SET_UNRECYCLABILITY_LIST = "SET_UNRECYCLABILITY_LIST",
 }
 
 export type TInitializeItemsListAction = {
@@ -89,4 +92,9 @@ export type TInitializeInstructionsAction = {
 export type TinitializePickupDetailsAction = {
 	type: SheetyActionsEnums.SET_PICKUP_LIST;
 	payload: TSheetyPickupDetails[];
-}
+};
+
+export type TInitializeUnrecyclabilityList = {
+	type: SheetyActionsEnums.SET_UNRECYCLABILITY_LIST;
+	payload: TReasonsForUnrecyclability[];
+};

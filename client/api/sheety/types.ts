@@ -57,4 +57,12 @@ export type TSheetyPickupDetails = {
 	contactMethod: string;
 	contactDetail: string;
 	lastUpdated: string;
-}
+};
+
+export type TReasonsForUnrecyclability = {
+	id: number;
+	description: string;
+	category: string;
+	reason: string;
+	suggestion: string;
+};

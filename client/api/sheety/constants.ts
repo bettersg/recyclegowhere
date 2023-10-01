@@ -8,4 +8,5 @@ export enum Sheets {
 	INSTRUCTIONS_SHEET_NAME = "instructions",
 	FACILITIES_SHEET_NAME = "facilitiesList (final)",
 	PICKUP_SHEET_NAME = "pickUpServices",
+	UNRECYCLABILITY_SHEET_NAME = "reasonsForUnrecyclability",
 }

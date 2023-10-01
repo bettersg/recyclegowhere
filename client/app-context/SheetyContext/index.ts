@@ -10,4 +10,5 @@ export const initialSheetyState: SheetyContextState = {
 	categories: [],
 	facilities: [],
 	pickUpServices: [],
+	unrecyclableDetails: [],
 };
