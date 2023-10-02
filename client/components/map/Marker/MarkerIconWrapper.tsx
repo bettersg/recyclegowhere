@@ -23,9 +23,9 @@ const MarkerIconWrapper = ({
 		<Box>
       {IconFC &&
         (label ? (
-          <IconFC className="cluster-marker-size" viewBox="0 0 60 83" />
+          <IconFC className="cluster-marker-size" />
         ) : (
-          <IconFC className="marker-size" viewBox="0 0 50 70" />
+          <IconFC className="marker-size" />
         ))}
       {label && (
         <Text className="marker-text">{label}</Text>
