@@ -11,7 +11,7 @@ export interface CustomMarkerProps {
 	color: string;
 	label?: string;
 	category: string;
-  isSelected?: boolean;
+	isSelected?: boolean;
 }
 
 const MarkerIconWrapper = ({
@@ -19,30 +19,27 @@ const MarkerIconWrapper = ({
 	color,
 	label,
 	category,
-  isSelected = false,
+	isSelected = false,
 }: Partial<CustomMarkerProps>) => {
 	return (
-    <Box
-      className={`marker-icon-wrapper ${isSelected ? "selected" : ""}`}
-    >
-      {IconFC &&
-        (label ? (
-          <IconFC className="cluster-marker-size" />
-        ) : (
-          <IconFC className="marker-size" />
-        ))}
-      {label && (
-        <Text className="marker-text">{label}</Text>
-      )}
+		<Box className={`marker-icon-wrapper ${isSelected ? "selected" : ""}`}>
+			{IconFC &&
+				(label ? (
+					<IconFC className="cluster-marker-size" />
+				) : (
+					<IconFC className="marker-size" />
+				))}
 
-      {category && (
-        <Image
-          className="marker-image"
-          src={`/icons/${category}.png`}
-          alt={`${category} icon`}
-        />
-      )}
-    </Box>
+			{label && <Text className="marker-text">{label}</Text>}
+
+			{category && (
+				<Image
+					className="marker-image"
+					src={`/icons/${category}.png`}
+					alt={`${category} icon`}
+				/>
+			)}
+		</Box>
 	);
 };
 

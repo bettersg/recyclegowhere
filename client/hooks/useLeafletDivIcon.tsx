@@ -1,4 +1,4 @@
-import Leaflet, { PointExpression } from "leaflet";
+import Leaflet from "leaflet";
 import { renderToString } from "react-dom/server";
 
 interface divIconValues {
@@ -12,4 +12,5 @@ const useLeafletDivIcon = () => {
 		});
 	return { divIcon };
 };
+
 export default useLeafletDivIcon;

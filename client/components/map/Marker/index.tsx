@@ -9,7 +9,7 @@ export const CustomMarker: React.FC<{
 	color: CustomMarkerProps["color"];
 	handleOnClick: () => void;
 	category?: string;
-  isSelected?: boolean;
+	isSelected?: boolean;
 }> = ({ position, icon, color, handleOnClick, category, isSelected }) => {
 	const { divIcon } = useLeafletDivIcon();
 
@@ -17,7 +17,14 @@ export const CustomMarker: React.FC<{
 		<Marker
 			position={position}
 			icon={divIcon({
-				source: <MarkerIconWrapper color={color} icon={icon} category={category} isSelected={isSelected} />,
+				source: (
+					<MarkerIconWrapper
+						color={color}
+						icon={icon}
+						category={category}
+						isSelected={isSelected}
+					/>
+				),
 			})}
 			eventHandlers={{ click: handleOnClick }}
 		/>
