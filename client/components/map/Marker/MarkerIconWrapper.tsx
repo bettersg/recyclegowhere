@@ -11,6 +11,7 @@ export interface CustomMarkerProps {
 	color: string;
 	label?: string;
 	category: string;
+  isSelected?: boolean;
 }
 
 const MarkerIconWrapper = ({
@@ -18,10 +19,11 @@ const MarkerIconWrapper = ({
 	color,
 	label,
 	category,
+  isSelected = false,
 }: Partial<CustomMarkerProps>) => {
 	return (
     <Box
-      className="marker-icon-wrapper"
+      className={`marker-icon-wrapper ${isSelected ? "selected" : ""}`}
     >
       {IconFC &&
         (label ? (

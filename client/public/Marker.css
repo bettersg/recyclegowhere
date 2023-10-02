@@ -10,6 +10,11 @@
   transform: translateX(-50%);
 }
 
+.marker-icon-wrapper.selected {
+  transform-origin: bottom left;
+  scale: 2;
+}
+
 .marker-text {
 	font-size: 9px;
 	position: absolute;
