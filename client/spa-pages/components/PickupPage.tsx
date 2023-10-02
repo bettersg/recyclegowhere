@@ -10,6 +10,7 @@ import { useUserInputs } from "hooks/useUserSelection";
 import { useSheetyData } from "hooks/useSheetyData";
 import { TSheetyPickupDetails } from "api/sheety/types";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
+import NonRecyclableModal from "components/common/NonRecyclableModal";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
@@ -63,6 +64,7 @@ export const PickupPage = ({ setPage }: Props) => {
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
+			<NonRecyclableModal setPage={setPage} />
 			<Container
 				maxW={{
 					base: "full",
