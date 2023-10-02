@@ -20,7 +20,9 @@ const MarkerIconWrapper = ({
 	category,
 }: Partial<CustomMarkerProps>) => {
 	return (
-		<Box>
+    <Box
+      className="marker-icon-wrapper"
+    >
       {IconFC &&
         (label ? (
           <IconFC className="cluster-marker-size" />
@@ -38,7 +40,7 @@ const MarkerIconWrapper = ({
           alt={`${category} icon`}
         />
       )}
-		</Box>
+    </Box>
 	);
 };
 

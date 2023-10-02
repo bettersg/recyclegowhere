@@ -17,7 +17,6 @@ export const CustomMarker: React.FC<{
 			position={position}
 			icon={divIcon({
 				source: <MarkerIconWrapper color={color} icon={icon} category={category} />,
-				anchor: [13, 11],
 			})}
 			eventHandlers={{ click: handleOnClick }}
 		/>
