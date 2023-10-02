@@ -302,7 +302,7 @@ const MapInner = ({ setPage }: Props) => {
 
 	return (
 		<BasePage title="Instructions" description="Singapore's first recycling planner">
-			<NonRecyclableModal setPage={setPage} />
+			<NonRecyclableModal setPage={setPage} items={items} getItemCategory={getItemCategory} />
 			<Container
 				maxW={{
 					base: "full",
