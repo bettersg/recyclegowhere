@@ -332,51 +332,49 @@ const MapInner = ({ setPage }: Props) => {
 							}),
 						}}
 					/>
+
 					{/* Map Display */}
-					<Box overflow="hidden" width="100%" height={isMobile ? "70vh" : "80vh"}>
-						<Box
-							left={0}
-							transition="opacity 0.3s"
-							opacity={isLoading ? 0 : 1}
-							top={80}
-							// This was in the reference code
-							width={viewportWidth ?? "100%"}
-							height={viewportHeight ? viewportHeight - 80 : "100%"}
-							onClick={() => setFacCardIsOpen(false)}
-						>
-							<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
-								{/* The color is the background color of the cluster */}
-								<Cluster icon={ClusterIcon} color={"#81C784"} chunkedLoading>
-									{locations &&
-										// ClothingType will be used to show relevant icon
-										Object.entries(locations).map(([category, result]) => {
-											return result.facilities.map((facility) => {
-												return (
-													<CustomMarker
-														key={facility.id}
-														position={
-															facility.latlng as LatLngExpression
-														}
-														icon={GeneralIcon}
-														color={"#FFFFFF"}
-														handleOnClick={() =>
-															handleMarkerOnClick(facility)
-														}
-														category={category}
-													/>
-												);
-											});
-										})}
-								</Cluster>
-								{/* Center Marker */}
-								<CustomMarker
-									position={centerPos}
-									icon={UserIcon}
-									color={"#FF0000"}
-									handleOnClick={() => setFacCardIsOpen(false)}
-								/>
-							</LeafletMap>
-						</Box>
+					<Box
+						transition="opacity 0.3s"
+						opacity={isLoading ? 0 : 1}
+						onClick={() => setFacCardIsOpen(false)}
+						position="absolute"
+						top="80px"
+						left={0}
+						width="100vw"
+						height="calc(100vh - 80px)"
+						zIndex="-1"
+					>
+						<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
+							{/* The color is the background color of the cluster */}
+							<Cluster icon={ClusterIcon} color={"#81C784"} chunkedLoading>
+								{locations &&
+									// ClothingType will be used to show relevant icon
+									Object.entries(locations).map(([category, result]) => {
+										return result.facilities.map((facility) => {
+											return (
+												<CustomMarker
+													key={facility.id}
+													position={facility.latlng as LatLngExpression}
+													icon={GeneralIcon}
+													color={"#FFFFFF"}
+													handleOnClick={() =>
+														handleMarkerOnClick(facility)
+													}
+													category={category}
+												/>
+											);
+										});
+									})}
+							</Cluster>
+							{/* Center Marker */}
+							<CustomMarker
+								position={centerPos}
+								icon={UserIcon}
+								color={"#FF0000"}
+								handleOnClick={() => setFacCardIsOpen(false)}
+							/>
+						</LeafletMap>
 					</Box>
 
 					{/* Facility Card */}
