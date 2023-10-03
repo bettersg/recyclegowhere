@@ -46,7 +46,7 @@ const MarkerIconWrapper = ({
 				{label && (
 					<Box
 						position={"relative"}
-						top={2}
+						top={0}
 						// right={-2}
 						border={-2}
 						borderColor={"white"}
@@ -62,13 +62,13 @@ const MarkerIconWrapper = ({
 					</Box>
 				)}
 
-				{category && (
+				{/* {category && (
 					<Image
 						className="marker-image"
 						src={`/icons/${category}.png`}
 						alt={`${category} icon`}
 					/>
-				)}
+				)} */}
 			</Box>
 			<Box
 				position={"absolute"}
