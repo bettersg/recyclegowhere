@@ -68,6 +68,7 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 				styles={{
 					control: (base) => ({
 						...base,
+						overflow: "hidden",
 						borderColor: showEmptyWarning ? COLORS.Select.error : COLORS.gray[200],
 					}),
 					menu: (base) => ({
