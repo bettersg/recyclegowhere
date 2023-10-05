@@ -1,5 +1,5 @@
 import { useUserInputs } from "hooks/useUserSelection";
-import { Dispatch, RefObject, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useEffect } from "react";
 import { Items } from "./Items";
 import { Location } from "./Location";
 import { validateSelections } from "./utils";
@@ -10,24 +10,11 @@ type Props = {
 };
 
 export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) => {
-	const [addressBlur, setAddressBlur] = useState(false);
 	const { items, address } = useUserInputs();
 
 	useEffect(() => {
-		if (!addressBlur) {
-			setReadyToSubmit(false);
-			return;
-		}
-		if (!address) {
-			setReadyToSubmit(false);
-			return;
-		}
-		if (validateSelections(items) && address.value) {
-			setReadyToSubmit(true);
-		} else {
-			setReadyToSubmit(false);
-		}
-	}, [address, addressBlur, items, setReadyToSubmit]);
+		setReadyToSubmit(!!address && validateSelections(items));
+	}, [address, items, setReadyToSubmit]);
 
 	useEffect(() => {
 		if (items.length > 1) {
@@ -37,7 +24,7 @@ export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) =
 
 	return (
 		<>
-			<Location showText={true} handleBlur={() => setAddressBlur(true)} />
+			<Location showText={true} />
 			<Items />
 		</>
 	);
