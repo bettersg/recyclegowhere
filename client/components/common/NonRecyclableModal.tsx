@@ -27,7 +27,7 @@ const NonRecyclableModal = ({ setPage, items, getItemCategory }: Props) => {
 						{nonRecyclableItems.map((item, index) =>
 							<Tag key={index} borderRadius="full" variant="outline" colorScheme="red" color="black" bg="red.100">
 								<TagLeftIcon boxSize={2} as={CloseIcon} color="red" mr={1} />
-								<TagLabel fontWeight={300} fontSize="xs" pt={1}>{item.name}</TagLabel>
+								<TagLabel fontWeight={300} fontSize="xs">{item.name}</TagLabel>
 							</Tag>
 						)}
 					</Flex>
