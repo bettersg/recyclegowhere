@@ -1,4 +1,4 @@
-import { Badge, Box, Text, Image, HStack } from "@chakra-ui/react";
+import { Box, Text, Image, HStack, VStack } from "@chakra-ui/react";
 import {
 	Accordion,
 	AccordionButton,
@@ -9,6 +9,7 @@ import {
 import { useSheetyData } from "hooks/useSheetyData";
 import { AccordionDisplayProps } from ".";
 import InstructionsCarousel from "./InstructionsCarousel";
+import { InstructionsTag } from "./InstructionsTag";
 
 const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: AccordionDisplayProps) => {
 	const { getItemCategory } = useSheetyData();
@@ -31,23 +32,17 @@ const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: Accordion
 								onClick={() => handleAccordionClick(index)}
 								_hover={{ bg: "teal", color: "white" }}
 							>
-								<HStack as="span" flex="1" textAlign="left">
-									<Image
-										src={`/icons/${category}.png`}
-										w={5}
-										alt={`Icon for ${category}`}
-									/>
-									<Text>{item.title}</Text>
-								</HStack>
-								<Badge
-									size="lg"
-									colorScheme="green"
-									borderRadius="full"
-									py={1}
-									px={2}
-								>
-									<Text>{item.method}</Text>
-								</Badge>
+								<VStack as="span" flex="1" alignItems="flex-start">
+									<HStack textAlign="left">
+										<Image
+											src={`/icons/${category}.png`}
+											w={5}
+											alt={`Icon for ${category}`}
+										/>
+										<Text>{item.title}</Text>
+									</HStack>
+									<InstructionsTag method={item.method} />
+								</VStack>
 								<AccordionIcon />
 							</AccordionButton>
 						</h2>
