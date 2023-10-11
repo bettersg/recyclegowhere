@@ -390,25 +390,25 @@ const MapInner = ({ setPage }: Props) => {
 							</LeafletMap>
 						</Box>
 					</Box>
-				</VStack>
 
-				{/* Facility Card */}
-				{facCardIsOpen &&
-					(isMobile ? (
-						<FacilityCard
-							facCardDetails={facCardDetails}
-							facCardDistance={facCardDistance}
-							width={"86%"}
-							left={"7%"}
-						/>
-					) : (
-						<FacilityCard
-							facCardDetails={facCardDetails}
-							facCardDistance={facCardDistance}
-							width={"50%"}
-							left={"25%"}
-						/>
-					))}
+					{/* Facility Card */}
+					{facCardIsOpen &&
+						(isMobile ? (
+							<FacilityCard
+								facCardDetails={facCardDetails}
+								facCardDistance={facCardDistance}
+								width={"86%"}
+								left={"7%"}
+							/>
+						) : (
+							<FacilityCard
+								facCardDetails={facCardDetails}
+								facCardDistance={facCardDistance}
+								width={"50%"}
+								left={"25%"}
+							/>
+						))}
+				</VStack>
 			</Box>
 
 			{/* Keeping this for future implementations of similar idea */}
