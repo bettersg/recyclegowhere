@@ -8,7 +8,7 @@ import { COLORS } from "theme";
 import { IndicatorsContainer, NoOptionsMessage } from "./custom-components";
 import { AddressOption } from "app-context/UserSelectionContext/types";
 interface LocationProps {
-	handleBlur: () => void;
+	handleBlur?: () => void;
 	showText: boolean;
 }
 
@@ -68,6 +68,7 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 				styles={{
 					control: (base) => ({
 						...base,
+						overflow: "hidden",
 						borderColor: showEmptyWarning ? COLORS.Select.error : COLORS.gray[200],
 					}),
 					menu: (base) => ({
@@ -84,7 +85,7 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 					}),
 				}}
 				onBlur={() => {
-					handleBlur();
+					handleBlur?.();
 					handleShowError();
 				}}
 			/>

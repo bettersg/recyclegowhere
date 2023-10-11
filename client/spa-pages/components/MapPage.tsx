@@ -1,6 +1,6 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Container, Flex, VStack, Box } from "@chakra-ui/react";
+import { Flex, VStack, Box } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -303,14 +303,62 @@ const MapInner = ({ setPage }: Props) => {
 	return (
 		<BasePage title="Instructions" description="Singapore's first recycling planner">
 			<NonRecyclableModal setPage={setPage} items={items} getItemCategory={getItemCategory} />
-			<Container
-				maxW={{
-					base: "full",
-					sm: "container.md",
-				}}
-				ref={viewportRef}
-			>
-				<VStack spacing={3} align="stretch">
+			<Box height="calc(100vh - 80px)" position="relative">
+				{/* Map Display */}
+				<Box
+					transition="opacity 0.3s"
+					opacity={isLoading ? 0 : 1}
+					onClick={() => setFacCardIsOpen(false)}
+					position="absolute"
+					height="100%"
+					width="100%"
+					left={0}
+					top={0}
+					zIndex={0}
+				>
+					<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
+						{/* The color is the background color of the cluster */}
+						<Cluster icon={ClusterIcon} color={"#81C784"} chunkedLoading>
+							{locations &&
+								// ClothingType will be used to show relevant icon
+								Object.entries(locations).map(([category, result]) => {
+									return result.facilities.map((facility) => {
+										return (
+											<CustomMarker
+												key={facility.id}
+												position={facility.latlng as LatLngExpression}
+												icon={GeneralIcon}
+												color={"#FFFFFF"}
+												handleOnClick={() => handleMarkerOnClick(facility)}
+												category={category}
+											/>
+										);
+									});
+								})}
+						</Cluster>
+						{/* Center Marker */}
+						<CustomMarker
+							position={centerPos}
+							icon={UserIcon}
+							color={"#FF0000"}
+							handleOnClick={() => setFacCardIsOpen(false)}
+						/>
+					</LeafletMap>
+				</Box>
+
+				<VStack
+					width="100%"
+					maxW={{
+						base: "full",
+						sm: "container.md",
+					}}
+					spacing={3}
+					align="stretch"
+					position="absolute"
+					left="50%"
+					transform="translate(-50%, 0)"
+					paddingX={4}
+				>
 					{/* Header Buttons */}
 					<HeaderButtons setPage={setPage} />
 					<Flex w="100%" direction={"row"} gap={"0.3rem"}>
@@ -334,72 +382,25 @@ const MapInner = ({ setPage }: Props) => {
 							}),
 						}}
 					/>
-					{/* Map Display */}
-					<Box overflow="hidden" width="100%" height={isMobile ? "70vh" : "80vh"}>
-						<Box
-							left={0}
-							transition="opacity 0.3s"
-							opacity={isLoading ? 0 : 1}
-							top={80}
-							// This was in the reference code
-							width={viewportWidth ?? "100%"}
-							height={viewportHeight ? viewportHeight - 80 : "100%"}
-							onClick={() => setFacCardIsOpen(false)}
-						>
-							<LeafletMap center={centerPos} zoom={zoom} minZoom={11} maxZoom={18}>
-								{/* The color is the background color of the cluster */}
-								<Cluster icon={ClusterIcon} color={"#81C784"} chunkedLoading>
-									{locations &&
-										// ClothingType will be used to show relevant icon
-										Object.entries(locations).map(([category, result]) => {
-											return result.facilities.map((facility) => {
-												return (
-													<CustomMarker
-														key={facility.id}
-														position={
-															facility.latlng as LatLngExpression
-														}
-														icon={GeneralIcon}
-														color={"#FFFFFF"}
-														handleOnClick={() =>
-															handleMarkerOnClick(facility)
-														}
-														category={category}
-													/>
-												);
-											});
-										})}
-								</Cluster>
-								{/* Center Marker */}
-								<CustomMarker
-									position={centerPos}
-									icon={UserIcon}
-									color={"#FF0000"}
-									handleOnClick={() => setFacCardIsOpen(false)}
-								/>
-							</LeafletMap>
-						</Box>
-					</Box>
-
-					{/* Facility Card */}
-					{facCardIsOpen &&
-						(isMobile ? (
-							<FacilityCard
-								facCardDetails={facCardDetails}
-								facCardDistance={facCardDistance}
-								width={"86%"}
-								left={"7%"}
-							/>
-						) : (
-							<FacilityCard
-								facCardDetails={facCardDetails}
-								facCardDistance={facCardDistance}
-								width={"50%"}
-								left={"25%"}
-							/>
-						))}
 				</VStack>
-			</Container>
+
+				{facCardIsOpen &&
+					(isMobile ? (
+						<FacilityCard
+							facCardDetails={facCardDetails}
+							facCardDistance={facCardDistance}
+							width={"86%"}
+							left={"7%"}
+						/>
+					) : (
+						<FacilityCard
+							facCardDetails={facCardDetails}
+							facCardDistance={facCardDistance}
+							width={"50%"}
+							left={"25%"}
+						/>
+					))}
+			</Box>
 
 			{/* Keeping this for future implementations of similar idea */}
 			{/* Pull up tab */}
