@@ -30,4 +30,5 @@ export enum Categories {
 	FOOD = "FOOD",
 	BOOKS = "BOOKS",
 	BLISTER_PACK_MED = "BLISTER_PACK_MED",
+	GENERAL_WASTE = "GENERAL_WASTE",
 }

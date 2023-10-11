@@ -3,13 +3,14 @@ import { BasePage } from "layouts/BasePage";
 import OrgList from "components/pickup/OrgList";
 import ButtonRow from "components/pickup/ButtonRow";
 import PickupCarousel from "components/pickup/PickupCarousel";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import ItemsAndFilterRow from "components/pickup/ItemsAndFilterRow";
 import { useUserInputs } from "hooks/useUserSelection";
 import { useSheetyData } from "hooks/useSheetyData";
 import { TSheetyPickupDetails } from "api/sheety/types";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
+import NonRecyclableModal from "components/common/NonRecyclableModal";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
@@ -63,6 +64,7 @@ export const PickupPage = ({ setPage }: Props) => {
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
+			<NonRecyclableModal setPage={setPage} items={items} getItemCategory={getItemCategory} />
 			<Container
 				maxW={{
 					base: "full",

@@ -1,6 +1,6 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Container, Flex, VStack, Box } from "@chakra-ui/react";
+import { Flex, VStack, Box } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -31,6 +31,7 @@ import { LatLngExpression } from "leaflet";
 import useMapContext from "../../hooks/useMapContext";
 import useLeafletWindow from "../../hooks/useLeafletWindow";
 import { useResizeDetector } from "react-resize-detector";
+import NonRecyclableModal from "components/common/NonRecyclableModal";
 // Reference page: https://github.com/richard-unterberg/next-leaflet-starter-typescript/blob/master/src/components/Map/ui/LocateButton.tsx
 
 // Next.js requires dynamic imports for Leaflet.js compatibility
@@ -128,9 +129,9 @@ const MapInner = ({ setPage }: Props) => {
 	const [centerPos, setCenterPos] = useState<LatLngExpression>(
 		address.value !== ""
 			? ([
-					parseFloat(address.coordinates.lat),
-					parseFloat(address.coordinates.long),
-			  ] as LatLngExpression)
+				parseFloat(address.coordinates.lat),
+				parseFloat(address.coordinates.long),
+			] as LatLngExpression)
 			: ([1.376690088473865, 103.7993060574394] as LatLngExpression),
 	);
 
@@ -301,6 +302,7 @@ const MapInner = ({ setPage }: Props) => {
 
 	return (
 		<BasePage title="Instructions" description="Singapore's first recycling planner">
+			<NonRecyclableModal setPage={setPage} items={items} getItemCategory={getItemCategory} />
 			<Box height="calc(100vh - 80px)" position="relative">
 				{/* Map Display */}
 				<Box
