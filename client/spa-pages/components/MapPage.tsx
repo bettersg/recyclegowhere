@@ -129,9 +129,9 @@ const MapInner = ({ setPage }: Props) => {
 	const [centerPos, setCenterPos] = useState<LatLngExpression>(
 		address.value !== ""
 			? ([
-				parseFloat(address.coordinates.lat),
-				parseFloat(address.coordinates.long),
-			] as LatLngExpression)
+					parseFloat(address.coordinates.lat),
+					parseFloat(address.coordinates.long),
+			  ] as LatLngExpression)
 			: ([1.376690088473865, 103.7993060574394] as LatLngExpression),
 	);
 
@@ -331,6 +331,10 @@ const MapInner = ({ setPage }: Props) => {
 												color={"#FFFFFF"}
 												handleOnClick={() => handleMarkerOnClick(facility)}
 												category={category}
+												isSelected={
+													facCardIsOpen &&
+													facCardDetails?.id === facility.id
+												}
 											/>
 										);
 									});
