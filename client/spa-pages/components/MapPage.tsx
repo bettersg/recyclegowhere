@@ -1,6 +1,6 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Flex, VStack, Box } from "@chakra-ui/react";
+import { Flex, VStack, Box, IconButton } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -22,7 +22,7 @@ import GeneralIcon from "components/map/Marker/icons/GeneralIcon";
 import ClusterIcon from "components/map/Marker/icons/ClusterIcon";
 // import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
 // import PullUpTab from "components/map/PullUpTab";
-import { HeaderButtons, FacilityCard, FilterPanel, MapContextProvider } from "components/map";
+import { FacilityCard, FilterPanel, MapContextProvider } from "components/map";
 import { FilterButton } from "components/map/Buttons";
 
 // Leaflet Imports
@@ -32,6 +32,7 @@ import useMapContext from "../../hooks/useMapContext";
 import useLeafletWindow from "../../hooks/useLeafletWindow";
 import { useResizeDetector } from "react-resize-detector";
 import NonRecyclableModal from "components/common/NonRecyclableModal";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 // Reference page: https://github.com/richard-unterberg/next-leaflet-starter-typescript/blob/master/src/components/Map/ui/LocateButton.tsx
 
 // Next.js requires dynamic imports for Leaflet.js compatibility
@@ -350,43 +351,15 @@ const MapInner = ({ setPage }: Props) => {
 					</LeafletMap>
 				</Box>
 
-				<VStack
-					width="100%"
-					maxW={{
-						base: "full",
-						sm: "container.md",
-					}}
-					spacing={3}
-					align="stretch"
-					position="absolute"
-					left="50%"
-					transform="translate(-50%, 0)"
-					paddingX={4}
-				>
-					{/* Header Buttons */}
-					<HeaderButtons setPage={setPage} />
-					<Flex w="100%" direction={"row"} gap={"0.3rem"}>
-						<Location
-							showText={false}
-							handleBlur={() => handleChangedLocation(itemState)}
-						/>
-						{/* <SearchButton onClick={() => setFilterShow(false)} /> */}
-						<FilterButton onClick={() => setFilterShow(true)} />
-					</Flex>
-					<Select
-						isMulti
-						defaultValue={selectedOptions}
-						value={selectedOptions}
-						onChange={handleMultiselectOnChange}
-						options={selectOptions}
-						styles={{
-							menu: (base) => ({
-								...base,
-								zIndex: 9999,
-							}),
-						}}
-					/>
-				</VStack>
+				<MapHeaderButtons
+					setPage={setPage}
+					setFilterShow={setFilterShow}
+					selectedOptions={selectedOptions}
+					selectOptions={selectOptions}
+					handleMultiselectOnChange={handleMultiselectOnChange}
+					itemState={itemState}
+					handleChangedLocation={handleChangedLocation}
+				/>
 
 				{facCardIsOpen &&
 					(isMobile ? (
@@ -447,5 +420,140 @@ export const MapPage = ({ setPage }: Props) => (
 		<MapInner setPage={setPage} />
 	</MapContextProvider>
 );
+
+export const MapHeaderButtons = ({
+	setPage,
+	setFilterShow,
+	selectedOptions,
+	selectOptions,
+	handleMultiselectOnChange,
+	itemState,
+	handleChangedLocation,
+}: {
+	setPage: Dispatch<SetStateAction<Pages>>;
+	setFilterShow: Dispatch<SetStateAction<boolean>>;
+	selectedOptions: OptionType[];
+	selectOptions: OptionType[];
+	handleMultiselectOnChange: (
+		newValue: MultiValue<OptionType>,
+		actionMeta: ActionMeta<OptionType>,
+	) => void;
+	itemState: (TItemSelection | TEmptyItem)[];
+	handleChangedLocation: (itemEntry: (TItemSelection | TEmptyItem)[]) => void;
+}) => {
+	return (
+		<VStack
+			width="100%"
+			maxW={{
+				base: "full",
+				sm: "container.md",
+			}}
+			spacing={3}
+			align="stretch"
+			position="absolute"
+			left="50%"
+			transform="translate(-50%, 0)"
+			paddingX={4}
+			paddingY={2}
+		>
+			<Flex gap={4} direction={"row"}>
+				<IconButton
+					icon={<ArrowBackIcon />}
+					onClick={() => setPage(Pages.HOME)}
+					bg="teal.600"
+					color="white"
+					aria-label="Back to home page"
+					boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+				/>
+				<Location
+					containerStyle={{
+						boxShadow: "2px 2px 8px 0px rgba(0, 0, 0, 0.50)",
+						borderRadius: "6px",
+					}}
+					showText={false}
+					handleBlur={() => handleChangedLocation(itemState)}
+				/>
+			</Flex>
+			<Flex
+				w="100%"
+				direction={"row"}
+				background="white"
+				boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+				borderRadius="6px"
+				alignItems="center"
+			>
+				<SelectedItemChips
+					selectedOptions={selectedOptions}
+					handleMultiselectOnChange={handleMultiselectOnChange}
+					selectOptions={selectOptions}
+				/>
+				<FilterButton onClick={() => setFilterShow(true)} height="44px" />
+			</Flex>
+		</VStack>
+	);
+};
+
+function SelectedItemChips({
+	selectedOptions,
+	handleMultiselectOnChange,
+	selectOptions,
+}: {
+	selectedOptions: OptionType[];
+	handleMultiselectOnChange: (
+		newValue: MultiValue<OptionType>,
+		actionMeta: ActionMeta<OptionType>,
+	) => void;
+	selectOptions: OptionType[];
+}) {
+	return (
+		<Select
+			isMulti
+			defaultValue={selectedOptions}
+			value={selectedOptions}
+			onChange={handleMultiselectOnChange}
+			options={selectOptions}
+			styles={{
+				container: (base) => ({
+					...base,
+					flex: 1,
+					border: "none",
+					minWidth: 0,
+				}),
+				control: (base) => ({
+					...base,
+					border: "none",
+					overflow: "auto",
+				}),
+				input: (base) => ({
+					...base,
+					border: "none",
+				}),
+				dropdownIndicator: () => ({
+					display: "none",
+				}),
+				indicatorSeparator: () => ({
+					display: "none",
+				}),
+				valueContainer: (base) => ({
+					...base,
+					flexWrap: "nowrap",
+					overflow: "auto",
+					marginRight: 0,
+					paddingRight: 0,
+				}),
+				clearIndicator: () => ({
+					display: "none",
+				}),
+				multiValue: (base) => ({
+					...base,
+					background: "#E0F0EF",
+					borderRadius: "42px",
+					minWidth: "fit-content",
+					padding: "5px 10px",
+				}),
+			}}
+		/>
+	);
+}
 
 export default MapPage;

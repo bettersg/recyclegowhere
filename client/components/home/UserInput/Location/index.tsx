@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { fetchAddresses } from "api/onemap";
 import { useUserInputs } from "hooks/useUserSelection";
 import debounce from "lodash/debounce";
@@ -10,9 +10,10 @@ import { AddressOption } from "app-context/UserSelectionContext/types";
 interface LocationProps {
 	handleBlur?: () => void;
 	showText: boolean;
+	containerStyle?: React.CSSProperties;
 }
 
-export const Location = ({ handleBlur, showText }: LocationProps) => {
+export const Location = ({ handleBlur, showText, containerStyle = {} }: LocationProps) => {
 	const [showEmptyWarning, setShowEmptyWarning] = useState(false);
 	const { address, setAddress } = useUserInputs();
 	const { value: addressValue } = address;
@@ -46,7 +47,7 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 	}, [addressValue]);
 
 	return (
-		<div style={{ flex: 1 }}>
+		<Box flex={1} minWidth={0}>
 			{showText && (
 				<Text fontWeight={500} fontSize="md" mb="8px">
 					Where are you at?
@@ -66,6 +67,10 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 					setShowEmptyWarning(false);
 				}}
 				styles={{
+					container: (base) => ({
+						...base,
+						...containerStyle,
+					}),
 					control: (base) => ({
 						...base,
 						overflow: "hidden",
@@ -89,6 +94,6 @@ export const Location = ({ handleBlur, showText }: LocationProps) => {
 					handleShowError();
 				}}
 			/>
-		</div>
+		</Box>
 	);
 };
