@@ -1,6 +1,6 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Flex, VStack, Box, IconButton } from "@chakra-ui/react";
+import { Flex, VStack, Box, IconButton, useDisclosure } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -78,7 +78,7 @@ const MapInner = ({ setPage }: Props) => {
 	////// States //////
 
 	// Filters
-	const [filterShow, setFilterShow] = useState(false);
+	const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
 	const [range, setRange] = useState(60);
 	// const [isExpanded, setIsExpanded] = useState(false);
 
@@ -279,6 +279,23 @@ const MapInner = ({ setPage }: Props) => {
 		setItemState(updatedItemState);
 	};
 
+	const selectAllItems = () => {
+		const selectOptions: OptionType[] = items.map((item) => ({
+			value: item.name,
+			label: item.name,
+			method: item.method,
+			idx: index++,
+		}));
+		const itemState = items.map((item) => ({
+			name: item.name,
+			method: item.method,
+		}));
+
+		handleChangedLocation(itemState);
+		setItemState(itemState);
+		setSelectedOptions(selectOptions);
+	};
+
 	// Handle the changes in distance selected in Filter panel
 	const handleSliderChange = (val: number) => {
 		const dist = val / 10;
@@ -353,7 +370,7 @@ const MapInner = ({ setPage }: Props) => {
 
 				<MapHeaderButtons
 					setPage={setPage}
-					setFilterShow={setFilterShow}
+					onFilterOpen={onFilterOpen}
 					selectedOptions={selectedOptions}
 					selectOptions={selectOptions}
 					handleMultiselectOnChange={handleMultiselectOnChange}
@@ -398,18 +415,16 @@ const MapInner = ({ setPage }: Props) => {
 					getMatchingFacility={getMatchingFacility}
 				/>
 			)} */}
-			{filterShow && (
-				<FilterPanel
-					isMobile={isMobile}
-					setFilterShow={() => setFilterShow(true)}
-					filterApply={() => setFilterShow(false)}
-					handleSliderChange={handleSliderChange}
-					range={range}
-					itemState={itemState}
-					selectOptions={selectOptions}
-					handleCheckboxChange={handleCheckboxChange}
-				/>
-			)}
+			<FilterPanel
+				isOpen={isFilterOpen}
+				filterApply={() => onFilterClose()}
+				handleSliderChange={handleSliderChange}
+				range={range}
+				itemState={itemState}
+				selectOptions={selectOptions}
+				selectAllItems={selectAllItems}
+				handleCheckboxChange={handleCheckboxChange}
+			/>
 		</BasePage>
 	);
 };
@@ -423,15 +438,14 @@ export const MapPage = ({ setPage }: Props) => (
 
 export const MapHeaderButtons = ({
 	setPage,
-	setFilterShow,
 	selectedOptions,
 	selectOptions,
 	handleMultiselectOnChange,
 	itemState,
 	handleChangedLocation,
+	onFilterOpen,
 }: {
 	setPage: Dispatch<SetStateAction<Pages>>;
-	setFilterShow: Dispatch<SetStateAction<boolean>>;
 	selectedOptions: OptionType[];
 	selectOptions: OptionType[];
 	handleMultiselectOnChange: (
@@ -440,6 +454,7 @@ export const MapHeaderButtons = ({
 	) => void;
 	itemState: (TItemSelection | TEmptyItem)[];
 	handleChangedLocation: (itemEntry: (TItemSelection | TEmptyItem)[]) => void;
+	onFilterOpen: () => void;
 }) => {
 	return (
 		<VStack
@@ -487,7 +502,7 @@ export const MapHeaderButtons = ({
 					handleMultiselectOnChange={handleMultiselectOnChange}
 					selectOptions={selectOptions}
 				/>
-				<FilterButton onClick={() => setFilterShow(true)} height="44px" />
+				<FilterButton onClick={onFilterOpen} height="44px" />
 			</Flex>
 		</VStack>
 	);
