@@ -29,21 +29,19 @@ export const getNearbyFacilities = (
 
 		const relevantFacilities = facilities.filter((facility) => {
 			const { id, methodsAccepted, categoriesAccepted, latitude, longitude } = facility;
-			if (methodsAccepted.includes(method) && categoriesAccepted.includes(cat)) {
-				const distance = calculateDistance(
-					Number(address.coordinates.lat),
-					Number(address.coordinates.long),
-					latitude,
-					longitude,
-				);
+			if (!methodsAccepted.includes(method) || !categoriesAccepted.includes(cat)) return false;
+			const distance = calculateDistance(
+				Number(address.coordinates.lat),
+				Number(address.coordinates.long),
+				latitude,
+				longitude,
+			);
 
-				if (distance < maxDistance) {
-					distances.set(id, distance);
-					allFacilityIds.push(id);
-					return true;
-				}
-			}
-			return false;
+			if (distance >= maxDistance) return false;
+
+			distances.set(id, distance);
+			allFacilityIds.push(id);
+			return true;
 		});
 
 		relevantFacilities.sort((a, b) => {
@@ -58,13 +56,13 @@ export const getNearbyFacilities = (
 				id: facility.id,
 				distance: distances.get(facility.id) as number,
 				latlng: [facility.latitude, facility.longitude] as LatLngExpression,
-			})),
+			})).slice(0, 5),
 		};
 	}
 
 	return {
 		results: res,
-		facilitiesList: allFacilityIds,
+		facilitiesList: allFacilityIds.slice(0, 5),
 	};
 };
 
