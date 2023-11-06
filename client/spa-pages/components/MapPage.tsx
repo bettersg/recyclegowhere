@@ -378,22 +378,12 @@ const MapInner = ({ setPage }: Props) => {
 					handleChangedLocation={handleChangedLocation}
 				/>
 
-				{facCardIsOpen &&
-					(isMobile ? (
-						<FacilityCard
-							facCardDetails={facCardDetails}
-							facCardDistance={facCardDistance}
-							width={"86%"}
-							left={"7%"}
-						/>
-					) : (
-						<FacilityCard
-							facCardDetails={facCardDetails}
-							facCardDistance={facCardDistance}
-							width={"50%"}
-							left={"25%"}
-						/>
-					))}
+				{facCardIsOpen && (
+					<FacilityCard
+						facCardDetails={facCardDetails}
+						facCardDistance={facCardDistance}
+					/>
+				)}
 			</Box>
 
 			{/* Keeping this for future implementations of similar idea */}
