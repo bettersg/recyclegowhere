@@ -1,0 +1,131 @@
+export const categoriesSuccessResponse = {
+	"categoriesList (final)": [
+		{
+			itemCategories: "CONTENT_CONTAINER",
+			method1: "RECYCLE",
+			id: 2,
+		},
+		{
+			itemCategories: "FOOD_DRINK_CONTAINER",
+			method1: "RECYCLE",
+			id: 3,
+		},
+		{
+			itemCategories: "RECYCLABLE",
+			method1: "RECYCLE",
+			id: 4,
+		},
+		{
+			itemCategories: "PAPER_AND_CARDBOARD",
+			method1: "RECYCLE",
+			id: 5,
+		},
+		{
+			itemCategories: "BAGS_AND_ACCESSORIES",
+			method1: "RECYCLE",
+			method2: "RESELL",
+			method3: "DONATE",
+			method4: "REPAIR",
+			id: 6,
+		},
+		{
+			itemCategories: "HOUSEHOLD_GOODS",
+			method1: "RECYCLE",
+			method2: "RESELL",
+			id: 7,
+		},
+		{
+			itemCategories: "ICT_EQUIPMENT",
+			method1: "RECYCLE",
+			method2: "REPAIR",
+			method3: "DONATE",
+			method4: "REPAIR",
+			id: 8,
+		},
+		{
+			itemCategories: "INKS_AND_TONER_CARTRIDGES",
+			method1: "RECYCLE",
+			id: 9,
+		},
+		{
+			itemCategories: "LAMPS",
+			method1: "RECYCLE",
+			id: 10,
+		},
+		{
+			itemCategories: "OTHER_ELECTRICAL_APPLIANCES",
+			method1: "DONATE",
+			method2: "REPAIR",
+			method3: "RESELL",
+			id: 11,
+		},
+		{
+			itemCategories: "SHOES",
+			method1: "DONATE",
+			method2: "REPAIR",
+			id: 12,
+		},
+		{
+			itemCategories: "STATIONERY",
+			method1: "DONATE",
+			method2: "RESELL",
+			id: 13,
+		},
+		{
+			itemCategories: "TOYS",
+			method1: "DONATE",
+			method2: "RESELL",
+			id: 14,
+		},
+		{
+			itemCategories: "BABY_CHILDREN_ITEMS",
+			method1: "DONATE",
+			method2: "RESELL",
+			id: 15,
+		},
+		{
+			itemCategories: "CLOTHING",
+			method1: "DONATE",
+			method2: "REPAIR",
+			method3: "RESELL",
+			id: 16,
+		},
+		{
+			itemCategories: "FURNITURE",
+			method1: "DONATE",
+			method2: "RESELL",
+			id: 17,
+		},
+		{
+			itemCategories: "LARGE_HOUSEHOLD_APPLIANCES",
+			method1: "DONATE",
+			id: 18,
+		},
+		{
+			itemCategories: "FOOD",
+			method1: "DONATE",
+			id: 19,
+		},
+		{
+			itemCategories: "BOOKS",
+			method1: "DONATE",
+			method2: "RESELL",
+			id: 20,
+		},
+		{
+			itemCategories: "PORTABLE_BATTERIES",
+			method1: "RECYCLE",
+			id: 21,
+		},
+		{
+			itemCategories: "LAMPS",
+			method1: "RECYCLE",
+			id: 22,
+		},
+		{
+			itemCategories: "GENERAL_WASTE",
+			method1: "RECYCLE",
+			id: 23,
+		},
+	],
+};

@@ -4,6 +4,10 @@ import { getSheetyUrl } from "./utils";
 
 export const getSheetyData = async <T>(sheet: Sheets): Promise<T[]> => {
 	try {
+		if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+			await window.__mswStart;
+		}
+
 		const sheetPath = getSheetyUrl(sheet);
 		const res = await axios.get<Record<Sheets, T[]>>(sheetPath, {
 			headers: {
