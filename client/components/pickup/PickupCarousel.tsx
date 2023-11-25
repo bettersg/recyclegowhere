@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { useBreakpointValue, useMediaQuery } from "@chakra-ui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -90,9 +90,9 @@ const PickupCarousel = ({ minDist, numPickupServices }: { minDist: number, numPi
 										{numPickupServices}
 									</Text>
 								) : (
-									<Text fontSize={["13px", "13px", "20px"]} as={"b"}>
-										{(minDist * 1000).toFixed(0)}m
-									</Text>
+									<><Text fontSize={["13px", "13px", "20px"]} as={"b"}>
+											{(minDist * 1000).toFixed(0)}m
+										</Text><Button position={"absolute"} bg={"#9ad0d4"} bottom={"-50"} right={"29"} size={{base: "xs", md:"sm", xl:"md"}} fontWeight={"bold"}>Show me where!</Button></>
 								)}{" "}
 							</Box>
 							{/* Display slide number */}
