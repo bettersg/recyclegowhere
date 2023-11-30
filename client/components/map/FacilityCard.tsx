@@ -1,19 +1,25 @@
 import { Flex, Text, HStack, Button, Box, VStack, Divider } from "@chakra-ui/react";
-import { TStateFacilities } from "app-context/SheetyContext/types";
+import { TEmptyItem, TItemSelection, TStateFacilities } from "app-context/SheetyContext/types";
 import { Image } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { COLORS } from "theme";
 import React, { ReactNode, useState } from "react";
 import styles from "components/home/hideScrollbar.module.css";
 import Link from "next/link";
-
+import { useSheetyData } from "hooks/useSheetyData";
+import { CheckIcon } from "@chakra-ui/icons";
+import { Categories } from "api/sheety/enums";
 export const FacilityCard = ({
+	items,
 	facCardDetails,
 	facCardDistance,
 }: {
+	items: (TItemSelection | TEmptyItem)[];
 	facCardDetails: TStateFacilities;
 	facCardDistance: number;
 }) => {
+	const { getItemCategory } = useSheetyData();
+
 	const TRANSLATION_DIST = -50;
 	const [translateY, setTranslateY] = useState(0);
 	const handleMovement = () => {
@@ -21,6 +27,29 @@ export const FacilityCard = ({
 	};
 	const widths = ["86%", "50%", "40%", "25%"];
 	const lefts = ["7%", "25%", "30%", "37.5%"];
+	const bottoms = ["-27%", "-27%", "-27%", "-27%", "-25%"];
+
+	const itemsAccepted = items.filter((item) => {
+		return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+	});
+
+	const itemsNotAccepted = items.filter((item) => {
+		return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+	});
+
+	const capitalizeFirstLetter = (word: string) => {
+		return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+	};
+
+	const categoriesProcessor = (categories: Categories[]) => {
+		const categorySplit = categories.map((category: Categories) => {
+			const words = category.split("_");
+			const capitaliseWords = words.map((word: string) => capitalizeFirstLetter(word));
+			return capitaliseWords.join(" ");
+		});
+		return categorySplit.join(", ");
+	};
+
 	return (
 		<Flex
 			paddingBottom={2}
@@ -30,7 +59,7 @@ export const FacilityCard = ({
 			left={lefts}
 			bg="white"
 			zIndex={1000}
-			bottom={["-27%", "-27%", "-27%", "-27%", "-25%"]}
+			bottom={bottoms}
 			rounded="xl"
 			flexDir={"column"}
 			transform={`translateY(${translateY}%)`}
@@ -74,7 +103,7 @@ export const FacilityCard = ({
 						<Text fontSize={"lg"} as={"b"} noOfLines={[2]}>
 							{facCardDetails.channelName}
 						</Text>
-						<Text fontSize={"md"} noOfLines={2}>
+						<Text fontSize={"sm"} noOfLines={3}>
 							{/* <span style={{ fontWeight: 800 }}>Address:</span>{" "} */}
 							{facCardDetails.address}
 						</Text>
@@ -94,23 +123,41 @@ export const FacilityCard = ({
 				</HStack>
 				<Flex p={2} gap={2} flexDir={"column"}>
 					<Text fontSize={"sm"} as={"b"}>
-						They accept X of {facCardDetails.categoriesAccepted.length} items:
+						They accept {itemsAccepted.length} of {items.length} item(s):
 					</Text>
 					<Flex gap={2} fontSize={"xs"} width={"100%"} wrap={"wrap"}>
-						{facCardDetails.categoriesAccepted.map((category, idx) => (
-							<ItemTab key={idx}>{category}</ItemTab>
+						{itemsAccepted.map((item, idx) => (
+							<AcceptedTab key={idx}>{item.name}</AcceptedTab>
+						))}
+						{itemsNotAccepted.map((item, idx) => (
+							<UnacceptedTab key={idx}>{item.name}</UnacceptedTab>
 						))}
 					</Flex>
 					<Text fontSize={"sm"} as={"b"}>
 						They also accept these items:
 					</Text>
-					<Flex gap={2} fontSize={"xs"} width={"100%"} wrap={"wrap"}>
-						{facCardDetails.categoriesAccepted.map((category, idx) => (
-							<ItemTab key={idx}>{category}</ItemTab>
-						))}
+					<Flex gap={2} fontSize={"xs"} fontWeight={500} width={"100%"} wrap={"wrap"}>
+						{categoriesProcessor(facCardDetails.categoriesAccepted)}
 					</Flex>
 					<Text mt={5} fontSize={"sm"}>
-						Please check <Link href="#">here</Link> for more information.
+						{facCardDetails.website ? (
+							<>
+								Please check{" "}
+								<Link href={facCardDetails.website}>
+									<Text
+										as="span"
+										color="blue.500"
+										_hover={{ cursor: "pointer" }}
+										textDecoration={"underline"}
+									>
+										here
+									</Text>
+								</Link>{" "}
+								for more information.
+							</>
+						) : (
+							<>No website available for this facility. :(</>
+						)}
 					</Text>
 					<Divider />
 					<Text fontSize={"sm"} as={"b"} textAlign={"center"}>
@@ -126,6 +173,7 @@ export const FacilityCard = ({
 						width={"100%"}
 						gap={3}
 						padding={3}
+						isDisabled={true}
 					>
 						See where to recycle the rest
 					</Button>
@@ -135,16 +183,25 @@ export const FacilityCard = ({
 	);
 };
 
-const ItemTab: React.FC<{ children: ReactNode }> = ({ children }) => {
+const AcceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
 	return (
 		<Box
-			bg={"#E0F0EF"}
+			bg={"#CCECD5"}
 			borderRadius={"42px"}
 			minWidth={"fit-content"}
 			padding={"5px 10px"}
 			borderColor={COLORS.Button.primary}
 			border={"1px"}
 		>
+			<CheckIcon color="teal.500" mr={1} />
+			{children}
+		</Box>
+	);
+};
+
+const UnacceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
+	return (
+		<Box bg={"#E0F0EF"} borderRadius={"42px"} minWidth={"fit-content"} padding={"5px 10px"}>
 			{children}
 		</Box>
 	);

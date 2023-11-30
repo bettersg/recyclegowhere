@@ -153,12 +153,6 @@ const MapInner = ({ setPage }: Props) => {
 	};
 	const forceUpdate = useForceUpdate();
 
-	///// Keeping for similar implementations /////
-	// const handleStickyFooter = () => {
-	// 	setIsExpanded(!isExpanded);
-	// 	setFacCardIsOpen(false);
-	// };
-
 	const handleMarkerOnClick = (facility: FacilityType) => {
 		const { cardIsOpen, cardDetails, distance } = getMatchingFacility(facility);
 		setFacCardIsOpen(cardIsOpen);
@@ -380,6 +374,7 @@ const MapInner = ({ setPage }: Props) => {
 
 				{facCardIsOpen && (
 					<FacilityCard
+						items={items}
 						facCardDetails={facCardDetails}
 						facCardDistance={facCardDistance}
 					/>
