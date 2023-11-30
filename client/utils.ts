@@ -58,13 +58,13 @@ export const getNearbyFacilities = (
 				id: facility.id,
 				distance: distances.get(facility.id) as number,
 				latlng: [facility.latitude, facility.longitude] as LatLngExpression,
-			})),
+			})).slice(0, 5),
 		};
 	}
 
 	return {
 		results: res,
-		facilitiesList: allFacilityIds,
+		facilitiesList: allFacilityIds.slice(0, 5),
 	};
 };
 
