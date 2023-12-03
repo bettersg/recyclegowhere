@@ -4,8 +4,6 @@ const useLeafletWindow = () => {
 	const [leafletWindow, setLeafletWindow] = useState(
 		typeof window === "undefined" ? undefined : window.L,
 	);
-	console.log("window is ", window.L);
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			if (window.L) {

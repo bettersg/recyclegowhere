@@ -60,7 +60,7 @@ export const FacilityCard = ({
 					bgGradient={"linear(transparent 0%, white 60%)"}
 				/>
 			)}
-			<Button maxHeight={"2%"} padding={2.5} bg={"white"} onClick={handleMovement}>
+			<Button height={"1%"} padding={1} bg={"white"} onClick={handleMovement}>
 				{!isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
 			</Button>
 			<Flex

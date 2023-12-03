@@ -48,6 +48,13 @@ const CustomMarker = dynamic(
 		ssr: false,
 	},
 );
+// Dynamic import of Polyline component
+const CustomPolyline = dynamic(
+	async () => (await import("../../components/map/CustomPolyline")).CustomPolyline,
+	{
+		ssr: false,
+	},
+);
 // Dynamic import of Cluster function (clusters multiple markers upon zoomout)
 const Cluster = dynamic(
 	async () => (await import("../../components/map/Marker/ClusterGroup")).MarkerClusterGroup(),
@@ -73,8 +80,13 @@ const MapInner = ({ setPage }: Props) => {
 	const leafletWindow = useLeafletWindow();
 	const { recyclingLocationResults, address, items, setRecyclingLocationResults } =
 		useUserInputs();
-
 	////// States //////
+	const [lineCoords, setLineCoords] = useState<[number, number][]>(
+		recyclingLocationResults?.route.coords ?? [[0, 0]],
+	);
+	const [lineColor, setLineColor] = useState(
+		recyclingLocationResults?.route.complete ? "green" : "blue",
+	);
 
 	// Filters
 	const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
@@ -116,9 +128,6 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Locations of facilities
 	const [locations, setLocations] = useState(recyclingLocationResults?.results);
-	const [nearbyLocations, setNearbyLocations] = useState(
-		getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory, 1),
-	);
 
 	////// Variables //////
 	const isLoading = !map || !leafletWindow;
@@ -142,14 +151,6 @@ const MapInner = ({ setPage }: Props) => {
 		refreshMode: "debounce",
 		refreshRate: 200,
 	});
-
-	////// Functions //////
-	const useForceUpdate = () => {
-		const [, setState] = useState(0);
-		const forceUpdate = () => setState((prevState) => prevState + 1);
-		return forceUpdate;
-	};
-	const forceUpdate = useForceUpdate();
 
 	const handleMarkerOnClick = (facility: FacilityType) => {
 		const { cardIsOpen, cardDetails, distance } = getMatchingFacility(facility);
@@ -179,13 +180,9 @@ const MapInner = ({ setPage }: Props) => {
 			getItemCategory,
 			MAX_DISTANCE_KM,
 		);
-		const locationsWithin1km = getNearbyFacilities(
-			itemEntry as TItemSelection[],
-			address,
-			facilities,
-			getItemCategory,
-			1,
-		);
+		locations.route.complete ? setLineColor("green") : setLineColor("blue");
+		console.log(lineColor);
+		setLineCoords(locations.route.coords);
 
 		// Set map position
 		setCenterPos([
@@ -194,13 +191,8 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 		// Set facilities list on React Context
 		setRecyclingLocationResults(locations);
-		// For popup box (this is archived)
-		setNearbyLocations(locationsWithin1km);
 		// For current display of facilities
 		locations ? setLocations(locations.results) : setLocations(undefined);
-
-		// Refresh the state
-		forceUpdate();
 
 		map?.panTo([
 			parseFloat(address.coordinates.lat),
@@ -298,11 +290,11 @@ const MapInner = ({ setPage }: Props) => {
 			getItemCategory,
 			dist,
 		);
+		locations.route.complete ? setLineColor("green") : setLineColor("blue");
+		setLineCoords(locations.route.coords);
 		setRange(val);
 		setRecyclingLocationResults(locations);
 		locations ? setLocations(locations.results) : setLocations(undefined);
-
-		forceUpdate();
 
 		map?.panTo([
 			parseFloat(address.coordinates.lat),
@@ -357,6 +349,7 @@ const MapInner = ({ setPage }: Props) => {
 							color={"#FF0000"}
 							handleOnClick={() => setFacCardIsOpen(false)}
 						/>
+						<CustomPolyline lineCoords={lineCoords} color={lineColor} />
 					</LeafletMap>
 				</Box>
 
