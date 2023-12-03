@@ -1,12 +1,7 @@
-import {
-	Slider,
-	SliderTrack,
-	SliderFilledTrack,
-	SliderThumb,
-	SliderMark,
-} from "@chakra-ui/react";
+import { Slider, SliderTrack, SliderFilledTrack, SliderThumb, SliderMark } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import { useState } from "react";
+import { COLORS } from "theme";
 
 interface MarkedSliderProps {
 	value: number;
@@ -14,19 +9,21 @@ interface MarkedSliderProps {
 }
 
 const MarkedSlider: React.FC<MarkedSliderProps> = ({ value, onSliderChange }) => {
-
 	const [sliderValue, setSliderValue] = useState(100);
 
 	const labelStyles = {
 		mt: "2",
 		ml: "-2.5",
-		fontSize: "sm"
+		fontSize: "sm",
 	};
 	return (
-		<Box pt={6} pb={2}>
+		<Box pt={6} pb={2} px={5}>
 			<Slider
-				defaultValue={sliderValue} onChange={(val) => setSliderValue(val)} colorScheme='teal'
-				aria-label='slider-ex-6'>
+				defaultValue={sliderValue}
+				onChange={(val) => setSliderValue(val)}
+				colorScheme="teal"
+				aria-label="slider-ex-6"
+			>
 				<SliderMark value={25} {...labelStyles}>
 					25
 				</SliderMark>
@@ -38,19 +35,19 @@ const MarkedSlider: React.FC<MarkedSliderProps> = ({ value, onSliderChange }) =>
 				</SliderMark>
 				<SliderMark
 					value={sliderValue}
-					textAlign='center'
-					bg='teal'
-					color='white'
-					mt='-10'
-					ml='-5'
-					w='12'
+					textAlign="center"
+					bg="teal"
+					color="white"
+					mt="-10"
+					ml="-5"
+					w="12"
 				>
 					{sliderValue}
 				</SliderMark>
 				<SliderTrack>
-					<SliderFilledTrack />
+					<SliderFilledTrack background="#31979566" />
 				</SliderTrack>
-				<SliderThumb />
+				<SliderThumb background={COLORS.Button.primary} />
 			</Slider>
 		</Box>
 	);

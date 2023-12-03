@@ -106,7 +106,7 @@ export const FilterPanel = ({
 	);
 };
 
-function FilterSection({
+export function FilterSection({
 	title,
 	hideDivider,
 	button,
@@ -128,7 +128,7 @@ function FilterSection({
 	);
 }
 
-const CheckboxGroup = ({
+export const CheckboxGroup = ({
 	items,
 	onChange,
 	onSelectAll,

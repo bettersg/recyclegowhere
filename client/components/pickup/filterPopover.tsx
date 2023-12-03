@@ -1,11 +1,21 @@
-import {Button, Box , IconButton,
-	Popover, PopoverTrigger, PopoverContent, PopoverHeader, PopoverBody, PopoverCloseButton} from "@chakra-ui/react";
+import { Button, Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
 import { useState, useRef } from "react";
 import MarkedSlider from "./slider";
 import { BsFilter } from "react-icons/bs";
 import { Icon } from "@chakra-ui/icons";
+import { CheckboxGroup, FilterSection } from "components/map";
+import { COLORS } from "theme";
+import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 
-const FilterButton = () => {
+const FilterButton = ({
+	isOpen,
+	onClose,
+	items,
+}: {
+	isOpen: boolean;
+	onClose: () => void;
+	items: (TItemSelection | TEmptyItem)[];
+}) => {
 	const initRef = useRef<HTMLElement | null>(null); // Specify the correct type for initRef
 
 	const [priceValue, setPriceValue] = useState(100);
@@ -19,41 +29,41 @@ const FilterButton = () => {
 	};
 
 	return (
-		<Popover initialFocusRef={initRef}>
-			{({ isOpen, onClose }) => (
-				<>
-					<PopoverTrigger>
-					<IconButton
-						icon={<Icon as={BsFilter} />}
-						variant="outline"
-						size="lg"
-						aria-label={"Filter"} />
-					</PopoverTrigger>
-					<PopoverContent>
-						<PopoverHeader>Filter Results</PopoverHeader>
-						<PopoverCloseButton />
-						<PopoverBody p={5}>
-							<Box>
-								Max Price
-								<MarkedSlider value={priceValue} onSliderChange={PriceManager} />
-							</Box>
-							<br />
-							<Box>
-								Min Quantity
-								<MarkedSlider
-									value={quantityValue}
-									onSliderChange={QuantityManager}
-								/>
-							</Box>
+		<Modal isOpen={isOpen} onClose={onClose}>
+			<ModalOverlay />
+			<ModalContent maxWidth="calc(768px - 32px)" marginTop="330px" marginInline="4">
+				<FilterSection
+					title="Your items"
+					button={
+						<Button size="sm" color="white" bgColor={COLORS.Button.primary}>
+							Apply
+						</Button>
+					}
+				>
+					<CheckboxGroup
+						items={items.map((item) => ({
+							isChecked: true,
+							value: item.name,
+							method: item.method,
+						}))}
+						onChange={() => {
+							return void 0;
+						}}
+						onSelectAll={() => {
+							return void 0;
+						}}
+					/>
+				</FilterSection>
 
-							<Button mt={4} colorScheme="teal" onClick={onClose} ref={initRef as React.RefObject<HTMLButtonElement>}>
-								Apply
-							</Button>
-						</PopoverBody>
-					</PopoverContent>
-				</>
-			)}
-		</Popover>
+				<FilterSection title="Min Quantity">
+					<MarkedSlider value={quantityValue} onSliderChange={QuantityManager} />{" "}
+				</FilterSection>
+
+				<FilterSection title="Max Price" hideDivider={true}>
+					<MarkedSlider value={priceValue} onSliderChange={PriceManager} />
+				</FilterSection>
+			</ModalContent>
+		</Modal>
 	);
 };
 

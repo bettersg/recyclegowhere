@@ -1,7 +1,7 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
 import { Flex, VStack, Box, IconButton, useDisclosure } from "@chakra-ui/react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { ComponentProps, Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
 import { TStateFacilities } from "app-context/SheetyContext/types";
@@ -452,32 +452,48 @@ export const MapHeaderButtons = ({
 					handleBlur={() => handleChangedLocation(itemState)}
 				/>
 			</Flex>
-			<Flex
-				w="100%"
-				direction={"row"}
-				background="white"
-				boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
-				borderRadius="6px"
-				alignItems="center"
-			>
-				<SelectedItemChips
-					selectedOptions={selectedOptions}
-					handleMultiselectOnChange={handleMultiselectOnChange}
-					selectOptions={selectOptions}
-				/>
-				<FilterButton onClick={onFilterOpen} height="44px" />
-			</Flex>
+			<SelectAndFilterBar
+				selectedOptions={selectedOptions}
+				selectOptions={selectOptions}
+				onMultiSelectChange={handleMultiselectOnChange}
+				onFilterOpen={onFilterOpen}
+			/>
 		</VStack>
 	);
 };
 
-function SelectedItemChips({
+export function SelectAndFilterBar({
 	selectedOptions,
-	handleMultiselectOnChange,
+	selectOptions,
+	onMultiSelectChange,
+	onFilterOpen,
+}: ComponentProps<typeof SelectedItemChips> & { onFilterOpen: () => void }) {
+	return (
+		<Flex
+			w="100%"
+			direction={"row"}
+			background="white"
+			boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+			borderRadius="6px"
+			alignItems="center"
+		>
+			<SelectedItemChips
+				selectedOptions={selectedOptions}
+				onMultiSelectChange={onMultiSelectChange}
+				selectOptions={selectOptions}
+			/>
+			<FilterButton onClick={onFilterOpen} height="44px" />
+		</Flex>
+	);
+}
+
+export function SelectedItemChips({
+	selectedOptions,
+	onMultiSelectChange,
 	selectOptions,
 }: {
 	selectedOptions: OptionType[];
-	handleMultiselectOnChange: (
+	onMultiSelectChange: (
 		newValue: MultiValue<OptionType>,
 		actionMeta: ActionMeta<OptionType>,
 	) => void;
@@ -488,7 +504,7 @@ function SelectedItemChips({
 			isMulti
 			defaultValue={selectedOptions}
 			value={selectedOptions}
-			onChange={handleMultiselectOnChange}
+			onChange={onMultiSelectChange}
 			options={selectOptions}
 			styles={{
 				container: (base) => ({
