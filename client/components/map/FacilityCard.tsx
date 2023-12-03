@@ -8,7 +8,7 @@ import styles from "components/home/hideScrollbar.module.css";
 import Link from "next/link";
 import { useSheetyData } from "hooks/useSheetyData";
 import { CheckIcon } from "@chakra-ui/icons";
-import { Categories } from "api/sheety/enums";
+import { categoriesProcessor } from "./utils";
 export const FacilityCard = ({
 	items,
 	facCardDetails,
@@ -20,14 +20,12 @@ export const FacilityCard = ({
 }) => {
 	const { getItemCategory } = useSheetyData();
 
-	const TRANSLATION_DIST = -50;
-	const [translateY, setTranslateY] = useState(0);
+	const [isExpanded, setIsExpanded] = useState(false);
+	const [translateY, setTranslateY] = useState(50);
 	const handleMovement = () => {
-		translateY === TRANSLATION_DIST ? setTranslateY(0) : setTranslateY(TRANSLATION_DIST);
+		isExpanded ? setTranslateY(50) : setTranslateY(0);
+		setIsExpanded(!isExpanded);
 	};
-	const widths = ["86%", "50%", "40%", "25%"];
-	const lefts = ["7%", "25%", "30%", "37.5%"];
-	const bottoms = ["-27%", "-27%", "-27%", "-27%", "-25%"];
 
 	const itemsAccepted = items.filter((item) => {
 		return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
@@ -37,49 +35,33 @@ export const FacilityCard = ({
 		return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
 	});
 
-	const capitalizeFirstLetter = (word: string) => {
-		return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-	};
-
-	const categoriesProcessor = (categories: Categories[]) => {
-		const categorySplit = categories.map((category: Categories) => {
-			const words = category.split("_");
-			const capitaliseWords = words.map((word: string) => capitalizeFirstLetter(word));
-			return capitaliseWords.join(" ");
-		});
-		return categorySplit.join(", ");
-	};
-
 	return (
 		<Flex
+			bg="white"
 			paddingBottom={2}
 			position={"fixed"}
-			height={"55%"}
-			width={widths}
-			left={lefts}
-			bg="white"
+			transform={`translate(-50%, ${translateY}%)`}
+			bottom={0}
+			left="50%"
+			width={{ base: "86%", sm: "50%", md: "40%", lg: "25%" }}
 			zIndex={1000}
-			bottom={bottoms}
 			rounded="xl"
 			flexDir={"column"}
-			transform={`translateY(${translateY}%)`}
 			transition={"transform 0.3s ease-in-out"}
 		>
 			{/* Gradient */}
-			{translateY === 0 && (
+			{!isExpanded && (
 				<Box
 					position={"fixed"}
-					height={["20%", "10%"]}
+					height={"10%"}
 					width={"100%"}
-					bottom={["45%", "48%", "48%", "50%", "45%"]}
+					bottom={"50%"}
 					zIndex={1001}
 					bgGradient={"linear(transparent 0%, white 60%)"}
-					// transition={translateY === 0 ? "0.5s ease-in-out" : "0s"}
 				/>
 			)}
-			{/*  */}
 			<Button maxHeight={"2%"} padding={2.5} bg={"white"} onClick={handleMovement}>
-				{translateY === 0 ? <ChevronUpIcon /> : <ChevronDownIcon />}
+				{!isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
 			</Button>
 			<Flex
 				flexDir={"column"}
@@ -94,6 +76,7 @@ export const FacilityCard = ({
 							width={"100%"}
 							src={"/placeholder.png"}
 							alt="Image not found."
+							zIndex={1002}
 						/>
 					</Flex>
 					<VStack width={"60%"} height={"100%"} maxHeight={"100%"} alignItems={"start"}>
@@ -115,6 +98,7 @@ export const FacilityCard = ({
 							width={"100%"}
 							gap={3}
 							padding={3}
+							zIndex={1002}
 						>
 							<ExternalLinkIcon />
 							<Text>Get directions</Text>
