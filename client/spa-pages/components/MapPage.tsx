@@ -4,7 +4,6 @@ import { Flex, VStack, Box, IconButton, useDisclosure } from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
-import { useBreakpointValue } from "@chakra-ui/react";
 import { TStateFacilities } from "app-context/SheetyContext/types";
 import { useSheetyData } from "hooks/useSheetyData";
 import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
@@ -123,7 +122,6 @@ const MapInner = ({ setPage }: Props) => {
 
 	////// Variables //////
 	const isLoading = !map || !leafletWindow;
-	const isMobile = useBreakpointValue({ base: true, md: false });
 	const zoom = 15;
 	let index = 0;
 
@@ -152,12 +150,6 @@ const MapInner = ({ setPage }: Props) => {
 		return forceUpdate;
 	};
 	const forceUpdate = useForceUpdate();
-
-	///// Keeping for similar implementations /////
-	// const handleStickyFooter = () => {
-	// 	setIsExpanded(!isExpanded);
-	// 	setFacCardIsOpen(false);
-	// };
 
 	const handleMarkerOnClick = (facility: FacilityType) => {
 		const { cardIsOpen, cardDetails, distance } = getMatchingFacility(facility);
@@ -378,43 +370,14 @@ const MapInner = ({ setPage }: Props) => {
 					handleChangedLocation={handleChangedLocation}
 				/>
 
-				{facCardIsOpen &&
-					(isMobile ? (
-						<FacilityCard
-							facCardDetails={facCardDetails}
-							facCardDistance={facCardDistance}
-							width={"86%"}
-							left={"7%"}
-						/>
-					) : (
-						<FacilityCard
-							facCardDetails={facCardDetails}
-							facCardDistance={facCardDistance}
-							width={"50%"}
-							left={"25%"}
-						/>
-					))}
+				{facCardIsOpen && (
+					<FacilityCard
+						items={items}
+						facCardDetails={facCardDetails}
+						facCardDistance={facCardDistance}
+					/>
+				)}
 			</Box>
-
-			{/* Keeping this for future implementations of similar idea */}
-			{/* Pull up tab */}
-			{/* <PullUpTab
-				isExpanded={isExpanded}
-				isMobile={isMobile}
-				handleStickyFooter={handleStickyFooter}
-				numberOfNearby={nearbyLocations.facilitiesList.length}
-			/> */}
-			{/* Panel upon pulling up */}
-			{/* {isExpanded && (
-				<NearbyFacilitiesPanel
-					isMobile={isMobile}
-					setPage={setPage}
-					handleChangedLocation={() => handleChangedLocation(itemState)}
-					showFilter={() => setFilterShow(true)}
-					nearbyLocations={nearbyLocations}
-					getMatchingFacility={getMatchingFacility}
-				/>
-			)} */}
 			<FilterPanel
 				isOpen={isFilterOpen}
 				filterApply={() => onFilterClose()}
