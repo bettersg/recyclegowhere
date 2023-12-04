@@ -63,8 +63,6 @@ export const getNearbyFacilities = (
 			}
 			return false;
 		});
-		console.log("look here");
-		console.log(distances);
 		// Filter out nearest 5 bins specifically, and reinsert to relevant lists
 		const reducedBlueBinFacilities = blueBinFacilities
 			.sort((a, b) => {
@@ -87,8 +85,6 @@ export const getNearbyFacilities = (
 
 			return distA - distB;
 		});
-		console.log("look here");
-		console.log(distances);
 		res[catAndMethod] = {
 			facilities: relevantFacilities.map((facility) => ({
 				id: facility.id,
@@ -194,21 +190,12 @@ class PriorityQueue {
 		}
 
 		// Re-sort the queue based on the updated distance
-		console.log("this priority");
-		console.log((userCats.size / item.itemsCleared.size) * item.distance);
-		console.log("---");
 		this.queue.sort((a, b) => {
 			const aPriority = a.distance * (userCats.size / a.itemsCleared.size);
 			const bPriority = b.distance * (userCats.size / b.itemsCleared.size);
 
 			return aPriority - bPriority;
 		});
-		console.log("priority queue:");
-		for (const node of this.queue) {
-			console.log(node.distance * (userCats.size / node.itemsCleared.size));
-		}
-
-		console.log(JSON.stringify(this.queue));
 	}
 	dequeue() {
 		return this.queue.shift();
@@ -304,10 +291,8 @@ const dijkstra = (
 	address: AddressOption,
 	userCats: Set<[Categories, Methods]>,
 ): RecyclingLocationResults["route"] => {
-	// console.log(relevantFacilities);
 	// Create adjacency list
 	const adjList = constructAdjList(relevantFacilities, address, userCats);
-	console.log(adjList);
 	// Track parent of each node
 	const parentsMap = new Map<number, number>();
 	const visitedMap = new Map<number, number>();
@@ -317,28 +302,17 @@ const dijkstra = (
 		parentsMap.set(facility.id, -1);
 		visitedMap.set(facility.id, 0);
 	}
-	const itemSet = new Set<[Categories, Methods][]>();
 	// Create priority queue for finding optimum location using a Greedy heuristic
 	const priorityQueue = new PriorityQueue();
 	// Enqueue the user Node
 	priorityQueue.enqueue({ node: 123456, distance: 0, itemsCleared: new Set() }, userCats);
 	let furthestNode: PQEdge = { node: -1, distance: 0, itemsCleared: new Set() };
+	let parentsSnapshotMap = new Map<number, number>();
 
 	// Go through all the nearest nodes to you until you find a set of nodes that clear all your items
 	while (!priorityQueue.isEmpty()) {
 		// Dequeue the shortest node
 		const { node, distance, itemsCleared } = priorityQueue.dequeue() as PQEdge;
-		console.log("Dequeueing...");
-		const facility = relevantFacilities.find((facility) => facility.id === node);
-		if (facility) {
-			console.log(`Source node: ${facility.channelName}, ${node}`);
-		} else {
-			console.log(`Source node: User`);
-		}
-		console.log(JSON.stringify(priorityQueue));
-		for (const item of itemsCleared) {
-			console.log("Item: " + item[0] + " " + item[1]);
-		}
 
 		visitedMap.set(node, 1);
 
@@ -369,17 +343,7 @@ const dijkstra = (
 		// NORMAL FLOW: look through each neighbour
 		const currentNode = node;
 		for (const { nextNode, nextDistance, items } of adjList[currentNode]) {
-			console.log("Looking at neighbour:");
-			const facility = relevantFacilities.find((facility) => facility.id === nextNode);
-			if (facility) {
-				console.log(
-					`Neighbour node: ${facility.channelName}, ${nextNode}, total dist = ${
-						distance + nextDistance
-					}`,
-				);
-			}
 			const updatedItemsCleared = new Set(itemsCleared);
-			console.log(items);
 			// Track if a new item is added
 			if (items) {
 				for (const item of items) {
@@ -387,12 +351,6 @@ const dijkstra = (
 				}
 			}
 
-			// // ISSUE: If we have explored the nearest facility that is a Blue Bin, we do not want to explore other Blue Bins.
-			// if (itemSet.has(items)) {
-			// 	continue;
-			// } else {
-			// 	itemSet.add(items);
-			// }
 			const nextNodeOrigDistance = distanceMap.get(nextNode) as number;
 			const updatedDistance = distance + nextDistance;
 			// If it is not visited
@@ -403,31 +361,22 @@ const dijkstra = (
 				updatedItemsCleared.size > itemsCleared.size &&
 				updatedDistance < nextNodeOrigDistance
 			) {
-				// const facility = relevantFacilities.find((facility) => facility.id === node);
-				// if (facility) {
-				// 	console.log(`Considering node: ${facility.channelName}`);
-				// }
-				// FurthestNode is used to track the last node accessed, in the case of incomplete routing.
 				// Track the distances and parents of the newly updated ndoe
 				distanceMap.set(node, updatedDistance);
 				parentsMap.set(nextNode, currentNode);
 				// If the node is already in the PQ, update it - else, add it into the PQ. It will auto sort.
-				console.log("Enqueueing with updated items:");
-				console.log(updatedItemsCleared);
 				const pqEdge: PQEdge = {
 					node: nextNode,
 					distance: updatedDistance,
 					itemsCleared: updatedItemsCleared,
 				};
 				if (updatedItemsCleared.size > furthestNode.itemsCleared.size) {
-					console.log("you did it!");
-					console.log(updatedItemsCleared.size);
 					furthestNode = pqEdge;
+					parentsSnapshotMap = new Map([...parentsMap]);
 				}
 				priorityQueue.enqueue(pqEdge, userCats);
 			}
 		}
-		// console.log("Moving on to next");
 	}
 	// EDGE CASE: If there are no facilities that take your items
 	if (furthestNode.node === -1) {
@@ -438,7 +387,7 @@ const dijkstra = (
 	let backtrackNode: number = furthestNode.node;
 	while (backtrackNode !== 123456) {
 		path.unshift(backtrackNode);
-		backtrackNode = parentsMap.get(backtrackNode) as number;
+		backtrackNode = parentsSnapshotMap.get(backtrackNode) as number;
 	}
 	const distance = furthestNode.distance;
 	path.unshift(123456);

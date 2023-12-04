@@ -129,7 +129,7 @@ export const FacilityCard = ({
 						))}
 					</Flex>
 					<Text fontSize={"sm"} as={"b"}>
-						They also accept these items:
+						They generally accept items of these categories:
 					</Text>
 					<Flex gap={2} fontSize={"xs"} fontWeight={500} width={"100%"} wrap={"wrap"}>
 						{categoriesProcessor(facCardDetails.categoriesAccepted)}
