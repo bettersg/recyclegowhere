@@ -90,7 +90,7 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Filters
 	const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
-	const [range, setRange] = useState(60);
+	const [range, setRange] = useState(MAX_DISTANCE_KM * 10);
 	// const [isExpanded, setIsExpanded] = useState(false);
 
 	// Multiselect Box
@@ -128,7 +128,7 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Locations of facilities
 	const [locations, setLocations] = useState(recyclingLocationResults?.results);
-
+	console.log(locations);
 	////// Variables //////
 	const isLoading = !map || !leafletWindow;
 	const zoom = 15;
@@ -181,7 +181,6 @@ const MapInner = ({ setPage }: Props) => {
 			MAX_DISTANCE_KM,
 		);
 		locations.route.complete ? setLineColor("green") : setLineColor("blue");
-		console.log(lineColor);
 		setLineCoords(locations.route.coords);
 
 		// Set map position
@@ -332,7 +331,7 @@ const MapInner = ({ setPage }: Props) => {
 												icon={GeneralIcon}
 												color={"#FFFFFF"}
 												handleOnClick={() => handleMarkerOnClick(facility)}
-												category={category}
+												category={category.split("/")[0]}
 												isSelected={
 													facCardIsOpen &&
 													facCardDetails?.id === facility.id

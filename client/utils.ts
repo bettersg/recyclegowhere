@@ -8,7 +8,7 @@ import {
 import { LatLngExpression } from "leaflet";
 
 const EARTH_RADIUS = 6371; // Radius of the earth in km
-export const MAX_DISTANCE_KM = 1; // Maximum distance from your location to facility
+export const MAX_DISTANCE_KM = 3; // Maximum distance from your location to facility
 
 const usersCategories = (
 	items: TItemSelection[],
@@ -34,13 +34,12 @@ export const getNearbyFacilities = (
 	const userCats = usersCategories(items, getItemCategory);
 	const allFacilities: TStateFacilities[] = [];
 	const distances = new Map<number, number>();
+	const blueBinFacilities: TStateFacilities[] = [];
 
 	// For each category that we have, find facilities that take in that item
 	for (const item of userCats) {
 		const [cat, method] = item;
-
-		let blueBinCount = 0;
-
+		const catAndMethod = (cat + "/" + method) as string;
 		const relevantFacilities = facilities.filter((facility) => {
 			const { id, methodsAccepted, categoriesAccepted, latitude, longitude } = facility;
 			if (methodsAccepted.includes(method) && categoriesAccepted.includes(cat)) {
@@ -50,20 +49,36 @@ export const getNearbyFacilities = (
 					latitude,
 					longitude,
 				);
-
+				// Separate Blue Bin from other facilities for reduction
 				if (distance < maxDistance) {
-					facility.channelName === "Blue Bin" && blueBinCount++;
-					if (blueBinCount > 5) {
-						return false;
+					if (facility.channelName === "Blue Bin") {
+						blueBinFacilities.push(facility);
+					} else {
+						allFacilityIds.push(id);
+						allFacilities.push(facility);
 					}
 					distances.set(id, distance);
-					allFacilityIds.push(id);
-					allFacilities.push(facility);
 					return true;
 				}
 			}
 			return false;
 		});
+		console.log("look here");
+		console.log(distances);
+		// Filter out nearest 5 bins specifically, and reinsert to relevant lists
+		const reducedBlueBinFacilities = blueBinFacilities
+			.sort((a, b) => {
+				const distA = distances.get(a.id) as number;
+				const distB = distances.get(b.id) as number;
+
+				return distA - distB;
+			})
+			.slice(0, 5);
+		for (const blueBin of reducedBlueBinFacilities) {
+			allFacilities.push(blueBin);
+			relevantFacilities.push(blueBin);
+			allFacilityIds.push(blueBin.id);
+		}
 
 		// Sort facilities by distance
 		relevantFacilities.sort((a, b) => {
@@ -72,25 +87,15 @@ export const getNearbyFacilities = (
 
 			return distA - distB;
 		});
-		if (cat === Categories.RECYCLABLE) {
-			res[cat] = {
-				facilities: relevantFacilities
-					.map((facility) => ({
-						id: facility.id,
-						distance: distances.get(facility.id) as number,
-						latlng: [facility.latitude, facility.longitude] as LatLngExpression,
-					}))
-					.slice(0, 5),
-			};
-		} else {
-			res[cat] = {
-				facilities: relevantFacilities.map((facility) => ({
-					id: facility.id,
-					distance: distances.get(facility.id) as number,
-					latlng: [facility.latitude, facility.longitude] as LatLngExpression,
-				})),
-			};
-		}
+		console.log("look here");
+		console.log(distances);
+		res[catAndMethod] = {
+			facilities: relevantFacilities.map((facility) => ({
+				id: facility.id,
+				distance: distances.get(facility.id) as number,
+				latlng: [facility.latitude, facility.longitude] as LatLngExpression,
+			})),
+		};
 	}
 	// Sort facilities by distance
 	allFacilities.sort((a, b) => {
@@ -99,9 +104,7 @@ export const getNearbyFacilities = (
 
 		return distA - distB;
 	});
-	console.log(allFacilities);
 	const route = dijkstra(allFacilities, address, userCats);
-
 	return {
 		results: res,
 		facilitiesList: allFacilityIds,
@@ -136,23 +139,37 @@ function toRad(degrees: number) {
 
 // Dijkstra's Algorithm
 
+/**
+ * Type for the Node used in PQ and Adjacency List
+ */
 type Node = number;
 
+/**
+ * Edge used for each Node in Adjacency List
+ */
 interface Edge {
 	nextNode: Node;
 	nextDistance: number;
 	items: [Categories, Methods][];
 }
 
+/**
+ * Edge used for Priority Queue
+ */
 interface PQEdge {
 	node: Node;
 	distance: number;
 	itemsCleared: Set<[Categories, Methods]>;
 }
 
-// Graph where one Node will have multiple edges
+/**
+ * Graph where one Node will have a linked list of multiple edges
+ */
 type Graph = Record<Node, Edge[]>;
 
+/**
+ * Priority Queue that takes a weighted priority of distance and itemsCleared as a greedy heuristic
+ */
 class PriorityQueue {
 	private queue: Array<PQEdge>;
 	constructor() {
@@ -202,7 +219,9 @@ class PriorityQueue {
 	}
 }
 
-// Construction of the Adjacency List for Dijkstra's Algorithm
+/**
+ * Construction of the Adjacency List for Dijkstra's Algorithm
+ */
 const constructAdjList = (
 	relevantFacilities: TStateFacilities[],
 	address: AddressOption,
@@ -277,6 +296,9 @@ const constructAdjList = (
 	return graph;
 };
 
+/**
+ * Dijkstra's Algorithm with modified end conditions and Priority Queue
+ */
 const dijkstra = (
 	relevantFacilities: TStateFacilities[],
 	address: AddressOption,
@@ -300,7 +322,7 @@ const dijkstra = (
 	const priorityQueue = new PriorityQueue();
 	// Enqueue the user Node
 	priorityQueue.enqueue({ node: 123456, distance: 0, itemsCleared: new Set() }, userCats);
-	let furthestNode: Edge = { nextNode: -1, nextDistance: 0, items: [] };
+	let furthestNode: PQEdge = { node: -1, distance: 0, itemsCleared: new Set() };
 
 	// Go through all the nearest nodes to you until you find a set of nodes that clear all your items
 	while (!priorityQueue.isEmpty()) {
@@ -386,37 +408,39 @@ const dijkstra = (
 				// 	console.log(`Considering node: ${facility.channelName}`);
 				// }
 				// FurthestNode is used to track the last node accessed, in the case of incomplete routing.
-				furthestNode = { nextNode, nextDistance, items };
 				// Track the distances and parents of the newly updated ndoe
 				distanceMap.set(node, updatedDistance);
 				parentsMap.set(nextNode, currentNode);
 				// If the node is already in the PQ, update it - else, add it into the PQ. It will auto sort.
 				console.log("Enqueueing with updated items:");
 				console.log(updatedItemsCleared);
-				priorityQueue.enqueue(
-					{
-						node: nextNode,
-						distance: updatedDistance,
-						itemsCleared: updatedItemsCleared,
-					},
-					userCats,
-				);
+				const pqEdge: PQEdge = {
+					node: nextNode,
+					distance: updatedDistance,
+					itemsCleared: updatedItemsCleared,
+				};
+				if (updatedItemsCleared.size > furthestNode.itemsCleared.size) {
+					console.log("you did it!");
+					console.log(updatedItemsCleared.size);
+					furthestNode = pqEdge;
+				}
+				priorityQueue.enqueue(pqEdge, userCats);
 			}
 		}
 		// console.log("Moving on to next");
 	}
 	// EDGE CASE: If there are no facilities that take your items
-	if (furthestNode.nextNode === -1) {
+	if (furthestNode.node === -1) {
 		return { path: [], distance: 0, coords: [[0, 0]], complete: false };
 	}
 	// EDGE CASE: If the loop completes without finding a path, return the most complete path
 	const path: Node[] = [];
-	let backtrackNode: number = furthestNode.nextNode;
+	let backtrackNode: number = furthestNode.node;
 	while (backtrackNode !== 123456) {
 		path.unshift(backtrackNode);
 		backtrackNode = parentsMap.get(backtrackNode) as number;
 	}
-	const distance = furthestNode.nextDistance;
+	const distance = furthestNode.distance;
 	path.unshift(123456);
 	const coords: [number, number][] = [[+address.coordinates.lat, +address.coordinates.long]];
 	for (const node of path) {

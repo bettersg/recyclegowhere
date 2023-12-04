@@ -30,6 +30,7 @@ export const FacilityCard = ({
 
 	const itemsAccepted = items.filter((item) => {
 		const itemMethod = item.method as Methods;
+		// For an item to be accepted: (1) Same method (2) Same category
 		if (facCardDetails.methodsAccepted.includes(itemMethod)) {
 			return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
 		}
@@ -37,9 +38,11 @@ export const FacilityCard = ({
 
 	const itemsNotAccepted = items.filter((item) => {
 		const itemMethod = item.method as Methods;
+		// For an item to be rejected: Anything of a different Method than the facility.
 		if (!facCardDetails.methodsAccepted.includes(itemMethod)) {
-			return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+			return true;
 		}
+		// EDGE CASE: if its a different Method but the facility still takes this item.
 		return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
 	});
 
