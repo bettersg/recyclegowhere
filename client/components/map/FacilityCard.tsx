@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSheetyData } from "hooks/useSheetyData";
 import { CheckIcon } from "@chakra-ui/icons";
 import { categoriesProcessor } from "./utils";
+import { Methods } from "api/sheety/enums";
 export const FacilityCard = ({
 	items,
 	facCardDetails,
@@ -28,10 +29,17 @@ export const FacilityCard = ({
 	};
 
 	const itemsAccepted = items.filter((item) => {
-		return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+		const itemMethod = item.method as Methods;
+		if (facCardDetails.methodsAccepted.includes(itemMethod)) {
+			return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+		}
 	});
 
 	const itemsNotAccepted = items.filter((item) => {
+		const itemMethod = item.method as Methods;
+		if (!facCardDetails.methodsAccepted.includes(itemMethod)) {
+			return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+		}
 		return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
 	});
 
