@@ -55,6 +55,7 @@ const Cluster = dynamic(
 		ssr: false,
 	},
 );
+
 export type OptionType = {
 	value: string;
 	label: string;
@@ -82,11 +83,11 @@ const MapInner = ({ setPage }: Props) => {
 	// const [isExpanded, setIsExpanded] = useState(false);
 
 	// Multiselect Box
-	const selectOptions: OptionType[] = items.map((item) => ({
+	const selectOptions: OptionType[] = items.map((item, index) => ({
 		value: item.name,
 		label: item.name,
 		method: item.method,
-		idx: index++,
+		idx: index,
 	}));
 	const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([...selectOptions]);
 	// Internal tracking of user-selected items
@@ -123,7 +124,6 @@ const MapInner = ({ setPage }: Props) => {
 	////// Variables //////
 	const isLoading = !map || !leafletWindow;
 	const zoom = 15;
-	let index = 0;
 
 	const [centerPos, setCenterPos] = useState<LatLngExpression>(
 		address.value !== ""
@@ -170,6 +170,22 @@ const MapInner = ({ setPage }: Props) => {
 		return { cardIsOpen: cardIsOpen, cardDetails: cardDetails, distance: facility.distance };
 	};
 
+	const handleMultiselectOnChange = (
+		newValue: MultiValue<OptionType>,
+		actionMeta: ActionMeta<OptionType>,
+	) => {
+		const { updatedOptions, updatedItemState } = multiselectOnChange(
+			newValue,
+			actionMeta,
+			itemState,
+			selectedOptions,
+		);
+		setSelectedOptions(updatedOptions);
+		setItemState(updatedItemState);
+		setFacCardIsOpen(false);
+		handleChangedLocation(updatedItemState);
+	};
+
 	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
 		const locations = getNearbyFacilities(
@@ -208,38 +224,6 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 	};
 
-	// Handle change in multi-select box (remove, add items)
-	const handleMultiselectOnChange = (
-		newValue: MultiValue<OptionType>,
-		actionMeta: ActionMeta<OptionType>,
-	) => {
-		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
-		let updatedOptions: OptionType[] = selectedOptions;
-		// If user adds an option
-		if (actionMeta.action === "select-option") {
-			const newItem = {
-				name: actionMeta.option?.label,
-				method: actionMeta.option?.method as Methods,
-			} as TItemSelection;
-			itemState.push(newItem);
-			updatedItemState = [...itemState];
-			updatedOptions.push(actionMeta.option as OptionType);
-			// If user removes an option
-		} else if (actionMeta.action === "remove-value") {
-			const removedValue = actionMeta.removedValue;
-			updatedItemState = itemState.filter((item) => {
-				return item.name !== removedValue.label;
-			});
-			updatedOptions = selectedOptions.filter(
-				(option) => option.value !== removedValue.label,
-			);
-		}
-		setSelectedOptions(updatedOptions);
-		handleChangedLocation(updatedItemState);
-		setItemState(updatedItemState);
-		setFacCardIsOpen(false);
-	};
-
 	// Handle changes in items selected in the Filter panel
 	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
 		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
@@ -272,11 +256,11 @@ const MapInner = ({ setPage }: Props) => {
 	};
 
 	const selectAllItems = () => {
-		const selectOptions: OptionType[] = items.map((item) => ({
+		const selectOptions: OptionType[] = items.map((item, index) => ({
 			value: item.name,
 			label: item.name,
 			method: item.method,
-			idx: index++,
+			idx: index,
 		}));
 		const itemState = items.map((item) => ({
 			name: item.name,
@@ -549,5 +533,34 @@ export function SelectedItemChips({
 		/>
 	);
 }
+
+// Handle change in multi-select box (remove, add items)
+export const multiselectOnChange = (
+	newValue: MultiValue<OptionType>,
+	actionMeta: ActionMeta<OptionType>,
+	itemState: (TItemSelection | TEmptyItem)[],
+	selectedOptions: OptionType[],
+): { updatedItemState: (TItemSelection | TEmptyItem)[]; updatedOptions: OptionType[] } => {
+	let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
+	let updatedOptions: OptionType[] = selectedOptions;
+	// If user adds an option
+	if (actionMeta.action === "select-option") {
+		const newItem = {
+			name: actionMeta.option?.label,
+			method: actionMeta.option?.method as Methods,
+		} as TItemSelection;
+		itemState.push(newItem);
+		updatedItemState = [...itemState];
+		updatedOptions.push(actionMeta.option as OptionType);
+		// If user removes an option
+	} else if (actionMeta.action === "remove-value") {
+		const removedValue = actionMeta.removedValue;
+		updatedItemState = itemState.filter((item) => {
+			return item.name !== removedValue.label;
+		});
+		updatedOptions = selectedOptions.filter((option) => option.value !== removedValue.label);
+	}
+	return { updatedItemState, updatedOptions };
+};
 
 export default MapPage;

@@ -35,7 +35,12 @@ const FilterButton = ({
 				<FilterSection
 					title="Your items"
 					button={
-						<Button size="sm" color="white" bgColor={COLORS.Button.primary}>
+						<Button
+							size="sm"
+							color="white"
+							bgColor={COLORS.Button.primary}
+							onClick={onClose}
+						>
 							Apply
 						</Button>
 					}

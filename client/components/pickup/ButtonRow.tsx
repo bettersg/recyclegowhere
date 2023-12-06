@@ -1,7 +1,6 @@
-import { ArrowBackIcon, ArrowLeftIcon } from "@chakra-ui/icons";
-import { Button, Flex, Heading, Spacer, Box, ButtonGroup, Icon } from "@chakra-ui/react";
+import { ArrowBackIcon } from "@chakra-ui/icons";
+import { Button, Flex, Heading, Spacer, Box, ButtonGroup } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { BiLeftArrow } from "react-icons/bi";
 import { Pages } from "spa-pages/pageEnums";
 
 type Props = {
