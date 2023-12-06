@@ -3,6 +3,13 @@ import { AppContextProvider } from "app-context";
 import type { AppProps } from "next/app";
 import "leaflet/dist/leaflet.css";
 import "public/Marker.css";
+
+if (typeof window !== "undefined") {
+	if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+		require("mocks");
+	}
+}
+
 const theme = extendTheme({
 	colors: {
 		select: {
