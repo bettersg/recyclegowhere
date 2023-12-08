@@ -8,7 +8,13 @@ import * as csstype from "csstype";
 
 const SLIDES_INTERVAL_TIME = 5000;
 
-const PickupCarousel = ({ minDist, numPickupServices }: { minDist: number, numPickupServices: number }) => {
+const PickupCarousel = ({
+	minDist,
+	numPickupServices,
+}: {
+	minDist: number;
+	numPickupServices: number;
+}) => {
 	const slides = [
 		{
 			url: useBreakpointValue({
@@ -60,7 +66,7 @@ const PickupCarousel = ({ minDist, numPickupServices }: { minDist: number, numPi
 	};
 
 	return (
-		<Box className={styles.carouselbox} px={4} h={40}>
+		<Box className={styles.carouselbox} h={40}>
 			<Carousel
 				showThumbs={false}
 				showStatus={false}

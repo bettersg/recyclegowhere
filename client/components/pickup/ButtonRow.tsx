@@ -9,7 +9,7 @@ type Props = {
 
 const ButtonRow = ({ setPage }: Props) => {
 	return (
-		<Flex px={6}>
+		<Flex>
 			<Box>
 				<Heading size={"md"}>Your items:</Heading>
 			</Box>

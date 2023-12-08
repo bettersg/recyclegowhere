@@ -1,8 +1,6 @@
 import { Button, Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import MarkedSlider from "./slider";
-import { BsFilter } from "react-icons/bs";
-import { Icon } from "@chakra-ui/icons";
 import { CheckboxGroup, FilterSection } from "components/map";
 import { COLORS } from "theme";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
@@ -16,7 +14,22 @@ const FilterButton = ({
 	onClose: () => void;
 	items: (TItemSelection | TEmptyItem)[];
 }) => {
-	const initRef = useRef<HTMLElement | null>(null); // Specify the correct type for initRef
+	const [modalTop, setModalTop] = useState(265);
+
+	useEffect(() => {
+		const handleScroll = () => {
+			// Update the modal top position based on the scroll position
+			setModalTop(265 - window.scrollY);
+		};
+
+		// Attach the scroll event listener
+		window.addEventListener("scroll", handleScroll);
+
+		// Cleanup function to remove the event listener when the component unmounts
+		return () => {
+			window.removeEventListener("scroll", handleScroll);
+		};
+	}, []);
 
 	const [priceValue, setPriceValue] = useState(100);
 	const [quantityValue, setQuantityValue] = useState(100);
@@ -31,7 +44,13 @@ const FilterButton = ({
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
-			<ModalContent maxWidth="calc(768px - 32px)" marginTop="330px" marginInline="4">
+			<ModalContent
+				position={"fixed"}
+				maxWidth="calc(768px - 32px)"
+				top={`${modalTop}px`}
+				marginBottom={0}
+				marginRight={3}
+			>
 				<FilterSection
 					title="Your items"
 					button={

@@ -451,13 +451,17 @@ export function SelectAndFilterBar({
 	selectOptions,
 	onMultiSelectChange,
 	onFilterOpen,
-}: ComponentProps<typeof SelectedItemChips> & { onFilterOpen: () => void }) {
+	enableBoxShadow = true,
+}: ComponentProps<typeof SelectedItemChips> & {
+	onFilterOpen: () => void;
+	enableBoxShadow?: boolean;
+}) {
 	return (
 		<Flex
 			w="100%"
 			direction={"row"}
 			background="white"
-			boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+			boxShadow={enableBoxShadow ? "2px 2px 8px 0px rgba(0, 0, 0, 0.50)" : "none"}
 			borderRadius="6px"
 			alignItems="center"
 		>

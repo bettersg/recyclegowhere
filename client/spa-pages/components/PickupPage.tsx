@@ -42,10 +42,14 @@ export const PickupPage = ({ setPage }: Props) => {
 
 	// Pick up services
 	const { pickUpServices, getItemCategory } = useSheetyData();
+	console.log(pickUpServices);
 	const sortPickups = (itemEntry: (TItemSelection | TEmptyItem)[]): OrgProps[] => {
 		const possiblePickups = pickUpServices.filter((pickUpService) => {
 			let picksUpAtLeastOneItem = false;
 			for (const item of itemEntry) {
+				console.log("pickUpService.categoriesAccepted:", pickUpService.categoriesAccepted);
+				console.log("getItemCategory(item.name):", getItemCategory(item.name));
+
 				if (pickUpService.categoriesAccepted.includes(getItemCategory(item.name))) {
 					picksUpAtLeastOneItem = true;
 					break;
@@ -69,6 +73,7 @@ export const PickupPage = ({ setPage }: Props) => {
 		);
 		return sortedPossiblePickups;
 	};
+
 	const [orgs, setOrgs] = useState<OrgProps[]>(sortPickups(items));
 
 	return (
@@ -82,10 +87,14 @@ export const PickupPage = ({ setPage }: Props) => {
 				p={0}
 				pb={5}
 			>
-				<VStack align="stretch" my={23} spacing={4}>
+				<VStack align="stretch" my={23} spacing={4} px={6}>
+					{/* Carousel */}
 					<PickupCarousel numPickupServices={orgs.length} minDist={minDistance} />
+					{/* Title + Back Button */}
 					<ButtonRow setPage={setPage} />
+					{/* Multiselect Box */}
 					<ItemsAndFilterRow items={items} setOrgs={setOrgs} sortPickups={sortPickups} />
+					{/* Title + List of all Services */}
 					<OrgList sortedPossiblePickups={orgs} />
 				</VStack>
 			</Container>

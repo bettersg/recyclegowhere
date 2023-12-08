@@ -45,7 +45,7 @@ const ItemsAndFilterRow = ({ items, setOrgs, sortPickups }: Props) => {
 	};
 
 	return (
-		<Flex px={4}>
+		<Flex>
 			<Flex
 				justifyContent="space-between"
 				flexGrow={1}
@@ -58,6 +58,7 @@ const ItemsAndFilterRow = ({ items, setOrgs, sortPickups }: Props) => {
 					onMultiSelectChange={handleMultiselectOnChange}
 					selectOptions={selectOptions}
 					onFilterOpen={onFilterOpen}
+					enableBoxShadow={false}
 				/>
 			</Flex>
 			<FilterButton items={items} isOpen={isFilterOpen} onClose={onFilterClose} />
