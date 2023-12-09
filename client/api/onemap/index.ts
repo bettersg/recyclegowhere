@@ -3,7 +3,7 @@ import { OneMapResponse } from "./types";
 
 export const fetchAddresses = async (searchValue: string): Promise<OneMapResponse> => {
 	try {
-		const url = `https://developers.onemap.sg/commonapi/search?searchVal=${searchValue}&returnGeom=Y&getAddrDetails=Y&pageNum=1`;
+		const url = `https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${searchValue}&returnGeom=Y&getAddrDetails=Y&pageNum=1`;
 		const res = await axios.get<OneMapResponse>(url, {
 			headers: {
 				Accept: "application/json",

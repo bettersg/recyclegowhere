@@ -218,7 +218,7 @@ const ChipRadio = (props: PropsWithChildren<UseRadioProps>) => {
 	);
 };
 
-const Chip = ({
+export const Chip = ({
 	children,
 	isChecked,
 	darkBackground,

@@ -20,12 +20,11 @@ export type OrgProps = {
 	organisation: TSheetyPickupDetails;
 	acceptedItems: (TItemSelection | TEmptyItem)[];
 	notAcceptedItems: (TItemSelection | TEmptyItem)[];
-}
+};
 
 export const PickupPage = ({ setPage }: Props) => {
 	const { items, recyclingLocationResults } = useUserInputs();
 	const results = recyclingLocationResults ? recyclingLocationResults.results : {};
-	console.log(recyclingLocationResults);
 
 	// Find shortest distance to facility
 	let minDistance = 100;
@@ -56,11 +55,17 @@ export const PickupPage = ({ setPage }: Props) => {
 	const orgPropsList: OrgProps[] = possiblePickups.map((pickup) => {
 		return {
 			organisation: pickup,
-			acceptedItems: items.filter((item) => pickup.categoriesAccepted.includes(getItemCategory(item.name))),
-			notAcceptedItems: items.filter((item) => !pickup.categoriesAccepted.includes(getItemCategory(item.name)))
+			acceptedItems: items.filter((item) =>
+				pickup.categoriesAccepted.includes(getItemCategory(item.name)),
+			),
+			notAcceptedItems: items.filter(
+				(item) => !pickup.categoriesAccepted.includes(getItemCategory(item.name)),
+			),
 		};
 	});
-	const sortedPossiblePickups = orgPropsList.sort((a, b) => a.acceptedItems.length > b.acceptedItems.length ? -1 : 1);
+	const sortedPossiblePickups = orgPropsList.sort((a, b) =>
+		a.acceptedItems.length > b.acceptedItems.length ? -1 : 1,
+	);
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
@@ -74,7 +79,10 @@ export const PickupPage = ({ setPage }: Props) => {
 				pb={5}
 			>
 				<VStack align="stretch" my={23} spacing={4}>
-					<PickupCarousel numPickupServices={sortedPossiblePickups.length} minDist={minDistance} />
+					<PickupCarousel
+						numPickupServices={sortedPossiblePickups.length}
+						minDist={minDistance}
+					/>
 					<ButtonRow setPage={setPage} />
 					<ItemsAndFilterRow items={items} />
 					<OrgList sortedPossiblePickups={sortedPossiblePickups} />

@@ -51,14 +51,21 @@ export const getNearbyFacilities = (
 				);
 				// Separate Blue Bin from other facilities for reduction
 				if (distance < maxDistance) {
+					// if (!allFacilities.includes(facility)) {
 					if (facility.channelName === "Blue Bin") {
+						if (blueBinFacilities.includes(facility)) {
+							return false;
+						}
 						blueBinFacilities.push(facility);
+						distances.set(id, distance);
 					} else {
 						allFacilityIds.push(id);
 						allFacilities.push(facility);
+						distances.set(id, distance);
+
+						return true;
 					}
-					distances.set(id, distance);
-					return true;
+					// }
 				}
 			}
 			return false;
@@ -100,6 +107,7 @@ export const getNearbyFacilities = (
 
 		return distA - distB;
 	});
+
 	const route = dijkstra(allFacilities, address, userCats);
 	return {
 		results: res,
@@ -329,15 +337,26 @@ const dijkstra = (
 			const coords: [number, number][] = [
 				[+address.coordinates.lat, +address.coordinates.long],
 			];
+			const distanceBtwFacilities: number[] = [];
+			let distanceIdx = 0;
 			for (const node of path) {
 				if (node !== 123456) {
 					const facility = relevantFacilities.find((facility) => facility.id === node);
 					if (facility) {
+						distanceBtwFacilities.push(
+							calculateDistance(
+								coords[distanceIdx][0],
+								coords[distanceIdx][1],
+								facility.latitude,
+								facility.longitude,
+							),
+						);
 						coords.push([facility.latitude, facility.longitude]);
+						distanceIdx++;
 					}
 				}
 			}
-			return { path, distance, coords, complete: true };
+			return { path, distanceBtwFacilities, coords, complete: true };
 		}
 
 		// NORMAL FLOW: look through each neighbour
@@ -380,7 +399,7 @@ const dijkstra = (
 	}
 	// EDGE CASE: If there are no facilities that take your items
 	if (furthestNode.node === -1) {
-		return { path: [], distance: 0, coords: [[0, 0]], complete: false };
+		return { path: [], distanceBtwFacilities: [], coords: [[0, 0]], complete: false };
 	}
 	// EDGE CASE: If the loop completes without finding a path, return the most complete path
 	const path: Node[] = [];
@@ -389,16 +408,27 @@ const dijkstra = (
 		path.unshift(backtrackNode);
 		backtrackNode = parentsSnapshotMap.get(backtrackNode) as number;
 	}
-	const distance = furthestNode.distance;
 	path.unshift(123456);
 	const coords: [number, number][] = [[+address.coordinates.lat, +address.coordinates.long]];
+	const distanceBtwFacilities: number[] = [];
+	let distanceIdx = 0;
 	for (const node of path) {
 		if (node !== 123456) {
 			const facility = relevantFacilities.find((facility) => facility.id === node);
 			if (facility) {
+				distanceBtwFacilities.push(
+					calculateDistance(
+						coords[distanceIdx][0],
+						coords[distanceIdx][1],
+						facility.latitude,
+						facility.longitude,
+					),
+				);
 				coords.push([facility.latitude, facility.longitude]);
+				distanceIdx++;
 			}
 		}
 	}
-	return { path, distance, coords, complete: false };
+
+	return { path, coords, complete: false, distanceBtwFacilities };
 };
