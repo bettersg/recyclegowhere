@@ -1,10 +1,9 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { Flex, theme, useDisclosure } from "@chakra-ui/react";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 import FilterButton from "./filterPopover";
-import { SelectAndFilterBar, multiselectOnChange, OptionType } from "spa-pages";
+import { SelectAndFilterBar, multiselectOnChange, OptionType, checkboxChange } from "spa-pages";
 import { ActionMeta, MultiValue } from "react-select";
-import { useSheetyData } from "hooks/useSheetyData";
 import { OrgProps } from "spa-pages";
 
 type Props = {
@@ -44,6 +43,31 @@ const ItemsAndFilterRow = ({ items, setOrgs, sortPickups }: Props) => {
 		setOrgs(sortPickups(updatedItemState));
 	};
 
+	// Handle changes in items selected in the Filter panel
+	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { updatedItemState, updatedOptions } = checkboxChange(e, itemState, selectedOptions);
+		setSelectedOptions(updatedOptions);
+		setItemState(updatedItemState);
+		setOrgs(sortPickups(updatedItemState));
+	};
+
+	const selectAllItems = () => {
+		const selectOptions: OptionType[] = items.map((item, index) => ({
+			value: item.name,
+			label: item.name,
+			method: item.method,
+			idx: index,
+		}));
+		const itemState = items.map((item) => ({
+			name: item.name,
+			method: item.method,
+		}));
+
+		setItemState(itemState);
+		setSelectedOptions(selectOptions);
+		setOrgs(sortPickups(itemState));
+	};
+
 	return (
 		<Flex>
 			<Flex
@@ -61,7 +85,15 @@ const ItemsAndFilterRow = ({ items, setOrgs, sortPickups }: Props) => {
 					enableBoxShadow={false}
 				/>
 			</Flex>
-			<FilterButton items={items} isOpen={isFilterOpen} onClose={onFilterClose} />
+			{/* Filter Panel */}
+			<FilterButton
+				isOpen={isFilterOpen}
+				onClose={onFilterClose}
+				handleCheckboxChange={handleCheckboxChange}
+				selectAllItems={selectAllItems}
+				itemState={itemState}
+				selectOptions={selectOptions}
+			/>
 		</Flex>
 	);
 };

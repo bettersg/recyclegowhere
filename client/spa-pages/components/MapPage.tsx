@@ -186,6 +186,14 @@ const MapInner = ({ setPage }: Props) => {
 		handleChangedLocation(updatedItemState);
 	};
 
+	// Handle changes in items selected in the Filter panel
+	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { updatedItemState, updatedOptions } = checkboxChange(e, itemState, selectedOptions);
+		handleChangedLocation(updatedItemState);
+		setSelectedOptions(updatedOptions);
+		setItemState(updatedItemState);
+	};
+
 	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
 		const locations = getNearbyFacilities(
@@ -224,44 +232,7 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 	};
 
-	// Handle changes in items selected in the Filter panel
-	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
-		let updatedOptions: OptionType[] = selectedOptions;
-		if (e.target.checked) {
-			// If add
-			const newItem = {
-				name: e.target.value,
-				method: e.target.name as Methods,
-			} as TItemSelection;
-			itemState.push(newItem);
-			updatedItemState = [...itemState];
-			const newOption: OptionType = {
-				value: e.target.value,
-				label: e.target.value,
-				method: e.target.name as Methods,
-				idx: parseInt(e.target.dataset.key as string),
-			};
-			updatedOptions.push(newOption);
-		} else if (!e.target.checked) {
-			// If remove
-			updatedItemState = itemState.filter((item) => {
-				return item.name !== e.target.value;
-			});
-			updatedOptions = selectedOptions.filter((option) => option.value !== e.target.value);
-		}
-		handleChangedLocation(updatedItemState);
-		setSelectedOptions(updatedOptions);
-		setItemState(updatedItemState);
-	};
-
 	const selectAllItems = () => {
-		const selectOptions: OptionType[] = items.map((item, index) => ({
-			value: item.name,
-			label: item.name,
-			method: item.method,
-			idx: index,
-		}));
 		const itemState = items.map((item) => ({
 			name: item.name,
 			method: item.method,
@@ -563,6 +534,38 @@ export const multiselectOnChange = (
 			return item.name !== removedValue.label;
 		});
 		updatedOptions = selectedOptions.filter((option) => option.value !== removedValue.label);
+	}
+	return { updatedItemState, updatedOptions };
+};
+
+export const checkboxChange = (
+	e: ChangeEvent<HTMLInputElement>,
+	itemState: (TItemSelection | TEmptyItem)[],
+	selectedOptions: OptionType[],
+): { updatedItemState: (TItemSelection | TEmptyItem)[]; updatedOptions: OptionType[] } => {
+	let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
+	let updatedOptions: OptionType[] = selectedOptions;
+	if (e.target.checked) {
+		// If add
+		const newItem = {
+			name: e.target.value,
+			method: e.target.name as Methods,
+		} as TItemSelection;
+		itemState.push(newItem);
+		updatedItemState = [...itemState];
+		const newOption: OptionType = {
+			value: e.target.value,
+			label: e.target.value,
+			method: e.target.name as Methods,
+			idx: parseInt(e.target.dataset.key as string),
+		};
+		updatedOptions.push(newOption);
+	} else if (!e.target.checked) {
+		// If remove
+		updatedItemState = itemState.filter((item) => {
+			return item.name !== e.target.value;
+		});
+		updatedOptions = selectedOptions.filter((option) => option.value !== e.target.value);
 	}
 	return { updatedItemState, updatedOptions };
 };

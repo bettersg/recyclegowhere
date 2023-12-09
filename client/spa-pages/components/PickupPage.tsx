@@ -42,14 +42,10 @@ export const PickupPage = ({ setPage }: Props) => {
 
 	// Pick up services
 	const { pickUpServices, getItemCategory } = useSheetyData();
-	console.log(pickUpServices);
 	const sortPickups = (itemEntry: (TItemSelection | TEmptyItem)[]): OrgProps[] => {
 		const possiblePickups = pickUpServices.filter((pickUpService) => {
 			let picksUpAtLeastOneItem = false;
 			for (const item of itemEntry) {
-				console.log("pickUpService.categoriesAccepted:", pickUpService.categoriesAccepted);
-				console.log("getItemCategory(item.name):", getItemCategory(item.name));
-
 				if (pickUpService.categoriesAccepted.includes(getItemCategory(item.name))) {
 					picksUpAtLeastOneItem = true;
 					break;

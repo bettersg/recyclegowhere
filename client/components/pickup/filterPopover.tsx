@@ -1,18 +1,25 @@
 import { Button, Modal, ModalContent, ModalOverlay } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import MarkedSlider from "./slider";
 import { CheckboxGroup, FilterSection } from "components/map";
 import { COLORS } from "theme";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
+import { OptionType } from "spa-pages";
 
 const FilterButton = ({
 	isOpen,
 	onClose,
-	items,
+	handleCheckboxChange,
+	selectAllItems,
+	selectOptions,
+	itemState,
 }: {
 	isOpen: boolean;
 	onClose: () => void;
-	items: (TItemSelection | TEmptyItem)[];
+	handleCheckboxChange: (e: ChangeEvent<HTMLInputElement>) => void;
+	selectAllItems: () => void;
+	itemState: (TItemSelection | TEmptyItem)[];
+	selectOptions: OptionType[];
 }) => {
 	const [modalTop, setModalTop] = useState(265);
 
@@ -41,6 +48,13 @@ const FilterButton = ({
 		setQuantityValue(val);
 	};
 
+	const selectedOptionsWithCheckedState = selectOptions.map((option) => {
+		const isChecked = itemState.some(
+			(item) => item.name === option.value && item.method === option.method,
+		);
+		return { ...option, isChecked };
+	});
+
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
@@ -65,17 +79,9 @@ const FilterButton = ({
 					}
 				>
 					<CheckboxGroup
-						items={items.map((item) => ({
-							isChecked: true,
-							value: item.name,
-							method: item.method,
-						}))}
-						onChange={() => {
-							return void 0;
-						}}
-						onSelectAll={() => {
-							return void 0;
-						}}
+						items={selectedOptionsWithCheckedState}
+						onChange={handleCheckboxChange}
+						onSelectAll={selectAllItems}
 					/>
 				</FilterSection>
 
