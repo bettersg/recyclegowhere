@@ -11,20 +11,12 @@ export const InstructionsHeader = ({ setPage }: Props) => {
 		<Box my={5}>
 			<HStack px={2} justifyContent={"space-between"} gap={5}>
 				<Button
-					w={"50%"}
+					w={"20%"}
 					leftIcon={<ArrowBackIcon />}
 					onClick={() => setPage(Pages.HOME)}
 					colorScheme="teal"
 				>
 					Back
-				</Button>
-				<Button
-					w={"50%"}
-					leftIcon={<RepeatIcon />}
-					onClick={() => setPage(Pages.HOME)}
-					colorScheme="teal"
-				>
-					Restart
 				</Button>
 			</HStack>
 		</Box>

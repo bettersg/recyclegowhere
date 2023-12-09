@@ -10,13 +10,16 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { AccordionDisplayProps } from ".";
 import InstructionsCarousel from "./InstructionsCarousel";
 import { InstructionsTag } from "./InstructionsTag";
+import { useState } from "react";
 
 const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: AccordionDisplayProps) => {
 	const { getItemCategory } = useSheetyData();
 	const lastIndex = items.length - 1;
+	const [isExpanded, setIsExpanded] = useState(false);
+	const [isHovered, setIsHovered] = useState(false);
 
 	return (
-		<Accordion allowMultiple allowToggle mt={1}>
+		<Accordion allowMultiple mt={1}>
 			{items.map((item, index) => {
 				const category = getItemCategory(item.title);
 				return (
@@ -24,18 +27,29 @@ const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: Accordion
 						<h2>
 							<AccordionButton
 								roundedTop={index === 0 ? "lg" : "none"}
-								roundedBottom={index === lastIndex ? "lg" : "none"}
+								roundedBottom={
+									!isExpanded ? (index === lastIndex ? "lg" : "none") : "none"
+								}
 								border={"1px"}
 								borderTop={index !== 0 ? "0px" : "1px"}
 								borderColor={"gray.400"}
 								_expanded={{ bg: "teal", color: "white" }}
-								onClick={() => handleAccordionClick(index)}
+								onClick={() => {
+									handleAccordionClick(index);
+									setIsExpanded(!isExpanded);
+								}}
 								_hover={{ bg: "teal", color: "white" }}
+								onMouseEnter={() => setIsHovered(true)}
+								onMouseLeave={() => setIsHovered(false)}
 							>
 								<VStack as="span" flex="1" alignItems="flex-start">
 									<HStack textAlign="left">
 										<Image
-											src={`/icons/${category}.png`}
+											src={
+												isExpanded || isHovered
+													? `/whiteicons/${category}.png`
+													: `/icons/${category}.png`
+											}
 											w={5}
 											alt={`Icon for ${category}`}
 										/>
@@ -51,21 +65,23 @@ const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: Accordion
 							borderColor={"gray.400"}
 							borderTop="0px"
 							roundedBottom={index === lastIndex ? "lg" : "none"}
+							bgColor={"#E0F0EF"}
+							px={4}
+							pt={4}
+							pb={0}
 						>
-							{recyclable ? (
-								item.contents && (
-									<Box p={4}>
-										<InstructionsCarousel items={item.contents} />
-									</Box>
-								)
-							) : (
-								<Box p={4}>
-									<Text as={"b"}>Why cannot recycle?</Text>
-									<Text mb={5}>{item.reason}</Text>
-									<Text as={"b"}>How to dispose properly?</Text>
-									<Text>{item.suggestion}</Text>
-								</Box>
-							)}
+							<Box>
+								{recyclable ? (
+									item.contents && <InstructionsCarousel items={item.contents} />
+								) : (
+									<>
+										<Text as={"b"}>Why cannot recycle?</Text>
+										<Text mb={5}>{item.reason}</Text>
+										<Text as={"b"}>How to dispose properly?</Text>
+										<Text>{item.suggestion}</Text>
+									</>
+								)}
+							</Box>
 						</AccordionPanel>
 					</AccordionItem>
 				);

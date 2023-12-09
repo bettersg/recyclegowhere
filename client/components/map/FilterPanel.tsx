@@ -26,6 +26,7 @@ import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import { OptionType } from "spa-pages";
 import React, { ChangeEvent, PropsWithChildren } from "react";
 import { Methods } from "api/sheety/enums";
+import { useSheetyData } from "hooks/useSheetyData";
 
 type FilterProps = {
 	isOpen: boolean;
@@ -79,9 +80,10 @@ export const FilterPanel = ({
 					/>
 				</FilterSection>
 
-				<FilterSection title="Sort by">
+				{/* Implementation still in consideration... */}
+				{/* <FilterSection title="Sort by">
 					<ChipRadioGroup items={["Nearest", "Most items"]} />
-				</FilterSection>
+				</FilterSection> */}
 
 				<FilterSection title="Max Distance" hideDivider={true}>
 					<HStack justify="space-between">
@@ -176,7 +178,9 @@ const ChipCheckbox = (props: CheckboxProps) => {
 	return (
 		<chakra.label {...htmlProps}>
 			<input {...getInputProps()} hidden />
-			<Chip isChecked={state.isChecked}>{props.value}</Chip>
+			<Chip value={props.value as string} isChecked={state.isChecked}>
+				{props.value}
+			</Chip>
 		</chakra.label>
 	);
 };
@@ -219,15 +223,18 @@ const ChipRadio = (props: PropsWithChildren<UseRadioProps>) => {
 };
 
 const Chip = ({
+	value,
 	children,
 	isChecked,
 	darkBackground,
-}: React.PropsWithChildren<{ isChecked: boolean; darkBackground?: boolean }>) => {
+}: React.PropsWithChildren<{ isChecked: boolean; darkBackground?: boolean; value?: string }>) => {
 	const selectedColor = darkBackground ? "teal.500" : "teal.50";
 	const selectedTextColor = darkBackground ? "white" : "black";
-
+	const { getItemCategory } = useSheetyData();
+	const category = getItemCategory(value as string);
 	return (
-		<Text
+		<Flex
+			align="center"
 			bg="white"
 			borderRadius="full"
 			paddingX="10px"
@@ -237,9 +244,15 @@ const Chip = ({
 			border="1px solid #D6EAEA"
 			cursor="pointer"
 			whiteSpace="nowrap"
-			fontSize="12px"
 		>
-			{children}
-		</Text>
+			{category && (
+				<img
+					src={`/icons/${category}.png`}
+					alt={`${category} icon`}
+					style={{ width: "15px", height: "15px", marginRight: "8px" }}
+				/>
+			)}
+			<Text fontSize="12px">{children}</Text>
+		</Flex>
 	);
 };
