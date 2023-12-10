@@ -1,6 +1,15 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Flex, VStack, Box, IconButton, useDisclosure, Switch, Button } from "@chakra-ui/react";
+import {
+	Flex,
+	VStack,
+	Box,
+	IconButton,
+	useDisclosure,
+	Switch,
+	Button,
+	Image,
+} from "@chakra-ui/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -88,6 +97,10 @@ const MapInner = ({ setPage }: Props) => {
 		recyclingLocationResults?.route.complete ? "green" : "blue",
 	);
 	const [showRoute, setShowRoute] = useState<boolean>(false);
+
+	// Trigger changes in lazy loaded CustomPolyline component
+	const [key, setKey] = useState(0);
+
 	// Filters
 	const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
 	const [range, setRange] = useState(MAX_DISTANCE_KM * 10);
@@ -176,6 +189,7 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
+		console.log(itemEntry);
 		const locations = getNearbyFacilities(
 			itemEntry as TItemSelection[],
 			address,
@@ -184,6 +198,8 @@ const MapInner = ({ setPage }: Props) => {
 			MAX_DISTANCE_KM,
 		);
 		locations.route.complete ? setLineColor("green") : setLineColor("blue");
+		// Trigger changes in lazy loaded CustomPolyline component
+		setKey((prevKey) => prevKey + 1);
 		setLineCoords(locations.route.coords);
 
 		// Set map position
@@ -293,6 +309,9 @@ const MapInner = ({ setPage }: Props) => {
 			dist,
 		);
 		locations.route.complete ? setLineColor("green") : setLineColor("blue");
+		// Trigger changes in lazy loaded CustomPolyline component
+		setKey((prevKey) => prevKey + 1);
+
 		setLineCoords(locations.route.coords);
 		setRange(val);
 		setRecyclingLocationResults(locations);
@@ -363,7 +382,11 @@ const MapInner = ({ setPage }: Props) => {
 						/>
 
 						{/* Show Route */}
-						{showRoute && <CustomPolyline lineCoords={lineCoords} color={lineColor} />}
+						{showRoute ? (
+							<CustomPolyline key={key} lineCoords={lineCoords} color={lineColor} />
+						) : (
+							<></>
+						)}
 					</LeafletMap>
 				</Box>
 
@@ -386,7 +409,7 @@ const MapInner = ({ setPage }: Props) => {
 						facCardDistance={facCardDistance}
 					/>
 				)}
-				{showRoute && !facCardIsOpen && (
+				{showRoute && !facCardIsOpen && recyclingLocationResults?.route && (
 					<RouteCard
 						items={items}
 						route={recyclingLocationResults?.route as RecyclingLocationResults["route"]}
@@ -491,7 +514,18 @@ export const MapHeaderButtons = ({
 			</Flex>
 			<Flex justifyContent={"space-between"}>
 				<Switch onChange={handleRouteShow}>Show Route (beta)</Switch>
-				<Button onClick={() => handleFlyTo([0, 0] as LatLngExpression)}></Button>
+				<Button
+					borderRadius="md" // Adjust the border radius as needed
+					overflow="hidden" // Hide overflow to prevent repeating image
+					bgImage={"/locationButton.png"}
+					bgSize="cover" // Cover the button with the image
+					bgPosition="center" // Center the image
+					bgRepeat="no-repeat" // Do not repeat the image
+					w="40px"
+					h="40px"
+					boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+					onClick={() => handleFlyTo([0, 0] as LatLngExpression)}
+				></Button>
 			</Flex>
 		</VStack>
 	);

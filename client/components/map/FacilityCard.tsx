@@ -48,6 +48,7 @@ export const FacilityCard = ({
 
 	return (
 		<Flex
+			h={"470px"}
 			bg="white"
 			paddingBottom={2}
 			position={"fixed"}
@@ -64,14 +65,14 @@ export const FacilityCard = ({
 			{!isExpanded && (
 				<Box
 					position={"fixed"}
-					height={"10%"}
+					height={"15%"}
 					width={"100%"}
-					bottom={"50%"}
+					bottom={"43%"}
 					zIndex={1001}
 					bgGradient={"linear(transparent 0%, white 60%)"}
 				/>
 			)}
-			<Button height={"1%"} padding={1} bg={"white"} onClick={handleMovement}>
+			<Button height={"5%"} padding={1} bg={"white"} onClick={handleMovement}>
 				{!isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
 			</Button>
 			<Flex

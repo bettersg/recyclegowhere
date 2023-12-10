@@ -1,5 +1,5 @@
 import { Flex, Box, Button, HStack, Text, VStack, Image } from "@chakra-ui/react";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, ChevronUpIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import styles from "components/home/hideScrollbar.module.css";
 import { Chip } from "./FilterPanel";
@@ -18,8 +18,6 @@ export const RouteCard = ({
 	route: RecyclingLocationResults["route"];
 	results: RecyclingLocationResults["results"];
 }) => {
-	console.log(items);
-	console.log(route);
 	const { getFacility, getItemCategory } = useSheetyData();
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [translateY, setTranslateY] = useState(50);
@@ -36,6 +34,7 @@ export const RouteCard = ({
 
 	return (
 		<Flex
+			h={"300px"}
 			bg="white"
 			paddingBottom={2}
 			position={"fixed"}
@@ -59,7 +58,7 @@ export const RouteCard = ({
 					bgGradient={"linear(transparent 0%, white 60%)"}
 				/>
 			)}
-			<Button height={"1%"} padding={1} bg={"white"} onClick={handleMovement}>
+			<Button height={"10%"} padding={1} bg={"white"} onClick={handleMovement}>
 				{!isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
 			</Button>
 			<Flex
@@ -90,22 +89,23 @@ export const RouteCard = ({
 					return (
 						<HStack key={facID} w={"100%"} mb={5}>
 							<Box height="full" w={"5%"} alignSelf={"start"}>
-								<Box w="full">
+								<Box w="full" h="full">
 									<Image
-										h="50%"
-										ml={0.4}
+										h="6%"
+										ml={0}
 										src={"/blueCircle.png"}
 										alt="blue circle"
 									/>
 									<Image
-										h="50%"
+										ml={1}
+										h="90%"
 										justifySelf={"center"}
 										src={"/blueLine.png"}
 										alt="blue line"
 									/>
 								</Box>
 							</Box>
-							<VStack w={"95%"} gap={1}>
+							<VStack alignSelf={"start"} w={"95%"} gap={1}>
 								<Flex
 									w={"full"}
 									flexDirection={"row"}
@@ -180,6 +180,10 @@ export const RouteCard = ({
 						</HStack>
 					);
 				})}
+				<Button isDisabled={true} w="full" p={5} gap={2} bgColor={"teal"} color="white">
+					<ExternalLinkIcon />
+					<Text>Get Directions</Text>
+				</Button>
 			</Flex>
 		</Flex>
 	);

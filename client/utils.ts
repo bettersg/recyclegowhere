@@ -32,6 +32,7 @@ export const getNearbyFacilities = (
 	const res: Record<string, TResult> = {};
 	const allFacilityIds: number[] = [];
 	const userCats = usersCategories(items, getItemCategory);
+	console.log(userCats);
 	const allFacilities: TStateFacilities[] = [];
 	const distances = new Map<number, number>();
 	const blueBinFacilities: TStateFacilities[] = [];
@@ -109,6 +110,7 @@ export const getNearbyFacilities = (
 	});
 
 	const route = dijkstra(allFacilities, address, userCats);
+	console.log(route.complete);
 	return {
 		results: res,
 		facilitiesList: allFacilityIds,
