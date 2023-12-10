@@ -12,41 +12,59 @@ import InstructionsCarousel from "./InstructionsCarousel";
 import { InstructionsTag } from "./InstructionsTag";
 import { useState } from "react";
 
-const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: AccordionDisplayProps) => {
+const DisplayAccordion = ({ items, recyclable }: AccordionDisplayProps) => {
 	const { getItemCategory } = useSheetyData();
 	const lastIndex = items.length - 1;
-	const [isExpanded, setIsExpanded] = useState(false);
-	const [isHovered, setIsHovered] = useState(false);
+
+	// Use an array of state variables to track hover and expanded state for each accordion
+	const [accordionStates, setAccordionStates] = useState(
+		items.map(() => ({ isHovered: false, isExpanded: false })),
+	);
+	// Function to handle accordion hover
+	const handleAccordionHover = (index: number, isHovered: boolean, isExpanded: boolean) => {
+		setAccordionStates((prevState) =>
+			prevState.map((state, i) => ({
+				...state,
+				isHovered: i === index ? isHovered : state.isHovered,
+				isExpanded: i === index ? isExpanded : state.isExpanded,
+			})),
+		);
+	};
 
 	return (
 		<Accordion allowMultiple mt={1}>
 			{items.map((item, index) => {
 				const category = getItemCategory(item.title);
+				const { isHovered, isExpanded } = accordionStates[index];
 				return (
 					<AccordionItem key={index} border={"0px"}>
 						<h2>
 							<AccordionButton
-								roundedTop={index === 0 ? "lg" : "none"}
+								roundedTop={index === 0 ? "md" : "none"}
 								roundedBottom={
-									!isExpanded ? (index === lastIndex ? "lg" : "none") : "none"
+									!isExpanded ? (index === lastIndex ? "md" : "none") : "none"
 								}
-								border={"1px"}
-								borderTop={index !== 0 ? "0px" : "1px"}
+								// borderTop={index !== 0 ? "1px" : "0px"}
 								borderColor={"gray.400"}
 								_expanded={{ bg: "teal", color: "white" }}
 								onClick={() => {
-									handleAccordionClick(index);
-									setIsExpanded(!isExpanded);
+									handleAccordionHover(index, true, !isExpanded);
 								}}
 								_hover={{ bg: "teal", color: "white" }}
-								onMouseEnter={() => setIsHovered(true)}
-								onMouseLeave={() => setIsHovered(false)}
+								onMouseEnter={() => handleAccordionHover(index, true, isExpanded)}
+								onMouseLeave={() => handleAccordionHover(index, false, isExpanded)}
+								style={{
+									boxShadow:
+										index === 0 && index !== lastIndex
+											? "0px -5px 6px -6px rgba(0, 0, 0, 0.25), -5px 0px 6px -6px rgba(0, 0, 0, 0.25), 5px 0px 6px -6px rgba(0, 0, 0, 0.25)"
+											: "1px 2px 6px 0px rgb(0,0,0, 0.25)",
+								}}
 							>
 								<VStack as="span" flex="1" alignItems="flex-start">
 									<HStack textAlign="left">
 										<Image
 											src={
-												isExpanded || isHovered
+												isHovered || isExpanded
 													? `/whiteicons/${category}.png`
 													: `/icons/${category}.png`
 											}
@@ -61,10 +79,11 @@ const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: Accordion
 							</AccordionButton>
 						</h2>
 						<AccordionPanel
-							border="1px"
-							borderColor={"gray.400"}
+							borderInline="1px"
+							borderColor={"teal"}
 							borderTop="0px"
-							roundedBottom={index === lastIndex ? "lg" : "none"}
+							borderBottom="1px"
+							roundedBottom="md"
 							bgColor={"#E0F0EF"}
 							px={4}
 							pt={4}
@@ -74,12 +93,12 @@ const DisplayAccordion = ({ items, handleAccordionClick, recyclable }: Accordion
 								{recyclable ? (
 									item.contents && <InstructionsCarousel items={item.contents} />
 								) : (
-									<>
+									<Box pb={5}>
 										<Text as={"b"}>Why cannot recycle?</Text>
 										<Text mb={5}>{item.reason}</Text>
 										<Text as={"b"}>How to dispose properly?</Text>
 										<Text>{item.suggestion}</Text>
-									</>
+									</Box>
 								)}
 							</Box>
 						</AccordionPanel>
