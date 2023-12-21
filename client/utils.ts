@@ -32,7 +32,6 @@ export const getNearbyFacilities = (
 	const res: Record<string, TResult> = {};
 	const allFacilityIds: number[] = [];
 	const userCats = usersCategories(items, getItemCategory);
-	console.log(userCats);
 	const allFacilities: TStateFacilities[] = [];
 	const distances = new Map<number, number>();
 	const blueBinFacilities: TStateFacilities[] = [];
@@ -52,7 +51,6 @@ export const getNearbyFacilities = (
 				);
 				// Separate Blue Bin from other facilities for reduction
 				if (distance < maxDistance) {
-					// if (!allFacilities.includes(facility)) {
 					if (facility.channelName === "Blue Bin") {
 						if (blueBinFacilities.includes(facility)) {
 							return false;
@@ -60,13 +58,14 @@ export const getNearbyFacilities = (
 						blueBinFacilities.push(facility);
 						distances.set(id, distance);
 					} else {
-						allFacilityIds.push(id);
-						allFacilities.push(facility);
-						distances.set(id, distance);
+						if (!allFacilities.includes(facility)) {
+							allFacilityIds.push(id);
+							allFacilities.push(facility);
+							distances.set(id, distance);
 
-						return true;
+							return true;
+						}
 					}
-					// }
 				}
 			}
 			return false;
