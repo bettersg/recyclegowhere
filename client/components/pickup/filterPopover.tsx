@@ -19,7 +19,7 @@ const FilterButton = ({
 	const initRef = useRef<HTMLElement | null>(null); // Specify the correct type for initRef
 
 	const [priceValue, setPriceValue] = useState(100);
-	const [quantityValue, setQuantityValue] = useState(100);
+	const [quantityValue, setQuantityValue] = useState(0);
 
 	const PriceManager = (val: number) => {
 		setPriceValue(val);

@@ -6,9 +6,15 @@ import styles from "components/pickup/carousel.module.css";
 import { Image } from "@chakra-ui/react";
 import * as csstype from "csstype";
 
-const SLIDES_INTERVAL_TIME = 5000;
+export const SLIDES_INTERVAL_TIME = 5000;
 
-const PickupCarousel = ({ minDist, numPickupServices }: { minDist: number, numPickupServices: number }) => {
+const PickupCarousel = ({
+	minDist,
+	numPickupServices,
+}: {
+	minDist: number;
+	numPickupServices: number;
+}) => {
 	const slides = [
 		{
 			url: useBreakpointValue({

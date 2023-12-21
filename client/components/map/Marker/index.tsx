@@ -2,6 +2,7 @@
 import { Marker } from "react-leaflet";
 import useLeafletDivIcon from "hooks/useLeafletDivIcon";
 import MarkerIconWrapper, { CustomMarkerProps } from "./MarkerIconWrapper";
+import "leaflet/dist/leaflet.css"; // Import Leaflet CSS
 
 export const CustomMarker: React.FC<{
 	position: CustomMarkerProps["position"];
@@ -12,21 +13,22 @@ export const CustomMarker: React.FC<{
 	isSelected?: boolean;
 }> = ({ position, icon, color, handleOnClick, category, isSelected }) => {
 	const { divIcon } = useLeafletDivIcon();
-
 	return (
-		<Marker
-			position={position}
-			icon={divIcon({
-				source: (
-					<MarkerIconWrapper
-						color={color}
-						icon={icon}
-						category={category}
-						isSelected={isSelected}
-					/>
-				),
-			})}
-			eventHandlers={{ click: handleOnClick }}
-		/>
+		<>
+			<Marker
+				position={position}
+				icon={divIcon({
+					source: (
+						<MarkerIconWrapper
+							color={color}
+							icon={icon}
+							category={category}
+							isSelected={isSelected}
+						/>
+					),
+				})}
+				eventHandlers={{ click: handleOnClick }}
+			/>{" "}
+		</>
 	);
 };

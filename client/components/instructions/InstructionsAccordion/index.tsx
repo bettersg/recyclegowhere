@@ -5,7 +5,6 @@ import DisplayAccordion from "./DisplayAccordion";
 
 export type AccordionDisplayProps = {
 	items: AccordionProps[];
-	handleAccordionClick: (index: number) => void;
 	recyclable: boolean;
 };
 
@@ -22,12 +21,6 @@ export type AccordionsProps = {
 };
 
 export const AccordionComp: React.FC<AccordionsProps> = ({ items }) => {
-	const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-	const handleAccordionClick = (index: number) => {
-		setActiveIndex((prevIndex) => (prevIndex === index ? null : index));
-	};
-
 	const unrecyclableItems = [] as AccordionProps[];
 	const recyclableItems = items.filter((item) => {
 		if (item.method === Methods.THROW) {
@@ -46,11 +39,7 @@ export const AccordionComp: React.FC<AccordionsProps> = ({ items }) => {
 					</Text>
 
 					{/* Non-recyclable accordion */}
-					<DisplayAccordion
-						items={unrecyclableItems}
-						handleAccordionClick={handleAccordionClick}
-						recyclable={false}
-					/>
+					<DisplayAccordion items={unrecyclableItems} recyclable={false} />
 				</Box>
 			)}
 			{recyclableItems.length > 0 && (
@@ -60,11 +49,7 @@ export const AccordionComp: React.FC<AccordionsProps> = ({ items }) => {
 					</Text>
 
 					{/* Recyclable accordion */}
-					<DisplayAccordion
-						items={recyclableItems}
-						handleAccordionClick={handleAccordionClick}
-						recyclable={true}
-					/>
+					<DisplayAccordion items={recyclableItems} recyclable={true} />
 				</Box>
 			)}
 		</>
