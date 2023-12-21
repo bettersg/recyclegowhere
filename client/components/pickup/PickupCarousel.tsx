@@ -66,7 +66,7 @@ const PickupCarousel = ({
 	};
 
 	return (
-		<Box className={styles.carouselbox} px={4} h={40}>
+		<Box className={styles.carouselbox} h={40}>
 			<Carousel
 				showThumbs={false}
 				showStatus={false}
