@@ -1,26 +1,42 @@
 .leaflet-marker-icon {
-  background: transparent;
-  border: none;
+	background: transparent;
+	border: none;
 }
 
 .marker-icon-wrapper {
-  position: absolute;
-  bottom: 6px;
-  left: 6px;
-  transform: translateX(-50%);
+	position: absolute;
+	bottom: 6px;
+	left: 6px;
+	transform: translateX(-50%);
+}
+/* Apply styles to the custom shadow icon */
+.custom-shadow-icon {
+	/* Add your shadow styles here */
+	position: relative;
+	bottom: 32px;
+	right: 12px;
+	width: 42px;
+	height: 42px;
+	background-color: black;
+	opacity: 0.5;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 70%);
 }
 
 .marker-icon-wrapper.selected {
-  transform-origin: bottom left;
-  scale: 2;
+	transform-origin: bottom left;
+	scale: 2;
 }
 
 .marker-text {
-	font-size: 9px;
+	font-size: 17px;
+	font-weight: 700;
 	position: absolute;
-	right: 7px;
-	top: 0;
-	color: white;
+	right: 14px;
+	top: 6px;
+	background-clip: text;
+	color: transparent;
+	background-image: linear-gradient(90deg, #2b6cb0 0%, #2c5282 100%);
 }
 
 .marker-size {
@@ -33,14 +49,25 @@
 	height: 42px !important;
 }
 
+.marker-circle {
+	position: absolute;
+	width: 65% !important;
+
+	/* center icon in marker */
+	top: 17%;
+
+	/* center icon based on percentage width */
+	/* (100 - %width) / 2 * 100 / %width */
+	transform: translateX(29%);
+}
 .marker-image {
 	position: absolute;
-  width: 36% !important;
+	width: 35% !important;
 
-  /* center icon in marker */
-  top: 18%;
+	/* center icon in marker */
+	top: 33%;
 
-  /* center icon based on percentage width */
-  /* (100 - %width) / 2 * 100 / %width */
-  transform: translateX(88.888%);
+	/* center icon based on percentage width */
+	/* (100 - %width) / 2 * 100 / %width */
+	transform: translateX(95%);
 }

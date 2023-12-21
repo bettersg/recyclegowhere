@@ -39,7 +39,7 @@ const FilterButton = ({
 	}, []);
 
 	const [priceValue, setPriceValue] = useState(100);
-	const [quantityValue, setQuantityValue] = useState(100);
+	const [quantityValue, setQuantityValue] = useState(0);
 
 	const PriceManager = (val: number) => {
 		setPriceValue(val);

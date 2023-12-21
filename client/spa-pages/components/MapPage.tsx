@@ -1,6 +1,6 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Flex, VStack, Box, IconButton, useDisclosure } from "@chakra-ui/react";
+import { Flex, VStack, Box, IconButton, useDisclosure, Image } from "@chakra-ui/react";
 import { ComponentProps, Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -9,7 +9,7 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import { FacilityType } from "app-context/UserSelectionContext/types";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
 import { ChangeEvent } from "react";
@@ -465,6 +465,9 @@ export function SelectedItemChips({
 			value={selectedOptions}
 			onChange={onMultiSelectChange}
 			options={selectOptions}
+			components={{
+				MultiValueLabel: CustomMultiValueLabel,
+			}}
 			styles={{
 				container: (base) => ({
 					...base,
@@ -568,6 +571,23 @@ export const checkboxChange = (
 		updatedOptions = selectedOptions.filter((option) => option.value !== e.target.value);
 	}
 	return { updatedItemState, updatedOptions };
+}
+
+const CustomMultiValueLabel = (props: any) => {
+	const { getItemCategory } = useSheetyData();
+	const category = getItemCategory(props.data.value);
+	return (
+		<components.MultiValueLabel {...props}>
+			<Flex align="center">
+				<img
+					src={`/icons/${category}.png`}
+					alt={`${category} icon`}
+					style={{ width: "15px", height: "15px", marginRight: "8px" }}
+				/>
+				{props.children}
+			</Flex>
+		</components.MultiValueLabel>
+	);
 };
 
 export default MapPage;
