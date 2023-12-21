@@ -1,7 +1,7 @@
+import { ArrowBackIcon, ArrowLeftIcon } from "@chakra-ui/icons";
 import { Button, Flex, Heading, Spacer, Box, ButtonGroup, Icon } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
-import { FiMap } from "react-icons/fi";
-import { TbReload } from "react-icons/tb";
+import { BiLeftArrow } from "react-icons/bi";
 import { Pages } from "spa-pages/pageEnums";
 
 type Props = {
@@ -18,19 +18,11 @@ const ButtonRow = ({ setPage }: Props) => {
 			<ButtonGroup gap={"1"}>
 				<Button
 					onClick={() => setPage(Pages.HOME)}
-					leftIcon={<TbReload />}
+					leftIcon={<ArrowBackIcon />}
 					colorScheme={"teal"}
-					size={"xs"}
+					size={"sm"}
 				>
-					Restart
-				</Button>
-				<Button
-					onClick={() => setPage(Pages.MAP)}
-					leftIcon={<Icon as={FiMap} />}
-					colorScheme={"teal"}
-					size={"xs"}
-				>
-					Map
+					Back
 				</Button>
 			</ButtonGroup>
 		</Flex>
