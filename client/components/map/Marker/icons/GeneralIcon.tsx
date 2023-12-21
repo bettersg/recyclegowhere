@@ -2,7 +2,7 @@ import { Icon } from "@chakra-ui/react";
 
 // Map Icon (placeholder for testing)
 const GeneralIcon = (props: any) => (
-	<Icon viewBox="5 5 70 80" {...props}>
+	<Icon viewBox="0 0 75 75" {...props}>
 		<g filter="url(#filter0_d_5786_45655)">
 			<path
 				d="M69 37C69 54.6731 54.6731 69 37 69C19.3269 69 5 54.6731 5 37C5 19.3269 19.3269 5 37 5C54.6731 5 69 19.3269 69 37Z"

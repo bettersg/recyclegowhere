@@ -51,23 +51,23 @@
 
 .marker-circle {
 	position: absolute;
-	width: 57% !important;
+	width: 65% !important;
 
 	/* center icon in marker */
-	top: 12%;
+	top: 17%;
 
 	/* center icon based on percentage width */
 	/* (100 - %width) / 2 * 100 / %width */
-	transform: translateX(32%);
+	transform: translateX(29%);
 }
 .marker-image {
 	position: absolute;
-	width: 36% !important;
+	width: 35% !important;
 
 	/* center icon in marker */
-	top: 22%;
+	top: 31%;
 
 	/* center icon based on percentage width */
 	/* (100 - %width) / 2 * 100 / %width */
-	transform: translateX(80%);
+	transform: translateX(95%);
 }
