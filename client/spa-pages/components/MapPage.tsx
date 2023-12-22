@@ -18,7 +18,7 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import { FacilityType, RecyclingLocationResults } from "app-context/UserSelectionContext/types";
-import Select from "react-select";
+import Select, { components } from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
 import { ChangeEvent } from "react";
@@ -71,6 +71,7 @@ const Cluster = dynamic(
 		ssr: false,
 	},
 );
+
 export type OptionType = {
 	value: string;
 	label: string;
@@ -106,11 +107,11 @@ const MapInner = ({ setPage }: Props) => {
 	const [range, setRange] = useState(MAX_DISTANCE_KM * 10);
 
 	// Multiselect Box
-	const selectOptions: OptionType[] = items.map((item) => ({
+	const selectOptions: OptionType[] = items.map((item, index) => ({
 		value: item.name,
 		label: item.name,
 		method: item.method,
-		idx: index++,
+		idx: index,
 	}));
 	const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([...selectOptions]);
 	// Internal tracking of user-selected items
@@ -143,7 +144,6 @@ const MapInner = ({ setPage }: Props) => {
 	////// Variables //////
 	const isLoading = !map || !leafletWindow;
 	const zoom = 15;
-	let index = 0;
 
 	const [centerPos, setCenterPos] = useState<LatLngExpression>(
 		address.value !== ""
@@ -187,6 +187,30 @@ const MapInner = ({ setPage }: Props) => {
 		return { cardIsOpen: cardIsOpen, cardDetails: cardDetails, distance: facility.distance };
 	};
 
+	const handleMultiselectOnChange = (
+		newValue: MultiValue<OptionType>,
+		actionMeta: ActionMeta<OptionType>,
+	) => {
+		const { updatedOptions, updatedItemState } = multiselectOnChange(
+			newValue,
+			actionMeta,
+			itemState,
+			selectedOptions,
+		);
+		setSelectedOptions(updatedOptions);
+		setItemState(updatedItemState);
+		setFacCardIsOpen(false);
+		handleChangedLocation(updatedItemState);
+	};
+
+	// Handle changes in items selected in the Filter panel
+	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+		const { updatedItemState, updatedOptions } = checkboxChange(e, itemState, selectedOptions);
+		handleChangedLocation(updatedItemState);
+		setSelectedOptions(updatedOptions);
+		setItemState(updatedItemState);
+	};
+
 	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
 		console.log(itemEntry);
@@ -218,76 +242,7 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 	};
 
-	// Handle change in multi-select box (remove, add items)
-	const handleMultiselectOnChange = (
-		newValue: MultiValue<OptionType>,
-		actionMeta: ActionMeta<OptionType>,
-	) => {
-		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
-		let updatedOptions: OptionType[] = selectedOptions;
-		// If user adds an option
-		if (actionMeta.action === "select-option") {
-			const newItem = {
-				name: actionMeta.option?.label,
-				method: actionMeta.option?.method as Methods,
-			} as TItemSelection;
-			itemState.push(newItem);
-			updatedItemState = [...itemState];
-			updatedOptions.push(actionMeta.option as OptionType);
-			// If user removes an option
-		} else if (actionMeta.action === "remove-value") {
-			const removedValue = actionMeta.removedValue;
-			updatedItemState = itemState.filter((item) => {
-				return item.name !== removedValue.label;
-			});
-			updatedOptions = selectedOptions.filter(
-				(option) => option.value !== removedValue.label,
-			);
-		}
-		setSelectedOptions(updatedOptions);
-		handleChangedLocation(updatedItemState);
-		setItemState(updatedItemState);
-		setFacCardIsOpen(false);
-	};
-
-	// Handle changes in items selected in the Filter panel
-	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-		let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
-		let updatedOptions: OptionType[] = selectedOptions;
-		if (e.target.checked) {
-			// If add
-			const newItem = {
-				name: e.target.value,
-				method: e.target.name as Methods,
-			} as TItemSelection;
-			itemState.push(newItem);
-			updatedItemState = [...itemState];
-			const newOption: OptionType = {
-				value: e.target.value,
-				label: e.target.value,
-				method: e.target.name as Methods,
-				idx: parseInt(e.target.dataset.key as string),
-			};
-			updatedOptions.push(newOption);
-		} else if (!e.target.checked) {
-			// If remove
-			updatedItemState = itemState.filter((item) => {
-				return item.name !== e.target.value;
-			});
-			updatedOptions = selectedOptions.filter((option) => option.value !== e.target.value);
-		}
-		handleChangedLocation(updatedItemState);
-		setSelectedOptions(updatedOptions);
-		setItemState(updatedItemState);
-	};
-
 	const selectAllItems = () => {
-		const selectOptions: OptionType[] = items.map((item) => ({
-			value: item.name,
-			label: item.name,
-			method: item.method,
-			idx: index++,
-		}));
 		const itemState = items.map((item) => ({
 			name: item.name,
 			method: item.method,
@@ -527,13 +482,17 @@ export function SelectAndFilterBar({
 	selectOptions,
 	onMultiSelectChange,
 	onFilterOpen,
-}: ComponentProps<typeof SelectedItemChips> & { onFilterOpen: () => void }) {
+	enableBoxShadow = true,
+}: ComponentProps<typeof SelectedItemChips> & {
+	onFilterOpen: () => void;
+	enableBoxShadow?: boolean;
+}) {
 	return (
 		<Flex
 			w="100%"
 			direction={"row"}
 			background="white"
-			boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+			boxShadow={enableBoxShadow ? "2px 2px 8px 0px rgba(0, 0, 0, 0.50)" : "none"}
 			borderRadius="6px"
 			alignItems="center"
 		>
@@ -566,6 +525,9 @@ export function SelectedItemChips({
 			value={selectedOptions}
 			onChange={onMultiSelectChange}
 			options={selectOptions}
+			components={{
+				MultiValueLabel: CustomMultiValueLabel,
+			}}
 			styles={{
 				container: (base) => ({
 					...base,
@@ -609,5 +571,83 @@ export function SelectedItemChips({
 		/>
 	);
 }
+
+// Handle change in multi-select box (remove, add items)
+export const multiselectOnChange = (
+	newValue: MultiValue<OptionType>,
+	actionMeta: ActionMeta<OptionType>,
+	itemState: (TItemSelection | TEmptyItem)[],
+	selectedOptions: OptionType[],
+): { updatedItemState: (TItemSelection | TEmptyItem)[]; updatedOptions: OptionType[] } => {
+	let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
+	let updatedOptions: OptionType[] = selectedOptions;
+	// If user adds an option
+	if (actionMeta.action === "select-option") {
+		const newItem = {
+			name: actionMeta.option?.label,
+			method: actionMeta.option?.method as Methods,
+		} as TItemSelection;
+		itemState.push(newItem);
+		updatedItemState = [...itemState];
+		updatedOptions.push(actionMeta.option as OptionType);
+		// If user removes an option
+	} else if (actionMeta.action === "remove-value") {
+		const removedValue = actionMeta.removedValue;
+		updatedItemState = itemState.filter((item) => {
+			return item.name !== removedValue.label;
+		});
+		updatedOptions = selectedOptions.filter((option) => option.value !== removedValue.label);
+	}
+	return { updatedItemState, updatedOptions };
+};
+
+export const checkboxChange = (
+	e: ChangeEvent<HTMLInputElement>,
+	itemState: (TItemSelection | TEmptyItem)[],
+	selectedOptions: OptionType[],
+): { updatedItemState: (TItemSelection | TEmptyItem)[]; updatedOptions: OptionType[] } => {
+	let updatedItemState: (TItemSelection | TEmptyItem)[] = itemState;
+	let updatedOptions: OptionType[] = selectedOptions;
+	if (e.target.checked) {
+		// If add
+		const newItem = {
+			name: e.target.value,
+			method: e.target.name as Methods,
+		} as TItemSelection;
+		itemState.push(newItem);
+		updatedItemState = [...itemState];
+		const newOption: OptionType = {
+			value: e.target.value,
+			label: e.target.value,
+			method: e.target.name as Methods,
+			idx: parseInt(e.target.dataset.key as string),
+		};
+		updatedOptions.push(newOption);
+	} else if (!e.target.checked) {
+		// If remove
+		updatedItemState = itemState.filter((item) => {
+			return item.name !== e.target.value;
+		});
+		updatedOptions = selectedOptions.filter((option) => option.value !== e.target.value);
+	}
+	return { updatedItemState, updatedOptions };
+}
+
+const CustomMultiValueLabel = (props: any) => {
+	const { getItemCategory } = useSheetyData();
+	const category = getItemCategory(props.data.value);
+	return (
+		<components.MultiValueLabel {...props}>
+			<Flex align="center">
+				<img
+					src={`/icons/${category}.png`}
+					alt={`${category} icon`}
+					style={{ width: "15px", height: "15px", marginRight: "8px" }}
+				/>
+				{props.children}
+			</Flex>
+		</components.MultiValueLabel>
+	);
+};
 
 export default MapPage;

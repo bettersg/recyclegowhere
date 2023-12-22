@@ -11,6 +11,7 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { TSheetyPickupDetails } from "api/sheety/types";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 import NonRecyclableModal from "components/common/NonRecyclableModal";
+import { useState } from "react";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
@@ -42,30 +43,35 @@ export const PickupPage = ({ setPage }: Props) => {
 
 	// Pick up services
 	const { pickUpServices, getItemCategory } = useSheetyData();
-	const possiblePickups = pickUpServices.filter((pickUpService) => {
-		let picksUpAtLeastOneItem = false;
-		for (const item of items) {
-			if (pickUpService.categoriesAccepted.includes(getItemCategory(item.name))) {
-				picksUpAtLeastOneItem = true;
-				break;
+	const sortPickups = (itemEntry: (TItemSelection | TEmptyItem)[]): OrgProps[] => {
+		const possiblePickups = pickUpServices.filter((pickUpService) => {
+			let picksUpAtLeastOneItem = false;
+			for (const item of itemEntry) {
+				if (pickUpService.categoriesAccepted.includes(getItemCategory(item.name))) {
+					picksUpAtLeastOneItem = true;
+					break;
+				}
 			}
-		}
-		return picksUpAtLeastOneItem;
-	});
-	const orgPropsList: OrgProps[] = possiblePickups.map((pickup) => {
-		return {
-			organisation: pickup,
-			acceptedItems: items.filter((item) =>
-				pickup.categoriesAccepted.includes(getItemCategory(item.name)),
-			),
-			notAcceptedItems: items.filter(
-				(item) => !pickup.categoriesAccepted.includes(getItemCategory(item.name)),
-			),
-		};
-	});
-	const sortedPossiblePickups = orgPropsList.sort((a, b) =>
-		a.acceptedItems.length > b.acceptedItems.length ? -1 : 1,
-	);
+			return picksUpAtLeastOneItem;
+		});
+		const orgPropsList: OrgProps[] = possiblePickups.map((pickup) => {
+			return {
+				organisation: pickup,
+				acceptedItems: itemEntry.filter((item) =>
+					pickup.categoriesAccepted.includes(getItemCategory(item.name)),
+				),
+				notAcceptedItems: itemEntry.filter(
+					(item) => !pickup.categoriesAccepted.includes(getItemCategory(item.name)),
+				),
+			};
+		});
+		const sortedPossiblePickups = orgPropsList.sort((a, b) =>
+			a.acceptedItems.length > b.acceptedItems.length ? -1 : 1,
+		);
+		return sortedPossiblePickups;
+	};
+
+	const [orgs, setOrgs] = useState<OrgProps[]>(sortPickups(items));
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
@@ -78,14 +84,15 @@ export const PickupPage = ({ setPage }: Props) => {
 				p={0}
 				pb={5}
 			>
-				<VStack align="stretch" my={23} spacing={4}>
-					<PickupCarousel
-						numPickupServices={sortedPossiblePickups.length}
-						minDist={minDistance}
-					/>
+				<VStack align="stretch" my={23} spacing={4} px={6}>
+					{/* Carousel */}
+					<PickupCarousel numPickupServices={orgs.length} minDist={minDistance} />
+					{/* Title + Back Button */}
 					<ButtonRow setPage={setPage} />
-					<ItemsAndFilterRow items={items} />
-					<OrgList sortedPossiblePickups={sortedPossiblePickups} />
+					{/* Multiselect Box */}
+					<ItemsAndFilterRow items={items} setOrgs={setOrgs} sortPickups={sortPickups} />
+					{/* Title + List of all Services */}
+					<OrgList sortedPossiblePickups={orgs} />
 				</VStack>
 			</Container>
 		</BasePage>

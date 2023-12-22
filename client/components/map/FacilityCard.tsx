@@ -179,7 +179,7 @@ export const FacilityCard = ({
 	);
 };
 
-const AcceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AcceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
 	return (
 		<Box
 			bg={"#CCECD5"}
@@ -195,7 +195,7 @@ const AcceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
 	);
 };
 
-const UnacceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const UnacceptedTab: React.FC<{ children: ReactNode }> = ({ children }) => {
 	return (
 		<Box bg={"#E0F0EF"} borderRadius={"42px"} minWidth={"fit-content"} padding={"5px 10px"}>
 			{children}

@@ -33,11 +33,18 @@ const MarkerIconWrapper = ({
 			{label && <Text className="marker-text">{label}</Text>}
 
 			{category && (
-				<Image
-					className="marker-image"
-					src={`/icons/${category}.png`}
-					alt={`${category} icon`}
-				/>
+				<>
+					<Image
+						className="marker-circle"
+						src={"/blueicons/icon_circle.png"}
+						alt="Circle behind category icon"
+					/>
+					<Image
+						className="marker-image"
+						src={`/blueicons/${category}.png`}
+						alt={`${category} icon`}
+					/>
+				</>
 			)}
 		</Box>
 	);

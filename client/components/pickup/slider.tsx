@@ -9,7 +9,7 @@ interface MarkedSliderProps {
 }
 
 const MarkedSlider: React.FC<MarkedSliderProps> = ({ value, onSliderChange }) => {
-	const [sliderValue, setSliderValue] = useState(100);
+	const [sliderValue, setSliderValue] = useState(value);
 
 	const labelStyles = {
 		mt: "2",
@@ -19,6 +19,7 @@ const MarkedSlider: React.FC<MarkedSliderProps> = ({ value, onSliderChange }) =>
 	return (
 		<Box pt={6} pb={2} px={5}>
 			<Slider
+				isDisabled={true}
 				defaultValue={sliderValue}
 				onChange={(val) => setSliderValue(val)}
 				colorScheme="teal"
