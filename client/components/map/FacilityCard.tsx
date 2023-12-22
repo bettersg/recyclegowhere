@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useSheetyData } from "hooks/useSheetyData";
 import { CheckIcon } from "@chakra-ui/icons";
 import { categoriesProcessor } from "./utils";
+import { Methods } from "api/sheety/enums";
 export const FacilityCard = ({
 	items,
 	facCardDetails,
@@ -28,15 +29,26 @@ export const FacilityCard = ({
 	};
 
 	const itemsAccepted = items.filter((item) => {
-		return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+		const itemMethod = item.method as Methods;
+		// For an item to be accepted: (1) Same method (2) Same category
+		if (facCardDetails.methodsAccepted.includes(itemMethod)) {
+			return facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
+		}
 	});
 
 	const itemsNotAccepted = items.filter((item) => {
+		const itemMethod = item.method as Methods;
+		// For an item to be rejected: Anything of a different Method than the facility.
+		if (!facCardDetails.methodsAccepted.includes(itemMethod)) {
+			return true;
+		}
+		// EDGE CASE: if its a different Method but the facility still takes this item.
 		return !facCardDetails.categoriesAccepted.includes(getItemCategory(item.name));
 	});
 
 	return (
 		<Flex
+			h={"470px"}
 			bg="white"
 			paddingBottom={2}
 			position={"fixed"}
@@ -53,14 +65,14 @@ export const FacilityCard = ({
 			{!isExpanded && (
 				<Box
 					position={"fixed"}
-					height={"10%"}
+					height={"15%"}
 					width={"100%"}
-					bottom={"50%"}
+					bottom={"43%"}
 					zIndex={1001}
 					bgGradient={"linear(transparent 0%, white 60%)"}
 				/>
 			)}
-			<Button maxHeight={"2%"} padding={2.5} bg={"white"} onClick={handleMovement}>
+			<Button height={"5%"} padding={1} bg={"white"} onClick={handleMovement}>
 				{!isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
 			</Button>
 			<Flex
@@ -118,7 +130,7 @@ export const FacilityCard = ({
 						))}
 					</Flex>
 					<Text fontSize={"sm"} as={"b"}>
-						They also accept these items:
+						They generally accept items of these categories:
 					</Text>
 					<Flex gap={2} fontSize={"xs"} fontWeight={500} width={"100%"} wrap={"wrap"}>
 						{categoriesProcessor(facCardDetails.categoriesAccepted)}

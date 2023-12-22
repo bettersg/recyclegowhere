@@ -1,6 +1,15 @@
 // General Imports
 import { BasePage } from "layouts/BasePage";
-import { Flex, VStack, Box, IconButton, useDisclosure, Image } from "@chakra-ui/react";
+import {
+	Flex,
+	VStack,
+	Box,
+	IconButton,
+	useDisclosure,
+	Switch,
+	Button,
+	Image,
+} from "@chakra-ui/react";
 import { ComponentProps, Dispatch, SetStateAction, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
@@ -8,7 +17,7 @@ import { TStateFacilities } from "app-context/SheetyContext/types";
 import { useSheetyData } from "hooks/useSheetyData";
 import { MAX_DISTANCE_KM, getNearbyFacilities } from "utils";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
-import { FacilityType } from "app-context/UserSelectionContext/types";
+import { FacilityType, RecyclingLocationResults } from "app-context/UserSelectionContext/types";
 import Select, { components } from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
 import { Methods } from "api/sheety/enums";
@@ -21,7 +30,7 @@ import GeneralIcon from "components/map/Marker/icons/GeneralIcon";
 import ClusterIcon from "components/map/Marker/icons/ClusterIcon";
 // import NearbyFacilitiesPanel from "components/map/NearbyFacilitiesPanel";
 // import PullUpTab from "components/map/PullUpTab";
-import { FacilityCard, FilterPanel, MapContextProvider } from "components/map";
+import { FacilityCard, RouteCard, FilterPanel, MapContextProvider } from "components/map";
 import { FilterButton } from "components/map/Buttons";
 
 // Leaflet Imports
@@ -44,6 +53,13 @@ const LeafletMap = dynamic(
 // Dynamic import of Marker component
 const CustomMarker = dynamic(
 	async () => (await import("../../components/map/Marker")).CustomMarker,
+	{
+		ssr: false,
+	},
+);
+// Dynamic import of Polyline component
+const CustomPolyline = dynamic(
+	async () => (await import("../../components/map/CustomPolyline")).CustomPolyline,
 	{
 		ssr: false,
 	},
@@ -74,13 +90,21 @@ const MapInner = ({ setPage }: Props) => {
 	const leafletWindow = useLeafletWindow();
 	const { recyclingLocationResults, address, items, setRecyclingLocationResults } =
 		useUserInputs();
-
 	////// States //////
+	const [lineCoords, setLineCoords] = useState<[number, number][]>(
+		recyclingLocationResults?.route.coords ?? [[0, 0]],
+	);
+	const [lineColor, setLineColor] = useState(
+		recyclingLocationResults?.route.complete ? "green" : "blue",
+	);
+	const [showRoute, setShowRoute] = useState<boolean>(false);
+
+	// Trigger changes in lazy loaded CustomPolyline component
+	const [key, setKey] = useState(0);
 
 	// Filters
 	const { isOpen: isFilterOpen, onOpen: onFilterOpen, onClose: onFilterClose } = useDisclosure();
-	const [range, setRange] = useState(60);
-	// const [isExpanded, setIsExpanded] = useState(false);
+	const [range, setRange] = useState(MAX_DISTANCE_KM * 10);
 
 	// Multiselect Box
 	const selectOptions: OptionType[] = items.map((item, index) => ({
@@ -117,10 +141,6 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Locations of facilities
 	const [locations, setLocations] = useState(recyclingLocationResults?.results);
-	const [nearbyLocations, setNearbyLocations] = useState(
-		getNearbyFacilities(items as TItemSelection[], address, facilities, getItemCategory, 1),
-	);
-
 	////// Variables //////
 	const isLoading = !map || !leafletWindow;
 	const zoom = 15;
@@ -134,6 +154,10 @@ const MapInner = ({ setPage }: Props) => {
 			: ([1.376690088473865, 103.7993060574394] as LatLngExpression),
 	);
 
+	const handleRouteShow = () => {
+		setShowRoute(!showRoute);
+	};
+
 	const {
 		width: viewportWidth,
 		height: viewportHeight,
@@ -143,15 +167,8 @@ const MapInner = ({ setPage }: Props) => {
 		refreshRate: 200,
 	});
 
-	////// Functions //////
-	const useForceUpdate = () => {
-		const [, setState] = useState(0);
-		const forceUpdate = () => setState((prevState) => prevState + 1);
-		return forceUpdate;
-	};
-	const forceUpdate = useForceUpdate();
-
 	const handleMarkerOnClick = (facility: FacilityType) => {
+		// map?.flyTo(facility.latlng);
 		const { cardIsOpen, cardDetails, distance } = getMatchingFacility(facility);
 		setFacCardIsOpen(cardIsOpen);
 		setFacCardDetails(cardDetails);
@@ -196,6 +213,7 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
+		console.log(itemEntry);
 		const locations = getNearbyFacilities(
 			itemEntry as TItemSelection[],
 			address,
@@ -203,13 +221,10 @@ const MapInner = ({ setPage }: Props) => {
 			getItemCategory,
 			MAX_DISTANCE_KM,
 		);
-		const locationsWithin1km = getNearbyFacilities(
-			itemEntry as TItemSelection[],
-			address,
-			facilities,
-			getItemCategory,
-			1,
-		);
+		locations.route.complete ? setLineColor("green") : setLineColor("blue");
+		// Trigger changes in lazy loaded CustomPolyline component
+		setKey((prevKey) => prevKey + 1);
+		setLineCoords(locations.route.coords);
 
 		// Set map position
 		setCenterPos([
@@ -218,13 +233,8 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 		// Set facilities list on React Context
 		setRecyclingLocationResults(locations);
-		// For popup box (this is archived)
-		setNearbyLocations(locationsWithin1km);
 		// For current display of facilities
 		locations ? setLocations(locations.results) : setLocations(undefined);
-
-		// Refresh the state
-		forceUpdate();
 
 		map?.panTo([
 			parseFloat(address.coordinates.lat),
@@ -253,11 +263,14 @@ const MapInner = ({ setPage }: Props) => {
 			getItemCategory,
 			dist,
 		);
+		locations.route.complete ? setLineColor("green") : setLineColor("blue");
+		// Trigger changes in lazy loaded CustomPolyline component
+		setKey((prevKey) => prevKey + 1);
+
+		setLineCoords(locations.route.coords);
 		setRange(val);
 		setRecyclingLocationResults(locations);
 		locations ? setLocations(locations.results) : setLocations(undefined);
-
-		forceUpdate();
 
 		map?.panTo([
 			parseFloat(address.coordinates.lat),
@@ -265,6 +278,13 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 	};
 
+	const handleFlyTo = (location: LatLngExpression) => {
+		if (location.toString == [0, 0].toString) {
+			map?.flyTo(centerPos);
+		} else {
+			map?.flyTo(location);
+		}
+	};
 	return (
 		<BasePage title="Instructions" description="Singapore's first recycling planner">
 			<NonRecyclableModal setPage={setPage} items={items} getItemCategory={getItemCategory} />
@@ -295,7 +315,7 @@ const MapInner = ({ setPage }: Props) => {
 												icon={GeneralIcon}
 												color={"#FFFFFF"}
 												handleOnClick={() => handleMarkerOnClick(facility)}
-												category={category}
+												category={category.split("/")[0]}
 												isSelected={
 													facCardIsOpen &&
 													facCardDetails?.id === facility.id
@@ -310,8 +330,18 @@ const MapInner = ({ setPage }: Props) => {
 							position={centerPos}
 							icon={UserIcon}
 							color={"#FF0000"}
-							handleOnClick={() => setFacCardIsOpen(false)}
+							handleOnClick={() => {
+								setFacCardIsOpen(false);
+								map?.flyTo(centerPos);
+							}}
 						/>
+
+						{/* Show Route */}
+						{showRoute ? (
+							<CustomPolyline key={key} lineCoords={lineCoords} color={lineColor} />
+						) : (
+							<></>
+						)}
 					</LeafletMap>
 				</Box>
 
@@ -323,6 +353,8 @@ const MapInner = ({ setPage }: Props) => {
 					handleMultiselectOnChange={handleMultiselectOnChange}
 					itemState={itemState}
 					handleChangedLocation={handleChangedLocation}
+					handleRouteShow={handleRouteShow}
+					handleFlyTo={handleFlyTo}
 				/>
 
 				{facCardIsOpen && (
@@ -330,6 +362,15 @@ const MapInner = ({ setPage }: Props) => {
 						items={items}
 						facCardDetails={facCardDetails}
 						facCardDistance={facCardDistance}
+					/>
+				)}
+				{showRoute && !facCardIsOpen && recyclingLocationResults?.route && (
+					<RouteCard
+						items={items}
+						route={recyclingLocationResults?.route as RecyclingLocationResults["route"]}
+						results={
+							recyclingLocationResults?.results as RecyclingLocationResults["results"]
+						}
 					/>
 				)}
 			</Box>
@@ -362,6 +403,8 @@ export const MapHeaderButtons = ({
 	itemState,
 	handleChangedLocation,
 	onFilterOpen,
+	handleRouteShow,
+	handleFlyTo,
 }: {
 	setPage: Dispatch<SetStateAction<Pages>>;
 	selectedOptions: OptionType[];
@@ -373,6 +416,8 @@ export const MapHeaderButtons = ({
 	itemState: (TItemSelection | TEmptyItem)[];
 	handleChangedLocation: (itemEntry: (TItemSelection | TEmptyItem)[]) => void;
 	onFilterOpen: () => void;
+	handleRouteShow: () => void;
+	handleFlyTo: (location: LatLngExpression) => void;
 }) => {
 	return (
 		<VStack
@@ -413,6 +458,21 @@ export const MapHeaderButtons = ({
 				onMultiSelectChange={handleMultiselectOnChange}
 				onFilterOpen={onFilterOpen}
 			/>
+			<Flex justifyContent={"space-between"}>
+				<Switch onChange={handleRouteShow}>Show Route (beta)</Switch>
+				<Button
+					borderRadius="md" // Adjust the border radius as needed
+					overflow="hidden" // Hide overflow to prevent repeating image
+					bgImage={"/locationButton.png"}
+					bgSize="cover" // Cover the button with the image
+					bgPosition="center" // Center the image
+					bgRepeat="no-repeat" // Do not repeat the image
+					w="40px"
+					h="40px"
+					boxShadow="2px 2px 8px 0px rgba(0, 0, 0, 0.50)"
+					onClick={() => handleFlyTo([0, 0] as LatLngExpression)}
+				></Button>
+			</Flex>
 		</VStack>
 	);
 };

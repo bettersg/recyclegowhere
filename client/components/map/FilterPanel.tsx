@@ -222,7 +222,7 @@ const ChipRadio = (props: PropsWithChildren<UseRadioProps>) => {
 	);
 };
 
-const Chip = ({
+export const Chip = ({
 	value,
 	children,
 	isChecked,

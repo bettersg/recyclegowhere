@@ -18,6 +18,12 @@ export type TResult = { facilities: FacilityType[] };
 export type RecyclingLocationResults = {
 	results: Record<string, TResult>;
 	facilitiesList: number[];
+	route: {
+		path: number[];
+		distanceBtwFacilities: number[];
+		coords: [number, number][];
+		complete: boolean;
+	};
 };
 
 export interface UserSelectionContextState {

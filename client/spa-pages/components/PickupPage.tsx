@@ -26,6 +26,7 @@ export type OrgProps = {
 export const PickupPage = ({ setPage }: Props) => {
 	const { items, recyclingLocationResults } = useUserInputs();
 	const results = recyclingLocationResults ? recyclingLocationResults.results : {};
+
 	// Find shortest distance to facility
 	let minDistance = 100;
 	if (Object.keys(results).length > 0) {
