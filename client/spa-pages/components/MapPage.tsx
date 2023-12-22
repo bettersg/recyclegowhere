@@ -213,7 +213,6 @@ const MapInner = ({ setPage }: Props) => {
 
 	// Handle the changing of location in this page itself
 	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
-		console.log(itemEntry);
 		const locations = getNearbyFacilities(
 			itemEntry as TItemSelection[],
 			address,
@@ -631,7 +630,7 @@ export const checkboxChange = (
 		updatedOptions = selectedOptions.filter((option) => option.value !== e.target.value);
 	}
 	return { updatedItemState, updatedOptions };
-}
+};
 
 const CustomMultiValueLabel = (props: any) => {
 	const { getItemCategory } = useSheetyData();

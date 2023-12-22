@@ -109,7 +109,6 @@ export const getNearbyFacilities = (
 	});
 
 	const route = dijkstra(allFacilities, address, userCats);
-	console.log(route.complete);
 	return {
 		results: res,
 		facilitiesList: allFacilityIds,
