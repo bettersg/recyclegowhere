@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { fetchAddresses } from "api/onemap";
 import { useUserInputs } from "hooks/useUserSelection";
 import debounce from "lodash/debounce";
@@ -32,7 +32,7 @@ export const Location = ({ handleBlur, showText, containerStyle = {} }: Location
 									lat: result.LATITUDE,
 									long: result.LONGITUDE,
 								},
-							} as AddressOption),
+							}) as AddressOption,
 					),
 				),
 			);

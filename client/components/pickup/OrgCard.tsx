@@ -9,7 +9,6 @@ import {
 	theme,
 	Divider,
 } from "@chakra-ui/react";
-import Link from "next/link";
 
 import { Card, CardBody } from "@chakra-ui/card";
 import { TSheetyPickupDetails } from "api/sheety/types";

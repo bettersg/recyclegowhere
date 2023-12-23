@@ -11,9 +11,8 @@ type Props = {
 
 export const UserInput = ({ scrollableContainerRef, setReadyToSubmit }: Props) => {
 	const { items, address } = useUserInputs();
-
 	useEffect(() => {
-		setReadyToSubmit(!!address && validateSelections(items));
+		setReadyToSubmit(!!address.value && validateSelections(items));
 	}, [address, items, setReadyToSubmit]);
 
 	useEffect(() => {

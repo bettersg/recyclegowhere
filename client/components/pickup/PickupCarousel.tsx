@@ -97,7 +97,7 @@ const PickupCarousel = ({
 									</Text>
 								) : (
 									<Text fontSize={["13px", "13px", "20px"]} as={"b"}>
-										{(minDist * 1000).toFixed(0)}m
+										{minDist > 10000 ? (minDist * 1000).toFixed(0) + "m" : "-"}
 									</Text>
 								)}{" "}
 							</Box>

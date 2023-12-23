@@ -10,7 +10,7 @@ import {
 	Button,
 	Image,
 } from "@chakra-ui/react";
-import { ComponentProps, Dispatch, SetStateAction, useState } from "react";
+import { ComponentProps, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Pages } from "spa-pages/pageEnums";
 import { useUserInputs } from "hooks/useUserSelection";
 import { TStateFacilities } from "app-context/SheetyContext/types";
@@ -20,7 +20,7 @@ import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import { FacilityType, RecyclingLocationResults } from "app-context/UserSelectionContext/types";
 import Select, { components } from "react-select";
 import { ActionMeta, MultiValue } from "react-select";
-import { Methods } from "api/sheety/enums";
+import { Categories, Methods } from "api/sheety/enums";
 import { ChangeEvent } from "react";
 
 // Component Imports
@@ -90,6 +90,12 @@ const MapInner = ({ setPage }: Props) => {
 	const leafletWindow = useLeafletWindow();
 	const { recyclingLocationResults, address, items, setRecyclingLocationResults } =
 		useUserInputs();
+
+	// Remove general waste items
+	const recyclableItems = items.filter(
+		(item) => getItemCategory(item.name) !== Categories.GENERAL_WASTE,
+	);
+
 	////// States //////
 	const [lineCoords, setLineCoords] = useState<[number, number][]>(
 		recyclingLocationResults?.route.coords ?? [[0, 0]],
@@ -107,7 +113,7 @@ const MapInner = ({ setPage }: Props) => {
 	const [range, setRange] = useState(MAX_DISTANCE_KM * 10);
 
 	// Multiselect Box
-	const selectOptions: OptionType[] = items.map((item, index) => ({
+	const selectOptions: OptionType[] = recyclableItems.map((item, index) => ({
 		value: item.name,
 		label: item.name,
 		method: item.method,
@@ -115,7 +121,7 @@ const MapInner = ({ setPage }: Props) => {
 	}));
 	const [selectedOptions, setSelectedOptions] = useState<OptionType[]>([...selectOptions]);
 	// Internal tracking of user-selected items
-	const [itemState, setItemState] = useState<(TItemSelection | TEmptyItem)[]>(items);
+	const [itemState, setItemState] = useState<(TItemSelection | TEmptyItem)[]>(recyclableItems);
 
 	// Facility Card
 	const [facCardIsOpen, setFacCardIsOpen] = useState(false);
@@ -200,25 +206,25 @@ const MapInner = ({ setPage }: Props) => {
 		setSelectedOptions(updatedOptions);
 		setItemState(updatedItemState);
 		setFacCardIsOpen(false);
-		handleChangedLocation(updatedItemState);
+		handleChangedLocation(updatedItemState, range);
 	};
 
 	// Handle changes in items selected in the Filter panel
 	const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
 		const { updatedItemState, updatedOptions } = checkboxChange(e, itemState, selectedOptions);
-		handleChangedLocation(updatedItemState);
+		handleChangedLocation(updatedItemState, range);
 		setSelectedOptions(updatedOptions);
 		setItemState(updatedItemState);
 	};
 
 	// Handle the changing of location in this page itself
-	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[]) => {
+	const handleChangedLocation = (itemEntry: (TItemSelection | TEmptyItem)[], range: number) => {
 		const locations = getNearbyFacilities(
 			itemEntry as TItemSelection[],
 			address,
 			facilities,
 			getItemCategory,
-			MAX_DISTANCE_KM,
+			range / 10,
 		);
 		locations.route.complete ? setLineColor("green") : setLineColor("blue");
 		// Trigger changes in lazy loaded CustomPolyline component
@@ -241,40 +247,24 @@ const MapInner = ({ setPage }: Props) => {
 		] as LatLngExpression);
 	};
 
+	useEffect(() => {
+		handleChangedLocation(itemState, range);
+	}, [address, itemState]);
+
 	const selectAllItems = () => {
-		const itemState = items.map((item) => ({
+		const itemState = recyclableItems.map((item) => ({
 			name: item.name,
 			method: item.method,
 		}));
 
-		handleChangedLocation(itemState);
 		setItemState(itemState);
 		setSelectedOptions(selectOptions);
 	};
 
 	// Handle the changes in distance selected in Filter panel
 	const handleSliderChange = (val: number) => {
-		const dist = val / 10;
-		const locations = getNearbyFacilities(
-			itemState as TItemSelection[],
-			address,
-			facilities,
-			getItemCategory,
-			dist,
-		);
-		locations.route.complete ? setLineColor("green") : setLineColor("blue");
-		// Trigger changes in lazy loaded CustomPolyline component
-		setKey((prevKey) => prevKey + 1);
-
-		setLineCoords(locations.route.coords);
 		setRange(val);
-		setRecyclingLocationResults(locations);
-		locations ? setLocations(locations.results) : setLocations(undefined);
-
-		map?.panTo([
-			parseFloat(address.coordinates.lat),
-			parseFloat(address.coordinates.long),
-		] as LatLngExpression);
+		handleChangedLocation(itemState, val);
 	};
 
 	const handleFlyTo = (location: LatLngExpression) => {
@@ -350,26 +340,21 @@ const MapInner = ({ setPage }: Props) => {
 					selectedOptions={selectedOptions}
 					selectOptions={selectOptions}
 					handleMultiselectOnChange={handleMultiselectOnChange}
-					itemState={itemState}
-					handleChangedLocation={handleChangedLocation}
 					handleRouteShow={handleRouteShow}
 					handleFlyTo={handleFlyTo}
 				/>
 
 				{facCardIsOpen && (
 					<FacilityCard
-						items={items}
+						items={recyclableItems}
 						facCardDetails={facCardDetails}
 						facCardDistance={facCardDistance}
 					/>
 				)}
 				{showRoute && !facCardIsOpen && recyclingLocationResults?.route && (
 					<RouteCard
-						items={items}
+						items={recyclableItems}
 						route={recyclingLocationResults?.route as RecyclingLocationResults["route"]}
-						results={
-							recyclingLocationResults?.results as RecyclingLocationResults["results"]
-						}
 					/>
 				)}
 			</Box>
@@ -399,8 +384,6 @@ export const MapHeaderButtons = ({
 	selectedOptions,
 	selectOptions,
 	handleMultiselectOnChange,
-	itemState,
-	handleChangedLocation,
 	onFilterOpen,
 	handleRouteShow,
 	handleFlyTo,
@@ -412,8 +395,6 @@ export const MapHeaderButtons = ({
 		newValue: MultiValue<OptionType>,
 		actionMeta: ActionMeta<OptionType>,
 	) => void;
-	itemState: (TItemSelection | TEmptyItem)[];
-	handleChangedLocation: (itemEntry: (TItemSelection | TEmptyItem)[]) => void;
 	onFilterOpen: () => void;
 	handleRouteShow: () => void;
 	handleFlyTo: (location: LatLngExpression) => void;
@@ -448,7 +429,6 @@ export const MapHeaderButtons = ({
 						borderRadius: "6px",
 					}}
 					showText={false}
-					handleBlur={() => handleChangedLocation(itemState)}
 				/>
 			</Flex>
 			<SelectAndFilterBar
@@ -639,7 +619,7 @@ const CustomMultiValueLabel = (props: any) => {
 		<components.MultiValueLabel {...props}>
 			<Flex align="center">
 				<img
-					src={`/icons/${category}.png`}
+					src={`/icons/blackicons/${category}.png`}
 					alt={`${category} icon`}
 					style={{ width: "15px", height: "15px", marginRight: "8px" }}
 				/>

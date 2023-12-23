@@ -13,19 +13,20 @@ type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };
 export const HomePage = ({ setPage }: Props) => {
-	const [stickyHeight, setStickyHeight] = useState<number>(0);
+	const stickyRef = useRef<HTMLDivElement>(null);
+	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
+
+	const [stickyHeight, setStickyHeight] = useState<number>(
+		stickyRef.current?.clientHeight as number,
+	);
 	const [readyToSubmit, setReadyToSubmit] = useState(false);
 
 	const { height } = useWindowDimensions();
 	const { isLoaded } = useSheetyData();
 
-	const stickyRef = useRef<HTMLDivElement>(null);
-	const scrollableContainerRef = useRef<HTMLObjectElement>(null);
-
 	useEffect(() => {
 		setStickyHeight(stickyRef.current?.clientHeight || 0);
 	}, [stickyRef.current?.clientHeight, height]);
-
 	return (
 		<BasePage title="Home" description="Singapore's first recycling planner">
 			<VStack p={0} m={0} height={`${height - NAVBAR_HEIGHT}px`}>
@@ -37,7 +38,7 @@ export const HomePage = ({ setPage }: Props) => {
 					}}
 					p={0}
 					pb={5}
-					overflow="auto"
+					overflow={"scroll"}
 					height={height - stickyHeight - NAVBAR_HEIGHT}
 					ref={scrollableContainerRef}
 				>

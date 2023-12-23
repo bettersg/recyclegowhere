@@ -1,5 +1,4 @@
 import { Box, Text } from "@chakra-ui/react";
-import { useState } from "react";
 import { Methods } from "api/sheety/enums";
 import DisplayAccordion from "./DisplayAccordion";
 

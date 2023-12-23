@@ -1,21 +1,9 @@
-import { Box, Button, Center, Flex, Text } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "components/pickup/carousel.module.css";
 import { SLIDES_INTERVAL_TIME } from "components/pickup/PickupCarousel";
 const InstructionsCarousel = ({ items }: { items: string[] }) => {
-	const [currentIndex, setCurrentIndex] = useState(0);
-
-	const handlePrevClick = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));
-	};
-
-	const handleNextClick = () => {
-		setCurrentIndex((prevIndex) => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
-	};
-
 	return (
 		<Carousel
 			showThumbs={false}

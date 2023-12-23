@@ -63,7 +63,7 @@ const FilterButton = ({
 				maxWidth="calc(768px - 32px)"
 				top={`${modalTop}px`}
 				marginBottom={0}
-				marginRight={3}
+				width={"90%"}
 			>
 				<FilterSection
 					title="Your items"

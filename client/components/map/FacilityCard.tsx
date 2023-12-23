@@ -10,6 +10,7 @@ import { useSheetyData } from "hooks/useSheetyData";
 import { CheckIcon } from "@chakra-ui/icons";
 import { categoriesProcessor } from "./utils";
 import { Methods } from "api/sheety/enums";
+import { useUserInputs } from "hooks/useUserSelection";
 export const FacilityCard = ({
 	items,
 	facCardDetails,
@@ -20,7 +21,7 @@ export const FacilityCard = ({
 	facCardDistance: number;
 }) => {
 	const { getItemCategory } = useSheetyData();
-
+	const { address } = useUserInputs();
 	const [isExpanded, setIsExpanded] = useState(false);
 	const [translateY, setTranslateY] = useState(50);
 	const handleMovement = () => {
@@ -102,19 +103,23 @@ export const FacilityCard = ({
 							{/* <span style={{ fontWeight: 800 }}>Address:</span>{" "} */}
 							{facCardDetails.address}
 						</Text>
-						<Button
-							bg={COLORS.Button.primary}
-							textColor={"white"}
-							mt={"auto"}
-							size={"md"}
-							width={"100%"}
-							gap={3}
-							padding={3}
-							zIndex={1002}
+						<Link
+							href={`https://www.google.com/maps/dir/${address.coordinates.lat},${address.coordinates.long}/${facCardDetails.latitude},${facCardDetails.longitude}`}
 						>
-							<ExternalLinkIcon />
-							<Text>Get directions</Text>
-						</Button>
+							<Button
+								bg={COLORS.Button.primary}
+								textColor={"white"}
+								mt={"auto"}
+								size={"md"}
+								width={"100%"}
+								gap={3}
+								padding={3}
+								zIndex={1002}
+							>
+								<ExternalLinkIcon />
+								<Text>Get directions</Text>
+							</Button>
+						</Link>
 					</VStack>
 				</HStack>
 				<Flex p={2} gap={2} flexDir={"column"}>

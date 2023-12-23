@@ -1,7 +1,7 @@
 import { Icon } from "@chakra-ui/react";
 
 const ClusterIcon = (props: any) => (
-	<Icon viewBox="0 0 68 88" {...props}>
+	<Icon viewBox="0 0 75 75" {...props}>
 		<g filter="url(#filter0_d_5866_39311)">
 			<path
 				d="M69 37.3829C69 55.0173 54.6731 69.3128 37 69.3128C19.3269 69.3128 5 55.0173 5 37.3829C5 19.7486 19.3269 5.45312 37 5.45312C54.6731 5.45312 69 19.7486 69 37.3829Z"

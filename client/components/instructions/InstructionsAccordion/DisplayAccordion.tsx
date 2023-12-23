@@ -55,7 +55,7 @@ const DisplayAccordion = ({ items, recyclable }: AccordionDisplayProps) => {
 								onMouseLeave={() => handleAccordionHover(index, false, isExpanded)}
 								style={{
 									boxShadow:
-										index === 0 && index !== lastIndex
+										index !== lastIndex
 											? "0px -5px 6px -6px rgba(0, 0, 0, 0.25), -5px 0px 6px -6px rgba(0, 0, 0, 0.25), 5px 0px 6px -6px rgba(0, 0, 0, 0.25)"
 											: "1px 2px 6px 0px rgb(0,0,0, 0.25)",
 								}}
@@ -65,8 +65,8 @@ const DisplayAccordion = ({ items, recyclable }: AccordionDisplayProps) => {
 										<Image
 											src={
 												isHovered || isExpanded
-													? `/whiteicons/${category}.png`
-													: `/icons/${category}.png`
+													? `/icons/whiteicons/${category}.png`
+													: `/icons/blackicons/${category}.png`
 											}
 											w={5}
 											alt={`Icon for ${category}`}

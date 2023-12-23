@@ -51,6 +51,7 @@ export const Items = () => {
 				_item[type] = value as Methods;
 			} else {
 				_item[type] = value;
+				_item["method"] = undefined;
 			}
 			_items[index] = _item;
 			setUserSelection(_items);
@@ -107,7 +108,7 @@ export const Items = () => {
 							placeholder="Method"
 							color={item.method ? COLORS.Select.body : COLORS.Select.placeholder}
 							iconColor={COLORS.Select.icon}
-							value={item.method}
+							value={item.method ? item.method : "Method"}
 							onChange={(e: ChangeEvent<HTMLInputElement>) => {
 								e.target.value && handleUpdateItem("method", index, e.target.value);
 							}}

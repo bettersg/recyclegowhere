@@ -12,11 +12,9 @@ import Link from "next/link";
 export const RouteCard = ({
 	items,
 	route,
-	results,
 }: {
 	items: (TItemSelection | TEmptyItem)[];
 	route: RecyclingLocationResults["route"];
-	results: RecyclingLocationResults["results"];
 }) => {
 	const { getFacility, getItemCategory } = useSheetyData();
 	const [isExpanded, setIsExpanded] = useState(false);
@@ -70,8 +68,14 @@ export const RouteCard = ({
 				{/* Header */}
 				<HStack mb={2} justifyContent={"space-between"}>
 					<Text as="b">
-						{route.path.length - 1} stop
-						{route.path.length > 2 && "s"}
+						{route.path.length > 0 ? (
+							<>
+								{route.path.length - 1} stop
+								{route.path.length > 2 && "s"}
+							</>
+						) : (
+							<>No facilities found.</>
+						)}
 					</Text>
 					<Text as="b">
 						Total {(calculateSum(route.distanceBtwFacilities) * 1000).toFixed(0)}m

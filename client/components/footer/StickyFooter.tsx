@@ -30,7 +30,6 @@ export const StickyFooter = forwardRef<HTMLDivElement, Props>(({ disabled, setPa
 				MAX_DISTANCE_KM,
 			),
 		);
-
 		setPage(pageNumber);
 	};
 

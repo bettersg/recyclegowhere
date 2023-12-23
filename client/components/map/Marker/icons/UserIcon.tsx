@@ -1,8 +1,8 @@
-import { Icon, Box } from "@chakra-ui/react";
+import { Icon } from "@chakra-ui/react";
 
 // Map Icon (placeholder for testing)
 const UserIcon = (props: any) => (
-	<Icon viewBox="5 5 70 80" {...props}>
+	<Icon viewBox="0 0 75 75" {...props}>
 		<g filter="url(#filter0_d_5859_39306)">
 			<circle cx="37" cy="37" r="32" fill="#DD0303" />
 			<circle cx="37" cy="37" r="24" fill="white" />

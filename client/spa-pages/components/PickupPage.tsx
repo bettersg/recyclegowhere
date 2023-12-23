@@ -12,6 +12,7 @@ import { TSheetyPickupDetails } from "api/sheety/types";
 import { TEmptyItem, TItemSelection } from "app-context/SheetyContext/types";
 import NonRecyclableModal from "components/common/NonRecyclableModal";
 import { useState } from "react";
+import { Categories } from "api/sheety/enums";
 
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
@@ -26,6 +27,12 @@ export type OrgProps = {
 export const PickupPage = ({ setPage }: Props) => {
 	const { items, recyclingLocationResults } = useUserInputs();
 	const results = recyclingLocationResults ? recyclingLocationResults.results : {};
+	const { pickUpServices, getItemCategory } = useSheetyData();
+
+	// Remove general waste items
+	const recyclableItems = items.filter(
+		(item) => getItemCategory(item.name) !== Categories.GENERAL_WASTE,
+	);
 
 	// Find shortest distance to facility
 	let minDistance = 100;
@@ -42,7 +49,6 @@ export const PickupPage = ({ setPage }: Props) => {
 	}
 
 	// Pick up services
-	const { pickUpServices, getItemCategory } = useSheetyData();
 	const sortPickups = (itemEntry: (TItemSelection | TEmptyItem)[]): OrgProps[] => {
 		const possiblePickups = pickUpServices.filter((pickUpService) => {
 			let picksUpAtLeastOneItem = false;
@@ -71,7 +77,7 @@ export const PickupPage = ({ setPage }: Props) => {
 		return sortedPossiblePickups;
 	};
 
-	const [orgs, setOrgs] = useState<OrgProps[]>(sortPickups(items));
+	const [orgs, setOrgs] = useState<OrgProps[]>(sortPickups(recyclableItems));
 
 	return (
 		<BasePage title="Home Pickup" description="Singapore's first recycling planner">
@@ -90,7 +96,11 @@ export const PickupPage = ({ setPage }: Props) => {
 					{/* Title + Back Button */}
 					<ButtonRow setPage={setPage} />
 					{/* Multiselect Box */}
-					<ItemsAndFilterRow items={items} setOrgs={setOrgs} sortPickups={sortPickups} />
+					<ItemsAndFilterRow
+						items={recyclableItems}
+						setOrgs={setOrgs}
+						sortPickups={sortPickups}
+					/>
 					{/* Title + List of all Services */}
 					<OrgList sortedPossiblePickups={orgs} />
 				</VStack>

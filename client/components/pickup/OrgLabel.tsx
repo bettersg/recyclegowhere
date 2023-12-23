@@ -10,7 +10,7 @@ type Props = {
 
 const OrgLabel = (props: Props) => {
 	return (
-		<HStack flexShrink={0}>
+		<HStack flexShrink={0} w="100%">
 			<Icon as={props.icon} boxSize={4} />
 			<Text as="b" fontSize="sm" color={COLORS.teal} fontWeight={500}>
 				{props.title}

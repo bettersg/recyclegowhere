@@ -89,7 +89,7 @@ export const InstructionsPage = ({ setPage }: Props) => {
 					height={height - stickyHeight - NAVBAR_HEIGHT}
 					ref={scrollableContainerRef}
 				>
-					<VStack align="stretch">
+					<VStack align="stretch" mb={2}>
 						<InstructionsHeader setPage={setPage} />
 						<AccordionComp items={itemFilter(items, instructions)} />
 					</VStack>

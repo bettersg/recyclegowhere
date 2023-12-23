@@ -1,7 +1,7 @@
 import { Box, Button, HStack } from "@chakra-ui/react";
 import { Dispatch, SetStateAction } from "react";
 import { Pages } from "spa-pages/pageEnums";
-import { ArrowBackIcon, RepeatIcon } from "@chakra-ui/icons";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 type Props = {
 	setPage: Dispatch<SetStateAction<Pages>>;
 };

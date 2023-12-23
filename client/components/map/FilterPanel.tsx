@@ -17,14 +17,11 @@ import {
 	CheckboxProps,
 	useCheckboxGroup,
 	Spacer,
-	useRadio,
-	UseRadioProps,
-	useRadioGroup,
 } from "@chakra-ui/react";
 import { COLORS } from "theme";
 import { TItemSelection, TEmptyItem } from "app-context/SheetyContext/types";
 import { OptionType } from "spa-pages";
-import React, { ChangeEvent, PropsWithChildren } from "react";
+import React, { ChangeEvent } from "react";
 import { Methods } from "api/sheety/enums";
 import { useSheetyData } from "hooks/useSheetyData";
 
@@ -185,43 +182,6 @@ const ChipCheckbox = (props: CheckboxProps) => {
 	);
 };
 
-const ChipRadioGroup = ({ items }: { items: Array<string> }) => {
-	const { getRootProps, getRadioProps } = useRadioGroup({
-		name: "sortBy",
-		defaultValue: "Nearest",
-	});
-
-	const group = getRootProps();
-
-	return (
-		<HStack {...group}>
-			{items.map((value) => {
-				const radio = getRadioProps({ value });
-				return (
-					<ChipRadio key={value} {...radio}>
-						{value}
-					</ChipRadio>
-				);
-			})}
-		</HStack>
-	);
-};
-
-const ChipRadio = (props: PropsWithChildren<UseRadioProps>) => {
-	const { getInputProps, getRadioProps, state } = useRadio(props);
-
-	const input = getInputProps();
-
-	return (
-		<Box as="label">
-			<input {...input} />
-			<Chip isChecked={state.isChecked} darkBackground={true}>
-				{props.children}
-			</Chip>
-		</Box>
-	);
-};
-
 export const Chip = ({
 	value,
 	children,
@@ -231,7 +191,8 @@ export const Chip = ({
 	const selectedColor = darkBackground ? "teal.500" : "teal.50";
 	const selectedTextColor = darkBackground ? "white" : "black";
 	const { getItemCategory } = useSheetyData();
-	const category = getItemCategory(value as string);
+	const category = getItemCategory(value as string) as string;
+	// To prevent an error that is triggered when I use the Show Route function
 	return (
 		<Flex
 			align="center"
@@ -247,7 +208,7 @@ export const Chip = ({
 		>
 			{category && (
 				<img
-					src={`/icons/${category}.png`}
+					src={`/icons/blackicons/${category}.png`}
 					alt={`${category} icon`}
 					style={{ width: "15px", height: "15px", marginRight: "8px" }}
 				/>

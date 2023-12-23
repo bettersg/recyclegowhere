@@ -53,7 +53,7 @@ const CreateMarkerClusterGroup = (
 					<MarkerIconWrapper
 						color={props.color}
 						icon={props.icon}
-						label={`${cluster.getChildCount()}`}
+						label={cluster.getChildCount()}
 					/>
 				),
 			}),
