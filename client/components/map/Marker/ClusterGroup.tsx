@@ -40,9 +40,13 @@ const CreateMarkerClusterGroup = (
 
 	const markerClusterGroup = new L.MarkerClusterGroup({
 		// When to disable clusters
-		disableClusteringAtZoom: 25,
-		// Not too sure what this does
+		disableClusteringAtZoom: 18,
+		// Distance between spiderfied markers
 		spiderfyDistanceMultiplier: 3,
+		zoomToBoundsOnClick: true,
+		showCoverageOnHover: true,
+		animate: true,
+		chunkedLoading: true,
 		iconCreateFunction: (cluster) =>
 			divIcon({
 				source: (
