@@ -167,7 +167,7 @@ export const FacilityCard = ({
 						Suggest changes here:
 					</Text>
 					<Link
-						href={`https://docs.google.com/forms/u/3/d/e/1FAIpQLSd2OPofegqs4yFGuDK-07Dh7vaRqhJ_edyBXO7Eg8wS1uqZmg/viewform?entry.424008888=${facCardDetails.channelName}?entry.1060967876=${facCardDetails.address}`}
+						href={`https://docs.google.com/forms/u/3/d/e/1FAIpQLSd2OPofegqs4yFGuDK-07Dh7vaRqhJ_edyBXO7Eg8wS1uqZmg/viewform?entry.424008888=${facCardDetails.channelName}&entry.1060967876=${facCardDetails.address}`}
 					>
 						<Button
 							bg={COLORS.Button.primary}
