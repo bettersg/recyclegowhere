@@ -162,6 +162,27 @@ export const FacilityCard = ({
 					</Text>
 					<Divider />
 					<Text fontSize={"sm"} as={"b"} textAlign={"center"}>
+						Information is inaccurate?
+						<br />
+						Suggest changes here:
+					</Text>
+					<Link
+						href={`https://docs.google.com/forms/u/3/d/e/1FAIpQLSd2OPofegqs4yFGuDK-07Dh7vaRqhJ_edyBXO7Eg8wS1uqZmg/viewform?entry.424008888=${facCardDetails.channelName}?entry.1060967876=${facCardDetails.address}`}
+					>
+						<Button
+							bg={COLORS.Button.primary}
+							textColor={"white"}
+							mt={"auto"}
+							size={"md"}
+							width={"100%"}
+							gap={3}
+							padding={3}
+						>
+							Redirect to Google Form
+						</Button>
+					</Link>
+					<Divider />
+					<Text fontSize={"sm"} as={"b"} textAlign={"center"}>
 						Still got things to recycle?
 						<br />
 						Uncle sem help you find a place for them:
