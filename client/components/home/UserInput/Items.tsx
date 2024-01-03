@@ -25,7 +25,20 @@ const emptyItem: TEmptyItem = {
 
 export const Items = () => {
 	const { items, setUserSelection } = useUserInputs();
-	const { items: itemList, categories } = useSheetyData();
+	const { items: iList, categories } = useSheetyData();
+	const itemList = iList.sort((a, b) => {
+		// Convert to uppercase for case-insensitive comparison
+		const nameA = a.name.toUpperCase();
+		const nameB = b.name.toUpperCase();
+
+		if (nameA < nameB) {
+			return -1;
+		}
+		if (nameA > nameB) {
+			return 1;
+		}
+		return 0;
+	});
 
 	const getValidMethods = useCallback(
 		(itemName: string) => {

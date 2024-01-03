@@ -103,8 +103,10 @@ export const FacilityCard = ({
 							{/* <span style={{ fontWeight: 800 }}>Address:</span>{" "} */}
 							{facCardDetails.address}
 						</Text>
-						<Link
+						<a
 							href={`https://www.google.com/maps/dir/${address.coordinates.lat},${address.coordinates.long}/${facCardDetails.latitude},${facCardDetails.longitude}`}
+							target="_blank"
+							rel="noopener noreferrer"
 						>
 							<Button
 								bg={COLORS.Button.primary}
@@ -119,7 +121,7 @@ export const FacilityCard = ({
 								<ExternalLinkIcon />
 								<Text>Get directions</Text>
 							</Button>
-						</Link>
+						</a>
 					</VStack>
 				</HStack>
 				<Flex p={2} gap={2} flexDir={"column"}>
